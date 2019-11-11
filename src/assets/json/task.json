@@ -1,0 +1,26 @@
+[
+  {
+    "id": 0,
+    "label": "Tasks 0",
+    "isComplete": true,
+    "isDisabled": true
+  },
+  {
+    "id": 1,
+    "label": "Tasks 1",
+    "isComplete": true,
+    "isDisabled": false
+  },
+  {
+    "id": 2,
+    "label": "Tasks 2",
+    "isComplete": false,
+    "isDisabled": true
+  },
+  {
+    "id": 3,
+    "label": "Tasks 3",
+    "isComplete": false,
+    "isDisabled": false
+  }
+]
