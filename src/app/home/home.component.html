@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+  <span>CR Connect</span>
+</mat-toolbar>
+<mat-drawer-container class="example-container">
+  <mat-drawer mode="side" opened>
+<mat-nav-list>
+<mat-list-item *ngFor="let task of tasks">
+   <a matLine href="/task/{{task.id}}">{{ task }}</a>
+   <button mat-icon-button (click)="showInfo(task)">
+      <mat-icon>info</mat-icon>
+   </button>
+</mat-list-item>
+</mat-nav-list>
+  </mat-drawer>
+  <mat-drawer-content>Main content</mat-drawer-content>
+</mat-drawer-container>
