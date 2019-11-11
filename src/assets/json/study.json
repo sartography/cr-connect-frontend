@@ -2,21 +2,21 @@
   {
     "id": 0,
     "title": "Study 0",
-    "type_id": 0
+    "type_id": 2
   },
   {
     "id": 1,
     "title": "Study 1",
-    "type_id": 1
+    "type_id": 3
   },
   {
     "id": 2,
     "title": "Study 2",
-    "type_id": 2
+    "type_id": 0
   },
   {
     "id": 3,
     "title": "Study 3",
-    "type_id": 3
+    "type_id": 1
   }
 ]
