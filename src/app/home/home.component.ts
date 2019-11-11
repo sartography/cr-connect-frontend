@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Study} from '../_models/study';
-import {Study_type} from '../_models/study_type';
+import {StudyType} from '../_models/study_type';
 import {Task} from '../_models/task';
 import {ApiService} from '../_services/api/api.service';
 
@@ -12,7 +12,7 @@ import {ApiService} from '../_services/api/api.service';
 export class HomeComponent implements OnInit {
   study: Study;
   tasks: Task[];
-  types: Study_type[];
+  types: StudyType[];
   selectedType: string;
 
   constructor(private api: ApiService) {
@@ -21,10 +21,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-
-  }
-
-  showTaskInfo(task: Task) {
 
   }
 }

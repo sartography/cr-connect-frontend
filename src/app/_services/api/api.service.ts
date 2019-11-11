@@ -1,11 +1,11 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, throwError} from 'rxjs';
-import {catchError} from 'rxjs/operators';
+import {catchError, find} from 'rxjs/operators';
+import {GenericType} from '../../_models/generic_type';
 import {Study} from '../../_models/study';
-import {Study_type} from '../../_models/study_type';
+import {StudyType} from '../../_models/study_type';
 import {Task} from '../../_models/task';
-import {environment} from '../../environments/environment';
 import {ConfigService} from '../config/config.service';
 
 interface ApiError {
@@ -17,7 +17,6 @@ interface ApiError {
   providedIn: 'root'
 })
 export class ApiService {
-  private apiRoot: string;
   public endpoints = {
     study: '/api/study/<id>',
     studyList: '/api/study',
@@ -26,6 +25,7 @@ export class ApiService {
     task: '/api/task/<id>',
     taskList: '/api/task',
   };
+  private apiRoot: string;
 
   constructor(
     private httpClient: HttpClient,
@@ -36,44 +36,32 @@ export class ApiService {
 
   /** Get Study */
   getStudy(id: number): Observable<Study> {
-    return this.httpClient
-      .get<Study>(this._endpointUrl('study').replace('<id>', id.toString()))
-      .pipe(catchError(this._handleError));
+    return this._getOne<Study>(id, 'study');
   }
 
   /** Get Studies */
   getStudies(): Observable<Study[]> {
-    return this.httpClient
-      .get<Study[]>(this._endpointUrl('studyList'))
-      .pipe(catchError(this._handleError));
+    return this._getAll<Study>('study');
   }
 
   /** Get Study Type */
-  getStudyType(id: number): Observable<Study_type> {
-    return this.httpClient
-      .get<Study_type>(this._endpointUrl('studyType').replace('<id>', id.toString()))
-      .pipe(catchError(this._handleError));
+  getStudyType(id: number): Observable<StudyType> {
+    return this._getOne<StudyType>(id, 'studyType');
   }
 
   /** Get Study Types */
-  getStudyTypes(): Observable<Study_type[]> {
-    return this.httpClient
-      .get<Study_type[]>(this._endpointUrl('studyTypeList'))
-      .pipe(catchError(this._handleError));
+  getStudyTypes(): Observable<StudyType[]> {
+    return this._getAll<StudyType>('studyType');
   }
 
   /** Get Task */
   getTask(id: number): Observable<Task> {
-    return this.httpClient
-      .get<Task>(this._endpointUrl('task').replace('<id>', id.toString()))
-      .pipe(catchError(this._handleError));
+    return this._getOne<Task>(id, 'task');
   }
 
   /** Get Tasks */
   getTasks(): Observable<Task[]> {
-    return this.httpClient
-      .get<Task[]>(this._endpointUrl('taskList'))
-      .pipe(catchError(this._handleError));
+    return this._getAll<Task>('task');
   }
 
   private _handleError(error: ApiError) {
@@ -97,5 +85,24 @@ export class ApiService {
 
   private _dummy_api_url(path: string) {
     return path.replace(/^(.*)\/api\/(.*)$/, './assets/json/$2.json');
+  }
+
+  private _getOne<T extends GenericType>(id: number, endpointName: string): Observable<T> {
+    if (this.configService.dummy) {
+      return this.httpClient
+        .get<T>(this._endpointUrl(endpointName + 'List'))
+        .pipe(find(t => t.id === id))
+        .pipe(catchError(this._handleError));
+    } else {
+      return this.httpClient
+        .get<T>(this._endpointUrl(endpointName).replace('<id>', id.toString()))
+        .pipe(catchError(this._handleError));
+    }
+  }
+
+  private _getAll<T extends GenericType>(endpointName: string): Observable<T[]> {
+    return this.httpClient
+      .get<T[]>(this._endpointUrl(endpointName + 'List'))
+      .pipe(catchError(this._handleError));
   }
 }
