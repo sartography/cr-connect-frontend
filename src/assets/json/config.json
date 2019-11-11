@@ -1,0 +1,6 @@
+{
+  "production": false,
+  "api": "/assets/json",
+  "googleAnalyticsKey": "",
+  "dummy": true
+}
