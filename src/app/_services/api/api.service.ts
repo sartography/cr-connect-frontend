@@ -1,9 +1,10 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, throwError} from 'rxjs';
-import {catchError, find} from 'rxjs/operators';
+import {catchError, filter, find, map} from 'rxjs/operators';
 import {GenericType} from '../../_models/generic_type';
 import {Study} from '../../_models/study';
+import {StudyTask} from '../../_models/study-task';
 import {StudyType} from '../../_models/study_type';
 import {Task} from '../../_models/task';
 import {ConfigService} from '../config/config.service';
@@ -20,6 +21,9 @@ export class ApiService {
   public endpoints = {
     study: '/api/study/<id>',
     studyList: '/api/study',
+    studyTask: '/api/study_task/<id>',
+    studyTaskList: '/api/study_task',
+    studyTaskListForStudy: '/api/study_task/study/<id>',
     studyType: '/api/study_type/<id>',
     studyTypeList: '/api/study_type',
     task: '/api/task/<id>',
@@ -42,6 +46,30 @@ export class ApiService {
   /** Get Studies */
   getStudies(): Observable<Study[]> {
     return this._getAll<Study>('study');
+  }
+
+  /** Get Study Task */
+  getStudyTask(id: number): Observable<StudyTask> {
+    return this._getOne<StudyTask>(id, 'studyTask');
+  }
+
+  /** Get Study Tasks for Study */
+  getStudyTasksForStudy(id: number): Observable<StudyTask[]> {
+    if (this.configService.dummy) {
+      return this.httpClient
+        .get<StudyTask[]>(this._endpointUrl('studyTaskList'))
+        .pipe(map(st => st.filter(s => s.study_id === id)))
+        .pipe(catchError(this._handleError));
+    } else {
+      return this.httpClient
+        .get<StudyTask[]>(this._endpointUrl('studyTasksForStudy').replace('<id>', id.toString()))
+        .pipe(catchError(this._handleError));
+    }
+  }
+
+  /** Get Study Tasks */
+  getStudyTasks(): Observable<StudyTask[]> {
+    return this._getAll<StudyTask>('studyTask');
   }
 
   /** Get Study Type */
@@ -90,8 +118,8 @@ export class ApiService {
   private _getOne<T extends GenericType>(id: number, endpointName: string): Observable<T> {
     if (this.configService.dummy) {
       return this.httpClient
-        .get<T>(this._endpointUrl(endpointName + 'List'))
-        .pipe(find(t => t.id === id))
+        .get<T[]>(this._endpointUrl(endpointName + 'List'))
+        .pipe(map(results => results.find(t => t.id === id)))
         .pipe(catchError(this._handleError));
     } else {
       return this.httpClient

@@ -7,6 +7,7 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/mater
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
+import {MatMenuModule} from '@angular/material/menu';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -68,6 +69,7 @@ export function load(http: HttpClient, config: ConfigService): (() => Promise<bo
     MatSidenavModule,
     MatToolbarModule,
     FlexLayoutModule,
+    MatMenuModule,
   ],
   providers: [
     {provide: APP_INITIALIZER, useFactory: load, deps: [HttpClient, ConfigService], multi: true},

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Study} from '../_models/study';
+import {StudyTask} from '../_models/study-task';
 import {StudyType} from '../_models/study_type';
 import {Task} from '../_models/task';
 import {ApiService} from '../_services/api/api.service';
@@ -10,17 +11,40 @@ import {ApiService} from '../_services/api/api.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  study: Study;
-  tasks: Task[];
-  types: StudyType[];
-  selectedType: string;
+  studies: Study[] = [];
+  tasks: Task[] = [];
+  types: StudyType[] = [];
+  studyTasks: StudyTask[] = [];
+  selectedType: StudyType;
+  selectedStudy: Study;
 
   constructor(private api: ApiService) {
+    this.api.getStudies().subscribe(s => this.studies = s);
     this.api.getStudyTypes().subscribe(st => this.types = st);
-    this.api.getTasks().subscribe(t => this.tasks = t);
   }
 
   ngOnInit() {
+  }
 
+  getStudyTasks(study: Study) {
+    this.selectedStudy = study;
+    this.tasks = [];
+
+    this.api.getStudyTasksForStudy(this.selectedStudy.id).subscribe(st => {
+      this.studyTasks = st;
+      st.forEach(item => {
+        this.api.getTask(item.task_id).subscribe(t => {
+          this.tasks.push(t);
+        });
+      });
+    });
+  }
+
+  isDisabled(task: Task) {
+    return this.studyTasks.find(st => st.task_id === task.id).is_disabled;
+  }
+
+  isComplete(task: Task) {
+    return this.studyTasks.find(st => st.task_id === task.id).is_complete;
   }
 }
