@@ -33,6 +33,7 @@ export function load(http: HttpClient, config: ConfigService): (() => Promise<bo
       if ('override_config_url' in environment) {
         url = environment.override_config_url;
       }
+
       http.get(url)
         .pipe(
           map((fromServer) => {

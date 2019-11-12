@@ -1,5 +1,6 @@
 import {HttpClient, HttpHandler} from '@angular/common/http';
 import {async, TestBed} from '@angular/core/testing';
+import {ConfigService} from '../config/config.service';
 
 import {ApiService} from './api.service';
 
@@ -8,7 +9,8 @@ describe('ApiService', () => {
     TestBed.configureTestingModule({
       providers: [
         HttpClient,
-        HttpHandler
+        HttpHandler,
+        ConfigService
       ]
     });
   }));
