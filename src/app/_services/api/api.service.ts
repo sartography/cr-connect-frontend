@@ -35,7 +35,6 @@ export class ApiService {
     private httpClient: HttpClient,
     private configService: ConfigService
   ) {
-    console.log('configService.api', configService.api);
     this.apiRoot = configService.api;
   }
 

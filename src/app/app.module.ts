@@ -34,8 +34,6 @@ export function load(http: HttpClient, config: ConfigService): (() => Promise<bo
         url = environment.override_config_url;
       }
 
-      console.log('APP_INITIALIZER load config url:', url)
-
       http.get(url)
         .pipe(
           map((fromServer) => {
