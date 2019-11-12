@@ -6,6 +6,8 @@ addons:
       - google-chrome
     packages:
       - google-chrome-stable
+  sonarcloud:
+    organization: "sartography"
 language: node_js
 node_js:
   - 12
