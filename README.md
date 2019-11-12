@@ -1,6 +1,7 @@
 # CrConnectFrontend
 
 [![Build Status](https://travis-ci.com/sartography/cr-connect-frontend.svg?branch=master)](https://travis-ci.com/sartography/cr-connect-frontend)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=sartography_cr-connect-frontend&metric=coverage)](https://sonarcloud.io/dashboard?id=sartography_cr-connect-frontend)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.15.
 
