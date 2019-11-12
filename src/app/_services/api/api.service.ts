@@ -2,12 +2,12 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, throwError} from 'rxjs';
 import {catchError, filter, find, map} from 'rxjs/operators';
+import {environment} from '../../../environments/environment';
 import {GenericType} from '../../_models/generic-type';
 import {Study} from '../../_models/study';
 import {StudyTask} from '../../_models/study-task';
 import {StudyType} from '../../_models/study-type';
 import {Task} from '../../_models/task';
-import {ConfigService} from '../config/config.service';
 
 interface ApiError {
   code: string;
@@ -32,10 +32,9 @@ export class ApiService {
   private apiRoot: string;
 
   constructor(
-    private httpClient: HttpClient,
-    private configService: ConfigService
+    private httpClient: HttpClient
   ) {
-    this.apiRoot = configService.api;
+    this.apiRoot = environment.api;
   }
 
   /** Get Study */
@@ -55,7 +54,7 @@ export class ApiService {
 
   /** Get Study Tasks for Study */
   getStudyTasksForStudy(id: number): Observable<StudyTask[]> {
-    if (this.configService.dummy) {
+    if (environment.dummy) {
       return this.httpClient
         .get<StudyTask[]>(this._endpointUrl('studyTaskList'))
         .pipe(map(st => st.filter(s => s.study_id === id)))
@@ -102,7 +101,7 @@ export class ApiService {
   private _endpointUrl(endpointName: string): string {
     const path = this.endpoints[endpointName];
 
-    if (this.configService.dummy) {
+    if (environment.dummy) {
       return this._dummy_api_url(path);
     } else if (path) {
       return this.apiRoot + path;
@@ -116,7 +115,7 @@ export class ApiService {
   }
 
   private _getOne<T extends GenericType>(id: number, endpointName: string): Observable<T> {
-    if (this.configService.dummy) {
+    if (environment.dummy) {
       return this.httpClient
         .get<T[]>(this._endpointUrl(endpointName + 'List'))
         .pipe(map(results => results.find(t => t.id === id)))

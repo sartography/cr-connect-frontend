@@ -1,6 +1,0 @@
-{
-  "production": false,
-  "api": "/api/",
-  "googleAnalyticsKey": "",
-  "dummy": true
-}

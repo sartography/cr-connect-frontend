@@ -10,7 +10,6 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {ConfigService} from '../_services/config/config.service';
 
 import {HomeComponent} from './home.component';
 
@@ -36,8 +35,7 @@ describe('HomeComponent', () => {
         FormsModule,
       ],
       providers: [
-        HttpClient,
-        ConfigService
+        HttpClient
       ]
     })
       .compileComponents();
