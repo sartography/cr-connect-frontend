@@ -1,26 +1,18 @@
 [
   {
     "id": 0,
-    "label": "Tasks 0",
-    "isComplete": true,
-    "isDisabled": true
+    "label": "Tasks 0"
   },
   {
     "id": 1,
-    "label": "Tasks 1",
-    "isComplete": true,
-    "isDisabled": false
+    "label": "Tasks 1"
   },
   {
     "id": 2,
-    "label": "Tasks 2",
-    "isComplete": false,
-    "isDisabled": true
+    "label": "Tasks 2"
   },
   {
     "id": 3,
-    "label": "Tasks 3",
-    "isComplete": false,
-    "isDisabled": false
+    "label": "Tasks 3"
   }
 ]

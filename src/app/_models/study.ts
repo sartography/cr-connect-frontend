@@ -1,4 +1,4 @@
-import {GenericType} from './generic_type';
+import {GenericType} from './generic-type';
 
 export interface Study extends GenericType {
   id: number;

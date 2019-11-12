@@ -2,10 +2,10 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, throwError} from 'rxjs';
 import {catchError, filter, find, map} from 'rxjs/operators';
-import {GenericType} from '../../_models/generic_type';
+import {GenericType} from '../../_models/generic-type';
 import {Study} from '../../_models/study';
 import {StudyTask} from '../../_models/study-task';
-import {StudyType} from '../../_models/study_type';
+import {StudyType} from '../../_models/study-type';
 import {Task} from '../../_models/task';
 import {ConfigService} from '../config/config.service';
 

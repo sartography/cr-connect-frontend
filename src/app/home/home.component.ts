@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Study} from '../_models/study';
 import {StudyTask} from '../_models/study-task';
-import {StudyType} from '../_models/study_type';
+import {StudyType} from '../_models/study-type';
 import {Task} from '../_models/task';
 import {ApiService} from '../_services/api/api.service';
 

@@ -10,7 +10,7 @@
     "id": 1,
     "study_id": 0,
     "task_id": 1,
-    "is_complete": true,
+    "is_complete": false,
     "is_disabled": true
   },
   {

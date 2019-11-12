@@ -20,7 +20,7 @@ import {ConfigService} from './_services/config/config.service';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {environment} from './environments/environment';
+import {environment} from '../environments/environment';
 import {HomeComponent} from './home/home.component';
 
 // Attempt to load the configuration from a file called config.json right next to
