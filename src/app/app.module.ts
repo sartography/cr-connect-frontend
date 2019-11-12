@@ -30,9 +30,11 @@ export function load(http: HttpClient, config: ConfigService): (() => Promise<bo
   return (): Promise<boolean> => {
     return new Promise<boolean>((resolve: (a: boolean) => void): void => {
       let url = './api/config';
-      if ('override_config_url' in environment) {
+      if (environment.hasOwnProperty('override_config_url')) {
         url = environment.override_config_url;
       }
+
+      console.log('APP_INITIALIZER load config url:', url)
 
       http.get(url)
         .pipe(

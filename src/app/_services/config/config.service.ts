@@ -4,7 +4,7 @@ import {Injectable} from '@angular/core';
   providedIn: 'root'
 })
 export class ConfigService {
-  public apiUrl: string;
+  public api = '/api/';
   public development: boolean;
   public testing: boolean;
   public mirroring: boolean;

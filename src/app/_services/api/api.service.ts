@@ -35,7 +35,8 @@ export class ApiService {
     private httpClient: HttpClient,
     private configService: ConfigService
   ) {
-    this.apiRoot = configService.apiUrl;
+    console.log('configService.api', configService.api);
+    this.apiRoot = configService.api;
   }
 
   /** Get Study */

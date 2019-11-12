@@ -1,6 +1,6 @@
 {
   "production": false,
-  "api": "/assets/json",
+  "api": "/api/",
   "googleAnalyticsKey": "",
   "dummy": true
 }
