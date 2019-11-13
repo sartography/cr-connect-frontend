@@ -61,7 +61,7 @@
                   "maximumError": "10kb"
                 }
               ]
-            }
+            },
             "staging": {
               "fileReplacements": [
                 {
@@ -90,7 +90,7 @@
                   "maximumError": "10kb"
                 }
               ]
-            }
+            },
             "test": {
               "fileReplacements": [
                 {
