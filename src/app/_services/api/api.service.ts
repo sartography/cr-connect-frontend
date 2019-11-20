@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
@@ -9,7 +9,7 @@ import {StudyTask} from '../../_models/study-task';
 import {StudyType} from '../../_models/study-type';
 import {Task} from '../../_models/task';
 
-interface ApiError {
+export interface ApiError {
   code: string;
   message: string;
 }
@@ -29,12 +29,14 @@ export class ApiService {
     task: '/api/task/<id>',
     taskList: '/api/task',
   };
-  private apiRoot: string;
+  apiRoot: string;
+  dummy: boolean;
 
   constructor(
     private httpClient: HttpClient
   ) {
     this.apiRoot = environment.api;
+    this.dummy = environment.dummy || false;
   }
 
   /** Get Study */
@@ -54,14 +56,14 @@ export class ApiService {
 
   /** Get Study Tasks for Study */
   getStudyTasksForStudy(id: number): Observable<StudyTask[]> {
-    if (environment.dummy) {
+    if (this.dummy) {
       return this.httpClient
         .get<StudyTask[]>(this._endpointUrl('studyTaskList'))
         .pipe(map(st => st.filter(s => s.study_id === id)))
         .pipe(catchError(this._handleError));
     } else {
       return this.httpClient
-        .get<StudyTask[]>(this._endpointUrl('studyTasksForStudy').replace('<id>', id.toString()))
+        .get<StudyTask[]>(this._endpointUrl('studyTaskListForStudy').replace('<id>', id.toString()))
         .pipe(catchError(this._handleError));
     }
   }
@@ -98,12 +100,12 @@ export class ApiService {
   private _endpointUrl(endpointName: string): string {
     const path = this.endpoints[endpointName];
 
-    if (environment.dummy) {
+    if (this.dummy) {
       return this._dummy_api_url(path);
     } else if (path) {
       return this.apiRoot + path;
     } else {
-      console.log(`endpoint '${endpointName}' does not exist`);
+      throw new Error(`endpoint '${endpointName}' does not exist`);
     }
   }
 
@@ -117,11 +119,21 @@ export class ApiService {
   }
 
   private _getOne<T extends GenericType>(id: number, endpointName: string): Observable<T> {
-    if (environment.dummy) {
+    if (this.dummy) {
       return this.httpClient
         .get<T[]>(this._endpointUrl(endpointName + 'List'))
-        .pipe(map(results => results.find(t => t.id === id)))
-        .pipe(catchError(this._handleError));
+        .pipe(
+          map(results => {
+            const found = results.find(t => t.id === id);
+            if (!found) {
+              const error: ApiError = {code: '404', message: 'Invalid ID'};
+              throw error;
+            } else {
+              return found;
+            }
+          }),
+          catchError(this._handleError)
+        );
     } else {
       return this.httpClient
         .get<T>(this._endpointUrl(endpointName).replace('<id>', id.toString()))

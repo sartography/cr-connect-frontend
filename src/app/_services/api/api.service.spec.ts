@@ -5,7 +5,7 @@ import {StudyTask} from '../../_models/study-task';
 import {StudyType} from '../../_models/study-type';
 import {Task} from '../../_models/task';
 
-import {ApiService} from './api.service';
+import {ApiError, ApiService} from './api.service';
 
 describe('ApiService', () => {
   const studies: Study[] = [
@@ -102,6 +102,20 @@ describe('ApiService', () => {
     req.flush(tasks);
   });
 
+  it('should get all study tasks for all studies', () => {
+    const httpMock = TestBed.get(HttpTestingController);
+    const service: ApiService = TestBed.get(ApiService);
+
+    service.getStudyTasks().subscribe(data => {
+      expect(data.length).toBeGreaterThan(0);
+      data.forEach(s => expect(s.study_id).toBeDefined());
+   });
+
+    const req = httpMock.expectOne('/assets/json/study_task.json');
+    expect(req.request.method).toEqual('GET');
+    req.flush(studyTasks);
+  });
+
   it('should get study tasks for a given study', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
@@ -114,6 +128,23 @@ describe('ApiService', () => {
     const req = httpMock.expectOne('/assets/json/study_task.json');
     expect(req.request.method).toEqual('GET');
     req.flush(studyTasks);
+  });
+
+  it('should call real API URL for getStudyTasksForStudy when not in dummy mode', () => {
+    const httpMock = TestBed.get(HttpTestingController);
+    const service: ApiService = TestBed.get(ApiService);
+
+    service.dummy = false;
+    service.apiRoot = 'https://real-api-url.com';
+
+    service.getStudyTasksForStudy(0).subscribe(data => {
+      expect(data.length).toBeGreaterThan(0);
+      data.forEach(s => expect(s.study_id).toEqual(0));
+   });
+
+    const req = httpMock.expectOne('https://real-api-url.com/api/study_task/study/0');
+    expect(req.request.method).toEqual('GET');
+    req.flush(studyTasks.filter(s => s.study_id === 0));
   });
 
   it('should get one study', () => {
@@ -176,5 +207,51 @@ describe('ApiService', () => {
     const req = httpMock.expectOne('/assets/json/study_task.json');
     expect(req.request.method).toEqual('GET');
     req.flush(studyTasks);
+  });
+
+  it('should call the real API URL for getStudyTask when not in dummy mode', () => {
+    const httpMock = TestBed.get(HttpTestingController);
+    const service: ApiService = TestBed.get(ApiService);
+    const studyTaskId = 0;
+
+    service.dummy = false;
+    service.apiRoot = 'https://real-api-url.com';
+
+    service.getStudyTask(studyTaskId).subscribe(data => {
+      expect(data).toBeTruthy();
+      expect(data.id).toEqual(studyTaskId);
+      expect(data.study_id).toEqual(studyTasks[0].study_id);
+      expect(data.task_id).toEqual(studyTasks[0].task_id);
+    });
+
+    const req = httpMock.expectOne('https://real-api-url.com/api/study_task/0');
+    expect(req.request.method).toEqual('GET');
+    req.flush(studyTasks[0]);
+  });
+
+  it('should return an error if an invalid ID is requested', () => {
+    const httpMock = TestBed.get(HttpTestingController);
+    const service: ApiService = TestBed.get(ApiService);
+    const studyTaskId = 666;
+    let errorMessage = '';
+
+    service.getStudyTask(studyTaskId).subscribe(data => {
+      // Test should fail if this line runs.
+      expect(false).toBeTruthy();
+    }, error => {
+      expect(error).toBeTruthy();
+      errorMessage = error;
+    });
+
+    const req = httpMock.expectOne('/assets/json/study_task.json');
+    expect(req.request.method).toEqual('GET');
+    req.flush(studyTasks);
+    expect(errorMessage).toEqual('Invalid ID');
+  });
+
+  it('should return an error if an invalid endpoint is requested', () => {
+    const service: ApiService = TestBed.get(ApiService);
+    service.dummy = false;
+    expect(_ => (service as any)._endpointUrl('bogus_name')).toThrowError();
   });
 });
