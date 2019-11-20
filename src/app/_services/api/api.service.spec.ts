@@ -7,33 +7,35 @@ import {Task} from '../../_models/task';
 
 import {ApiError, ApiService} from './api.service';
 
+export const studies: Study[] = [
+  {id: 0, title: 'Study A', type_id: 3},
+  {id: 1, title: 'Study B', type_id: 2},
+];
+
+export const studyTypes: StudyType[] = [
+  {id: 0, label: 'Expedited', task_ids: [0]},
+  {id: 1, label: 'Full Board', task_ids: [0, 1]},
+];
+
+export const tasks: Task[] = [
+  {id: 0, label: 'Do the dishes'},
+  {id: 1, label: 'Take out the trash'},
+  {id: 2, label: 'Make the coffee'},
+  {id: 3, label: 'Do the monster mash'},
+];
+
+export const studyTasks: StudyTask[] = [
+  {id: 0, task_id: 0, study_id: 0, is_disabled: false, is_complete: true},
+  {id: 1, task_id: 1, study_id: 0, is_disabled: true, is_complete: true},
+  {id: 2, task_id: 2, study_id: 0, is_disabled: false, is_complete: false},
+  {id: 3, task_id: 3, study_id: 0, is_disabled: true, is_complete: false},
+  {id: 4, task_id: 0, study_id: 1, is_disabled: false, is_complete: true},
+  {id: 5, task_id: 1, study_id: 1, is_disabled: true, is_complete: true},
+  {id: 6, task_id: 2, study_id: 2, is_disabled: false, is_complete: false},
+  {id: 7, task_id: 3, study_id: 2, is_disabled: true, is_complete: false},
+];
+
 describe('ApiService', () => {
-  const studies: Study[] = [
-    {id: 0, title: 'Study A', type_id: 3},
-    {id: 1, title: 'Study B', type_id: 2},
-  ];
-
-  const studyTypes: StudyType[] = [
-    {id: 0, label: 'Expedited', task_ids: [0]},
-    {id: 1, label: 'Full Board', task_ids: [0, 1]},
-  ];
-
-  const tasks: Task[] = [
-    {id: 0, label: 'Do the dishes'},
-    {id: 1, label: 'Take out the trash'},
-  ];
-
-  const studyTasks: StudyTask[] = [
-    {id: 0, task_id: 0, study_id: 0, is_disabled: false, is_complete: true},
-    {id: 1, task_id: 1, study_id: 0, is_disabled: true, is_complete: true},
-    {id: 2, task_id: 2, study_id: 0, is_disabled: false, is_complete: false},
-    {id: 3, task_id: 3, study_id: 0, is_disabled: true, is_complete: false},
-    {id: 4, task_id: 0, study_id: 1, is_disabled: false, is_complete: true},
-    {id: 5, task_id: 1, study_id: 1, is_disabled: true, is_complete: true},
-    {id: 6, task_id: 2, study_id: 2, is_disabled: false, is_complete: false},
-    {id: 7, task_id: 3, study_id: 2, is_disabled: true, is_complete: false},
-  ];
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],

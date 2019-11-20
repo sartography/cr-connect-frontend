@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Observable, Subscription} from 'rxjs';
 import {Study} from '../_models/study';
 import {StudyTask} from '../_models/study-task';
 import {StudyType} from '../_models/study-type';
@@ -10,34 +11,42 @@ import {ApiService} from '../_services/api/api.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   studies: Study[] = [];
   tasks: Task[] = [];
   types: StudyType[] = [];
   studyTasks: StudyTask[] = [];
   selectedType: StudyType;
   selectedStudy: Study;
+  subs: Subscription[] = [];
 
   constructor(private api: ApiService) {
-    this.api.getStudies().subscribe(s => this.studies = s);
-    this.api.getStudyTypes().subscribe(st => this.types = st);
+    this.subs.push(this.api.getStudies().subscribe(s => this.studies = s));
+    this.subs.push(this.api.getStudyTypes().subscribe(st => this.types = st));
   }
 
   ngOnInit() {
   }
 
-  getStudyTasks(study: Study) {
+  ngOnDestroy() {
+    this.subs.forEach(s => s.unsubscribe());
+  }
+
+  loadStudyTasks(study: Study) {
     this.selectedStudy = study;
     this.tasks = [];
-
-    this.api.getStudyTasksForStudy(this.selectedStudy.id).subscribe(st => {
+    this.subs.push(this.api.getStudyTasksForStudy(this.selectedStudy.id).subscribe(st => {
       this.studyTasks = st;
-      st.forEach(item => {
-        this.api.getTask(item.task_id).subscribe(t => {
-          this.tasks.push(t);
-        });
-      });
-    });
+      this.loadTasksForStudyTasks();
+    }));
+  }
+
+  loadTasksForStudyTasks() {
+    for (const st of this.studyTasks) {
+      this.subs.push(this.api.getTask(st.task_id).subscribe(t => {
+        this.tasks.push(t);
+      }));
+    }
   }
 
   isDisabled(task: Task) {

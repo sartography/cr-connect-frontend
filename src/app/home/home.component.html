@@ -5,7 +5,7 @@
     <mat-icon>arrow_drop_down</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item *ngFor="let study of studies" (click)="getStudyTasks(study)">
+    <button mat-menu-item *ngFor="let study of studies" (click)="loadStudyTasks(study)">
       {{study.title}}
     </button>
   </mat-menu>
