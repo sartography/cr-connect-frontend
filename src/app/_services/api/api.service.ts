@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, throwError} from 'rxjs';
-import {catchError, filter, find, map} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {GenericType} from '../../_models/generic-type';
 import {Study} from '../../_models/study';
@@ -92,10 +92,7 @@ export class ApiService {
   }
 
   private _handleError(error: ApiError) {
-    let message = 'Could not complete your request; please try again later.';
-    message = error.message;
-    // return an observable with a user-facing error message
-    return throwError(message);
+    return throwError(error.message || 'Could not complete your request; please try again later.');
   }
 
   private _endpointUrl(endpointName: string): string {
@@ -111,7 +108,12 @@ export class ApiService {
   }
 
   private _dummy_api_url(path: string) {
-    return path.replace(/^(.*)\/api\/(.*)$/, '/assets/json/$2.json');
+    if (path.search('/api/') !== -1) {
+      const arr = path.split('/api/');
+      if (arr.length > 0) {
+        return `/assets/json/${arr[arr.length - 1]}.json`;
+      }
+    }
   }
 
   private _getOne<T extends GenericType>(id: number, endpointName: string): Observable<T> {
@@ -128,8 +130,9 @@ export class ApiService {
   }
 
   private _getAll<T extends GenericType>(endpointName: string): Observable<T[]> {
+    const url = this._endpointUrl(endpointName + 'List');
     return this.httpClient
-      .get<T[]>(this._endpointUrl(endpointName + 'List'))
+      .get<T[]>(url)
       .pipe(catchError(this._handleError));
   }
 }
