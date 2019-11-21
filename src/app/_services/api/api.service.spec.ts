@@ -18,10 +18,10 @@ export const studyTypes: StudyType[] = [
 ];
 
 export const tasks: Task[] = [
-  {id: 0, label: 'Do the dishes'},
-  {id: 1, label: 'Take out the trash'},
-  {id: 2, label: 'Make the coffee'},
-  {id: 3, label: 'Do the monster mash'},
+  {id: 0, label: 'Do the dishes', task_spec_id: 3},
+  {id: 1, label: 'Take out the trash', task_spec_id: 2},
+  {id: 2, label: 'Make the coffee', task_spec_id: 1},
+  {id: 3, label: 'Do the monster mash', task_spec_id: 0},
 ];
 
 export const studyTasks: StudyTask[] = [

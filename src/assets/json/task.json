@@ -1,18 +1,22 @@
 [
   {
     "id": 0,
-    "label": "Tasks 0"
+    "label": "Tasks 0",
+    "task_spec_id": 0
   },
   {
     "id": 1,
-    "label": "Tasks 1"
+    "label": "Tasks 1",
+    "task_spec_id": 1
   },
   {
     "id": 2,
-    "label": "Tasks 2"
+    "label": "Tasks 2",
+    "task_spec_id": 2
   },
   {
     "id": 3,
-    "label": "Tasks 3"
+    "label": "Tasks 3",
+    "task_spec_id": 3
   }
 ]
