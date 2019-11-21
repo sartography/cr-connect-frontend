@@ -3,9 +3,9 @@ import {TestBed} from '@angular/core/testing';
 import {Study} from '../../_models/study';
 import {StudyTask} from '../../_models/study-task';
 import {StudyType} from '../../_models/study-type';
-import {Task} from '../../_models/task';
+import {Task, TaskState} from '../../_models/task';
 
-import {ApiError, ApiService} from './api.service';
+import {ApiService} from './api.service';
 
 export const studies: Study[] = [
   {id: 0, title: 'Study A', type_id: 3},
@@ -17,13 +17,15 @@ export const studyTypes: StudyType[] = [
   {id: 1, label: 'Full Board', task_ids: [0, 1]},
 ];
 
+// TODO: Refactor this to be about TaskSpecs
 export const tasks: Task[] = [
-  {id: 0, label: 'Do the dishes', task_spec_id: 3},
-  {id: 1, label: 'Take out the trash', task_spec_id: 2},
-  {id: 2, label: 'Make the coffee', task_spec_id: 1},
-  {id: 3, label: 'Do the monster mash', task_spec_id: 0},
+  {id: 0, label: 'Do the dishes', task_spec_id: 3, state_name: TaskState.Future},
+  {id: 1, label: 'Take out the trash', task_spec_id: 2, state_name: TaskState.Future},
+  {id: 2, label: 'Make the coffee', task_spec_id: 1, state_name: TaskState.Future},
+  {id: 3, label: 'Do the monster mash', task_spec_id: 0, state_name: TaskState.Future},
 ];
 
+// TODO: Refactor this to be about Task instances
 export const studyTasks: StudyTask[] = [
   {id: 0, task_id: 0, study_id: 0, is_disabled: false, is_complete: true},
   {id: 1, task_id: 1, study_id: 0, is_disabled: true, is_complete: true},
@@ -34,6 +36,8 @@ export const studyTasks: StudyTask[] = [
   {id: 6, task_id: 2, study_id: 2, is_disabled: false, is_complete: false},
   {id: 7, task_id: 3, study_id: 2, is_disabled: true, is_complete: false},
 ];
+
+// TODO: Add WorkflowSpecs and Workflows
 
 describe('ApiService', () => {
   beforeEach(() => {
