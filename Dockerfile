@@ -9,6 +9,8 @@ COPY . /crc-frontend/
 
 RUN npm install
 
-CMD ["ng", "serve"]
+RUN npm run-script build
+
+CMD ["npm", "run-script", "start"]
 
 EXPOSE 4200
