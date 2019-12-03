@@ -12,15 +12,7 @@
 </mat-toolbar>
 <mat-drawer-container class="example-container">
   <mat-drawer mode="side" opened>
-    <mat-nav-list>
-      <mat-list-item *ngFor="let task of tasks" [ngClass]="{'disabled': isDisabled(task)}">
-        <a fxLayout="row" fxLayoutAlign="start center" href="?taskId={{task.id}}" matLine>
-          {{ task.label }}
-          <span fxFlex></span>
-          <mat-icon>{{isComplete(task) ? 'check_box' : 'check_box_outline_blank'}}</mat-icon>
-        </a>
-      </mat-list-item>
-    </mat-nav-list>
+    <app-workflow-spec-list></app-workflow-spec-list>
   </mat-drawer>
   <mat-drawer-content>
     <form>

@@ -5,7 +5,8 @@ import {Task, TaskSpecs} from './task';
 export interface WorkflowSpec extends GenericType {
   name: string;
   description: string;
-  task_specs: TaskSpecs;
+  task_spec_ids: number[];
+  task_specs?: TaskSpecs;
   _links?: Links;
 }
 

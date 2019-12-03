@@ -18,11 +18,15 @@ import {ApiService} from './_services/api/api.service';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
+import { WorkflowSpecListComponent } from './workflow-spec-list/workflow-spec-list.component';
+import { TaskSpecListComponent } from './task-spec-list/task-spec-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    WorkflowSpecListComponent,
+    TaskSpecListComponent
   ],
   imports: [
     AppRoutingModule,
