@@ -17,30 +17,32 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
+import {NgxPageScrollModule} from 'ngx-page-scroll';
+import {NgxPageScrollCoreModule} from 'ngx-page-scroll-core';
 import {ApiService} from './_services/api/api.service';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
+import {NavbarComponent} from './navbar/navbar.component';
+import {PanelWrapperComponent} from './panel-wrapper/panel-wrapper.component';
 import {TaskSpecListComponent} from './task-spec-list/task-spec-list.component';
+import {WorkflowProcessMenuItemComponent} from './workflow-process-menu-item/workflow-process-menu-item.component';
 import {WorkflowProcessComponent} from './workflow-process/workflow-process.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
-import { PanelWrapperComponent } from './panel-wrapper/panel-wrapper.component';
-import { WorkflowProcessMenuItemComponent } from './workflow-process-menu-item/workflow-process-menu-item.component';
-import { WorkflowStepsMenuListComponent } from './workflow-steps-menu-list/workflow-steps-menu-list.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    WorkflowSpecListComponent,
+    NavbarComponent,
+    PanelWrapperComponent,
     TaskSpecListComponent,
     WorkflowProcessComponent,
-    PanelWrapperComponent,
     WorkflowProcessMenuItemComponent,
+    WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
-    NavbarComponent
   ],
   imports: [
     AppRoutingModule,
@@ -56,6 +58,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     FormsModule,
     HttpClientModule,
     MatButtonModule,
+    MatCardModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -63,10 +66,11 @@ import { NavbarComponent } from './navbar/navbar.component';
     MatMenuModule,
     MatSelectModule,
     MatSidenavModule,
-    MatToolbarModule,
-    ReactiveFormsModule,
-    MatCardModule,
     MatTabsModule,
+    MatToolbarModule,
+    NgxPageScrollModule,
+    NgxPageScrollCoreModule.forRoot({duration: 500, scrollOffset: 84}),
+    ReactiveFormsModule,
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},

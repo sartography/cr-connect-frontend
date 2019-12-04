@@ -1,6 +1,12 @@
 <ng-container *ngFor="let step of steps">
   <mat-list-item class="process-category-step">
-    <a fxLayout="row" fxLayoutAlign="start center" href="{{'#process_category_step_' + processId}}_{{categoryId}}_{{step.id}}" matLine>
+    <a
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      href="{{'#process_category_step_' + processId}}_{{categoryId}}_{{step.id}}"
+      matLine
+      pageScroll
+    >
       {{ step.name }}
       <span fxFlex></span>
     </a>

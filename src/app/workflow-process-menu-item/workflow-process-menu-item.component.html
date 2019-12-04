@@ -1,11 +1,21 @@
 <mat-nav-list>
   <ng-container *ngFor="let cat of process.categories">
     <mat-list-item class="process-category">
-      <a fxLayout="row" fxLayoutAlign="start center" href="{{'#process_category_' + process.id}}_{{cat.id}}" matLine>
+      <a
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        href="{{'#process_category_' + process.id}}_{{cat.id}}"
+        matLine
+        pageScroll
+      >
         {{ cat.name }}
         <span fxFlex></span>
       </a>
     </mat-list-item>
-    <app-workflow-steps-menu-list [steps]="cat.steps" [processId]="process.id" [categoryId]="cat.id"></app-workflow-steps-menu-list>
+    <app-workflow-steps-menu-list
+      [categoryId]="cat.id"
+      [processId]="process.id"
+      [steps]="cat.steps"
+    ></app-workflow-steps-menu-list>
   </ng-container>
 </mat-nav-list>
