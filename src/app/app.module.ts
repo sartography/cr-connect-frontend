@@ -24,12 +24,17 @@ import {ApiService} from './_services/api/api.service';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 import {HelpDialogComponent} from './help-dialog/help-dialog.component';
 import {HelpWrapperComponent} from './help-wrapper/help-wrapper.component';
 import {helpWrapperExtension} from './help-wrapper/help-wrapper.extension';
+import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
+import {InboxComponent} from './inbox/inbox.component';
+import {LogoutComponent} from './logout/logout.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {PanelWrapperComponent} from './panel-wrapper/panel-wrapper.component';
+import {PreferencesComponent} from './preferences/preferences.component';
 import {TaskSpecListComponent} from './task-spec-list/task-spec-list.component';
 import {WorkflowProcessMenuItemComponent} from './workflow-process-menu-item/workflow-process-menu-item.component';
 import {WorkflowProcessComponent} from './workflow-process/workflow-process.component';
@@ -39,11 +44,16 @@ import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflo
 @NgModule({
   declarations: [
     AppComponent,
+    DashboardComponent,
+    HelpComponent,
     HelpDialogComponent,
     HelpWrapperComponent,
     HomeComponent,
+    InboxComponent,
+    LogoutComponent,
     NavbarComponent,
     PanelWrapperComponent,
+    PreferencesComponent,
     TaskSpecListComponent,
     WorkflowProcessComponent,
     WorkflowProcessMenuItemComponent,
