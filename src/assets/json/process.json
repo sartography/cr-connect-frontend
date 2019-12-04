@@ -1,0 +1,969 @@
+[
+  {
+    "id": 0,
+    "name": "Process 0",
+    "categories": [
+      {
+        "id": 0,
+        "name": "Category 0.0",
+        "steps": [
+          {
+            "id": 0,
+            "name": "Step 0.0.0",
+            "form": {
+              "id": 0,
+              "name": "Form 0.0.0.0",
+              "fields": [
+                {
+                  "key": "firstName",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "First Name"
+                  }
+                },
+                {
+                  "key": "lastName",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Last Name"
+                  }
+                },
+                {
+                  "key": "mac",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Mac Address",
+                    "pattern": "([0-9A-F]{2}[:-]){5}([0-9A-F]{2})"
+                  }
+                },
+                {
+                  "key": "color",
+                  "type": "radio",
+                  "templateOptions": {
+                    "label": "Color Preference (try this out)",
+                    "options": [
+                      {
+                        "label": "No Preference",
+                        "value": null
+                      },
+                      {
+                        "label": "Green",
+                        "value": "green"
+                      },
+                      {
+                        "label": "Blue",
+                        "value": "blue"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "key": "reason",
+                  "type": "textarea",
+                  "templateOptions": {
+                    "label": "Why?"
+                  },
+                  "expressionProperties": {
+                    "templateOptions.label": "'Why did you choose ' + model.color + '?'"
+                  },
+                  "hideExpression": "!model.color"
+                },
+                {
+                  "key": "address",
+                  "wrappers": [
+                    "panel"
+                  ],
+                  "templateOptions": {
+                    "label": "Address"
+                  },
+                  "fieldGroup": [
+                    {
+                      "key": "town",
+                      "type": "input",
+                      "templateOptions": {
+                        "required": true,
+                        "type": "text",
+                        "label": "Town"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "key": "sport",
+                  "type": "select",
+                  "templateOptions": {
+                    "label": "Sport",
+                    "options": [
+                      {
+                        "id": "1",
+                        "name": "Soccer"
+                      },
+                      {
+                        "id": "2",
+                        "name": "Basketball"
+                      }
+                    ],
+                    "valueProp": "id",
+                    "labelProp": "name"
+                  }
+                },
+                {
+                  "key": "team",
+                  "type": "select",
+                  "templateOptions": {
+                    "label": "Team",
+                    "options": [],
+                    "valueProp": "id",
+                    "labelProp": "name"
+                  },
+                  "expressionProperties": {
+                    "templateOptions.options": "formState.selectOptionsData.teams.filter(team => team.sportId === model.sport)",
+                    "model.team": "field.templateOptions.options.find(o => o.id === model.team) ? model.team:null"
+                  }
+                },
+                {
+                  "key": "player",
+                  "type": "select",
+                  "templateOptions": {
+                    "label": "Player",
+                    "options": [],
+                    "valueProp": "id",
+                    "labelProp": "name"
+                  },
+                  "expressionProperties": {
+                    "templateOptions.options": "formState.selectOptionsData.players.filter(player => player.teamId === model.team)",
+                    "model.player": "field.templateOptions.options.find(o => o.id === model.player) ? model.player:null"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": 1,
+            "name": "Step 0.0.1",
+            "form": {
+              "id": 0,
+              "name": "Form 0.0.1.0",
+              "fields": [
+                {
+                  "key": "field_0",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.0"
+                  }
+                },
+                {
+                  "key": "field_1",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.1"
+                  }
+                },
+                {
+                  "key": "field_2",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.2"
+                  }
+                },
+                {
+                  "key": "field_3",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.3"
+                  }
+                },
+                {
+                  "key": "field_4",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.4"
+                  }
+                },
+                {
+                  "key": "field_5",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.5"
+                  }
+                },
+                {
+                  "key": "field_6",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.6"
+                  }
+                },
+                {
+                  "key": "field_7",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.7"
+                  }
+                },
+                {
+                  "key": "field_8",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.8"
+                  }
+                },
+                {
+                  "key": "field_9",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.9"
+                  }
+                },
+                {
+                  "key": "field_10",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.10"
+                  }
+                },
+                {
+                  "key": "field_11",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.11"
+                  }
+                },
+                {
+                  "key": "field_12",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.12"
+                  }
+                },
+                {
+                  "key": "field_13",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.13"
+                  }
+                },
+                {
+                  "key": "field_14",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.0.1.0.14"
+                  }
+                }
+
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "name": "Category 0.1",
+        "steps": [
+          {
+            "id": 0,
+            "name": "Step 0.1.0",
+            "form": {
+              "id": 0,
+              "name": "Form 0.1.0.0",
+              "fields": [
+                {
+                  "key": "field_0",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.0"
+                  }
+                },
+                {
+                  "key": "field_1",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.1"
+                  }
+                },
+                {
+                  "key": "field_2",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.2"
+                  }
+                },
+                {
+                  "key": "field_3",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.3"
+                  }
+                },
+                {
+                  "key": "field_4",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.4"
+                  }
+                },
+                {
+                  "key": "field_5",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.5"
+                  }
+                },
+                {
+                  "key": "field_6",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.6"
+                  }
+                },
+                {
+                  "key": "field_7",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.7"
+                  }
+                },
+                {
+                  "key": "field_8",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.8"
+                  }
+                },
+                {
+                  "key": "field_9",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.9"
+                  }
+                },
+                {
+                  "key": "field_10",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 10"
+                  }
+                },
+                {
+                  "key": "field_11",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.11"
+                  }
+                },
+                {
+                  "key": "field_12",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.12"
+                  }
+                },
+                {
+                  "key": "field_13",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.13"
+                  }
+                },
+                {
+                  "key": "field_14",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.0.0.14"
+                  }
+                }
+
+              ]
+            }
+          },
+          {
+            "id": 1,
+            "name": "Step 0.1.1",
+            "form": {
+              "id": 0,
+              "name": "Form 0.1.1.0",
+              "fields": [
+                {
+                  "key": "field_0",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.0"
+                  }
+                },
+                {
+                  "key": "field_1",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.1"
+                  }
+                },
+                {
+                  "key": "field_2",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.2"
+                  }
+                },
+                {
+                  "key": "field_3",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.3"
+                  }
+                },
+                {
+                  "key": "field_4",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.4"
+                  }
+                },
+                {
+                  "key": "field_5",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.5"
+                  }
+                },
+                {
+                  "key": "field_6",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.6"
+                  }
+                },
+                {
+                  "key": "field_7",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.7"
+                  }
+                },
+                {
+                  "key": "field_8",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.8"
+                  }
+                },
+                {
+                  "key": "field_9",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.9"
+                  }
+                },
+                {
+                  "key": "field_10",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 10"
+                  }
+                },
+                {
+                  "key": "field_11",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.11"
+                  }
+                },
+                {
+                  "key": "field_12",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.12"
+                  }
+                },
+                {
+                  "key": "field_13",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.13"
+                  }
+                },
+                {
+                  "key": "field_14",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.1.0.14"
+                  }
+                }
+
+              ]
+            }
+          },
+          {
+            "id": 2,
+            "name": "Step 0.1.2",
+            "form": {
+              "id": 0,
+              "name": "Form 0.1.2.0",
+              "fields": [
+                {
+                  "key": "field_0",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.0"
+                  }
+                },
+                {
+                  "key": "field_1",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.1"
+                  }
+                },
+                {
+                  "key": "field_2",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.2"
+                  }
+                },
+                {
+                  "key": "field_3",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.3"
+                  }
+                },
+                {
+                  "key": "field_4",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.4"
+                  }
+                },
+                {
+                  "key": "field_5",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.5"
+                  }
+                },
+                {
+                  "key": "field_6",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.6"
+                  }
+                },
+                {
+                  "key": "field_7",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.7"
+                  }
+                },
+                {
+                  "key": "field_8",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.8"
+                  }
+                },
+                {
+                  "key": "field_9",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.9"
+                  }
+                },
+                {
+                  "key": "field_10",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 10"
+                  }
+                },
+                {
+                  "key": "field_11",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.11"
+                  }
+                },
+                {
+                  "key": "field_12",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.12"
+                  }
+                },
+                {
+                  "key": "field_13",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.13"
+                  }
+                },
+                {
+                  "key": "field_14",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.1.2.0.14"
+                  }
+                }
+
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Category 0.2",
+        "steps": [
+          {
+            "id": 0,
+            "name": "Step 0.2.0",
+            "form": {
+              "id": 0,
+              "name": "Form 0.2.0.0",
+              "fields": [
+                {
+                  "key": "field_0",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.0"
+                  }
+                },
+                {
+                  "key": "field_1",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.1"
+                  }
+                },
+                {
+                  "key": "field_2",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.2"
+                  }
+                },
+                {
+                  "key": "field_3",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.3"
+                  }
+                },
+                {
+                  "key": "field_4",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.4"
+                  }
+                },
+                {
+                  "key": "field_5",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.5"
+                  }
+                },
+                {
+                  "key": "field_6",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.6"
+                  }
+                },
+                {
+                  "key": "field_7",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.7"
+                  }
+                },
+                {
+                  "key": "field_8",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.8"
+                  }
+                },
+                {
+                  "key": "field_9",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.9"
+                  }
+                },
+                {
+                  "key": "field_10",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 10"
+                  }
+                },
+                {
+                  "key": "field_11",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.11"
+                  }
+                },
+                {
+                  "key": "field_12",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.12"
+                  }
+                },
+                {
+                  "key": "field_13",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.13"
+                  }
+                },
+                {
+                  "key": "field_14",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.0.0.14"
+                  }
+                }
+
+              ]
+            }
+          },
+          {
+            "id": 1,
+            "name": "Step 0.2.1",
+            "form": {
+              "id": 0,
+              "name": "Form 0.2.1.0",
+              "fields": [
+                {
+                  "key": "field_0",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.0"
+                  }
+                },
+                {
+                  "key": "field_1",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.1"
+                  }
+                },
+                {
+                  "key": "field_2",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.2"
+                  }
+                },
+                {
+                  "key": "field_3",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.3"
+                  }
+                },
+                {
+                  "key": "field_4",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.4"
+                  }
+                },
+                {
+                  "key": "field_5",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.5"
+                  }
+                },
+                {
+                  "key": "field_6",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.6"
+                  }
+                },
+                {
+                  "key": "field_7",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.7"
+                  }
+                },
+                {
+                  "key": "field_8",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.8"
+                  }
+                },
+                {
+                  "key": "field_9",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.9"
+                  }
+                },
+                {
+                  "key": "field_10",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 10"
+                  }
+                },
+                {
+                  "key": "field_11",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.11"
+                  }
+                },
+                {
+                  "key": "field_12",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.12"
+                  }
+                },
+                {
+                  "key": "field_13",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.13"
+                  }
+                },
+                {
+                  "key": "field_14",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.1.0.14"
+                  }
+                }
+
+              ]
+            }
+          },
+          {
+            "id": 2,
+            "name": "Step 0.2.2",
+            "form": {
+              "id": 0,
+              "name": "Form 0.2.2.0",
+              "fields": [
+                {
+                  "key": "field_0",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.0"
+                  }
+                },
+                {
+                  "key": "field_1",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.1"
+                  }
+                },
+                {
+                  "key": "field_2",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.2"
+                  }
+                },
+                {
+                  "key": "field_3",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.3"
+                  }
+                },
+                {
+                  "key": "field_4",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.4"
+                  }
+                },
+                {
+                  "key": "field_5",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.5"
+                  }
+                },
+                {
+                  "key": "field_6",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.6"
+                  }
+                },
+                {
+                  "key": "field_7",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.7"
+                  }
+                },
+                {
+                  "key": "field_8",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.8"
+                  }
+                },
+                {
+                  "key": "field_9",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.9"
+                  }
+                },
+                {
+                  "key": "field_10",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 10"
+                  }
+                },
+                {
+                  "key": "field_11",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.11"
+                  }
+                },
+                {
+                  "key": "field_12",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.12"
+                  }
+                },
+                {
+                  "key": "field_13",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.13"
+                  }
+                },
+                {
+                  "key": "field_14",
+                  "type": "input",
+                  "templateOptions": {
+                    "label": "Field 0.2.2.0.14"
+                  }
+                }
+
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,10 @@
+<div *ngFor="let cat of process.categories" id="{{'process_category_' + process.id}}_{{cat.id}}">
+  <h1>{{cat.name}}</h1>
+  <div *ngFor="let step of cat.steps" id="{{'process_category_step_' + process.id}}_{{cat.id}}_{{step.id}}">
+    <h2>{{step.name}}</h2>
+    <div>
+      <h3>{{step.form.name}}</h3>
+      <formly-form [model]="model" [fields]="step.form.fields" [options]="options" [form]="form"></formly-form>
+    </div>
+  </div>
+</div>

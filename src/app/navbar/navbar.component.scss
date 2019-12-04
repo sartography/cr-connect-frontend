@@ -1,0 +1,13 @@
+.flex-spacer {
+  flex-grow: 1;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 8px 16px;
+  background: white;
+  color: black;
+  height: 48px;
+}

@@ -4,6 +4,7 @@ import {Study} from '../_models/study';
 import {StudyTask} from '../_models/study-task';
 import {StudyType} from '../_models/study-type';
 import {Task} from '../_models/task';
+import {WorkflowProcess} from '../_models/workflow';
 import {ApiService} from '../_services/api/api.service';
 
 @Component({
@@ -19,8 +20,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   selectedType: StudyType;
   selectedStudy: Study;
   subs: Subscription[] = [];
+  process: WorkflowProcess;
 
   constructor(private api: ApiService) {
+    this.subs.push(this.api.getWorkflowProcess(0).subscribe(p => this.process = p));
     this.subs.push(this.api.getStudies().subscribe(s => this.studies = s));
     this.subs.push(this.api.getStudyTypes().subscribe(st => this.types = st));
   }

@@ -1,36 +1,8 @@
-<mat-toolbar color="primary">
-  <span class="site-title">CR Connect</span>
-  <button mat-button [matMenuTriggerFor]="menu">
-    {{selectedStudy ? selectedStudy.title : 'Select study'}}
-    <mat-icon>arrow_drop_down</mat-icon>
-  </button>
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item *ngFor="let study of studies" (click)="loadStudyTasks(study)">
-      {{study.title}}
-    </button>
-  </mat-menu>
-</mat-toolbar>
-<mat-drawer-container class="example-container">
-  <mat-drawer mode="side" opened>
-    <app-workflow-spec-list></app-workflow-spec-list>
-  </mat-drawer>
-  <mat-drawer-content>
-    <form>
-      <h4>Select Study Type</h4>
-      <mat-form-field>
-        <mat-label>Study Type</mat-label>
-        <mat-select [(ngModel)]="selectedType" name="type">
-          <mat-option *ngFor="let type of types" [value]="type">
-            {{type.label}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <ng-container *ngIf="selectedType">
-        <p>Selected: {{selectedType.label}} ({{selectedType.id}})</p>
-        <ul>
-          <li *ngFor="let taskId of selectedType.task_ids">{{taskId}}</li>
-        </ul>
-      </ng-container>
-    </form>
-  </mat-drawer-content>
-</mat-drawer-container>
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened  [fixedInViewport]="true" [fixedTopGap]="64">
+    <app-workflow-process-menu-item *ngIf="process" [process]="process"></app-workflow-process-menu-item>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-workflow-process *ngIf="process" [process]="process"></app-workflow-process>
+  </mat-sidenav-content>
+</mat-sidenav-container>

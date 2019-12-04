@@ -8,7 +8,7 @@ import {Study} from '../../_models/study';
 import {StudyTask} from '../../_models/study-task';
 import {StudyType} from '../../_models/study-type';
 import {Task, TaskSpec} from '../../_models/task';
-import {WorkflowSpec} from '../../_models/workflow';
+import {WorkflowProcess, WorkflowSpec} from '../../_models/workflow';
 
 export interface ApiError {
   code: string;
@@ -32,6 +32,8 @@ export class ApiService {
     taskSpec: '/api/task_spec/<id>',
     taskSpecs: '/api/task_spec',
     taskSpecsForWorkflowSpec: '/api/task_spec/workflow_spec/<id>',
+    workflowProcess: '/api/process/<id>',
+    workflowProcessList: '/api/process',
     workflowSpec: '/api/workflow_spec/<id>',
     workflowSpecList: '/api/workflow_spec',
   };
@@ -131,6 +133,16 @@ export class ApiService {
         .get<TaskSpec[]>(this._endpointUrl('taskSpecsForWorkflowSpec').replace('<id>', wf.id.toString()))
         .pipe(catchError(this._handleError));
     }
+  }
+
+  /** Get WorkflowProcess */
+  getWorkflowProcess(id: number): Observable<WorkflowProcess> {
+    return this._getOne<WorkflowProcess>(id, 'workflowProcess');
+  }
+
+  /** Get WorkflowProcesses */
+  getWorkflowProcesses(): Observable<WorkflowProcess[]> {
+    return this._getAll<WorkflowProcess>('workflowProcessList');
   }
 
   private _handleError(error: ApiError) {
