@@ -18,14 +18,22 @@
                   "key": "firstName",
                   "type": "input",
                   "templateOptions": {
-                    "label": "First Name"
+                    "label": "First Name",
+                    "description": "When things happen - enjoy them. They're little gifts.",
+                    "help": {
+                      "text": "The secret to doing anything is believing that you can do it. Anything that you believe you can do strong enough, you can do. Anything. As long as you believe. Let's make a nice big leafy tree. Just think about these things in your mind - then bring them into your world. If you don't think every day is a good day - try missing a few. You'll see. Now, we're going to fluff this cloud. You can work and carry-on and put lots of little happy things in here."
+                    }
                   }
                 },
                 {
                   "key": "lastName",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Last Name"
+                    "label": "Last Name",
+                    "description": "All you need to paint is a few tools, a little instruction, and a vision in your mind.",
+                    "help": {
+                      "text": "You can do anything here - the only pre-requisite is that it makes you happy. If what you're doing doesn't make you happy - you're doing the wrong thing. There comes a nice little fluffer. Talent is a pursued interest. That is to say, anything you practice you can do. And just raise cain. Automatically, all of these beautiful, beautiful things will happen."
+                    }
                   }
                 },
                 {
@@ -33,7 +41,10 @@
                   "type": "input",
                   "templateOptions": {
                     "label": "Mac Address",
-                    "pattern": "([0-9A-F]{2}[:-]){5}([0-9A-F]{2})"
+                    "pattern": "([0-9A-F]{2}[:-]){5}([0-9A-F]{2})",
+                    "help": {
+                      "text": "The first step to doing anything is to believe you can do it. See it finished in your mind before you ever start. Take your time. Speed will come later. Talk to trees, look at the birds. Whatever it takes. How to paint. That's easy. What to paint. That's much harder. Fluff that up. Use what happens naturally, don't fight it."
+                    }
                   }
                 },
                 {
@@ -54,14 +65,20 @@
                         "label": "Blue",
                         "value": "blue"
                       }
-                    ]
+                    ],
+                    "help": {
+                      "text": "Work on one thing at a time. Don't get carried away - we have plenty of time. You have freedom here. The only guide is your heart. Just go back and put one little more happy tree in there. Let's make a nice big leafy tree. Mountains are so simple, they're hard. Remember how free clouds are. They just lay around in the sky all day long."
+                    }
                   }
                 },
                 {
                   "key": "reason",
                   "type": "textarea",
                   "templateOptions": {
-                    "label": "Why?"
+                    "label": "Why?",
+                    "help": {
+                      "text": "I think there's an artist hidden in the bottom of every single one of us. We don't want to set these clouds on fire. Let's put some happy trees and bushes back in here. Almost everything is going to happen for you automatically - you don't have to spend any time working or worrying. Everyone wants to enjoy the good parts - but you have to build the framework first. We have a fantastic little sky!"
+                    }
                   },
                   "expressionProperties": {
                     "templateOptions.label": "'Why did you choose ' + model.color + '?'"
@@ -74,7 +91,10 @@
                     "panel"
                   ],
                   "templateOptions": {
-                    "label": "Address"
+                    "label": "Address",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   },
                   "fieldGroup": [
                     {
@@ -104,7 +124,10 @@
                       }
                     ],
                     "valueProp": "id",
-                    "labelProp": "name"
+                    "labelProp": "name",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
@@ -114,7 +137,10 @@
                     "label": "Team",
                     "options": [],
                     "valueProp": "id",
-                    "labelProp": "name"
+                    "labelProp": "name",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   },
                   "expressionProperties": {
                     "templateOptions.options": "formState.selectOptionsData.teams.filter(team => team.sportId === model.sport)",
@@ -128,7 +154,10 @@
                     "label": "Player",
                     "options": [],
                     "valueProp": "id",
-                    "labelProp": "name"
+                    "labelProp": "name",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   },
                   "expressionProperties": {
                     "templateOptions.options": "formState.selectOptionsData.players.filter(player => player.teamId === model.team)",
@@ -149,105 +178,150 @@
                   "key": "field_0",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.0"
+                    "label": "Field 0.0.1.0.0",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_1",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.1"
+                    "label": "Field 0.0.1.0.1",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_2",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.2"
+                    "label": "Field 0.0.1.0.2",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_3",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.3"
+                    "label": "Field 0.0.1.0.3",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_4",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.4"
+                    "label": "Field 0.0.1.0.4",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_5",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.5"
+                    "label": "Field 0.0.1.0.5",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_6",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.6"
+                    "label": "Field 0.0.1.0.6",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_7",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.7"
+                    "label": "Field 0.0.1.0.7",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_8",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.8"
+                    "label": "Field 0.0.1.0.8",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_9",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.9"
+                    "label": "Field 0.0.1.0.9",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_10",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.10"
+                    "label": "Field 0.0.1.0.10",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_11",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.11"
+                    "label": "Field 0.0.1.0.11",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_12",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.12"
+                    "label": "Field 0.0.1.0.12",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_13",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.13"
+                    "label": "Field 0.0.1.0.13",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_14",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.0.1.0.14"
+                    "label": "Field 0.0.1.0.14",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 }
 
@@ -271,105 +345,150 @@
                   "key": "field_0",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.0"
+                    "label": "Field 0.1.0.0.0",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_1",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.1"
+                    "label": "Field 0.1.0.0.1",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_2",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.2"
+                    "label": "Field 0.1.0.0.2",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_3",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.3"
+                    "label": "Field 0.1.0.0.3",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_4",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.4"
+                    "label": "Field 0.1.0.0.4",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_5",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.5"
+                    "label": "Field 0.1.0.0.5",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_6",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.6"
+                    "label": "Field 0.1.0.0.6",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_7",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.7"
+                    "label": "Field 0.1.0.0.7",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_8",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.8"
+                    "label": "Field 0.1.0.0.8",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_9",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.9"
+                    "label": "Field 0.1.0.0.9",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_10",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 10"
+                    "label": "Field 0.1.0.0.10",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_11",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.11"
+                    "label": "Field 0.1.0.0.11",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_12",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.12"
+                    "label": "Field 0.1.0.0.12",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_13",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.13"
+                    "label": "Field 0.1.0.0.13",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_14",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.0.0.14"
+                    "label": "Field 0.1.0.0.14",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 }
 
@@ -387,105 +506,150 @@
                   "key": "field_0",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.0"
+                    "label": "Field 0.1.1.0.0",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_1",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.1"
+                    "label": "Field 0.1.1.0.1",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_2",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.2"
+                    "label": "Field 0.1.1.0.2",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_3",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.3"
+                    "label": "Field 0.1.1.0.3",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_4",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.4"
+                    "label": "Field 0.1.1.0.4",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_5",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.5"
+                    "label": "Field 0.1.1.0.5",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_6",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.6"
+                    "label": "Field 0.1.1.0.6",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_7",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.7"
+                    "label": "Field 0.1.1.0.7",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_8",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.8"
+                    "label": "Field 0.1.1.0.8",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_9",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.9"
+                    "label": "Field 0.1.1.0.9",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_10",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 10"
+                    "label": "Field 0.1.1.0.10",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_11",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.11"
+                    "label": "Field 0.1.1.0.11",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_12",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.12"
+                    "label": "Field 0.1.1.0.12",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_13",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.13"
+                    "label": "Field 0.1.1.0.13",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_14",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.1.0.14"
+                    "label": "Field 0.1.1.0.14",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 }
 
@@ -503,105 +667,150 @@
                   "key": "field_0",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.0"
+                    "label": "Field 0.1.2.0.0",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_1",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.1"
+                    "label": "Field 0.1.2.0.1",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_2",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.2"
+                    "label": "Field 0.1.2.0.2",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_3",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.3"
+                    "label": "Field 0.1.2.0.3",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_4",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.4"
+                    "label": "Field 0.1.2.0.4",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_5",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.5"
+                    "label": "Field 0.1.2.0.5",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_6",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.6"
+                    "label": "Field 0.1.2.0.6",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_7",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.7"
+                    "label": "Field 0.1.2.0.7",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_8",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.8"
+                    "label": "Field 0.1.2.0.8",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_9",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.9"
+                    "label": "Field 0.1.2.0.9",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_10",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 10"
+                    "label": "Field 0.1.2.0.10",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_11",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.11"
+                    "label": "Field 0.1.2.0.11",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_12",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.12"
+                    "label": "Field 0.1.2.0.12",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_13",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.13"
+                    "label": "Field 0.1.2.0.13",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_14",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.1.2.0.14"
+                    "label": "Field 0.1.2.0.14",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 }
 
@@ -625,105 +834,150 @@
                   "key": "field_0",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.0"
+                    "label": "Field 0.2.0.0.0",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_1",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.1"
+                    "label": "Field 0.2.0.0.1",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_2",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.2"
+                    "label": "Field 0.2.0.0.2",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_3",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.3"
+                    "label": "Field 0.2.0.0.3",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_4",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.4"
+                    "label": "Field 0.2.0.0.4",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_5",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.5"
+                    "label": "Field 0.2.0.0.5",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_6",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.6"
+                    "label": "Field 0.2.0.0.6",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_7",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.7"
+                    "label": "Field 0.2.0.0.7",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_8",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.8"
+                    "label": "Field 0.2.0.0.8",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_9",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.9"
+                    "label": "Field 0.2.0.0.9",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_10",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 10"
+                    "label": "Field 0.2.0.0.10",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_11",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.11"
+                    "label": "Field 0.2.0.0.11",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_12",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.12"
+                    "label": "Field 0.2.0.0.12",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_13",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.13"
+                    "label": "Field 0.2.0.0.13",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_14",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.0.0.14"
+                    "label": "Field 0.2.0.0.14",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 }
 
@@ -741,105 +995,150 @@
                   "key": "field_0",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.0"
+                    "label": "Field 0.2.1.0.0",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_1",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.1"
+                    "label": "Field 0.2.1.0.1",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_2",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.2"
+                    "label": "Field 0.2.1.0.2",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_3",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.3"
+                    "label": "Field 0.2.1.0.3",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_4",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.4"
+                    "label": "Field 0.2.1.0.4",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_5",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.5"
+                    "label": "Field 0.2.1.0.5",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_6",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.6"
+                    "label": "Field 0.2.1.0.6",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_7",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.7"
+                    "label": "Field 0.2.1.0.7",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_8",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.8"
+                    "label": "Field 0.2.1.0.8",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_9",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.9"
+                    "label": "Field 0.2.1.0.9",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_10",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 10"
+                    "label": "Field 0.2.1.0.10",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_11",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.11"
+                    "label": "Field 0.2.1.0.11",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_12",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.12"
+                    "label": "Field 0.2.1.0.12",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_13",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.13"
+                    "label": "Field 0.2.1.0.13",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_14",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.1.0.14"
+                    "label": "Field 0.2.1.0.14",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 }
 
@@ -857,105 +1156,150 @@
                   "key": "field_0",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.0"
+                    "label": "Field 0.2.2.0.0",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_1",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.1"
+                    "label": "Field 0.2.2.0.1",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_2",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.2"
+                    "label": "Field 0.2.2.0.2",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_3",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.3"
+                    "label": "Field 0.2.2.0.3",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_4",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.4"
+                    "label": "Field 0.2.2.0.4",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_5",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.5"
+                    "label": "Field 0.2.2.0.5",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_6",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.6"
+                    "label": "Field 0.2.2.0.6",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_7",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.7"
+                    "label": "Field 0.2.2.0.7",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_8",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.8"
+                    "label": "Field 0.2.2.0.8",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_9",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.9"
+                    "label": "Field 0.2.2.0.9",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_10",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 10"
+                    "label": "Field 0.2.2.0.10",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_11",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.11"
+                    "label": "Field 0.2.2.0.11",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_12",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.12"
+                    "label": "Field 0.2.2.0.12",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_13",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.13"
+                    "label": "Field 0.2.2.0.13",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 },
                 {
                   "key": "field_14",
                   "type": "input",
                   "templateOptions": {
-                    "label": "Field 0.2.2.0.14"
+                    "label": "Field 0.2.2.0.14",
+                    "help": {
+                      "text": "<BOB ROSS QUOTE>"
+                    }
                   }
                 }
 

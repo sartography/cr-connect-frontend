@@ -4,6 +4,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
@@ -23,6 +24,9 @@ import {ApiService} from './_services/api/api.service';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import {HelpDialogComponent} from './help-dialog/help-dialog.component';
+import {HelpWrapperComponent} from './help-wrapper/help-wrapper.component';
+import {helpWrapperExtension} from './help-wrapper/help-wrapper.extension';
 import {HomeComponent} from './home/home.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {PanelWrapperComponent} from './panel-wrapper/panel-wrapper.component';
@@ -35,6 +39,8 @@ import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflo
 @NgModule({
   declarations: [
     AppComponent,
+    HelpDialogComponent,
+    HelpWrapperComponent,
     HomeComponent,
     NavbarComponent,
     PanelWrapperComponent,
@@ -53,12 +59,17 @@ import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflo
     FormlyModule.forRoot({
       wrappers: [
         {name: 'panel', component: PanelWrapperComponent},
+        {name: 'help', component: HelpWrapperComponent},
+      ],
+      extensions: [
+        {name: 'help', extension: {onPopulate: helpWrapperExtension}},
       ],
     }),
     FormsModule,
     HttpClientModule,
     MatButtonModule,
     MatCardModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -68,15 +79,18 @@ import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflo
     MatSidenavModule,
     MatTabsModule,
     MatToolbarModule,
-    NgxPageScrollModule,
     NgxPageScrollCoreModule.forRoot({duration: 500, scrollOffset: 84}),
+    NgxPageScrollModule,
     ReactiveFormsModule,
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
     ApiService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    HelpDialogComponent
+  ],
 })
 export class AppModule {
 }
