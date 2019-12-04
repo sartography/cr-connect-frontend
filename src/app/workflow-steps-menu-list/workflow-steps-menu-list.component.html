@@ -1,14 +1,13 @@
 <ng-container *ngFor="let step of steps">
-  <mat-list-item class="process-category-step">
     <a
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      href="{{'#process_category_step_' + processId}}_{{categoryId}}_{{step.id}}"
+      mat-list-item
+      class="process-category-step"
+      [href]="'#process_category_step_' + [processId, categoryId, step.id].join('_')"
       matLine
       pageScroll
     >
       {{ step.name }}
       <span fxFlex></span>
+      <mat-icon *ngIf="isComplete(step)">check</mat-icon>
     </a>
-  </mat-list-item>
 </ng-container>

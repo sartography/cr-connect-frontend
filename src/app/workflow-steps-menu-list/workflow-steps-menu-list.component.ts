@@ -16,4 +16,7 @@ export class WorkflowStepsMenuListComponent implements OnInit {
   ngOnInit() {
   }
 
+  isComplete(step: WorkflowStep) {
+    return this.categoryId < 1 && step.id < 1;
+  }
 }
