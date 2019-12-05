@@ -6,6 +6,8 @@ import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
 import {LogoutComponent} from './logout/logout.component';
 import {PreferencesComponent} from './preferences/preferences.component';
+import {StudiesComponent} from './studies/studies.component';
+import {WorkflowComponent} from './workflow/workflow.component';
 
 
 export const routes: Routes = [
@@ -14,8 +16,16 @@ export const routes: Routes = [
     component: HomeComponent
   },
   {
+    path: 'studies',
+    component: StudiesComponent
+  },
+  {
     path: 'dashboard',
     component: DashboardComponent
+  },
+  {
+    path: 'workflow',
+    component: WorkflowComponent
   },
   {
     path: 'help',

@@ -1,1 +1,16 @@
-<p>dashboard works!</p>
+<h1>Dashboard</h1>
+<div
+  *ngIf="charts.length > 0"
+  fxLayout="column"
+  fxLayout.gt-sm="row wrap"
+>
+  <div *ngFor="let chart of charts" fxFlex.md="50%" fxFlex.gt-md="33%" class="chart-container" [routerLink]="['/workflow']">
+    <h2>{{chart.title}}</h2>
+    <canvas baseChart
+      [data]="chart.data"
+      [labels]="chart.labels"
+      [chartType]="chart.type"
+      [colors]="chart.colors"
+    ></canvas>
+  </div>
+</div>

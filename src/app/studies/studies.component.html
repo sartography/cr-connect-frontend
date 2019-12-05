@@ -1,0 +1,47 @@
+<div class="container">
+  <h1>Studies</h1>
+  <h2>In Progress</h2>
+  <div fxLayout="row wrap" fxLayoutGap="40px" class="status-draft">
+    <mat-card *ngFor="let study of draftStudies" fxLayout="column" fxLayoutAlign="center center" [routerLink]="['/dashboard']">
+      <mat-card-title>{{study.title}}</mat-card-title>
+      <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+        <div class="big-number">
+          {{study.percent_complete}}<span class="percent">%</span>
+        </div>
+        <div>complete</div>
+        <mat-progress-bar mode="determinate" value="{{study.percent_complete}}"></mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <h2>Submitted</h2>
+  <div fxLayout="row wrap" fxLayoutGap="40px" class="status-submitted">
+    <mat-card *ngFor="let study of submittedStudies" fxLayout="column" fxLayoutAlign="center center">
+      <mat-card-title>{{study.title}}</mat-card-title>
+      <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+        {{study.date_submitted}}
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <h2>Active</h2>
+  <div fxLayout="row wrap" fxLayoutGap="40px" class="status-active">
+    <mat-card *ngFor="let study of activeStudies" fxLayout="column" fxLayoutAlign="center center">
+      <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+        {{study.title}}
+        {{study.last_updated}}
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <h2>Inactive</h2>
+  <div fxLayout="row wrap" fxLayoutGap="40px" class="status-inactive">
+    <mat-card *ngFor="let study of inactiveStudies" fxLayout="column" fxLayoutAlign="center center">
+      <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+        {{study.title}}
+        {{study.last_updated}}
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+

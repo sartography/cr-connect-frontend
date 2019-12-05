@@ -1,0 +1,8 @@
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened  [fixedInViewport]="true" [fixedTopGap]="64">
+    <app-workflow-process-menu-item *ngIf="process" [process]="process"></app-workflow-process-menu-item>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-workflow-process *ngIf="process" [process]="process"></app-workflow-process>
+  </mat-sidenav-content>
+</mat-sidenav-container>

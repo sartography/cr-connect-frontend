@@ -12,11 +12,11 @@ interface NavLink {
 })
 export class NavbarComponent implements OnInit {
   navLinks: NavLink[] = [
-    {path: '/dashboard', label: 'Dashboard'},
+    {path: '/studies', label: 'Studies'},
     {path: '/inbox', label: 'Inbox'},
     {path: '/help', label: 'Help'},
     {path: '/preferences', label: 'Preferences'},
-    {path: '/logout', label: 'Logout'},
+    {path: '/logout', label: 'Sign out'},
   ];
 
   constructor() { }

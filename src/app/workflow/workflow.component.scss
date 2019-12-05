@@ -1,0 +1,14 @@
+mat-sidenav {
+  width: 250px;
+  background-color: black;
+}
+
+mat-sidenav-content {
+  padding: 40px;
+}
+
+mat-list-item.disabled {
+  cursor: not-allowed !important;
+  opacity: 0.5;
+  text-decoration: none;
+}

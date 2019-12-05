@@ -2,21 +2,330 @@
   {
     "id": 0,
     "title": "Study 0",
-    "type_id": 2
+    "type_id": 2,
+    "percent_complete": 81,
+    "status": "draft"
   },
   {
     "id": 1,
     "title": "Study 1",
-    "type_id": 3
+    "type_id": 3,
+    "percent_complete": 27,
+    "status": "draft"
   },
   {
     "id": 2,
     "title": "Study 2",
-    "type_id": 0
+    "type_id": 0,
+    "percent_complete": 36,
+    "status": "draft"
   },
   {
     "id": 3,
     "title": "Study 3",
-    "type_id": 1
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "submitted"
+  },
+  {
+    "id": 4,
+    "title": "Study 4",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "submitted"
+  },
+  {
+    "id": 5,
+    "title": "Study 5",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "submitted"
+  },
+  {
+    "id": 6,
+    "title": "Study 6",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "submitted"
+  },
+  {
+    "id": 7,
+    "title": "Study 7",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "submitted"
+  },
+  {
+    "id": 8,
+    "title": "Study 8",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "submitted"
+  },
+  {
+    "id": 9,
+    "title": "Study 9",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "submitted"
+  },
+  {
+    "id": 10,
+    "title": "Study 10",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "submitted"
+  },
+  {
+    "id": 11,
+    "title": "Study 11",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "active"
+  },
+  {
+    "id": 12,
+    "title": "Study 12",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "active"
+  },
+  {
+    "id": 13,
+    "title": "Study 13",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "active"
+  },
+  {
+    "id": 14,
+    "title": "Study 14",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "active"
+  },
+  {
+    "id": 15,
+    "title": "Study 15",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "active"
+  },
+  {
+    "id": 16,
+    "title": "Study 16",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "active"
+  },
+  {
+    "id": 17,
+    "title": "Study 17",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "active"
+  },
+  {
+    "id": 18,
+    "title": "Study 18",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "active"
+  },
+  {
+    "id": 19,
+    "title": "Study 19",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "active"
+  },
+  {
+    "id": 20,
+    "title": "Study 20",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "active"
+  },
+  {
+    "id": 21,
+    "title": "Study 21",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "active"
+  },
+  {
+    "id": 22,
+    "title": "Study 22",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 23,
+    "title": "Study 23",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 24,
+    "title": "Study 24",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 25,
+    "title": "Study 25",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 26,
+    "title": "Study 26",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 27,
+    "title": "Study 27",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 28,
+    "title": "Study 28",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 29,
+    "title": "Study 29",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 30,
+    "title": "Study 30",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 31,
+    "title": "Study 31",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 32,
+    "title": "Study 32",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 33,
+    "title": "Study 33",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 34,
+    "title": "Study 34",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 35,
+    "title": "Study 35",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 36,
+    "title": "Study 36",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 37,
+    "title": "Study 37",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 38,
+    "title": "Study 38",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 39,
+    "title": "Study 39",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 40,
+    "title": "Study 40",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 41,
+    "title": "Study 41",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 42,
+    "title": "Study 42",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 43,
+    "title": "Study 43",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 44,
+    "title": "Study 44",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 45,
+    "title": "Study 45",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
+  },
+  {
+    "id": 46,
+    "title": "Study 46",
+    "type_id": 1,
+    "percent_complete": 100,
+    "status": "inactive"
   }
 ]

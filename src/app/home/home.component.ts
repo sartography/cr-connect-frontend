@@ -17,13 +17,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   tasks: Task[] = [];
   types: StudyType[] = [];
   studyTasks: StudyTask[] = [];
-  selectedType: StudyType;
   selectedStudy: Study;
   subs: Subscription[] = [];
-  process: WorkflowProcess;
 
   constructor(private api: ApiService) {
-    this.subs.push(this.api.getWorkflowProcess(0).subscribe(p => this.process = p));
     this.subs.push(this.api.getStudies().subscribe(s => this.studies = s));
     this.subs.push(this.api.getStudyTypes().subscribe(st => this.types = st));
   }

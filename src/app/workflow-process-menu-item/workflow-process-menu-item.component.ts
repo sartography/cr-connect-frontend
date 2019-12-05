@@ -10,7 +10,6 @@ export class WorkflowProcessMenuItemComponent implements OnInit {
   @Input() process: WorkflowProcess;
 
   constructor() {
-    console.log('process', this.process);
   }
 
   ngOnInit() {

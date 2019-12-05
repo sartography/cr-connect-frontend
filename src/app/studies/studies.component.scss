@@ -1,0 +1,47 @@
+.container {
+  padding: 40px;
+}
+
+.status-draft mat-card {
+  width: 200px;
+  height: 16rem;
+  margin-bottom: 10px;
+  background-color: #f7d9dd;
+}
+
+.status-submitted mat-card {
+  width: 200px;
+  height: 8rem;
+  margin-bottom: 10px;
+  background-color: #dcdaed;
+}
+
+.status-active mat-card {
+  width: 200px;
+  height: 4rem;
+  margin-bottom: 10px;
+  background-color: #c9efe8;
+}
+
+.status-inactive mat-card {
+  width: 200px;
+  height: 4rem;
+  margin-bottom: 10px;
+  background-color: #d5d0d1;
+}
+
+.big-number {
+  font-size: 3rem;
+  font-weight: 700;
+
+  .percent {
+    display: inline-block;
+    font-size: 1.5rem;
+    vertical-align: text-top;
+    padding-top: 10px;
+  }
+}
+
+mat-progress-bar {
+  margin-top: 2rem;
+}
