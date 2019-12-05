@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {MatIconModule} from '@angular/material/icon';
 
 import { WorkflowStepsMenuListComponent } from './workflow-steps-menu-list.component';
 
@@ -8,7 +9,10 @@ describe('WorkflowStepsMenuListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WorkflowStepsMenuListComponent ]
+      declarations: [ WorkflowStepsMenuListComponent ],
+      imports: [
+        MatIconModule
+      ],
     })
     .compileComponents();
   }));

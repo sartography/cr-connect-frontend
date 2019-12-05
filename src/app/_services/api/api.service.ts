@@ -32,8 +32,8 @@ export class ApiService {
     taskSpec: '/api/task_spec/<id>',
     taskSpecs: '/api/task_spec',
     taskSpecsForWorkflowSpec: '/api/task_spec/workflow_spec/<id>',
-    workflowProcess: '/api/process/<id>',
-    workflowProcessList: '/api/process',
+    workflowProcess: '/api/workflow_process/<id>',
+    workflowProcessList: '/api/workflow_process',
     workflowSpec: '/api/workflow_spec/<id>',
     workflowSpecList: '/api/workflow_spec',
   };

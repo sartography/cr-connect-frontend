@@ -1,15 +1,16 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
-import {Study} from '../../_models/study';
+import {Study, StudyStatus} from '../../_models/study';
 import {StudyTask} from '../../_models/study-task';
 import {StudyType} from '../../_models/study-type';
 import {Task, TaskState} from '../../_models/task';
+import {WorkflowProcess, WorkflowSpec} from '../../_models/workflow';
 
 import {ApiService} from './api.service';
 
 export const studies: Study[] = [
-  {id: 0, title: 'Study A', type_id: 3},
-  {id: 1, title: 'Study B', type_id: 2},
+  {id: 0, title: 'Study A', type_id: 3, percent_complete: 45, status: StudyStatus.DRAFT},
+  {id: 1, title: 'Study B', type_id: 2, percent_complete: 100, status: StudyStatus.ACTIVE},
 ];
 
 export const studyTypes: StudyType[] = [
@@ -38,6 +39,47 @@ export const studyTasks: StudyTask[] = [
 ];
 
 // TODO: Add WorkflowSpecs and Workflows
+export const workflowSpecs: WorkflowSpec[] = [
+  {id: 0, name: 'Everything', description: 'Do all the things', task_spec_ids: [0, 1, 2, 3]},
+  {id: 1, name: 'Some things', description: 'Do a few things', task_spec_ids: [0, 2, 3]},
+  {id: 2, name: 'One thing', description: 'Do just one thing', task_spec_ids: [1]},
+];
+
+export const workflowProcesses: WorkflowProcess[] = [
+  {
+    id: 0,
+    name: 'Make a fantastic landscape',
+    categories: [
+      {
+        id: 0,
+        name: 'Let your imagination go wild',
+        steps: [
+          {
+            id: 0,
+            name: 'Let the paint work',
+            form: {
+              id: 0,
+              name: 'Create a beautiful little sunset.',
+              fields: [
+                {
+                  key: 'happyClouds',
+                  type: 'input',
+                  templateOptions: {
+                    label: 'Happy Clouds',
+                    description: 'Decide where your cloud lives.',
+                    help: {
+                      text: 'We don\'t want to set these clouds on fire. We\'ll play with clouds today.'
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+];
 
 describe('ApiService', () => {
   beforeEach(() => {
@@ -115,7 +157,7 @@ describe('ApiService', () => {
     service.getStudyTasks().subscribe(data => {
       expect(data.length).toBeGreaterThan(0);
       data.forEach(s => expect(s.study_id).toBeDefined());
-   });
+    });
 
     const req = httpMock.expectOne('/assets/json/study_task.json');
     expect(req.request.method).toEqual('GET');
@@ -129,7 +171,7 @@ describe('ApiService', () => {
     service.getStudyTasksForStudy(0).subscribe(data => {
       expect(data.length).toBeGreaterThan(0);
       data.forEach(s => expect(s.study_id).toEqual(0));
-   });
+    });
 
     const req = httpMock.expectOne('/assets/json/study_task.json');
     expect(req.request.method).toEqual('GET');
@@ -146,7 +188,7 @@ describe('ApiService', () => {
     service.getStudyTasksForStudy(0).subscribe(data => {
       expect(data.length).toBeGreaterThan(0);
       data.forEach(s => expect(s.study_id).toEqual(0));
-   });
+    });
 
     const req = httpMock.expectOne('https://real-api-url.com/api/study_task/study/0');
     expect(req.request.method).toEqual('GET');
@@ -213,6 +255,50 @@ describe('ApiService', () => {
     const req = httpMock.expectOne('/assets/json/study_task.json');
     expect(req.request.method).toEqual('GET');
     req.flush(studyTasks);
+  });
+
+  it('should get workflow specs', () => {
+    const httpMock = TestBed.get(HttpTestingController);
+    const service: ApiService = TestBed.get(ApiService);
+
+    service.getWorkflowSpecs().subscribe(data => {
+      expect(data.length).toBeGreaterThan(0);
+      expect(data[0].name).toEqual(workflowSpecs[0].name);
+      expect(data[1].name).toEqual(workflowSpecs[1].name);
+    });
+
+    const req = httpMock.expectOne('/assets/json/workflow_spec.json');
+    expect(req.request.method).toEqual('GET');
+    req.flush(workflowSpecs);
+  });
+
+  it('should get workflow processes', () => {
+    const httpMock = TestBed.get(HttpTestingController);
+    const service: ApiService = TestBed.get(ApiService);
+
+    service.getWorkflowProcesses().subscribe(data => {
+      expect(data.length).toBeGreaterThan(0);
+      expect(data[0].name).toEqual(workflowProcesses[0].name);
+    });
+
+    const req = httpMock.expectOne('/assets/json/workflow_process.json');
+    expect(req.request.method).toEqual('GET');
+    req.flush(workflowProcesses);
+  });
+
+  it('should get one workflowProcess', () => {
+    const httpMock = TestBed.get(HttpTestingController);
+    const service: ApiService = TestBed.get(ApiService);
+    const workflowProcessId = 0;
+
+    service.getStudyTask(workflowProcessId).subscribe(data => {
+      expect(data).toBeTruthy();
+      expect(data.id).toEqual(workflowProcessId);
+    });
+
+    const req = httpMock.expectOne('/assets/json/workflow_process.json');
+    expect(req.request.method).toEqual('GET');
+    req.flush(workflowProcesses);
   });
 
   it('should call the real API URL for getStudyTask when not in dummy mode', () => {

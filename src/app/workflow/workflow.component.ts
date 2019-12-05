@@ -1,9 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
-import {Study} from '../_models/study';
-import {StudyTask} from '../_models/study-task';
-import {StudyType} from '../_models/study-type';
-import {Task} from '../_models/task';
+import {Subscription} from 'rxjs';
 import {WorkflowProcess} from '../_models/workflow';
 import {ApiService} from '../_services/api/api.service';
 

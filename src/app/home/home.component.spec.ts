@@ -10,6 +10,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {RouterTestingModule} from '@angular/router/testing';
 import {StudyTask} from '../_models/study-task';
 import {Task} from '../_models/task';
 import {ApiService} from '../_services/api/api.service';
@@ -38,6 +39,7 @@ describe('HomeComponent', () => {
         MatSidenavModule,
         MatToolbarModule,
         NoopAnimationsModule,
+        RouterTestingModule,
       ],
       providers: [ApiService]
     })
