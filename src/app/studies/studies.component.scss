@@ -2,6 +2,10 @@
   padding: 40px;
 }
 
+mat-card {
+  cursor: pointer;
+}
+
 .status-draft mat-card {
   width: 200px;
   height: 16rem;
