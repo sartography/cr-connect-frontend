@@ -7,11 +7,25 @@ export enum StudyStatus {
   INACTIVE = 'inactive',
 }
 
+export enum ProtocolBuilderStatus {
+  IN_PROGRESS = 'In progress',
+  COMPLETE = 'Complete',
+}
+
+export enum ProtocolStatus {
+  PRE_REVIEW = 'Pre-review',
+  POST_REVIEW = 'Post-review',
+}
+
 export interface Study extends GenericType {
   title: string;
   type_id: number;
   percent_complete: number;
-  last_updated?: Date;
+  date_created?: Date;
+  date_modified?: Date;
   date_submitted?: Date;
   status: StudyStatus;
+  review_type: string;
+  protocol_builder_status: ProtocolBuilderStatus;
+  protocol_status: ProtocolStatus;
 }

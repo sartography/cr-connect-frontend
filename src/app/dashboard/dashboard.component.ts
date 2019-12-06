@@ -31,7 +31,6 @@ export class DashboardComponent implements OnInit {
   });
 
   constructor() {
-    console.log('this.charts', this.charts);
   }
 
   ngOnInit() {
