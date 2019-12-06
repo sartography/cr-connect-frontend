@@ -291,7 +291,7 @@ describe('ApiService', () => {
     const service: ApiService = TestBed.get(ApiService);
     const workflowProcessId = 0;
 
-    service.getStudyTask(workflowProcessId).subscribe(data => {
+    service.getWorkflowProcess(workflowProcessId).subscribe(data => {
       expect(data).toBeTruthy();
       expect(data.id).toEqual(workflowProcessId);
     });

@@ -142,7 +142,7 @@ export class ApiService {
 
   /** Get WorkflowProcesses */
   getWorkflowProcesses(): Observable<WorkflowProcess[]> {
-    return this._getAll<WorkflowProcess>('workflowProcessList');
+    return this._getAll<WorkflowProcess>('workflowProcess');
   }
 
   private _handleError(error: ApiError) {

@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {MatCardModule} from '@angular/material/card';
+import {workflowProcesses} from '../_services/api/api.service.spec';
 
 import { PanelWrapperComponent } from './panel-wrapper.component';
 
@@ -8,14 +10,20 @@ describe('PanelWrapperComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PanelWrapperComponent ]
+      declarations: [
+        PanelWrapperComponent
+      ],
+      imports: [
+        MatCardModule,
+      ],
     })
     .compileComponents();
   }));
 
-  beforeEach(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(PanelWrapperComponent);
     component = fixture.componentInstance;
+    component.field = workflowProcesses[0].categories[0].steps[0].form.fields[0];
     fixture.detectChanges();
   });
 

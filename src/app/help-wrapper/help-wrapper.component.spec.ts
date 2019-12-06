@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
+import {workflowProcesses} from '../_services/api/api.service.spec';
 
 import { HelpWrapperComponent } from './help-wrapper.component';
 
@@ -28,9 +29,10 @@ describe('HelpWrapperComponent', () => {
     .compileComponents();
   }));
 
-  beforeEach(() => {
+  beforeEach(async () => {
     fixture = TestBed.createComponent(HelpWrapperComponent);
     component = fixture.componentInstance;
+    component.field = workflowProcesses[0].categories[0].steps[0].form.fields[0];
     fixture.detectChanges();
   });
 
