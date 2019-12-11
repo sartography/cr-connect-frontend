@@ -8,7 +8,6 @@ import {NotificationsComponent} from './notifications/notifications.component';
 import {ProfileComponent} from './profile/profile.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
-import {StudiesComponent} from './studies/studies.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 
 
@@ -16,10 +15,6 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent
-  },
-  {
-    path: 'studies',
-    component: StudiesComponent
   },
   {
     path: 'dashboard',

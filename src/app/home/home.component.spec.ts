@@ -2,10 +2,12 @@ import {HttpClientTestingModule, HttpTestingController, TestRequest} from '@angu
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -15,6 +17,7 @@ import {StudyTask} from '../_models/study-task';
 import {Task} from '../_models/task';
 import {ApiService} from '../_services/api/api.service';
 import {studyTasks, tasks, studies, studyTypes} from '../_services/api/api.service.spec';
+import {StudiesComponent} from '../studies/studies.component';
 
 import {HomeComponent} from './home.component';
 
@@ -25,16 +28,21 @@ describe('HomeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HomeComponent],
+      declarations: [
+        StudiesComponent,
+        HomeComponent
+      ],
       imports: [
         BrowserAnimationsModule,
         FormsModule,
         HttpClientTestingModule,
         MatButtonModule,
+        MatCardModule,
         MatFormFieldModule,
         MatIconModule,
         MatListModule,
         MatMenuModule,
+        MatProgressBarModule,
         MatSelectModule,
         MatSidenavModule,
         MatToolbarModule,

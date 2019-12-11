@@ -56,4 +56,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   isComplete(task: Task) {
     return this.studyTasks.find(st => st.task_id === task.id).is_complete;
   }
+
+  isSignedIn() {
+    return !!localStorage.getItem('signedIn');
+  }
 }

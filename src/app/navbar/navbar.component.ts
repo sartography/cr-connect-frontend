@@ -14,7 +14,7 @@ interface NavItem {
 })
 export class NavbarComponent implements OnInit {
   signedInNavLinks: NavItem[] = [
-    {path: '/studies', label: 'Home'},
+    {path: '/', label: 'Home'},
     {path: '/inbox', label: 'Inbox'},
     {path: '/help', label: 'Help'},
     {
