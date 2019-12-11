@@ -12,16 +12,31 @@ export class StudiesComponent implements OnInit {
   submittedStudies: Study[] = [];
   activeStudies: Study[] = [];
   inactiveStudies: Study[] = [];
+  isExpanded: boolean;
 
   constructor(private api: ApiService) {
+    this.loadStudies();
+  }
+
+  ngOnInit() {
+  }
+
+  loadStudies() {
     this.api.getStudies().subscribe(allStudies => {
+      this.draftStudies = [];
+      this.submittedStudies = [];
+      this.activeStudies = [];
+      this.inactiveStudies = [];
       allStudies.forEach(s => {
         this[s.status + 'Studies'].push(s);
       });
     });
   }
 
-  ngOnInit() {
+  changeNumStudies(amt: number) {
+    const numStudies = parseInt(localStorage.getItem('numstudy') || '0', 10);
+    const newVal = Math.max(0, numStudies + amt)
+    localStorage.setItem('numstudy', `${newVal}`);
+    this.loadStudies();
   }
-
 }

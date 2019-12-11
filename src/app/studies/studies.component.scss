@@ -7,14 +7,18 @@ mat-card {
 }
 
 .status-draft mat-card {
-  width: 200px;
+  width: 300px;
   height: 16rem;
   margin-bottom: 10px;
   background-color: #f7d9dd;
+
+  &.bg-none {
+    background-color: transparent;
+  }
 }
 
 .status-submitted mat-card {
-  width: 200px;
+  width: 300px;
   height: 8rem;
   margin-bottom: 10px;
   background-color: #dcdaed;

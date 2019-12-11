@@ -1,7 +1,7 @@
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, throwError} from 'rxjs';
-import {catchError, map} from 'rxjs/operators';
+import {catchError, map, take} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {GenericType} from '../../_models/generic-type';
 import {Study} from '../../_models/study';
@@ -197,6 +197,29 @@ export class ApiService {
 
   private _getAll<T extends GenericType>(endpointName: string): Observable<T[]> {
     const url = this._endpointUrl(endpointName + 'List');
+
+    if (this.dummy) {
+      const numItems = parseInt(localStorage.getItem('num' + endpointName), 10);
+      console.log('numItems', numItems);
+
+      if (isFinite(numItems)) {
+        return this.httpClient
+          .get<T[]>(url)
+          .pipe(
+            map(results => {
+              const found = results.slice(0, numItems);
+              if (!found) {
+                const error: ApiError = {code: '404', message: 'No items found'};
+                throw error;
+              } else {
+                return found;
+              }
+            }),
+            catchError(this._handleError)
+          );
+      }
+    }
+
     return this.httpClient
       .get<T[]>(url)
       .pipe(catchError(this._handleError));
