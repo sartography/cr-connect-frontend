@@ -37,11 +37,15 @@
                   }
                 },
                 {
-                  "key": "mac",
-                  "type": "input",
+                  "key": "pi_hair_color",
+                  "type": "select",
                   "templateOptions": {
-                    "label": "Mac Address",
-                    "pattern": "([0-9A-F]{2}[:-]){5}([0-9A-F]{2})",
+                    "label": "Principal Investigator Hair Color",
+                    "options": [
+                      {"label":  "Red", "value": "#FF0000"},
+                      {"label":  "Green", "value": "#00FF00"},
+                      {"label":  "Blue", "value": "#0000FF"}
+                    ],
                     "help": {
                       "text": "The first step to doing anything is to believe you can do it. See it finished in your mind before you ever start. Take your time. Speed will come later. Talk to trees, look at the birds. Whatever it takes. How to paint. That's easy. What to paint. That's much harder. Fluff that up. Use what happens naturally, don't fight it."
                     }
