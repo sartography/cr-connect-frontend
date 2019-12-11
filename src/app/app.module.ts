@@ -46,6 +46,7 @@ import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 import { ProfileComponent } from './profile/profile.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { ProfileComponent } from './profile/profile.component';
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
     ProfileComponent,
+    FooterComponent,
   ],
   imports: [
     AppRoutingModule,
