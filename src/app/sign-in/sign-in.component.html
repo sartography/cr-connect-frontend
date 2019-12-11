@@ -1,0 +1,18 @@
+<div class="container" fxLayout="column" fxLayoutAlign="center center">
+  <h1>UVA Netbadge Sign In</h1>
+  <form>
+    <mat-form-field>
+      <input matInput type="email" placeholder="Email address">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="password" placeholder="Password">
+    </mat-form-field>
+
+    <button
+      [routerLink]="['/studies']"
+      color="primary"
+      mat-flat-button>Sign in
+    </button>
+  </form>
+</div>

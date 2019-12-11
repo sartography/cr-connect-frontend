@@ -33,17 +33,18 @@ import {helpWrapperExtension} from './help-wrapper/help-wrapper.extension';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
-import {LogoutComponent} from './logout/logout.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {PanelWrapperComponent} from './panel-wrapper/panel-wrapper.component';
 import {PreferencesComponent} from './preferences/preferences.component';
+import {SignInComponent} from './sign-in/sign-in.component';
+import {SignOutComponent} from './sign-out/sign-out.component';
+import {StudiesComponent} from './studies/studies.component';
 import {TaskSpecListComponent} from './task-spec-list/task-spec-list.component';
 import {WorkflowProcessMenuItemComponent} from './workflow-process-menu-item/workflow-process-menu-item.component';
 import {WorkflowProcessComponent} from './workflow-process/workflow-process.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
-import { StudiesComponent } from './studies/studies.component';
-import { WorkflowComponent } from './workflow/workflow.component';
+import {WorkflowComponent} from './workflow/workflow.component';
 
 @NgModule({
   declarations: [
@@ -54,17 +55,18 @@ import { WorkflowComponent } from './workflow/workflow.component';
     HelpWrapperComponent,
     HomeComponent,
     InboxComponent,
-    LogoutComponent,
     NavbarComponent,
     PanelWrapperComponent,
     PreferencesComponent,
+    SignInComponent,
+    SignOutComponent,
+    StudiesComponent,
     TaskSpecListComponent,
+    WorkflowComponent,
     WorkflowProcessComponent,
     WorkflowProcessMenuItemComponent,
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
-    StudiesComponent,
-    WorkflowComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -92,6 +94,7 @@ import { WorkflowComponent } from './workflow/workflow.component';
     MatInputModule,
     MatListModule,
     MatMenuModule,
+    MatProgressBarModule,
     MatSelectModule,
     MatSidenavModule,
     MatTabsModule,
@@ -99,7 +102,6 @@ import { WorkflowComponent } from './workflow/workflow.component';
     NgxPageScrollCoreModule.forRoot({duration: 500, scrollOffset: 84}),
     NgxPageScrollModule,
     ReactiveFormsModule,
-    MatProgressBarModule,
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},

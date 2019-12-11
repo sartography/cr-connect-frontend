@@ -1,8 +1,19 @@
-<nav>
+<nav *ngIf="signedIn">
   <h1 class="site-title" [routerLink]="['/']">CR Connect</h1>
   <div class="flex-spacer"></div>
   <a mat-button
      *ngFor="let link of navLinks"
+     [routerLink]="link.path"
+     routerLinkActive="active"
+  >
+    {{link.label}}
+  </a>
+</nav>
+<nav *ngIf="!signedIn">
+  <h1 class="site-title" [routerLink]="['/']">CR Connect</h1>
+  <div class="flex-spacer"></div>
+  <a mat-button
+     *ngFor="let link of signedOutNavLinks"
      [routerLink]="link.path"
      routerLinkActive="active"
   >

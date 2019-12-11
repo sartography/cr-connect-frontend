@@ -4,8 +4,9 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
-import {LogoutComponent} from './logout/logout.component';
 import {PreferencesComponent} from './preferences/preferences.component';
+import {SignInComponent} from './sign-in/sign-in.component';
+import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesComponent} from './studies/studies.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 
@@ -40,8 +41,12 @@ export const routes: Routes = [
     component: PreferencesComponent
   },
   {
-    path: 'logout',
-    component: LogoutComponent
+    path: 'signin',
+    component: SignInComponent
+  },
+  {
+    path: 'signout',
+    component: SignOutComponent
   }
 
 ];

@@ -25,7 +25,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
-import {LogoutComponent} from './logout/logout.component';
+import {SignOutComponent} from './sign-out/sign-out.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {PreferencesComponent} from './preferences/preferences.component';
 import {StudiesComponent} from './studies/studies.component';
@@ -48,7 +48,7 @@ describe('Router: App', () => {
         HelpComponent,
         HomeComponent,
         InboxComponent,
-        LogoutComponent,
+        SignOutComponent,
         NavbarComponent,
         PreferencesComponent,
         StudiesComponent,
