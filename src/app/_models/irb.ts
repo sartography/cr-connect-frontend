@@ -35,7 +35,7 @@ export enum IRBRequirement {
   SIGNED_IRB_AUTHORIZATION_CIRB = 'SignedIRBAuthorizationCIRB',
   CERTIFICATE_OF_CONFIDENTIALITY = 'CertificateOfConfidentiality',
   SOM_CTO_UVA_PI_MULTISITE = 'SOM_CTO_UVA_PI_Multisite',
-  FAMILY_EDUCATIONAL_RIGHTS_AND_PRIVACY_ACT_SOCIAL_AND_BEHAVIORAL_SCIENCE = 'FamilyEducationalRightsAndPrivacyAct_SocialAndBehavioralScience',
+  FERPA = 'FamilyEducationalRightsAndPrivacyAct_SocialAndBehavioralScience',
   SOM_CTO_UVA_NON_UVA_PI_NON_INDUSTRY_PI_MULTISITE = 'SOM_CTO_UVA_NonUVA_PI_NonIndustryPIMultisite',
   INFORMATION_SECURITY_POLICY_AND_RECORDS_OFFICE_ISPRO = 'InformationSecurityPolicyandRecordsOffice_ISPRO',
   INSTITUTIONAL_BIOSAFETY_COMMITTEE_APPROVAL = 'InstitutionalBiosafetyCommitteeApproval',

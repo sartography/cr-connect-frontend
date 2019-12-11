@@ -24,8 +24,8 @@ export interface Study extends GenericType {
   date_created?: Date;
   date_modified?: Date;
   date_submitted?: Date;
-  status: StudyStatus;
-  review_type: string;
-  protocol_builder_status: ProtocolBuilderStatus;
-  protocol_status: ProtocolStatus;
+  status?: StudyStatus;
+  review_type?: string;
+  protocol_builder_status?: ProtocolBuilderStatus;
+  protocol_status?: ProtocolStatus;
 }

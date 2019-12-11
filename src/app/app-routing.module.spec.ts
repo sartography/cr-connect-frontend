@@ -25,6 +25,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
+import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {PreferencesComponent} from './preferences/preferences.component';
@@ -48,6 +49,7 @@ describe('Router: App', () => {
         HelpComponent,
         HomeComponent,
         InboxComponent,
+        SignInComponent,
         SignOutComponent,
         NavbarComponent,
         PreferencesComponent,
