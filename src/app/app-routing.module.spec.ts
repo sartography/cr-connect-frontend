@@ -22,9 +22,11 @@ import {ChartsModule} from 'ng2-charts';
 import {routes} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {FooterComponent} from './footer/footer.component';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
+import {ProfileComponent} from './profile/profile.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {NavbarComponent} from './navbar/navbar.component';
@@ -46,9 +48,11 @@ describe('Router: App', () => {
         AppComponent,
         DashboardComponent,
         DashboardComponent,
+        FooterComponent,
         HelpComponent,
         HomeComponent,
         InboxComponent,
+        ProfileComponent,
         SignInComponent,
         SignOutComponent,
         NavbarComponent,
