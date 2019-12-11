@@ -1,8 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 
-interface NavLink {
-  path: string;
+interface NavItem {
   label: string;
+  path?: string;
+  icon?: string;
+  links?: NavItem[];
 }
 
 @Component({
@@ -11,23 +13,32 @@ interface NavLink {
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  @Input() signedIn: boolean;
-  navLinks: NavLink[] = [
+  signedInNavLinks: NavItem[] = [
     {path: '/studies', label: 'Home'},
     {path: '/inbox', label: 'Inbox'},
     {path: '/help', label: 'Help'},
-    {path: '/preferences', label: 'Preferences'},
-    {path: '/signout', label: 'Sign out'},
+    {
+      label: 'Account',
+      icon: 'account_circle',
+      links: [
+        {path: '/profile', label: 'Profile', icon: 'person'},
+        {path: '/notifications', label: 'Notifications', icon: 'notifications'},
+        {path: '/sign-out', label: 'Sign out', icon: 'exit_to_app'},
+    ]}
   ];
-  signedOutNavLinks: NavLink[] = [
+  signedOutNavLinks: NavItem[] = [
     {path: '/', label: 'Home'},
     {path: '/help', label: 'Help'},
-    {path: '/signin', label: 'Sign in'},
+    {path: '/sign-in', label: 'Sign in'},
   ];
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  isSignedIn(): boolean {
+    return !!localStorage.getItem('signedIn');
   }
 
 }

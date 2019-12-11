@@ -12,7 +12,10 @@
     <button
       [routerLink]="['/studies']"
       color="primary"
-      mat-flat-button>Sign in
+      (click)="signIn()"
+      mat-flat-button
+    >
+      Sign in
     </button>
   </form>
 </div>

@@ -35,7 +35,7 @@ import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {PanelWrapperComponent} from './panel-wrapper/panel-wrapper.component';
-import {PreferencesComponent} from './preferences/preferences.component';
+import {NotificationsComponent} from './notifications/notifications.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesComponent} from './studies/studies.component';
@@ -45,6 +45,7 @@ import {WorkflowProcessComponent} from './workflow-process/workflow-process.comp
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -56,8 +57,8 @@ import {WorkflowComponent} from './workflow/workflow.component';
     HomeComponent,
     InboxComponent,
     NavbarComponent,
+    NotificationsComponent,
     PanelWrapperComponent,
-    PreferencesComponent,
     SignInComponent,
     SignOutComponent,
     StudiesComponent,
@@ -67,6 +68,7 @@ import {WorkflowComponent} from './workflow/workflow.component';
     WorkflowProcessMenuItemComponent,
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
+    ProfileComponent,
   ],
   imports: [
     AppRoutingModule,

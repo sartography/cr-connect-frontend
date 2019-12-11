@@ -28,7 +28,7 @@ import {InboxComponent} from './inbox/inbox.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {NavbarComponent} from './navbar/navbar.component';
-import {PreferencesComponent} from './preferences/preferences.component';
+import {NotificationsComponent} from './notifications/notifications.component';
 import {StudiesComponent} from './studies/studies.component';
 import {WorkflowProcessMenuItemComponent} from './workflow-process-menu-item/workflow-process-menu-item.component';
 import {WorkflowProcessComponent} from './workflow-process/workflow-process.component';
@@ -52,7 +52,7 @@ describe('Router: App', () => {
         SignInComponent,
         SignOutComponent,
         NavbarComponent,
-        PreferencesComponent,
+        NotificationsComponent,
         StudiesComponent,
         WorkflowComponent,
         WorkflowProcessComponent,

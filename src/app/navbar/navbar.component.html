@@ -1,16 +1,36 @@
-<nav *ngIf="signedIn">
-  <h1 class="site-title" [routerLink]="['/']">CR Connect</h1>
+<nav *ngIf="isSignedIn()">
+  <h1
+    class="site-title"
+    [routerLink]="['/studies']"
+  >CR Connect</h1>
   <div class="flex-spacer"></div>
-  <a mat-button
-     *ngFor="let link of navLinks"
-     [routerLink]="link.path"
-     routerLinkActive="active"
-  >
-    {{link.label}}
-  </a>
+  <ng-container *ngFor="let link of signedInNavLinks">
+    <a mat-button
+       *ngIf="!link.links"
+       [routerLink]="link.path"
+       routerLinkActive="active"
+    >
+      {{link.label}}
+    </a>
+
+    <ng-container *ngIf="link.links">
+      <button mat-icon-button [matMenuTriggerFor]="menu" [attr.aria-label]="link.label">
+        <mat-icon>{{link.icon}}</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item *ngFor="let menuLink of link.links" [routerLink]="menuLink.path">
+          <mat-icon *ngIf="menuLink.icon">{{menuLink.icon}}</mat-icon>
+          <span>{{menuLink.label}}</span>
+        </button>
+      </mat-menu>
+    </ng-container>
+  </ng-container>
 </nav>
-<nav *ngIf="!signedIn">
-  <h1 class="site-title" [routerLink]="['/']">CR Connect</h1>
+<nav *ngIf="!isSignedIn()">
+  <h1
+    class="site-title"
+    [routerLink]="['/']"
+  >CR Connect</h1>
   <div class="flex-spacer"></div>
   <a mat-button
      *ngFor="let link of signedOutNavLinks"
