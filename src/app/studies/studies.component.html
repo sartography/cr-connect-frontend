@@ -41,7 +41,7 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card *ngFor="let study of draftStudies" [routerLink]="['/dashboard']" fxLayout="column"
+    <mat-card *ngFor="let study of draftStudies" [routerLink]="['/study', study.id]" fxLayout="column"
               fxLayoutAlign="center center">
       <mat-card-title>{{study.title}}</mat-card-title>
       <mat-card-content fxLayout="column" fxLayoutAlign="center center">

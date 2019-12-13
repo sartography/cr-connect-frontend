@@ -1,0 +1,8 @@
+<button mat-flat-button routerLink="/" ngClass="back">
+  <mat-icon>chevron_left</mat-icon>
+  Back
+</button>
+
+<ng-container *ngIf="study">
+  <app-dashboard [study]="study"></app-dashboard>
+</ng-container>

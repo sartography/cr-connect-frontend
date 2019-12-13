@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ChartType} from 'chart.js';
 import {Color, Label, MultiDataSet} from 'ng2-charts';
+import {Study} from '../_models/study';
 
 interface ChartData {
   title: string;
@@ -16,6 +17,7 @@ interface ChartData {
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  @Input() study: Study;
   colors: Color[] = [
     {backgroundColor: ['#d54256', '#564da0', '#247a6b']},
   ];

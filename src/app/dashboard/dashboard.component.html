@@ -1,28 +1,37 @@
-<button mat-flat-button routerLink="/" ngClass="back">
-  <mat-icon>chevron_left</mat-icon>
-  Back
-</button>
+<ng-container *ngIf="study">
+  <h1>{{study.title}}</h1>
+  <pre>
+      title: {{study.title}}
+      percent_complete: {{study.percent_complete}}
+      status: {{study.status}}
+      review_type: {{study.review_type}}
+      protocol_builder_status: {{study.protocol_builder_status}}
+      protocol_status: {{study.protocol_status}}
+      date_created: {{study.date_created | date}}
+      date_modified: {{study.date_modified | date}}
+      date_submitted: {{study.date_submitted | date}}
+  </pre>
 
-<h1>Dashboard</h1>
-<div
-  *ngIf="charts.length > 0"
-  fxLayout="column"
-  fxLayout.gt-sm="row wrap"
->
   <div
-    *ngFor="let chart of charts; let i = index"
-    fxFlex.md="50%"
-    fxFlex.gt-md="33%"
-    class="chart-container"
-    [routerLink]="['/workflow']"
-    [fragment]="'process_category_0_' + i"
+    *ngIf="charts.length > 0"
+    fxLayout="column"
+    fxLayout.gt-sm="row wrap"
   >
-    <h2>{{chart.title}}</h2>
-    <canvas baseChart
-      [data]="chart.data"
-      [labels]="chart.labels"
-      [chartType]="chart.type"
-      [colors]="chart.colors"
-    ></canvas>
+    <div
+      *ngFor="let chart of charts; let i = index"
+      fxFlex.md="50%"
+      fxFlex.gt-md="33%"
+      class="chart-container"
+      [routerLink]="['workflow', i]"
+      [fragment]="'process_category_0_' + i"
+    >
+      <h2>{{chart.title}}</h2>
+      <canvas baseChart
+        [data]="chart.data"
+        [labels]="chart.labels"
+        [chartType]="chart.type"
+        [colors]="chart.colors"
+      ></canvas>
+    </div>
   </div>
-</div>
+</ng-container>

@@ -2,12 +2,14 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
 import {ApiService} from '../_services/api/api.service';
-import {workflowProcesses} from '../_services/api/api.service.spec';
+import {studies, workflowProcesses} from '../_services/api/api.service.spec';
 import {WorkflowProcessMenuItemComponent} from '../workflow-process-menu-item/workflow-process-menu-item.component';
 import {WorkflowProcessComponent} from '../workflow-process/workflow-process.component';
 import {WorkflowStepsMenuListComponent} from '../workflow-steps-menu-list/workflow-steps-menu-list.component';
@@ -34,10 +36,17 @@ describe('WorkflowComponent', () => {
         MatIconModule,
         MatListModule,
         MatSidenavModule,
+        MatProgressSpinnerModule,
         NoopAnimationsModule,
         RouterTestingModule,
       ],
-      providers: [ApiService]
+      providers: [
+        ApiService,
+        {
+          provide: ActivatedRoute,
+          useValue: {snapshot: {paramMap: convertToParamMap({study_id: '0', workflow_process_id: '0'})}}
+        }
+      ]
     })
       .compileComponents();
   }));
@@ -48,9 +57,16 @@ describe('WorkflowComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('/assets/json/workflow_process.json');
+    const sReq = httpMock.expectOne('/assets/json/study.json');
     expect(sReq.request.method).toEqual('GET');
-    sReq.flush(workflowProcesses);
+    sReq.flush(studies);
+
+    expect(component.study).toBeTruthy();
+    expect(component.study.id).toEqual(studies[0].id);
+
+    const pReq = httpMock.expectOne('/assets/json/workflow_process.json');
+    expect(pReq.request.method).toEqual('GET');
+    pReq.flush(workflowProcesses);
 
     expect(component.process).toBeTruthy();
     expect(component.process.id).toEqual(workflowProcesses[0].id);

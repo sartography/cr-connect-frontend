@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {DashboardComponent} from './dashboard/dashboard.component';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
@@ -8,6 +7,7 @@ import {NotificationsComponent} from './notifications/notifications.component';
 import {ProfileComponent} from './profile/profile.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
+import {StudyComponent} from './study/study.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 
 
@@ -17,11 +17,11 @@ export const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'dashboard',
-    component: DashboardComponent
+    path: 'study/:study_id',
+    component: StudyComponent
   },
   {
-    path: 'workflow',
+    path: 'study/:study_id/workflow/:workflow_process_id',
     component: WorkflowComponent
   },
   {

@@ -35,7 +35,7 @@ export class StudiesComponent implements OnInit {
 
   changeNumStudies(amt: number) {
     const numStudies = parseInt(localStorage.getItem('numstudy') || '0', 10);
-    const newVal = Math.max(0, numStudies + amt)
+    const newVal = Math.max(0, numStudies + amt);
     localStorage.setItem('numstudy', `${newVal}`);
     this.loadStudies();
   }

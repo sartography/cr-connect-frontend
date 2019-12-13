@@ -1,4 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
@@ -17,6 +18,7 @@ describe('WorkflowProcessComponent', () => {
         BrowserAnimationsModule,
         FormlyMaterialModule,
         FormlyModule.forRoot(),
+        MatProgressSpinnerModule,
         NoopAnimationsModule,
       ],
     })

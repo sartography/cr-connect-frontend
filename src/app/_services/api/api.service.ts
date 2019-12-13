@@ -200,7 +200,6 @@ export class ApiService {
 
     if (this.dummy) {
       const numItems = parseInt(localStorage.getItem('num' + endpointName), 10);
-      console.log('numItems', numItems);
 
       if (isFinite(numItems)) {
         return this.httpClient

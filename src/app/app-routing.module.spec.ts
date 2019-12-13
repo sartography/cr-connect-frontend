@@ -10,6 +10,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -32,6 +33,7 @@ import {SignOutComponent} from './sign-out/sign-out.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {StudiesComponent} from './studies/studies.component';
+import {StudyComponent} from './study/study.component';
 import {WorkflowProcessMenuItemComponent} from './workflow-process-menu-item/workflow-process-menu-item.component';
 import {WorkflowProcessComponent} from './workflow-process/workflow-process.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
@@ -57,6 +59,7 @@ describe('Router: App', () => {
         SignOutComponent,
         NavbarComponent,
         NotificationsComponent,
+        StudyComponent,
         StudiesComponent,
         WorkflowComponent,
         WorkflowProcessComponent,
@@ -79,6 +82,7 @@ describe('Router: App', () => {
         MatProgressBarModule,
         MatSelectModule,
         MatSidenavModule,
+        MatProgressSpinnerModule,
         MatToolbarModule,
         NoopAnimationsModule,
         RouterTestingModule.withRoutes(routes),

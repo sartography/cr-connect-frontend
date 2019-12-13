@@ -11,6 +11,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatTabsModule} from '@angular/material/tabs';
@@ -47,6 +48,7 @@ import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflo
 import {WorkflowComponent} from './workflow/workflow.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FooterComponent } from './footer/footer.component';
+import { StudyComponent } from './study/study.component';
 
 @NgModule({
   declarations: [
@@ -71,9 +73,9 @@ import { FooterComponent } from './footer/footer.component';
     WorkflowStepsMenuListComponent,
     ProfileComponent,
     FooterComponent,
+    StudyComponent,
   ],
   imports: [
-    AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
     ChartsModule,
@@ -106,6 +108,9 @@ import { FooterComponent } from './footer/footer.component';
     NgxPageScrollCoreModule.forRoot({duration: 500, scrollOffset: 84}),
     NgxPageScrollModule,
     ReactiveFormsModule,
+    AppRoutingModule,
+    MatProgressSpinnerModule,
+    // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},

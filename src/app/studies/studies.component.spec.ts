@@ -1,6 +1,7 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatCardModule} from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ApiService} from '../_services/api/api.service';
@@ -19,6 +20,7 @@ describe('StudiesComponent', () => {
       imports: [
         HttpClientTestingModule,
         MatCardModule,
+        MatIconModule,
         MatProgressBarModule,
         RouterTestingModule,
       ],
