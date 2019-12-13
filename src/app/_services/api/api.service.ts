@@ -48,7 +48,7 @@ export class ApiService {
   }
 
   /** Get Study */
-  getStudy(id: number): Observable<Study> {
+  getStudy(id: string): Observable<Study> {
     return this._getOne<Study>(id, 'study');
   }
 
@@ -58,12 +58,12 @@ export class ApiService {
   }
 
   /** Get Study Task */
-  getStudyTask(id: number): Observable<StudyTask> {
+  getStudyTask(id: string): Observable<StudyTask> {
     return this._getOne<StudyTask>(id, 'studyTask');
   }
 
   /** Get Study Tasks for Study */
-  getStudyTasksForStudy(id: number): Observable<StudyTask[]> {
+  getStudyTasksForStudy(id: string): Observable<StudyTask[]> {
     if (this.dummy) {
       return this.httpClient
         .get<StudyTask[]>(this._endpointUrl('studyTaskList'))
@@ -82,7 +82,7 @@ export class ApiService {
   }
 
   /** Get Study Type */
-  getStudyType(id: number): Observable<StudyType> {
+  getStudyType(id: string): Observable<StudyType> {
     return this._getOne<StudyType>(id, 'studyType');
   }
 
@@ -92,7 +92,7 @@ export class ApiService {
   }
 
   /** Get Task */
-  getTask(id: number): Observable<Task> {
+  getTask(id: string): Observable<Task> {
     return this._getOne<Task>(id, 'task');
   }
 
@@ -102,7 +102,7 @@ export class ApiService {
   }
 
   /** Get TaskSpec */
-  getTaskSpec(id: number): Observable<TaskSpec> {
+  getTaskSpec(id: string): Observable<TaskSpec> {
     return this._getOne<TaskSpec>(id, 'taskSpec');
   }
 
@@ -112,7 +112,7 @@ export class ApiService {
   }
 
   /** Get WorkflowSpec */
-  getWorkflowSpec(id: number): Observable<WorkflowSpec> {
+  getWorkflowSpec(id: string): Observable<WorkflowSpec> {
     return this._getOne<WorkflowSpec>(id, 'workflowSpec');
   }
 
@@ -136,7 +136,7 @@ export class ApiService {
   }
 
   /** Get WorkflowProcess */
-  getWorkflowProcess(id: number): Observable<WorkflowProcess> {
+  getWorkflowProcess(id: string): Observable<WorkflowProcess> {
     return this._getOne<WorkflowProcess>(id, 'workflowProcess');
   }
 
@@ -172,7 +172,7 @@ export class ApiService {
     }
   }
 
-  private _getOne<T extends GenericType>(id: number, endpointName: string): Observable<T> {
+  private _getOne<T extends GenericType>(id: string, endpointName: string): Observable<T> {
     if (this.dummy) {
       return this.httpClient
         .get<T[]>(this._endpointUrl(endpointName + 'List'))

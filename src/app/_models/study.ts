@@ -1,4 +1,5 @@
 import {GenericType} from './generic-type';
+import {IRBRequirement} from './irb';
 
 export enum StudyStatus {
   DRAFT = 'draft',
@@ -18,14 +19,18 @@ export enum ProtocolStatus {
 }
 
 export interface Study extends GenericType {
-  title: string;
-  type_id: number;
-  percent_complete: number;
   date_created?: Date;
-  date_modified?: Date;
   date_submitted?: Date;
-  status?: StudyStatus;
-  review_type?: string;
-  protocol_builder_status?: ProtocolBuilderStatus;
+  ind_number: string;
+  last_updated: Date;
+  pb_status: ProtocolBuilderStatus;
+  percent_complete: number;
+  pi: string;
   protocol_status?: ProtocolStatus;
+  requirements?: IRBRequirement[];
+  review_type?: string;
+  sponsor: string;
+  status?: StudyStatus;
+  title: string;
+  type_id: string;
 }

@@ -1,6 +1,7 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
-import {Study, StudyStatus} from '../../_models/study';
+import {IRBRequirement, IRBReviewType} from '../../_models/irb';
+import {ProtocolBuilderStatus, ProtocolStatus, Study, StudyStatus} from '../../_models/study';
 import {StudyTask} from '../../_models/study-task';
 import {StudyType} from '../../_models/study-type';
 import {Task, TaskState} from '../../_models/task';
@@ -9,56 +10,96 @@ import {WorkflowProcess, WorkflowSpec} from '../../_models/workflow';
 import {ApiService} from './api.service';
 
 export const studies: Study[] = [
-  {id: 0, title: 'Study A', type_id: 3, percent_complete: 45, status: StudyStatus.DRAFT},
-  {id: 1, title: 'Study B', type_id: 2, percent_complete: 100, status: StudyStatus.ACTIVE},
+  {
+    id: '0',
+    date_created: new Date(),
+    date_submitted: new Date(),
+    ind_number: '12345',
+    last_updated: new Date(),
+    pb_status: ProtocolBuilderStatus.IN_PROGRESS,
+    percent_complete: 45,
+    pi: 'Dr. Tricia Marie McMillan',
+    protocol_status: ProtocolStatus.PRE_REVIEW,
+    requirements: [
+      IRBRequirement.CANCER_CENTER_PROTOCOL_REVIEW_COMMITTEE,
+      IRBRequirement.CENTRAL_INSTITUTIONAL_REVIEW_BOARD_CIRB,
+      IRBRequirement.FERPA
+    ],
+    review_type: IRBReviewType.FULL_BOARD,
+    sponsor: 'Sirius Cybernetics Corporation',
+    status: StudyStatus.SUBMITTED,
+    title: 'Phase III Trial of Genuine People Personalities (GPP) Autonomous Intelligent Emotional Agents for Interstellar Spacecraft',
+    type_id: '0',
+  },
+  {
+    id: '1',
+    date_created: new Date(),
+    date_submitted: new Date(),
+    ind_number: '12345',
+    last_updated: new Date(),
+    pb_status: ProtocolBuilderStatus.IN_PROGRESS,
+    percent_complete: 45,
+    pi: 'Dr. Slartibartfast Magrathean',
+    protocol_status: ProtocolStatus.PRE_REVIEW,
+    requirements: [
+      IRBRequirement.CANCER_CENTER_PROTOCOL_REVIEW_COMMITTEE,
+      IRBRequirement.CENTRAL_INSTITUTIONAL_REVIEW_BOARD_CIRB,
+      IRBRequirement.FERPA
+    ],
+    review_type: IRBReviewType.FULL_BOARD,
+    sponsor: 'CamTim',
+    status: StudyStatus.SUBMITTED,
+    title: 'Pilot Study of Fjord Placement for Single Fraction Outcomes to Cortisol Susceptibility',
+    type_id: '0',
+  }
 ];
 
 export const studyTypes: StudyType[] = [
-  {id: 0, label: 'Expedited', task_ids: [0]},
-  {id: 1, label: 'Full Board', task_ids: [0, 1]},
+  {id: '0', label: 'Expedited', task_ids: ['0']},
+  {id: '1', label: 'Full Board', task_ids: ['0', '1']},
 ];
 
 // TODO: Refactor this to be about TaskSpecs
 export const tasks: Task[] = [
-  {id: 0, label: 'Do the dishes', task_spec_id: 3, state_name: TaskState.Future},
-  {id: 1, label: 'Take out the trash', task_spec_id: 2, state_name: TaskState.Future},
-  {id: 2, label: 'Make the coffee', task_spec_id: 1, state_name: TaskState.Future},
-  {id: 3, label: 'Do the monster mash', task_spec_id: 0, state_name: TaskState.Future},
+  {id: '0', label: 'Do the dishes', task_spec_id: '3', state_name: TaskState.Future},
+  {id: '1', label: 'Take out the trash', task_spec_id: '2', state_name: TaskState.Future},
+  {id: '2', label: 'Make the coffee', task_spec_id: '1', state_name: TaskState.Future},
+  {id: '3', label: 'Do the monster mash', task_spec_id: '0', state_name: TaskState.Future},
 ];
 
 // TODO: Refactor this to be about Task instances
 export const studyTasks: StudyTask[] = [
-  {id: 0, task_id: 0, study_id: 0, is_disabled: false, is_complete: true},
-  {id: 1, task_id: 1, study_id: 0, is_disabled: true, is_complete: true},
-  {id: 2, task_id: 2, study_id: 0, is_disabled: false, is_complete: false},
-  {id: 3, task_id: 3, study_id: 0, is_disabled: true, is_complete: false},
-  {id: 4, task_id: 0, study_id: 1, is_disabled: false, is_complete: true},
-  {id: 5, task_id: 1, study_id: 1, is_disabled: true, is_complete: true},
-  {id: 6, task_id: 2, study_id: 2, is_disabled: false, is_complete: false},
-  {id: 7, task_id: 3, study_id: 2, is_disabled: true, is_complete: false},
+  {id: '0', task_id: '0', study_id: '0', is_disabled: false, is_complete: true},
+  {id: '1', task_id: '1', study_id: '0', is_disabled: true, is_complete: true},
+  {id: '2', task_id: '2', study_id: '0', is_disabled: false, is_complete: false},
+  {id: '3', task_id: '3', study_id: '0', is_disabled: true, is_complete: false},
+  {id: '4', task_id: '0', study_id: '1', is_disabled: false, is_complete: true},
+  {id: '5', task_id: '1', study_id: '1', is_disabled: true, is_complete: true},
+  {id: '6', task_id: '2', study_id: '2', is_disabled: false, is_complete: false},
+  {id: '7', task_id: '3', study_id: '2', is_disabled: true, is_complete: false},
 ];
 
 // TODO: Add WorkflowSpecs and Workflows
 export const workflowSpecs: WorkflowSpec[] = [
-  {id: 0, name: 'Everything', description: 'Do all the things', task_spec_ids: [0, 1, 2, 3]},
-  {id: 1, name: 'Some things', description: 'Do a few things', task_spec_ids: [0, 2, 3]},
-  {id: 2, name: 'One thing', description: 'Do just one thing', task_spec_ids: [1]},
+  {id: '0', name: 'Everything', description: 'Do all the things', task_spec_ids: ['0', '1', '2', '3']},
+  {id: '1', name: 'Some things', description: 'Do a few things', task_spec_ids: ['0', '2', '3']},
+  {id: '2', name: 'One thing', description: 'Do just one thing', task_spec_ids: ['1']},
 ];
 
 export const workflowProcesses: WorkflowProcess[] = [
   {
-    id: 0,
+    id: '0',
     name: 'Make a fantastic landscape',
     categories: [
       {
-        id: 0,
+        id: '0',
         name: 'Let your imagination go wild',
         steps: [
           {
-            id: 0,
+            id: '0',
             name: 'Let the paint work',
             form: {
-              id: 0,
+              id: '0',
               name: 'Create a beautiful little sunset.',
               fields: [
                 {
@@ -168,9 +209,9 @@ describe('ApiService', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
 
-    service.getStudyTasksForStudy(0).subscribe(data => {
+    service.getStudyTasksForStudy('0').subscribe(data => {
       expect(data.length).toBeGreaterThan(0);
-      data.forEach(s => expect(s.study_id).toEqual(0));
+      data.forEach(s => expect(s.study_id).toEqual('0'));
     });
 
     const req = httpMock.expectOne('/assets/json/study_task.json');
@@ -185,20 +226,20 @@ describe('ApiService', () => {
     service.dummy = false;
     service.apiRoot = 'https://real-api-url.com';
 
-    service.getStudyTasksForStudy(0).subscribe(data => {
+    service.getStudyTasksForStudy('0').subscribe(data => {
       expect(data.length).toBeGreaterThan(0);
-      data.forEach(s => expect(s.study_id).toEqual(0));
+      data.forEach(s => expect(s.study_id).toEqual('0'));
     });
 
     const req = httpMock.expectOne('https://real-api-url.com/api/study_task/study/0');
     expect(req.request.method).toEqual('GET');
-    req.flush(studyTasks.filter(s => s.study_id === 0));
+    req.flush(studyTasks.filter(s => s.study_id === '0'));
   });
 
   it('should get one study', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
-    const studyId = 0;
+    const studyId = '0';
 
     service.getStudy(studyId).subscribe(data => {
       expect(data).toBeTruthy();
@@ -213,7 +254,7 @@ describe('ApiService', () => {
   it('should get one task', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
-    const taskId = 0;
+    const taskId = '0';
 
     service.getTask(taskId).subscribe(data => {
       expect(data).toBeTruthy();
@@ -228,7 +269,7 @@ describe('ApiService', () => {
   it('should get one studyType', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
-    const studyTypeId = 0;
+    const studyTypeId = '0';
 
     service.getStudyType(studyTypeId).subscribe(data => {
       expect(data).toBeTruthy();
@@ -243,7 +284,7 @@ describe('ApiService', () => {
   it('should get one studyTask', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
-    const studyTaskId = 0;
+    const studyTaskId = '0';
 
     service.getStudyTask(studyTaskId).subscribe(data => {
       expect(data).toBeTruthy();
@@ -289,7 +330,7 @@ describe('ApiService', () => {
   it('should get one workflowProcess', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
-    const workflowProcessId = 0;
+    const workflowProcessId = '0';
 
     service.getWorkflowProcess(workflowProcessId).subscribe(data => {
       expect(data).toBeTruthy();
@@ -304,7 +345,7 @@ describe('ApiService', () => {
   it('should call the real API URL for getStudyTask when not in dummy mode', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
-    const studyTaskId = 0;
+    const studyTaskId = '0';
 
     service.dummy = false;
     service.apiRoot = 'https://real-api-url.com';
@@ -324,7 +365,7 @@ describe('ApiService', () => {
   it('should return an error if an invalid ID is requested', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
-    const studyTaskId = 666;
+    const studyTaskId = '666';
     let errorMessage = '';
 
     service.getStudyTask(studyTaskId).subscribe(data => {

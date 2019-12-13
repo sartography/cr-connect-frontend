@@ -23,7 +23,7 @@ export interface TaskSpec extends GenericType {
 
 export interface Task extends GenericType {
   label: string;
-  task_spec_id: number;
+  task_spec_id: string;
   state_name: TaskState;
   task_spec?: TaskSpec;
   children?: Task[];

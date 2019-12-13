@@ -1,15 +1,21 @@
+import {ProtocolBuilderStatus} from './study';
+
 export interface IRBResponse {
   UVAStudyTrackingNumber?: string;
   LastIRBChange?: Date;
   UVA_Study_Tracking?: string;
   ss_study_id?: string;
-  title?: string;
   type?: string;
   date_modified?: Date;
   INDNumber?: number;
   IDENumber?: number;
   IBCNumber?: number;
   requirements?: IRBRequirement[];
+}
+
+export enum IRBReviewType {
+  EXPEDITED = 'Expedited',
+  FULL_BOARD = 'Full Board',
 }
 
 export enum IRBRequirement {

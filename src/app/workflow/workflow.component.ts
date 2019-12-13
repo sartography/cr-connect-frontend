@@ -19,8 +19,8 @@ export class WorkflowComponent {
     private api: ApiService,
   ) {
     const paramMap = this.route.snapshot.paramMap;
-    const studyId = parseInt(paramMap.get('study_id'), 10);
-    const processId = parseInt(paramMap.get('workflow_process_id'), 10);
+    const studyId = paramMap.get('study_id');
+    const processId = paramMap.get('workflow_process_id');
     this.api.getStudy(studyId).subscribe(s => this.study = s);
     this.api.getWorkflowProcess(processId).subscribe(p => this.process = p);
   }

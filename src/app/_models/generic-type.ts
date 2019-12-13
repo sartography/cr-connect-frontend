@@ -1,3 +1,3 @@
 export interface GenericType {
-  id: number;
+  id: string;
 }

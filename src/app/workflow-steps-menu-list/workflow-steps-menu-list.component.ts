@@ -8,8 +8,8 @@ import {WorkflowStep} from '../_models/workflow';
 })
 export class WorkflowStepsMenuListComponent implements OnInit {
   @Input() steps: WorkflowStep[];
-  @Input() processId: number;
-  @Input() categoryId: number;
+  @Input() processId: string;
+  @Input() categoryId: string;
 
   constructor() { }
 
@@ -17,6 +17,6 @@ export class WorkflowStepsMenuListComponent implements OnInit {
   }
 
   isComplete(step: WorkflowStep) {
-    return this.categoryId < 1 && step.id < 1;
+    return parseInt(this.categoryId, 10) < 1 && parseInt(step.id, 10) < 1;
   }
 }

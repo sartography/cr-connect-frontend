@@ -19,7 +19,7 @@ export class StudyComponent implements OnInit {
     private api: ApiService,
   ) {
     const paramMap = this.route.snapshot.paramMap;
-    const studyId = parseInt(paramMap.get('study_id'), 10);
+    const studyId = paramMap.get('study_id');
     this.api.getStudy(studyId).subscribe(s => this.study = s);
   }
 
