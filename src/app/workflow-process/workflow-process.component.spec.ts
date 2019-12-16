@@ -3,6 +3,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
+import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
 import {workflowProcesses} from '../_services/api/api.service.spec';
 
 import {WorkflowProcessComponent} from './workflow-process.component';
@@ -13,7 +14,10 @@ describe('WorkflowProcessComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [WorkflowProcessComponent],
+      declarations: [
+        ToFormlyPipe,
+        WorkflowProcessComponent,
+      ],
       imports: [
         BrowserAnimationsModule,
         FormlyMaterialModule,

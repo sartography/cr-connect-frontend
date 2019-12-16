@@ -8,6 +8,7 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-b
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
+import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
 import {ApiService} from '../_services/api/api.service';
 import {studies, workflowProcesses} from '../_services/api/api.service.spec';
 import {WorkflowProcessMenuItemComponent} from '../workflow-process-menu-item/workflow-process-menu-item.component';
@@ -24,6 +25,7 @@ describe('WorkflowComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        ToFormlyPipe,
         WorkflowComponent,
         WorkflowProcessComponent,
         WorkflowProcessMenuItemComponent,

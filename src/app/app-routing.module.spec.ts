@@ -20,6 +20,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
 import {ChartsModule} from 'ng2-charts';
+import {ToFormlyPipe} from './_pipes/to-formly.pipe';
 import {routes} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
@@ -27,17 +28,18 @@ import {FooterComponent} from './footer/footer.component';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
+import {NavbarComponent} from './navbar/navbar.component';
+import {NotificationsComponent} from './notifications/notifications.component';
 import {ProfileComponent} from './profile/profile.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
-import {NavbarComponent} from './navbar/navbar.component';
-import {NotificationsComponent} from './notifications/notifications.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowProcessMenuItemComponent} from './workflow-process-menu-item/workflow-process-menu-item.component';
 import {WorkflowProcessComponent} from './workflow-process/workflow-process.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
+
 
 describe('Router: App', () => {
   let location: Location;
@@ -61,6 +63,7 @@ describe('Router: App', () => {
         NotificationsComponent,
         StudyComponent,
         StudiesComponent,
+        ToFormlyPipe,
         WorkflowComponent,
         WorkflowProcessComponent,
         WorkflowProcessMenuItemComponent,
@@ -87,7 +90,9 @@ describe('Router: App', () => {
         NoopAnimationsModule,
         RouterTestingModule.withRoutes(routes),
       ],
-      providers: [HttpClient]
+      providers: [
+        HttpClient,
+      ]
     });
 
     router = TestBed.get(Router);

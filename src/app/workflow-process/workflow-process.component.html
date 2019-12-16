@@ -5,7 +5,7 @@
       <h2>{{step.name}}</h2>
       <div>
         <h3>{{step.form.name}}</h3>
-        <formly-form [model]="model" [fields]="step.form.fields" [options]="options" [form]="form"></formly-form>
+        <formly-form [model]="model" [fields]="step.form.fields | toFormly" [options]="options" [form]="form"></formly-form>
       </div>
     </div>
   </div>

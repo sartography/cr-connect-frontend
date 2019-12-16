@@ -23,11 +23,13 @@ import {FormlyMaterialModule} from '@ngx-formly/material';
 import {ChartsModule} from 'ng2-charts';
 import {NgxPageScrollModule} from 'ngx-page-scroll';
 import {NgxPageScrollCoreModule} from 'ngx-page-scroll-core';
+import {PipesModule} from './_pipes/pipes.module';
 import {ApiService} from './_services/api/api.service';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {FooterComponent} from './footer/footer.component';
 import {HelpDialogComponent} from './help-dialog/help-dialog.component';
 import {HelpWrapperComponent} from './help-wrapper/help-wrapper.component';
 import {helpWrapperExtension} from './help-wrapper/help-wrapper.extension';
@@ -35,25 +37,25 @@ import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
 import {NavbarComponent} from './navbar/navbar.component';
-import {PanelWrapperComponent} from './panel-wrapper/panel-wrapper.component';
 import {NotificationsComponent} from './notifications/notifications.component';
+import {PanelWrapperComponent} from './panel-wrapper/panel-wrapper.component';
+import {ProfileComponent} from './profile/profile.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesComponent} from './studies/studies.component';
+import {StudyComponent} from './study/study.component';
 import {TaskSpecListComponent} from './task-spec-list/task-spec-list.component';
 import {WorkflowProcessMenuItemComponent} from './workflow-process-menu-item/workflow-process-menu-item.component';
 import {WorkflowProcessComponent} from './workflow-process/workflow-process.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
-import { ProfileComponent } from './profile/profile.component';
-import { FooterComponent } from './footer/footer.component';
-import { StudyComponent } from './study/study.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
+    FooterComponent,
     HelpComponent,
     HelpDialogComponent,
     HelpWrapperComponent,
@@ -62,18 +64,17 @@ import { StudyComponent } from './study/study.component';
     NavbarComponent,
     NotificationsComponent,
     PanelWrapperComponent,
+    ProfileComponent,
     SignInComponent,
     SignOutComponent,
     StudiesComponent,
+    StudyComponent,
     TaskSpecListComponent,
     WorkflowComponent,
     WorkflowProcessComponent,
     WorkflowProcessMenuItemComponent,
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
-    ProfileComponent,
-    FooterComponent,
-    StudyComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -101,16 +102,16 @@ import { StudyComponent } from './study/study.component';
     MatListModule,
     MatMenuModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatSelectModule,
     MatSidenavModule,
     MatTabsModule,
     MatToolbarModule,
     NgxPageScrollCoreModule.forRoot({duration: 500, scrollOffset: 84}),
     NgxPageScrollModule,
+    PipesModule,
     ReactiveFormsModule,
-    AppRoutingModule,
-    MatProgressSpinnerModule,
-    // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
+    AppRoutingModule, // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},

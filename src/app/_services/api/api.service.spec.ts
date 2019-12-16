@@ -103,15 +103,13 @@ export const workflowProcesses: WorkflowProcess[] = [
               name: 'Create a beautiful little sunset.',
               fields: [
                 {
-                  key: 'happyClouds',
-                  type: 'input',
-                  templateOptions: {
-                    label: 'Happy Clouds',
-                    description: 'Decide where your cloud lives.',
-                    help: {
-                      text: 'We don\'t want to set these clouds on fire. We\'ll play with clouds today.'
-                    }
-                  }
+                  id: 'happyClouds',
+                  type: 'string',
+                  label: 'Happy Clouds',
+                  properties: [
+                    {id: 'description', value: 'Decide where your cloud lives.'},
+                    {id: 'help_text', value: 'We don\'t want to set these clouds on fire. We\'ll play with clouds today.'}
+                  ]
                 }
               ]
             }

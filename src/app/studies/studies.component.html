@@ -10,9 +10,14 @@
 
   <h1>Studies</h1>
   <h2>In Progress</h2>
-  <div class="status-draft" fxLayout="column" fxLayoutGap="40px">
+  <div class="status-draft" fxLayout="row wrap" fxLayoutGap="40px">
 
-    <mat-card *ngIf="isExpanded" class="bg-none mat-elevation-z0">
+    <mat-card
+      *ngIf="isExpanded"
+      class="bg-none
+      mat-elevation-z0"
+      fxFlex="100"
+    >
       <mat-card-content fxLayout="column" fxLayoutAlign="center start">
         <p>To start a new study, first go to HSR IRB Protocol Builder and create a new protocol. When your protocol has
         been created, return here to continue working on it.</p>
@@ -32,6 +37,7 @@
       fxLayoutAlign="center start"
       (click)="isExpanded = true"
       class="bg-none mat-elevation-z0"
+      fxFlex="100"
     >
       <mat-card-content fxLayout="column" fxLayoutAlign="center start">
         <button color="primary" mat-flat-button>
@@ -41,15 +47,21 @@
       </mat-card-content>
     </mat-card>
 
-    <mat-card *ngFor="let study of draftStudies" [routerLink]="['/study', study.id]" fxLayout="column"
-              fxLayoutAlign="center start">
-      <mat-card-title>{{study.title}}</mat-card-title>
-      <mat-card-content fxLayout="column" fxLayoutAlign="center start">
-        <div class="big-number">
-          {{study.percent_complete}}<span class="percent">%</span>
+    <mat-card
+      *ngFor="let study of draftStudies"
+      [routerLink]="['/study', study.id]"
+      fxLayout="column"
+      fxLayoutAlign="start start"
+      fxFlex="33"
+    >
+      <mat-card-title>
+        <h3>{{study.title}}</h3>
+        <small>{{study.review_type}}</small>
+      </mat-card-title>
+      <mat-card-content fxLayout="column" fxLayoutAlign="start start">
+        <div fxFlex="100">
+          <div class="percent-complete" [ngStyle]="{width: study.percent_complete + '%'}">&nbsp;</div>
         </div>
-        <div>complete</div>
-        <mat-progress-bar mode="determinate" value="{{study.percent_complete}}"></mat-progress-bar>
       </mat-card-content>
     </mat-card>
   </div>
@@ -69,7 +81,7 @@
     <mat-card *ngFor="let study of activeStudies" fxLayout="column" fxLayoutAlign="center start">
       <mat-card-content fxLayout="column" fxLayoutAlign="center start">
         <h3>{{study.title}}</h3>
-        {{study.date_modified | date}}
+        {{study.last_updated | date}}
       </mat-card-content>
     </mat-card>
   </div>
@@ -79,7 +91,7 @@
     <mat-card *ngFor="let study of inactiveStudies" fxLayout="column" fxLayoutAlign="center start">
       <mat-card-content fxLayout="column" fxLayoutAlign="center start">
         <h3>{{study.title}}</h3>
-        {{study.date_modified | date}}
+        {{study.last_updated | date}}
       </mat-card-content>
     </mat-card>
   </div>

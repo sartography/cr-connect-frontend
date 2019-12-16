@@ -4,13 +4,22 @@
 
 mat-card {
   cursor: pointer;
+  border: 1px solid #CCCCCC;
+
+  &:hover {
+    background-color: #FFFFEE;
+    border: 1px solid #999999;
+  }
 }
 
 .status-draft mat-card {
   margin-bottom: 10px;
-  background-color: #f7d9dd;
+  border-bottom-color: red;
+  border-bottom-width: 4px;
+  border-bottom-style: solid;
 
   &.bg-none {
+    border: none;
     background-color: transparent;
   }
 }
@@ -28,6 +37,16 @@ mat-card {
 .status-inactive mat-card {
   margin-bottom: 10px;
   background-color: #d5d0d1;
+}
+
+.percent-complete {
+  display: block;
+  position: absolute;
+  bottom: -4px;
+  left: 0px;
+  background-color: green;
+  height: 4px;
+  border-right: 1px solid white;
 }
 
 .big-number {
