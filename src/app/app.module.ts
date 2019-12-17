@@ -21,6 +21,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
 import {ChartsModule} from 'ng2-charts';
+import {MarkdownModule} from 'ngx-markdown';
 import {NgxPageScrollModule} from 'ngx-page-scroll';
 import {NgxPageScrollCoreModule} from 'ngx-page-scroll-core';
 import {PipesModule} from './_pipes/pipes.module';
@@ -93,6 +94,7 @@ import {WorkflowComponent} from './workflow/workflow.component';
     }),
     FormsModule,
     HttpClientModule,
+    MarkdownModule.forRoot(),
     MatButtonModule,
     MatCardModule,
     MatDialogModule,
