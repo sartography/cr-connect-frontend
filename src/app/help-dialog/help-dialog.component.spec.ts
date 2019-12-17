@@ -1,5 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MarkdownModule} from 'ngx-markdown';
 
 import {HelpDialogComponent} from './help-dialog.component';
 
@@ -11,7 +12,8 @@ describe('HelpDialogComponent', () => {
     TestBed.configureTestingModule({
       declarations: [HelpDialogComponent],
       imports: [
-        MatDialogModule,
+        MarkdownModule.forRoot(),
+        MatDialogModule
       ],
       providers: [
         {provide: MatDialogRef, useValue: {}},
