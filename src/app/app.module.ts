@@ -51,6 +51,7 @@ import {WorkflowProcessComponent} from './workflow-process/workflow-process.comp
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
+import { StudyCardComponent } from './study-card/study-card.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import {WorkflowComponent} from './workflow/workflow.component';
     WorkflowProcessMenuItemComponent,
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
+    StudyCardComponent,
   ],
   imports: [
     BrowserAnimationsModule,

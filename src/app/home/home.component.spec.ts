@@ -33,4 +33,9 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should check signed-in state', () => {
+    expect(component.isSignedIn()).toBeFalsy();
+  });
+
 });

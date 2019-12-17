@@ -1,14 +1,13 @@
 <ng-container *ngIf="study">
   <h1>{{study.title}}</h1>
   <pre>
-      title: {{study.title}}
       percent_complete: {{study.percent_complete}}
       status: {{study.status}}
       review_type: {{study.review_type}}
-      protocol_builder_status: {{study.protocol_builder_status}}
+      protocol_builder_status: {{study.pb_status}}
       protocol_status: {{study.protocol_status}}
       date_created: {{study.date_created | date}}
-      date_modified: {{study.date_modified | date}}
+      date_modified: {{study.last_updated | date}}
       date_submitted: {{study.date_submitted | date}}
   </pre>
 

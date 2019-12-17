@@ -1,28 +1,17 @@
-.container {
+@import "../../config";
+
+h2 {
+  margin-top: 2rem;
+
+  &.disabled {
+    color: $brand-gray-tint-1;
+  }
+}
+
+.studies-container {
   padding: 40px;
 }
 
-mat-card {
-  cursor: pointer;
-  border: 1px solid #CCCCCC;
-
-  &:hover {
-    background-color: #FFFFEE;
-    border: 1px solid #999999;
-  }
-}
-
-.status-draft mat-card {
-  margin-bottom: 10px;
-  border-bottom-color: red;
-  border-bottom-width: 4px;
-  border-bottom-style: solid;
-
-  &.bg-none {
-    border: none;
-    background-color: transparent;
-  }
-}
 
 .status-submitted mat-card {
   margin-bottom: 10px;
@@ -37,30 +26,4 @@ mat-card {
 .status-inactive mat-card {
   margin-bottom: 10px;
   background-color: #d5d0d1;
-}
-
-.percent-complete {
-  display: block;
-  position: absolute;
-  bottom: -4px;
-  left: 0px;
-  background-color: green;
-  height: 4px;
-  border-right: 1px solid white;
-}
-
-.big-number {
-  font-size: 3rem;
-  font-weight: 700;
-
-  .percent {
-    display: inline-block;
-    font-size: 1.5rem;
-    vertical-align: text-top;
-    padding-top: 10px;
-  }
-}
-
-mat-progress-bar {
-  margin-top: 2rem;
 }

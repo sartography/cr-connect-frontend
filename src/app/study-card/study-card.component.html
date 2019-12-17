@@ -1,0 +1,25 @@
+<mat-card
+  [routerLink]="['/study', study.id]"
+  fxLayout="column"
+  fxLayoutAlign="start start"
+  [ngClass]="study.status"
+>
+  <mat-card-header>
+    <mat-card-title>{{study.title}}</mat-card-title>
+    <mat-card-subtitle>
+      {{study.review_type}}<br>
+      Last updated: {{study.last_updated | date}}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content fxLayout="column" fxLayoutAlign="start start">
+    <div fxFlex="100">
+      <div
+        *ngIf="study.status === 'draft'"
+        class="percent-complete"
+        [ngStyle]="{width: study.percent_complete + '%'}"
+      >
+        {{study.percent_complete}}%
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

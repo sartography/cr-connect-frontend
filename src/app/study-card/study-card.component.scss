@@ -1,0 +1,40 @@
+@import "../../config";
+
+mat-card {
+  cursor: pointer;
+  border-top: 1px solid $brand-gray-tint-2;
+  border-left: 1px solid $brand-gray-tint-2;
+  border-right: 1px solid $brand-gray-tint-2;
+  margin-bottom: 10px;
+
+  &.draft {
+    border-bottom: 20px solid $brand-warning;
+  }
+
+  &:hover {
+    background-color: #FFFFEE;
+    border-top: 1px solid $brand-gray;
+    border-left: 1px solid $brand-gray;
+    border-right: 1px solid $brand-gray;
+  }
+}
+
+.percent-complete {
+  display: block;
+  position: absolute;
+  bottom: -20px;
+  left: 0px;
+  background-color: green;
+  height: 20px;
+  border-right: 1px solid white;
+  font-weight: 700;
+  color: white;
+  line-height: 20px;
+  text-align: right;
+  padding-right: 4px;
+}
+
+.last-updated {
+  display: block;
+  text-align: right;
+}
