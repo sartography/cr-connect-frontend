@@ -153,6 +153,20 @@ export class ToFormlyPipe implements PipeTransform {
             resultField.templateOptions.description = p.value;
           } else if (p.id === 'help') {
             resultField.templateOptions.help = p.value;
+          } else if (field.type === 'enum' && p.id === 'enum_type') {
+            resultField.type = p.value;
+
+            if (resultField.type === 'radio') {
+              resultField.className = 'vertical-radio-group';
+            }
+
+            if (resultField.type === 'multicheckbox') {
+              resultField.className = 'vertical-checkbox-group';
+            }
+
+            resultField.templateOptions.options = field.value.map(v => {
+              return {value: v.id, label: v.name};
+            });
           }
         }
       }

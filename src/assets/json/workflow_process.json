@@ -24,6 +24,12 @@
                       "name": "required",
                       "config": "true"
                     }
+                  ],
+                  "properties": [
+                    {
+                      "id": "help",
+                      "value": "Once you learn the technique, ohhh! Turn you loose on the world; you become a tiger. Maybe there's a happy little bush that lives right there. I guess I'm a little weird. I like to talk to trees and animals. That's okay though; I have more fun than most people. The very fact that you're aware of suffering is enough reason to be overjoyed that you're alive and can experience it."
+                    }
                   ]
                 },
                 {
@@ -112,6 +118,116 @@
                     {
                       "id": "help",
                       "value": "You need to have a very firm paint to do this. We might as well make some Almighty mountains today as well, what the heck. It's all a game of angles. As trees get older they lose their chlorophyll. Trees cover up a multitude of sins."
+                    }
+                  ]
+                },
+                {
+                  "id": "dessert",
+                  "label": "What do you want for dessert?",
+                  "type": "enum",
+                  "value": [
+                    {
+                      "id": "carrot_cake",
+                      "name": "Carrot Cake"
+                    },
+                    {
+                      "id": "apple_pie",
+                      "name": "Apple Pie"
+                    },
+                    {
+                      "id": "bread_pudding",
+                      "name": "Bread Pudding"
+                    },
+                    {
+                      "id": "creme_brulee",
+                      "name": "Crème Brûlée"
+                    },
+                    {
+                      "id": "ice_cream",
+                      "name": "Ice Cream"
+                    },
+                    {
+                      "id": "berries_and_cream",
+                      "name": "Berries and Cream"
+                    }
+                  ],
+                  "properties": [
+                    {
+                      "id": "enum_type",
+                      "value": "multicheckbox"
+                    },
+                    {
+                      "id": "description",
+                      "value": "Select all that apply."
+                    },
+                    {
+                      "id": "help",
+                      "value": "Cupcake ipsum dolor sit amet. Macaroon sugar plum toffee. Marshmallow toffee gummies. Gummies jelly ice cream gummi bears muffin oat cake icing. Icing sesame snaps topping gummi bears dragée. Topping jelly-o chocolate chocolate cake. Fruitcake candy canes dessert sweet roll cake gummi bears. Cupcake caramels sweet croissant tiramisu jelly beans. Sweet fruitcake sugar plum topping fruitcake chupa chups pie tootsie roll lemon drops. Pudding chocolate cake cake. Bonbon macaroon soufflé topping donut sweet roll dessert cheesecake. Fruitcake cookie cookie. Lollipop oat cake jelly-o cookie sweet."
+                    }
+                  ]
+                },
+                {
+                  "id": "dietary_restrictions",
+                  "label": "Any dietary restrictions?",
+                  "type": "enum",
+                  "value": [
+                    {
+                      "id": "gf",
+                      "name": "Gluten Free"
+                    },
+                    {
+                      "id": "ovo_lacto_vegetarian",
+                      "name": "Vegetarian, but Eggs and Milk are OK."
+                    },
+                    {
+                      "id": "gf_veg",
+                      "name": "Gluten Free Vegetarian"
+                    },
+                    {
+                      "id": "vegan",
+                      "name": "Vegan"
+                    },
+                    {
+                      "id": "gf_veg",
+                      "name": "Gluten Free Vegan"
+                    },
+                    {
+                      "id": "halal",
+                      "name": "Halal"
+                    },
+                    {
+                      "id": "kosher",
+                      "name": "Kosher"
+                    },
+                    {
+                      "id": "no_red_meat",
+                      "name": "I eat all foods except red meat."
+                    },
+                    {
+                      "id": "only_red_meat",
+                      "name": "I only eat red meat. Nothing else."
+                    },
+                    {
+                      "id": "only_food",
+                      "name": "I eat food."
+                    },
+                    {
+                      "id": "none",
+                      "name": "I eat everything. Including things that aren't food."
+                    }
+                  ],
+                  "properties": [
+                    {
+                      "id": "enum_type",
+                      "value": "radio"
+                    },
+                    {
+                      "id": "description",
+                      "value": "You can choose only one. Sorry."
+                    },
+                    {
+                      "id": "help",
+                      "value": "Delta smelt sarcastic fringehead tigerperch thornfish mud minnow. Snailfish tube-eye beaked salmon, \"sea raven; prickleback sleeper shark sailbearer climbing gourami.\" New World rivuline Pacific viperfish limia deep sea smelt firefish Rabbitfish snake mackerel; duckbilled barracudina. Devil ray, peacock flounder coffinfish codlet Sundaland noodlefish sheepshead scat priapumfish beachsalmon sargassum fish swamp-eel, smooth dogfish poacher sea bass. Frilled shark jellynose fish redtooth triggerfish hammerhead shark chain pickerel; finback cat shark. Chubsucker taimen longfin escolar sabertooth fish leatherjacket trout cod vimba scorpionfish oilfish sardine zebra bullhead shark smelt four-eyed fish. Climbing perch yellowfin grouper char wallago sailback scorpionfish: smoothtongue African glass catfish lagena--red snapper. Smooth dogfish bango hog sucker blue shark longfin escolar banjo catfish. Masu salmon, ponyfish, goby Red whalefish marine hatchetfish, \"sockeye salmon ground shark walleye pollock.\""
                     }
                   ]
                 }

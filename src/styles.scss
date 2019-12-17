@@ -34,3 +34,31 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   padding-top: 64px;
 }
+
+mat-radio-button, .mat-checkbox {
+  padding-right: 16px;
+}
+
+formly-field.vertical-radio-group {
+    mat-radio-button {
+      margin: 5px;
+      padding-right: 16px;
+      display: block;
+
+      label.mat-radio-label {
+        white-space: normal;
+      }
+    }
+}
+
+formly-field.vertical-checkbox-group {
+  .mat-checkbox {
+    margin: 5px;
+    padding-right: 16px;
+    display: block;
+
+    .mat-checkbox-layout {
+      white-space: normal;
+    }
+  }
+}
