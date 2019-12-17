@@ -17,7 +17,8 @@ describe('HelpDialogComponent', () => {
       ],
       providers: [
         {provide: MatDialogRef, useValue: {}},
-        {provide: MAT_DIALOG_DATA,
+        {
+          provide: MAT_DIALOG_DATA,
           useValue: {
             title: 'Happy Little Title',
             text: 'Just go out and talk to a tree. Make friends with it. There we go. Only God can make a tree - but you can paint one.'

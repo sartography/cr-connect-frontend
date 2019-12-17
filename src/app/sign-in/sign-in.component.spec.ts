@@ -8,31 +8,38 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {SignInComponent} from './sign-in.component';
 
 describe('SignInComponent', () => {
-  let component: SignInComponent;
-  let fixture: ComponentFixture<SignInComponent>;
+    let component: SignInComponent;
+    let fixture: ComponentFixture<SignInComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [SignInComponent],
-      imports: [
-        BrowserAnimationsModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        NoopAnimationsModule,
-        RouterTestingModule,
-      ]
-    })
-      .compileComponents();
-  }));
+    beforeEach(async(() => {
+      TestBed.configureTestingModule({
+        declarations: [SignInComponent],
+        imports: [
+          BrowserAnimationsModule,
+          FormsModule,
+          MatFormFieldModule,
+          MatInputModule,
+          NoopAnimationsModule,
+          RouterTestingModule,
+        ]
+      })
+        .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SignInComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+      fixture = TestBed.createComponent(SignInComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should set signedIn to true', () => {
+      expect(localStorage.getItem('signedIn')).toBeFalsy();
+      component.signIn();
+      expect(localStorage.getItem('signedIn')).toBeTruthy();
+    });
+  }
+);

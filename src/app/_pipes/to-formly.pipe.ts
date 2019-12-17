@@ -120,6 +120,7 @@ export class ToFormlyPipe implements PipeTransform {
         resultField.defaultValue = parseInt(field.defaultValue, 10);
       } else if (field.type === 'boolean') {
         resultField.type = 'radio';
+        resultField.defaultValue = this._stringToBool(field.defaultValue);
         resultField.templateOptions.options = [
           {value: true, label: 'Yes'},
           {value: false, label: 'No'},
@@ -138,7 +139,7 @@ export class ToFormlyPipe implements PipeTransform {
       if (field.validation && isIterable(field.validation) && (field.validation.length > 0)) {
         for (const v of field.validation) {
           if (v.name === 'required') {
-            resultField.templateOptions.required = v.config.toLowerCase() === 'true';
+            resultField.templateOptions.required = this._stringToBool(v.config);
           }
         }
       }
@@ -175,6 +176,10 @@ export class ToFormlyPipe implements PipeTransform {
     }
 
     return result;
+  }
+
+  private _stringToBool(s: string) {
+    return s.toLowerCase() === 'true';
   }
 
 }
