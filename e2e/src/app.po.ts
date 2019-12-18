@@ -36,6 +36,10 @@ export class AppPage {
     return element.all(by.css(selector));
   }
 
+  getLocalStorageVar(name: string) {
+    return browser.executeScript(`return window.localStorage.getItem('${name}');`);
+  }
+
   async getRoute() {
     const url = await this.getUrl();
     return '/' + url.split(browser.baseUrl)[1];
@@ -53,6 +57,14 @@ export class AppPage {
     browser.controlFlow().execute(() => {
       browser.executeScript('arguments[0].scrollIntoView(false)', this.getElement(selector).getWebElement());
     });
+  }
+
+  setLocalStorageVar(name: string, value: string) {
+    return browser.executeScript(`return window.localStorage.setItem('${name}','${value}');`);
+  }
+
+  waitFor(t: number) {
+    return browser.sleep(t);
   }
 
   waitForClickable(selector: string) {

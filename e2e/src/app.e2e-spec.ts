@@ -45,7 +45,9 @@ describe('Study Administrator App', () => {
     page.clickAndExpectRoute('#nav_notifications', '/notifications');
   });
 
-  it('should navigate to home screen', () => {
+  it('should navigate back to home screen', () => {
+    page.setLocalStorageVar('numstudy', '1');
+    expect(page.getLocalStorageVar('numstudy')).toEqual('1');
     page.clickAndExpectRoute('#nav_home', '/');
     expect(page.getElements('#cta_new_study').count()).toBeGreaterThan(0);
   });
