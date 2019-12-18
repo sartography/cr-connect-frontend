@@ -43,8 +43,6 @@ export class NavbarComponent implements OnInit {
   }
 
   isLinkActive(path: string) {
-    console.log('path', path);
-    console.log('this.router.url', this.router.url);
     return path === this.router.url;
   }
 }
