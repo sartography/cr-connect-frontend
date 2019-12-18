@@ -52,6 +52,11 @@
     }
   }
 
+  .full-height {
+    width: 100%;
+    height: calc(100vh - 64px);
+  }
+
   .container {
     display: grid;
     justify-content: center;
