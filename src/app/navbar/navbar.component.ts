@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
 interface NavItem {
   label: string;
@@ -32,7 +33,7 @@ export class NavbarComponent implements OnInit {
     {path: '/sign-in', label: 'Sign in'},
   ];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
@@ -41,4 +42,9 @@ export class NavbarComponent implements OnInit {
     return !!localStorage.getItem('signedIn');
   }
 
+  isLinkActive(path: string) {
+    console.log('path', path);
+    console.log('this.router.url', this.router.url);
+    return path === this.router.url;
+  }
 }

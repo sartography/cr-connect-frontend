@@ -13,15 +13,23 @@ nav {
   color: white;
   height: 48px;
 
-  h1 {
+  .site-title {
     color: white;
     font-size: 1.5rem;
     line-height: 48px;
     margin-bottom: 0;
+    background-color: $brand-primary;
+    text-transform: uppercase;
   }
 }
 
 a.active {
   background-color: $brand-primary-tint-1;
   color: white;
+}
+
+.mat-menu-item.active {
+  background-color: $brand-gray-tint-2;
+  color: $brand-gray;
+  font-weight: bold;
 }
