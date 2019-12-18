@@ -10,12 +10,18 @@
        *ngIf="!link.links"
        [routerLink]="link.path"
        [ngClass]="{'active': isLinkActive(link.path)}"
+       [id]="link.id"
     >
       {{link.label}}
     </a>
 
     <ng-container *ngIf="link.links">
-      <button mat-icon-button [matMenuTriggerFor]="menu" [attr.aria-label]="link.label">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        [attr.aria-label]="link.label"
+        [id]="link.id"
+      >
         <mat-icon>{{link.icon}}</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
@@ -24,6 +30,7 @@
           *ngFor="let menuLink of link.links"
           [routerLink]="menuLink.path"
           [ngClass]="{'active': isLinkActive(menuLink.path)}"
+          [id]="menuLink.id"
         >
           <mat-icon *ngIf="menuLink.icon">{{menuLink.icon}}</mat-icon>
           <span>{{menuLink.label}}</span>

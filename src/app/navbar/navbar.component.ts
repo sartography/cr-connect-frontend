@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 
 interface NavItem {
-  label: string;
   path?: string;
+  id: string;
+  label: string;
   icon?: string;
   links?: NavItem[];
 }
@@ -15,25 +16,27 @@ interface NavItem {
 })
 export class NavbarComponent implements OnInit {
   signedInNavLinks: NavItem[] = [
-    {path: '/', label: 'Home'},
-    {path: '/inbox', label: 'Inbox'},
-    {path: '/help', label: 'Help'},
+    {path: '/', id: 'nav_home', label: 'Home'},
+    {path: '/inbox', id: 'nav_inbox', label: 'Inbox'},
+    {path: '/help', id: 'nav_help', label: 'Help'},
     {
-      label: 'Account',
+      id: 'nav_account', label: 'Account',
       icon: 'account_circle',
       links: [
-        {path: '/profile', label: 'Profile', icon: 'person'},
-        {path: '/notifications', label: 'Notifications', icon: 'notifications'},
-        {path: '/sign-out', label: 'Sign out', icon: 'exit_to_app'},
-    ]}
+        {path: '/profile', id: 'nav_profile', label: 'Profile', icon: 'person'},
+        {path: '/notifications', id: 'nav_notifications', label: 'Notifications', icon: 'notifications'},
+        {path: '/sign-out', id: 'nav_sign_out', label: 'Sign out', icon: 'exit_to_app'},
+      ]
+    }
   ];
   signedOutNavLinks: NavItem[] = [
-    {path: '/', label: 'Home'},
-    {path: '/help', label: 'Help'},
-    {path: '/sign-in', label: 'Sign in'},
+    {path: '/', id: 'nav_home', label: 'Home'},
+    {path: '/help', id: 'nav_help', label: 'Help'},
+    {path: '/sign-in', id: 'nav_sign_in', label: 'Sign in'},
   ];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
 
   ngOnInit() {
   }

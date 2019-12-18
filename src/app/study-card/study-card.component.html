@@ -3,6 +3,7 @@
   fxLayout="column"
   fxLayoutAlign="start start"
   [ngClass]="study.status"
+  [attr.data-study-id]="study.id"
 >
   <mat-card-header>
     <mat-card-title>{{study.title}}</mat-card-title>

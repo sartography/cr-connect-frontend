@@ -199,7 +199,7 @@ export class ApiService {
     const url = this._endpointUrl(endpointName + 'List');
 
     if (this.dummy) {
-      const numItems = parseInt(localStorage.getItem('num' + endpointName), 10);
+      const numItems = parseInt(localStorage.getItem('num' + endpointName) || '0', 10);
 
       if (isFinite(numItems)) {
         return this.httpClient

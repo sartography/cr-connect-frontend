@@ -8,6 +8,8 @@
   <button
     mat-flat-button
     color="primary"
-    [routerLink]="['/sign-in']">Sign in</button>
+    [routerLink]="['/sign-in']"
+    id="cta_sign_in"
+  >Sign in</button>
 </div>
 <app-studies *ngIf="isSignedIn()"></app-studies>

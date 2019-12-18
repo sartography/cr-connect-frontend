@@ -23,6 +23,8 @@
       class="chart-container"
       [routerLink]="['workflow', i]"
       [fragment]="'process_category_0_' + i"
+      [attr.data-study-id]="study.id"
+      [attr.data-workflow-id]="i"
     >
       <h2>{{chart.title}}</h2>
       <canvas baseChart
