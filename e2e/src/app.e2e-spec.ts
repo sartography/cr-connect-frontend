@@ -10,7 +10,7 @@ describe('Study Administrator App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('CR Connect');
+    expect(page.getTitleText()).toEqual('CR CONNECT');
   });
 
   afterEach(async () => {

@@ -2,7 +2,7 @@ import {BpmnFormJsonField} from '../_models/json';
 import {ToFormlyPipe} from './to-formly.pipe';
 
 describe('ToFormlyPipe', () => {
-  let pipe = new ToFormlyPipe();
+  const pipe = new ToFormlyPipe();
 
   it('create an instance', () => {
     expect(pipe).toBeTruthy();
