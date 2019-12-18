@@ -37,7 +37,6 @@ describe('SignInComponent', () => {
     });
 
     it('should set signedIn to true', () => {
-      expect(localStorage.getItem('signedIn')).toBeFalsy();
       component.signIn();
       expect(localStorage.getItem('signedIn')).toBeTruthy();
     });

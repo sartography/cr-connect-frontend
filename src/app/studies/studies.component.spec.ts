@@ -6,6 +6,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ApiService} from '../_services/api/api.service';
 import {studies} from '../_services/api/api.service.spec';
+import {StudyCardComponent} from '../study-card/study-card.component';
 
 import {StudiesComponent} from './studies.component';
 
@@ -16,7 +17,10 @@ describe('StudiesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [StudiesComponent],
+      declarations: [
+        StudiesComponent,
+        StudyCardComponent,
+      ],
       imports: [
         HttpClientTestingModule,
         MatCardModule,

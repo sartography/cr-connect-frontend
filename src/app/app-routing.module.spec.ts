@@ -34,6 +34,7 @@ import {ProfileComponent} from './profile/profile.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesComponent} from './studies/studies.component';
+import {StudyCardComponent} from './study-card/study-card.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowProcessMenuItemComponent} from './workflow-process-menu-item/workflow-process-menu-item.component';
 import {WorkflowProcessComponent} from './workflow-process/workflow-process.component';
@@ -56,13 +57,14 @@ describe('Router: App', () => {
         HelpComponent,
         HomeComponent,
         InboxComponent,
+        NavbarComponent,
+        NotificationsComponent,
         ProfileComponent,
         SignInComponent,
         SignOutComponent,
-        NavbarComponent,
-        NotificationsComponent,
-        StudyComponent,
         StudiesComponent,
+        StudyCardComponent,
+        StudyComponent,
         ToFormlyPipe,
         WorkflowComponent,
         WorkflowProcessComponent,

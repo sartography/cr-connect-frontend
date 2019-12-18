@@ -11,6 +11,6 @@ export class HomeComponent {
   }
 
   isSignedIn() {
-    return !!localStorage.getItem('signedIn');
+    return localStorage.getItem('signedIn') === 'true';
   }
 }
