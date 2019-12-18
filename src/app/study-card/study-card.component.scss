@@ -8,7 +8,7 @@ mat-card {
   margin-bottom: 10px;
 
   &.draft {
-    border-bottom: 20px solid $brand-warning;
+    border-bottom: 20px solid $brand-accent;
   }
 
   &:hover {
@@ -24,7 +24,7 @@ mat-card {
   position: absolute;
   bottom: -20px;
   left: 0px;
-  background-color: green;
+  background-color: $brand-primary;
   height: 20px;
   border-right: 1px solid white;
   font-weight: 700;

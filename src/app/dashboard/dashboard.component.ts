@@ -18,9 +18,13 @@ interface ChartData {
 })
 export class DashboardComponent implements OnInit {
   @Input() study: Study;
-  colors: Color[] = [
-    {backgroundColor: ['#d54256', '#564da0', '#247a6b']},
-  ];
+  colors: Color[] = [{
+    backgroundColor: [
+      '#E57200', // orange
+      '#5266a5', // light blue
+      '#232D4B', // dark blue
+    ]
+  }];
   labels: Label[] = ['Incomplete', 'Partially Complete', 'Complete'];
   charts: ChartData[] = Array(6).fill({}).map((_, i) => {
     return {
