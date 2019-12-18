@@ -43,16 +43,13 @@ describe('StudiesComponent', () => {
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(studies);
 
-    expect(component.draftStudies).toBeTruthy();
-    expect(component.submittedStudies).toBeTruthy();
-    expect(component.activeStudies).toBeTruthy();
-    expect(component.inactiveStudies).toBeTruthy();
-    expect(
-      component.draftStudies.length +
-      component.submittedStudies.length +
-      component.activeStudies.length +
-      component.inactiveStudies.length
-    ).toEqual(studies.length);
+    expect(component.studiesByStatus).toBeTruthy();
+
+    const numStudies = component.studiesByStatus.reduce((memo, s) => {
+      return memo + s.studies.length;
+    }, 0);
+
+    expect(numStudies).toEqual(studies.length);
   });
 
   it('should create', () => {

@@ -9,71 +9,47 @@
   </div>
 
   <h1>Studies</h1>
-  <h2>In Progress</h2>
-  <div class="status-draft" fxLayout="row wrap" fxLayoutGap="40px">
-    <div
-      *ngIf="isExpanded"
-      class="alert alert-info"
-      fxFlex="100"
-    >
-      <p>To start a new study, first go to HSR IRB Protocol Builder and create a new protocol. When your protocol has
-      been created, return here to continue working on it.</p>
-      <a
-        (click)="isExpanded = false; changeNumStudies(1)"
-        color="accent"
-        mat-flat-button
-        id="cta_protocol_builder"
+
+  <ng-container *ngFor="let studiesGroup of studiesByStatus; let i = index;">
+    <h2>{{studiesGroup.statusLabel}}</h2>
+    <div class="status-{{studiesGroup.status}}" fxLayout="row wrap" fxLayoutGap="40px">
+      <div
+        *ngIf="i === 0 && isExpanded"
+        class="alert alert-info"
+        fxFlex="100"
       >
-        Create protocol in Protocol Builder
-      </a>
+        <p>To start a new study, first go to HSR IRB Protocol Builder and create a new protocol. When your protocol has
+        been created, return here to continue working on it.</p>
+        <a
+          (click)="isExpanded = false; changeNumStudies(1)"
+          color="accent"
+          mat-flat-button
+          id="cta_protocol_builder"
+        >
+          Create protocol in Protocol Builder
+        </a>
+      </div>
+
+      <div
+        *ngIf="i === 0 && !isExpanded"
+        fxLayout="column"
+        fxLayoutAlign="center start"
+        (click)="isExpanded = true"
+        class="alert alert-info"
+        fxFlex="100"
+      >
+        <button color="primary" mat-flat-button id="cta_new_study">
+          <mat-icon>add</mat-icon>
+          Start a new study
+        </button>
+      </div>
+
+      <app-study-card
+        *ngFor="let study of studiesGroup.studies"
+        [study]="study"
+        fxFlex="33"
+      ></app-study-card>
     </div>
-
-    <div
-      *ngIf="!isExpanded"
-      fxLayout="column"
-      fxLayoutAlign="center start"
-      (click)="isExpanded = true"
-      class="alert alert-info"
-      fxFlex="100"
-    >
-      <button color="primary" mat-flat-button id="cta_new_study">
-        <mat-icon>add</mat-icon>
-        Start a new study
-      </button>
-    </div>
-
-    <app-study-card
-      *ngFor="let study of draftStudies"
-      [study]="study"
-      fxFlex="33"
-    ></app-study-card>
-  </div>
-
-  <h2 [ngClass]="{'disabled': submittedStudies.length === 0}">Submitted</h2>
-  <div class="status-submitted" fxLayout="column" fxLayoutGap="40px">
-    <app-study-card
-      *ngFor="let study of submittedStudies"
-      [study]="study"
-      fxFlex="33"
-    ></app-study-card>
-  </div>
-
-  <h2 [ngClass]="{'disabled': activeStudies.length === 0}">Active</h2>
-  <div class="status-submitted" fxLayout="column" fxLayoutGap="40px">
-    <app-study-card
-      *ngFor="let study of activeStudies"
-      [study]="study"
-      fxFlex="33"
-    ></app-study-card>
-  </div>
-
-  <h2 [ngClass]="{'disabled': inactiveStudies.length === 0}">Inactive</h2>
-  <div class="status-submitted" fxLayout="column" fxLayoutGap="40px">
-    <app-study-card
-      *ngFor="let study of inactiveStudies"
-      [study]="study"
-      fxFlex="33"
-    ></app-study-card>
-  </div>
+  </ng-container>
 </div>
 

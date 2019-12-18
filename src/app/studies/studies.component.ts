@@ -1,6 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Study, StudyStatus} from '../_models/study';
+import {ProtocolBuilderStatus, Study} from '../_models/study';
 import {ApiService} from '../_services/api/api.service';
+
+export interface StudiesByStatus {
+  status: ProtocolBuilderStatus;
+  statusLabel: string;
+  studies: Study[];
+}
 
 @Component({
   selector: 'app-studies',
@@ -8,10 +14,7 @@ import {ApiService} from '../_services/api/api.service';
   styleUrls: ['./studies.component.scss']
 })
 export class StudiesComponent implements OnInit {
-  draftStudies: Study[] = [];
-  submittedStudies: Study[] = [];
-  activeStudies: Study[] = [];
-  inactiveStudies: Study[] = [];
+  studiesByStatus: StudiesByStatus[] = [];
   isExpanded: boolean;
 
   constructor(private api: ApiService) {
@@ -23,12 +26,13 @@ export class StudiesComponent implements OnInit {
 
   loadStudies() {
     this.api.getStudies().subscribe(allStudies => {
-      this.draftStudies = [];
-      this.submittedStudies = [];
-      this.activeStudies = [];
-      this.inactiveStudies = [];
-      allStudies.forEach(s => {
-        this[s.status + 'Studies'].push(s);
+      const statuses = Object.keys(ProtocolBuilderStatus);
+      this.studiesByStatus = statuses.map((status, i) => {
+        return {
+          status: ProtocolBuilderStatus[status],
+          statusLabel: status,
+          studies: allStudies.filter(s => s.protocol_builder_status === ProtocolBuilderStatus[status]),
+        };
       });
     });
   }

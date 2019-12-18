@@ -1,7 +1,6 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
-import {IRBRequirement, IRBReviewType} from '../../_models/irb';
-import {ProtocolBuilderStatus, ProtocolStatus, Study, StudyStatus} from '../../_models/study';
+import {ProtocolBuilderStatus, Study} from '../../_models/study';
 import {StudyTask} from '../../_models/study-task';
 import {StudyType} from '../../_models/study-type';
 import {Task, TaskState} from '../../_models/task';
@@ -12,45 +11,21 @@ import {ApiService} from './api.service';
 export const studies: Study[] = [
   {
     id: '0',
-    date_created: new Date(),
-    date_submitted: new Date(),
     ind_number: '12345',
     last_updated: new Date(),
-    pb_status: ProtocolBuilderStatus.IN_PROGRESS,
-    percent_complete: 45,
-    pi: 'Dr. Tricia Marie McMillan',
-    protocol_status: ProtocolStatus.PRE_REVIEW,
-    requirements: [
-      IRBRequirement.CANCER_CENTER_PROTOCOL_REVIEW_COMMITTEE,
-      IRBRequirement.CENTRAL_INSTITUTIONAL_REVIEW_BOARD_CIRB,
-      IRBRequirement.FERPA
-    ],
-    review_type: IRBReviewType.FULL_BOARD,
+    protocol_builder_status: ProtocolBuilderStatus.IN_PROCESS,
+    primary_investigator_id: 'Dr. Tricia Marie McMillan',
     sponsor: 'Sirius Cybernetics Corporation',
-    status: StudyStatus.SUBMITTED,
     title: 'Phase III Trial of Genuine People Personalities (GPP) Autonomous Intelligent Emotional Agents for Interstellar Spacecraft',
-    type_id: '0',
   },
   {
     id: '1',
-    date_created: new Date(),
-    date_submitted: new Date(),
     ind_number: '12345',
     last_updated: new Date(),
-    pb_status: ProtocolBuilderStatus.IN_PROGRESS,
-    percent_complete: 45,
-    pi: 'Dr. Slartibartfast Magrathean',
-    protocol_status: ProtocolStatus.PRE_REVIEW,
-    requirements: [
-      IRBRequirement.CANCER_CENTER_PROTOCOL_REVIEW_COMMITTEE,
-      IRBRequirement.CENTRAL_INSTITUTIONAL_REVIEW_BOARD_CIRB,
-      IRBRequirement.FERPA
-    ],
-    review_type: IRBReviewType.FULL_BOARD,
+    protocol_builder_status: ProtocolBuilderStatus.IN_PROCESS,
+    primary_investigator_id: 'Dr. Slartibartfast Magrathean',
     sponsor: 'CamTim',
-    status: StudyStatus.SUBMITTED,
     title: 'Pilot Study of Fjord Placement for Single Fraction Outcomes to Cortisol Susceptibility',
-    type_id: '0',
   }
 ];
 
@@ -108,7 +83,10 @@ export const workflowProcesses: WorkflowProcess[] = [
                   label: 'Happy Clouds',
                   properties: [
                     {id: 'description', value: 'Decide where your cloud lives.'},
-                    {id: 'help_text', value: 'We don\'t want to set these clouds on fire. We\'ll play with clouds today.'}
+                    {
+                      id: 'help_text',
+                      value: 'We don\'t want to set these clouds on fire. We\'ll play with clouds today.'
+                    }
                   ]
                 }
               ]
