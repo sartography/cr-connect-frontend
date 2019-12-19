@@ -14,20 +14,4 @@ export interface WorkflowSpec extends GenericType {
 export interface Workflow extends GenericType {
     study_id: string;
     name: string;
-    categories: WorkflowSubprocess[];
-}
-
-export interface WorkflowSubprocess extends GenericType {
-    name: string;
-    steps: WorkflowStep[];
-}
-
-export interface WorkflowStep extends GenericType {
-    name: string;
-    form: WorkflowForm;
-}
-
-export interface WorkflowForm extends GenericType {
-    name: string;
-    fields: BpmnFormJsonField[];
 }
