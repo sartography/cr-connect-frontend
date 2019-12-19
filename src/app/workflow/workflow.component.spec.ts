@@ -8,9 +8,10 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-b
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
+import {mockStudies} from '../_testing/mocks/study.mocks';
 import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
 import {ApiService} from '../_services/api/api.service';
-import {studies, workflowProcesses} from '../_services/api/api.service.spec';
+import {workflowProcesses} from '../_testing/mocks/workflow.mocks';
 import {WorkflowProcessMenuItemComponent} from '../workflow-process-menu-item/workflow-process-menu-item.component';
 import {WorkflowProcessComponent} from '../workflow-process/workflow-process.component';
 import {WorkflowStepsMenuListComponent} from '../workflow-steps-menu-list/workflow-steps-menu-list.component';
@@ -61,10 +62,10 @@ describe('WorkflowComponent', () => {
 
     const sReq = httpMock.expectOne('/assets/json/study.json');
     expect(sReq.request.method).toEqual('GET');
-    sReq.flush(studies);
+    sReq.flush(mockStudies);
 
     expect(component.study).toBeTruthy();
-    expect(component.study.id).toEqual(studies[0].id);
+    expect(component.study.id).toEqual(mockStudies[0].id);
 
     const pReq = httpMock.expectOne('/assets/json/workflow_process.json');
     expect(pReq.request.method).toEqual('GET');

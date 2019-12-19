@@ -2,7 +2,7 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {MatListModule} from '@angular/material/list';
 import {ApiService} from '../_services/api/api.service';
-import {workflowSpecs} from '../_services/api/api.service.spec';
+import {mockWorkflowSpecs} from '../_testing/mocks/workflow-spec.mocks';
 
 import { WorkflowSpecListComponent } from './workflow-spec-list.component';
 
@@ -31,10 +31,10 @@ describe('WorkflowSpecListComponent', () => {
 
     const sReq = httpMock.expectOne('/assets/json/workflow_spec.json');
     expect(sReq.request.method).toEqual('GET');
-    sReq.flush(workflowSpecs);
+    sReq.flush(mockWorkflowSpecs);
 
     expect(component.workflowSpecs).toBeTruthy();
-    expect(component.workflowSpecs.length).toEqual(workflowSpecs.length);
+    expect(component.workflowSpecs.length).toEqual(mockWorkflowSpecs.length);
   });
 
   it('should create', () => {

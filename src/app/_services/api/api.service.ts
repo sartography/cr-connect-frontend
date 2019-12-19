@@ -20,22 +20,22 @@ export interface ApiError {
 })
 export class ApiService {
   public endpoints = {
-    study: '/api/study/<id>',
-    studyList: '/api/study',
-    studyTask: '/api/study_task/<id>',
-    studyTaskList: '/api/study_task',
-    studyTaskListForStudy: '/api/study_task/study/<id>',
-    studyType: '/api/study_type/<id>',
-    studyTypeList: '/api/study_type',
-    task: '/api/task/<id>',
-    taskList: '/api/task',
-    taskSpec: '/api/task_spec/<id>',
-    taskSpecs: '/api/task_spec',
-    taskSpecsForWorkflowSpec: '/api/task_spec/workflow_spec/<id>',
-    workflowProcess: '/api/workflow_process/<id>',
-    workflowProcessList: '/api/workflow_process',
-    workflowSpec: '/api/workflow_spec/<id>',
-    workflowSpecList: '/api/workflow_spec',
+    study: '/v1.0/study/<id>',
+    studyList: '/v1.0/study',
+    studyTask: '/v1.0/study_task/<id>',
+    studyTaskList: '/v1.0/study_task',
+    studyTaskListForStudy: '/v1.0/study_task/study/<id>',
+    studyType: '/v1.0/study_type/<id>',
+    studyTypeList: '/v1.0/study_type',
+    task: '/v1.0/task/<id>',
+    taskList: '/v1.0/task',
+    taskSpec: '/v1.0/task_spec/<id>',
+    taskSpecs: '/v1.0/task_spec',
+    taskSpecsForWorkflowSpec: '/v1.0/task_spec/workflow_spec/<id>',
+    workflowProcess: '/v1.0/workflow_process/<id>',
+    workflowProcessList: '/v1.0/workflow_process',
+    workflowSpec: '/v1.0/workflow_spec/<id>',
+    workflowSpecList: '/v1.0/workflow_spec',
   };
   apiRoot: string;
   dummy: boolean;
@@ -164,8 +164,8 @@ export class ApiService {
   }
 
   private _dummy_api_url(path: string) {
-    if (path && path.search('/api/') !== -1) {
-      const arr = path.split('/api/');
+    if (path && path.search('/v1.0/') !== -1) {
+      const arr = path.split('/v1.0/');
       if (arr.length > 0) {
         return `/assets/json/${arr[arr.length - 1]}.json`;
       }

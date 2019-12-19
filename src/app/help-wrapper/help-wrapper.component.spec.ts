@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
-import {workflowProcesses} from '../_services/api/api.service.spec';
+import {workflowProcesses} from '../_testing/mocks/workflow.mocks';
 
 import { HelpWrapperComponent } from './help-wrapper.component';
 

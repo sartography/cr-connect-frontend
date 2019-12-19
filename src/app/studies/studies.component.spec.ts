@@ -4,8 +4,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {RouterTestingModule} from '@angular/router/testing';
+import {mockStudies} from '../_testing/mocks/study.mocks';
 import {ApiService} from '../_services/api/api.service';
-import {studies} from '../_services/api/api.service.spec';
 import {StudyCardComponent} from '../study-card/study-card.component';
 
 import {StudiesComponent} from './studies.component';
@@ -41,7 +41,7 @@ describe('StudiesComponent', () => {
 
     const sReq = httpMock.expectOne('/assets/json/study.json');
     expect(sReq.request.method).toEqual('GET');
-    sReq.flush(studies);
+    sReq.flush(mockStudies);
 
     expect(component.studiesByStatus).toBeTruthy();
 
@@ -49,7 +49,7 @@ describe('StudiesComponent', () => {
       return memo + s.studies.length;
     }, 0);
 
-    expect(numStudies).toEqual(studies.length);
+    expect(numStudies).toEqual(mockStudies.length);
   });
 
   it('should create', () => {

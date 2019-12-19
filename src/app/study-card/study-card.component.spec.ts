@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {MatCardModule} from '@angular/material/card';
 import {RouterTestingModule} from '@angular/router/testing';
-import {studies} from '../_services/api/api.service.spec';
+import {mockStudies} from '../_testing/mocks/study.mocks';
 
 import { StudyCardComponent } from './study-card.component';
 
@@ -25,7 +25,7 @@ describe('StudyCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StudyCardComponent);
     component = fixture.componentInstance;
-    component.study = studies[0];
+    component.study = mockStudies[0];
     fixture.detectChanges();
   });
 

@@ -4,7 +4,7 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-b
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
 import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
-import {workflowProcesses} from '../_services/api/api.service.spec';
+import {workflowProcesses} from '../_testing/mocks/workflow.mocks';
 
 import {WorkflowProcessComponent} from './workflow-process.component';
 

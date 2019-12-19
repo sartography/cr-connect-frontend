@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {MatCardModule} from '@angular/material/card';
-import {workflowProcesses} from '../_services/api/api.service.spec';
+import {workflowProcesses} from '../_testing/mocks/workflow.mocks';
 
 import { PanelWrapperComponent } from './panel-wrapper.component';
 
