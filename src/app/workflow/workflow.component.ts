@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Study} from '../_models/study';
-import {WorkflowProcess} from '../_models/workflow';
+import {WorkflowTask} from '../_models/workflow-task';
 import {ApiService} from '../_services/api/api.service';
 
 @Component({
@@ -11,7 +11,7 @@ import {ApiService} from '../_services/api/api.service';
 })
 export class WorkflowComponent {
   study: Study;
-  process: WorkflowProcess;
+  workflowTasks: WorkflowTask[];
 
   constructor(
     private route: ActivatedRoute,
@@ -20,8 +20,10 @@ export class WorkflowComponent {
   ) {
     const paramMap = this.route.snapshot.paramMap;
     const studyId = paramMap.get('study_id');
-    const processId = paramMap.get('workflow_process_id');
+    const workflowId = paramMap.get('workflow_id');
     this.api.getStudy(studyId).subscribe(s => this.study = s);
-    this.api.getWorkflowProcess(processId).subscribe(p => this.process = p);
+    this.api.getTaskListForWorkflow(workflowId).subscribe(tasks => {
+      this.workflowTasks = tasks;
+    });
   }
 }

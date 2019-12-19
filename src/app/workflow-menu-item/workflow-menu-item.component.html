@@ -1,26 +1,25 @@
-<ng-container *ngIf="study && process">
+<ng-container *ngIf="study && workflowTasks">
   <button mat-flat-button [routerLink]="['/study', study.id]" ngClass="back">
     <mat-icon>chevron_left</mat-icon>
     Back
   </button>
 
-  <h3 class="process-title">{{process.name}}</h3>
   <mat-nav-list>
-    <ng-container *ngFor="let cat of process.categories">
+    <ng-container *ngFor="let task of workflowTasks">
       <a
         mat-list-item
         class="process-category"
-        [href]="'#process_category_' + [process.id, cat.id].join('_')"
+        [href]="'#task_' + task.id"
         matLine
         pageScroll
       >
-        {{ cat.name }}
+        {{ task.name }}
         <span fxFlex></span>
       </a>
       <app-workflow-steps-menu-list
-        [categoryId]="cat.id"
-        [processId]="process.id"
-        [steps]="cat.steps"
+        [categoryId]="task.id"
+        [processId]="task.id"
+        [steps]="task.form"
       ></app-workflow-steps-menu-list>
     </ng-container>
   </mat-nav-list>

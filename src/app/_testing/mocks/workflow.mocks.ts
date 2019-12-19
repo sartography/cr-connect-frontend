@@ -1,7 +1,8 @@
-import {WorkflowProcess} from '../../_models/workflow';
+import {Workflow} from '../../_models/workflow';
 
-export const mockWorkflowProcess0: WorkflowProcess = {
+export const mockWorkflow0: Workflow = {
   id: '0',
+  study_id: '0',
   name: 'Process 0',
   categories: [
     {
@@ -240,8 +241,9 @@ export const mockWorkflowProcess0: WorkflowProcess = {
   ]
 };
 
-export const mockWorkflowProcess1: WorkflowProcess = {
+export const mockWorkflow1: Workflow = {
   id: '1',
+  study_id: '0',
   name: 'Make a fantastic landscape',
   categories: [
     {
@@ -275,7 +277,7 @@ export const mockWorkflowProcess1: WorkflowProcess = {
   ]
 };
 
-export const workflowProcesses: WorkflowProcess[] = [
-  mockWorkflowProcess0,
-  mockWorkflowProcess1,
+export const mockWorkflows: Workflow[] = [
+  mockWorkflow0,
+  mockWorkflow1,
 ];

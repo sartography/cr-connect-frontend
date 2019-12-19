@@ -29,7 +29,7 @@ describe('WorkflowSpecListComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('/assets/json/workflow_spec.json');
+    const sReq = httpMock.expectOne('http://localhost:5000/v1.0/workflow-specification');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockWorkflowSpecs);
 

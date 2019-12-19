@@ -3,6 +3,4 @@
   Back
 </button>
 
-<ng-container *ngIf="study">
-  <app-dashboard [study]="study"></app-dashboard>
-</ng-container>
+<app-dashboard *ngIf="study" [study]="study"></app-dashboard>

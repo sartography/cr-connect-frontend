@@ -4,7 +4,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ChartsModule} from 'ng2-charts';
-import {mockStudies} from '../_testing/mocks/study.mocks';
+import {mockStudies, mockStudy0} from '../_testing/mocks/study.mocks';
 import {ApiService} from '../_services/api/api.service';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 
@@ -42,15 +42,15 @@ describe('StudyComponent', () => {
     httpMock = TestBed.get(HttpTestingController);
     fixture = TestBed.createComponent(StudyComponent);
     component = fixture.componentInstance;
-    component.study = mockStudies[0];
+    component.study = mockStudy0;
     fixture.detectChanges();
 
     const sReq = httpMock.expectOne('/assets/json/study.json');
     expect(sReq.request.method).toEqual('GET');
-    sReq.flush(mockStudies);
+    sReq.flush(mockStudy0);
 
     expect(component.study).toBeTruthy();
-    expect(component.study.id).toEqual(mockStudies[0].id);
+    expect(component.study.id).toEqual(mockStudy0.id);
   });
 
   it('should create', () => {

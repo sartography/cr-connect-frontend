@@ -4,19 +4,19 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-b
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
 import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
-import {workflowProcesses} from '../_testing/mocks/workflow.mocks';
+import {mockWorkflows} from '../_testing/mocks/workflow.mocks';
 
-import {WorkflowProcessComponent} from './workflow-process.component';
+import {WorkflowFormComponent} from './workflow-form.component';
 
-describe('WorkflowProcessComponent', () => {
-  let component: WorkflowProcessComponent;
-  let fixture: ComponentFixture<WorkflowProcessComponent>;
+describe('WorkflowFormComponent', () => {
+  let component: WorkflowFormComponent;
+  let fixture: ComponentFixture<WorkflowFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         ToFormlyPipe,
-        WorkflowProcessComponent,
+        WorkflowFormComponent,
       ],
       imports: [
         BrowserAnimationsModule,
@@ -30,9 +30,9 @@ describe('WorkflowProcessComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WorkflowProcessComponent);
+    fixture = TestBed.createComponent(WorkflowFormComponent);
     component = fixture.componentInstance;
-    component.process = workflowProcesses[0];
+    component.workflow = mockWorkflows[0];
     fixture.detectChanges();
   });
 

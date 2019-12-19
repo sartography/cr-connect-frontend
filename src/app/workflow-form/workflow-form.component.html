@@ -1,0 +1,15 @@
+<ng-container *ngIf="study && workflowTasks; else loading">
+  <div *ngFor="let task of workflowTasks" id="{{'task_' + task.id}}">
+    <h1>{{task.name}}</h1>
+    <div>
+      <h3>{{task.form.label}}</h3>
+      <formly-form [model]="model" [fields]="[task.form] | toFormly" [options]="options" [form]="form"></formly-form>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="loading" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

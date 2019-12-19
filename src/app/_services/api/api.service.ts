@@ -1,14 +1,11 @@
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, throwError} from 'rxjs';
-import {catchError, map, take} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
-import {GenericType} from '../../_models/generic-type';
 import {Study} from '../../_models/study';
-import {StudyTask} from '../../_models/study-task';
-import {StudyType} from '../../_models/study-type';
-import {Task, TaskSpec} from '../../_models/task';
-import {WorkflowProcess, WorkflowSpec} from '../../_models/workflow';
+import {WorkflowTask} from '../../_models/workflow-task';
+import {Workflow, WorkflowSpec} from '../../_models/workflow';
 
 export interface ApiError {
   code: string;
@@ -20,129 +17,86 @@ export interface ApiError {
 })
 export class ApiService {
   public endpoints = {
-    study: '/v1.0/study/<id>',
     studyList: '/v1.0/study',
-    studyTask: '/v1.0/study_task/<id>',
-    studyTaskList: '/v1.0/study_task',
-    studyTaskListForStudy: '/v1.0/study_task/study/<id>',
-    studyType: '/v1.0/study_type/<id>',
-    studyTypeList: '/v1.0/study_type',
-    task: '/v1.0/task/<id>',
-    taskList: '/v1.0/task',
-    taskSpec: '/v1.0/task_spec/<id>',
-    taskSpecs: '/v1.0/task_spec',
-    taskSpecsForWorkflowSpec: '/v1.0/task_spec/workflow_spec/<id>',
-    workflowProcess: '/v1.0/workflow_process/<id>',
-    workflowProcessList: '/v1.0/workflow_process',
-    workflowSpec: '/v1.0/workflow_spec/<id>',
-    workflowSpecList: '/v1.0/workflow_spec',
+    study: '/v1.0/study/<study_id>',
+    workflowListForStudy: '/v1.0/study/<study_id>/workflows',
+    studyStatus: '/v1.0/study-update/<study_id>',
+    workflowSpecList: '/v1.0/workflow-specification',
+    workflow: '/v1.0/workflow/<workflow_id>',
+    taskForWorkflow: '/v1.0/workflow/<workflow_id>/task/<task_id>',
+    taskListForWorkflow: '/v1.0/workflow/<workflow_id>/tasks',
   };
   apiRoot: string;
-  dummy: boolean;
 
   constructor(
     private httpClient: HttpClient
   ) {
     this.apiRoot = environment.api;
-    this.dummy = environment.dummy || false;
-  }
-
-  /** Get Study */
-  getStudy(id: string): Observable<Study> {
-    return this._getOne<Study>(id, 'study');
   }
 
   /** Get Studies */
   getStudies(): Observable<Study[]> {
-    return this._getAll<Study>('study');
+    const url = this._endpointUrl('studyList');
+    return this.httpClient
+      .get<Study[]>(url)
+      .pipe(catchError(this._handleError));
   }
 
-  /** Get Study Task */
-  getStudyTask(id: string): Observable<StudyTask> {
-    return this._getOne<StudyTask>(id, 'studyTask');
+  /** Get Study */
+  getStudy(studyId: string): Observable<Study> {
+    const url = this._endpointUrl('study');
+    return this.httpClient
+      .get<Study>(url.replace('<study_id>', studyId.toString()))
+      .pipe(catchError(this._handleError));
   }
 
-  /** Get Study Tasks for Study */
-  getStudyTasksForStudy(id: string): Observable<StudyTask[]> {
-    if (this.dummy) {
-      return this.httpClient
-        .get<StudyTask[]>(this._endpointUrl('studyTaskList'))
-        .pipe(map(st => st.filter(s => s.study_id === id)))
-        .pipe(catchError(this._handleError));
-    } else {
-      return this.httpClient
-        .get<StudyTask[]>(this._endpointUrl('studyTaskListForStudy').replace('<id>', id.toString()))
-        .pipe(catchError(this._handleError));
-    }
+  /** Get WorkflowListForStudy */
+  getWorkflowListForStudy(studyId: string): Observable<Workflow[]> {
+    const url = this._endpointUrl('workflowListForStudy');
+    return this.httpClient
+      .get<Workflow[]>(url.replace('<study_id>', studyId.toString()))
+      .pipe(catchError(this._handleError));
   }
 
-  /** Get Study Tasks */
-  getStudyTasks(): Observable<StudyTask[]> {
-    return this._getAll<StudyTask>('studyTask');
+  /** Get StudyStatus */
+  getStudyStatus(studyId: string): Observable<any> {
+    const url = this._endpointUrl('studyStatus');
+    return this.httpClient.get<any>(url.replace('<study_id>', studyId.toString()))
+      .pipe(catchError(this._handleError));
   }
 
-  /** Get Study Type */
-  getStudyType(id: string): Observable<StudyType> {
-    return this._getOne<StudyType>(id, 'studyType');
+  /** Get WorkflowSpecList */
+  getWorkflowSpecList(): Observable<WorkflowSpec[]> {
+    const url = this._endpointUrl('workflowSpecList');
+    return this.httpClient
+      .get<WorkflowSpec[]>(url)
+      .pipe(catchError(this._handleError));
   }
 
-  /** Get Study Types */
-  getStudyTypes(): Observable<StudyType[]> {
-    return this._getAll<StudyType>('studyType');
+  /** Get Workflow */
+  getWorkflow(studyId: string): Observable<Workflow> {
+    const url = this._endpointUrl('workflow');
+    return this.httpClient
+      .get<Workflow>(url.replace('<study_id>', studyId.toString()))
+      .pipe(catchError(this._handleError));
   }
 
-  /** Get Task */
-  getTask(id: string): Observable<Task> {
-    return this._getOne<Task>(id, 'task');
+  /** Get TaskForWorkflow */
+  getTaskForWorkflow(workflowId: string, taskId: string): Observable<WorkflowTask> {
+    const url = this._endpointUrl('taskForWorkflow');
+    const urlWithIds = url
+      .replace('<workflow_id>', workflowId.toString())
+      .replace('<task_id>', taskId.toString());
+    return this.httpClient.get<WorkflowTask>(urlWithIds)
+      .pipe(catchError(this._handleError));
   }
 
-  /** Get Tasks */
-  getTasks(): Observable<Task[]> {
-    return this._getAll<Task>('task');
-  }
-
-  /** Get TaskSpec */
-  getTaskSpec(id: string): Observable<TaskSpec> {
-    return this._getOne<TaskSpec>(id, 'taskSpec');
-  }
-
-  /** Get TaskSpecs */
-  getTaskSpecs(): Observable<TaskSpec[]> {
-    return this._getAll<TaskSpec>('taskSpecs');
-  }
-
-  /** Get WorkflowSpec */
-  getWorkflowSpec(id: string): Observable<WorkflowSpec> {
-    return this._getOne<WorkflowSpec>(id, 'workflowSpec');
-  }
-
-  /** Get WorkflowSpecs */
-  getWorkflowSpecs(): Observable<WorkflowSpec[]> {
-    return this._getAll<WorkflowSpec>('workflowSpec');
-  }
-
-  /** Get Task Specs for Workflow Spec */
-  getTaskSpecsForWorkflowSpec(wf: WorkflowSpec): Observable<TaskSpec[]> {
-    if (this.dummy) {
-      return this.httpClient
-        .get<TaskSpec[]>(this._endpointUrl('taskSpecs'))
-        .pipe(map(ts => ts.filter(s => wf.task_spec_ids.includes(s.id))))
-        .pipe(catchError(this._handleError));
-    } else {
-      return this.httpClient
-        .get<TaskSpec[]>(this._endpointUrl('taskSpecsForWorkflowSpec').replace('<id>', wf.id.toString()))
-        .pipe(catchError(this._handleError));
-    }
-  }
-
-  /** Get WorkflowProcess */
-  getWorkflowProcess(id: string): Observable<WorkflowProcess> {
-    return this._getOne<WorkflowProcess>(id, 'workflowProcess');
-  }
-
-  /** Get WorkflowProcesses */
-  getWorkflowProcesses(): Observable<WorkflowProcess[]> {
-    return this._getAll<WorkflowProcess>('workflowProcess');
+  /** Get TaskListForWorkflow */
+  getTaskListForWorkflow(workflowId: string): Observable<WorkflowTask[]> {
+    const url = this._endpointUrl('taskListForWorkflow');
+    return this.httpClient
+      .get<WorkflowTask[]>(url.replace('<workflow_id>', workflowId.toString()))
+      .pipe(catchError(this._handleError));
   }
 
   private _handleError(error: ApiError) {
@@ -153,74 +107,9 @@ export class ApiService {
     const path = this.endpoints[endpointName];
 
     if (path) {
-      if (this.dummy) {
-        return this._dummy_api_url(path);
-      } else {
-        return this.apiRoot + path;
-      }
+      return this.apiRoot + path;
     } else {
       throw new Error(`endpoint '${endpointName}' does not exist`);
     }
-  }
-
-  private _dummy_api_url(path: string) {
-    if (path && path.search('/v1.0/') !== -1) {
-      const arr = path.split('/v1.0/');
-      if (arr.length > 0) {
-        return `/assets/json/${arr[arr.length - 1]}.json`;
-      }
-    }
-  }
-
-  private _getOne<T extends GenericType>(id: string, endpointName: string): Observable<T> {
-    if (this.dummy) {
-      return this.httpClient
-        .get<T[]>(this._endpointUrl(endpointName + 'List'))
-        .pipe(
-          map(results => {
-            const found = results.find(t => t.id === id);
-            if (!found) {
-              const error: ApiError = {code: '404', message: 'Invalid ID'};
-              throw error;
-            } else {
-              return found;
-            }
-          }),
-          catchError(this._handleError)
-        );
-    } else {
-      return this.httpClient
-        .get<T>(this._endpointUrl(endpointName).replace('<id>', id.toString()))
-        .pipe(catchError(this._handleError));
-    }
-  }
-
-  private _getAll<T extends GenericType>(endpointName: string): Observable<T[]> {
-    const url = this._endpointUrl(endpointName + 'List');
-
-    if (this.dummy) {
-      const numItems = parseInt(localStorage.getItem('num' + endpointName), 10);
-
-      if (isFinite(numItems)) {
-        return this.httpClient
-          .get<T[]>(url)
-          .pipe(
-            map(results => {
-              const found = results.slice(0, numItems);
-              if (!found) {
-                const error: ApiError = {code: '404', message: 'No items found'};
-                throw error;
-              } else {
-                return found;
-              }
-            }),
-            catchError(this._handleError)
-          );
-      }
-    }
-
-    return this.httpClient
-      .get<T[]>(url)
-      .pipe(catchError(this._handleError));
   }
 }

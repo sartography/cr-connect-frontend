@@ -18,6 +18,6 @@ export class WorkflowSpecListComponent implements OnInit {
   }
 
   loadWorkflowSpecs() {
-    this.api.getWorkflowSpecs().subscribe(wf => this.workflowSpecs = wf);
+    this.api.getWorkflowSpecList().subscribe(wf => this.workflowSpecs = wf);
   }
 }

@@ -8,12 +8,12 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-b
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
-import {mockStudies} from '../_testing/mocks/study.mocks';
 import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
 import {ApiService} from '../_services/api/api.service';
-import {workflowProcesses} from '../_testing/mocks/workflow.mocks';
-import {WorkflowProcessMenuItemComponent} from '../workflow-process-menu-item/workflow-process-menu-item.component';
-import {WorkflowProcessComponent} from '../workflow-process/workflow-process.component';
+import {mockStudy0} from '../_testing/mocks/study.mocks';
+import {mockWorkflow0} from '../_testing/mocks/workflow.mocks';
+import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
+import {WorkflowMenuItemComponent} from '../workflow-menu-item/workflow-menu-item.component';
 import {WorkflowStepsMenuListComponent} from '../workflow-steps-menu-list/workflow-steps-menu-list.component';
 
 import {WorkflowComponent} from './workflow.component';
@@ -28,8 +28,8 @@ describe('WorkflowComponent', () => {
       declarations: [
         ToFormlyPipe,
         WorkflowComponent,
-        WorkflowProcessComponent,
-        WorkflowProcessMenuItemComponent,
+        WorkflowFormComponent,
+        WorkflowMenuItemComponent,
         WorkflowStepsMenuListComponent,
       ],
       imports: [
@@ -47,7 +47,7 @@ describe('WorkflowComponent', () => {
         ApiService,
         {
           provide: ActivatedRoute,
-          useValue: {snapshot: {paramMap: convertToParamMap({study_id: '0', workflow_process_id: '0'})}}
+          useValue: {snapshot: {paramMap: convertToParamMap({study_id: '0', workflow_id: '0'})}}
         }
       ]
     })
@@ -60,19 +60,19 @@ describe('WorkflowComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('/assets/json/study.json');
+    const sReq = httpMock.expectOne('http://localhost:5000/v1.0/study/' + mockStudy0.id);
     expect(sReq.request.method).toEqual('GET');
-    sReq.flush(mockStudies);
+    sReq.flush(mockStudy0);
 
     expect(component.study).toBeTruthy();
-    expect(component.study.id).toEqual(mockStudies[0].id);
+    expect(component.study.id).toEqual(mockStudy0.id);
 
-    const pReq = httpMock.expectOne('/assets/json/workflow_process.json');
+    const pReq = httpMock.expectOne('http://localhost:5000/v1.0/workflow/' + mockWorkflow0.id);
     expect(pReq.request.method).toEqual('GET');
-    pReq.flush(workflowProcesses);
+    pReq.flush(mockWorkflow0);
 
-    expect(component.process).toBeTruthy();
-    expect(component.process.id).toEqual(workflowProcesses[0].id);
+    expect(component.workflowTasks).toBeTruthy();
+    expect(component.workflowTasks.id).toEqual(mockWorkflow0.id);
   });
 
   it('should create', () => {

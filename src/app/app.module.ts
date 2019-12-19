@@ -45,9 +45,8 @@ import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudyComponent} from './study/study.component';
-import {TaskSpecListComponent} from './task-spec-list/task-spec-list.component';
-import {WorkflowProcessMenuItemComponent} from './workflow-process-menu-item/workflow-process-menu-item.component';
-import {WorkflowProcessComponent} from './workflow-process/workflow-process.component';
+import {WorkflowMenuItemComponent} from './workflow-menu-item/workflow-menu-item.component';
+import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
@@ -71,10 +70,9 @@ import { StudyCardComponent } from './study-card/study-card.component';
     SignOutComponent,
     StudiesComponent,
     StudyComponent,
-    TaskSpecListComponent,
     WorkflowComponent,
-    WorkflowProcessComponent,
-    WorkflowProcessMenuItemComponent,
+    WorkflowFormComponent,
+    WorkflowMenuItemComponent,
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
     StudyCardComponent,

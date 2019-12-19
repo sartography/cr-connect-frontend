@@ -39,7 +39,7 @@ describe('StudiesComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('/assets/json/study.json');
+    const sReq = httpMock.expectOne('http://localhost:5000/v1.0/study');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudies);
 

@@ -36,8 +36,8 @@ import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudyCardComponent} from './study-card/study-card.component';
 import {StudyComponent} from './study/study.component';
-import {WorkflowProcessMenuItemComponent} from './workflow-process-menu-item/workflow-process-menu-item.component';
-import {WorkflowProcessComponent} from './workflow-process/workflow-process.component';
+import {WorkflowMenuItemComponent} from './workflow-menu-item/workflow-menu-item.component';
+import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 
@@ -67,8 +67,8 @@ describe('Router: App', () => {
         StudyComponent,
         ToFormlyPipe,
         WorkflowComponent,
-        WorkflowProcessComponent,
-        WorkflowProcessMenuItemComponent,
+        WorkflowFormComponent,
+        WorkflowMenuItemComponent,
         WorkflowStepsMenuListComponent,
       ],
       imports: [

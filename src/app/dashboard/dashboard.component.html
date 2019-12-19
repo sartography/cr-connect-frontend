@@ -1,15 +1,9 @@
 <ng-container *ngIf="study">
   <h1>{{study.title}}</h1>
-  <pre>
-      percent_complete: {{study.percent_complete}}
-      status: {{study.status}}
-      review_type: {{study.review_type}}
-      protocol_builder_status: {{study.pb_status}}
-      protocol_status: {{study.protocol_status}}
-      date_created: {{study.date_created | date}}
-      date_modified: {{study.last_updated | date}}
-      date_submitted: {{study.date_submitted | date}}
-  </pre>
+  <small>
+      protocol_builder_status: {{study.protocol_builder_status}}<br>
+      last_updated: {{study.last_updated | date}}
+  </small>
 
   <div
     *ngIf="charts.length > 0"
@@ -17,14 +11,14 @@
     fxLayout.gt-sm="row wrap"
   >
     <div
-      *ngFor="let chart of charts; let i = index"
+      *ngFor="let chart of charts"
       fxFlex.md="50%"
       fxFlex.gt-md="33%"
       class="chart-container"
-      [routerLink]="['workflow', i]"
-      [fragment]="'process_category_0_' + i"
+      [routerLink]="['workflow', chart.workflowId]"
+      [fragment]="'process_category_0_' + chart.workflowId"
       [attr.data-study-id]="study.id"
-      [attr.data-workflow-id]="i"
+      [attr.data-workflow-id]="chart.workflowId"
     >
       <h2>{{chart.title}}</h2>
       <canvas baseChart

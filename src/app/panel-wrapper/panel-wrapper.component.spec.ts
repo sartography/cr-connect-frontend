@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {MatCardModule} from '@angular/material/card';
-import {workflowProcesses} from '../_testing/mocks/workflow.mocks';
+import {mockWorkflows} from '../_testing/mocks/workflow.mocks';
 
 import { PanelWrapperComponent } from './panel-wrapper.component';
 
@@ -23,7 +23,7 @@ describe('PanelWrapperComponent', () => {
   beforeEach(async () => {
     fixture = TestBed.createComponent(PanelWrapperComponent);
     component = fixture.componentInstance;
-    component.field = workflowProcesses[0].categories[0].steps[0].form.fields[0];
+    component.field = mockWorkflows[0].categories[0].steps[0].form.fields[0];
     fixture.detectChanges();
   });
 

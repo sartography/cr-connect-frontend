@@ -2,8 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ChartType} from 'chart.js';
 import {Color, Label, MultiDataSet} from 'ng2-charts';
 import {Study} from '../_models/study';
+import {Workflow} from '../_models/workflow';
+import {ApiService} from '../_services/api/api.service';
 
 interface ChartData {
+  workflowId: string;
   title: string;
   labels: Label[];
   data: MultiDataSet;
@@ -18,6 +21,7 @@ interface ChartData {
 })
 export class DashboardComponent implements OnInit {
   @Input() study: Study;
+  workflows: Workflow[];
   colors: Color[] = [{
     backgroundColor: [
       '#E57200', // orange
@@ -26,20 +30,13 @@ export class DashboardComponent implements OnInit {
     ]
   }];
   labels: Label[] = ['Incomplete', 'Partially Complete', 'Complete'];
-  charts: ChartData[] = Array(6).fill({}).map((_, i) => {
-    return {
-      title: `Process Category ${i + 1}`,
-      labels: this.labels,
-      data: [this.randomInts(this.labels.length)],
-      type: 'pie',
-      colors: this.colors
-    };
-  });
+  charts: ChartData[] = [];
 
-  constructor() {
+  constructor(private api: ApiService) {
   }
 
   ngOnInit() {
+    this.loadWorkflows();
   }
 
   randomInts(len: number): number[] {
@@ -58,5 +55,22 @@ export class DashboardComponent implements OnInit {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  loadWorkflows() {
+    this.api.getWorkflowListForStudy(this.study.id).subscribe(sw => {
+      this.workflows = sw;
+
+      this.charts = this.workflows.map(w => {
+        return {
+          workflowId: w.id,
+          title: w.name,
+          labels: this.labels,
+          data: [this.randomInts(this.labels.length)],
+          type: 'pie',
+          colors: this.colors
+        };
+      });
+    });
   }
 }

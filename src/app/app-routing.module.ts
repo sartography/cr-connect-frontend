@@ -21,7 +21,7 @@ export const routes: Routes = [
     component: StudyComponent
   },
   {
-    path: 'study/:study_id/workflow/:workflow_process_id',
+    path: 'study/:study_id/workflow/:workflow_id',
     component: WorkflowComponent
   },
   {
