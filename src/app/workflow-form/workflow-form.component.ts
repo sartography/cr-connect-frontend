@@ -21,6 +21,7 @@ export class WorkflowFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('workflowTasks', this.workflowTasks);
   }
 
 }

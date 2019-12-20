@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Study} from '../_models/study';
-import {Workflow} from '../_models/workflow';
 import {WorkflowTask} from '../_models/workflow-task';
 
 @Component({
@@ -8,10 +7,14 @@ import {WorkflowTask} from '../_models/workflow-task';
   templateUrl: './workflow-menu-item.component.html',
   styleUrls: ['./workflow-menu-item.component.scss']
 })
-export class WorkflowMenuItemComponent {
+export class WorkflowMenuItemComponent implements OnInit {
   @Input() study: Study;
   @Input() workflowTasks: WorkflowTask[];
 
   constructor() {
+  }
+
+  ngOnInit(): void {
+    console.log('this.workflowTasks', this.workflowTasks);
   }
 }

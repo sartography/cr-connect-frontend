@@ -1,9 +1,13 @@
 import {GenericType} from './generic-type';
-import {BpmnFormJsonField} from './json';
+import {BpmnFormJson} from './json';
+
+export enum WorkflowTaskState {
+  DONE = 'task'
+}
 
 export interface WorkflowTask extends GenericType {
   name: string;
-  state: string;
+  state: WorkflowTaskState;
   type: string;
-  form: BpmnFormJsonField;
+  form: BpmnFormJson;
 }
