@@ -1,9 +1,9 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
-import {mockStudyTasks} from '../../_testing/mocks/study-task.mocks';
 import {mockStudies, mockStudy0} from '../../_testing/mocks/study.mocks';
 import {mockTask0} from '../../_testing/mocks/task.mocks';
 import {mockWorkflowSpecs} from '../../_testing/mocks/workflow-spec.mocks';
+import {mockWorkflowTasks} from '../../_testing/mocks/workflow-task.mocks';
 import {mockWorkflow0, mockWorkflows} from '../../_testing/mocks/workflow.mocks';
 
 import {ApiService} from './api.service';
@@ -68,7 +68,7 @@ describe('ApiService', () => {
 
     const req = httpMock.expectOne(`http://localhost:5000/v1.0/workflow/${workflowId}/tasks`);
     expect(req.request.method).toEqual('GET');
-    req.flush(mockStudyTasks);
+    req.flush(mockWorkflowTasks);
   });
 
 

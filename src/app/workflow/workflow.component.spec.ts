@@ -11,6 +11,7 @@ import {FormlyModule} from '@ngx-formly/core';
 import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
 import {ApiService} from '../_services/api/api.service';
 import {mockStudy0} from '../_testing/mocks/study.mocks';
+import {mockWorkflowTasks} from '../_testing/mocks/workflow-task.mocks';
 import {mockWorkflow0} from '../_testing/mocks/workflow.mocks';
 import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
 import {WorkflowMenuItemComponent} from '../workflow-menu-item/workflow-menu-item.component';
@@ -67,12 +68,12 @@ describe('WorkflowComponent', () => {
     expect(component.study).toBeTruthy();
     expect(component.study.id).toEqual(mockStudy0.id);
 
-    const pReq = httpMock.expectOne('http://localhost:5000/v1.0/workflow/' + mockWorkflow0.id);
+    const pReq = httpMock.expectOne('http://localhost:5000/v1.0/workflow/' + mockWorkflow0.id + '/tasks');
     expect(pReq.request.method).toEqual('GET');
-    pReq.flush(mockWorkflow0);
+    pReq.flush(mockWorkflowTasks);
 
     expect(component.workflowTasks).toBeTruthy();
-    expect(component.workflowTasks.id).toEqual(mockWorkflow0.id);
+    expect(component.workflowTasks[0].id).toEqual(mockWorkflow0.id);
   });
 
   it('should create', () => {

@@ -163,7 +163,7 @@ export class ToFormlyPipe implements PipeTransform {
             resultField.templateOptions.description = p.value;
           } else if (p.id === 'help') {
             resultField.templateOptions.help = p.value;
-          } else if (p.id === 'enum_type') {
+          } else if (field.type === 'enum' && p.id === 'enum_type') {
             if (p.value === 'checkbox') {
               resultField.type = 'multicheckbox';
               resultField.className = 'vertical-checkbox-group';

@@ -1,8 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatCardModule} from '@angular/material/card';
-import {mockWorkflows} from '../_testing/mocks/workflow.mocks';
+import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
+import {mockWorkflowTask0} from '../_testing/mocks/workflow-task.mocks';
 
-import { PanelWrapperComponent } from './panel-wrapper.component';
+import {PanelWrapperComponent} from './panel-wrapper.component';
 
 describe('PanelWrapperComponent', () => {
   let component: PanelWrapperComponent;
@@ -17,13 +18,14 @@ describe('PanelWrapperComponent', () => {
         MatCardModule,
       ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(async () => {
     fixture = TestBed.createComponent(PanelWrapperComponent);
     component = fixture.componentInstance;
-    component.field = mockWorkflows[0].categories[0].steps[0].form.fields[0];
+    const pipe = new ToFormlyPipe();
+    component.field = pipe.transform(mockWorkflowTask0.form.fields)[0];
     fixture.detectChanges();
   });
 

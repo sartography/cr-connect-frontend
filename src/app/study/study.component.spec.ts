@@ -42,10 +42,9 @@ describe('StudyComponent', () => {
     httpMock = TestBed.get(HttpTestingController);
     fixture = TestBed.createComponent(StudyComponent);
     component = fixture.componentInstance;
-    component.study = mockStudy0;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('/assets/json/study.json');
+    const sReq = httpMock.expectOne('http://localhost:5000/v1.0/study/0');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
 

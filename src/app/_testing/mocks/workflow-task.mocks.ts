@@ -1,10 +1,12 @@
-import {WorkflowTask} from '../../_models/workflow-task';
+import {WorkflowTask, WorkflowTaskState} from '../../_models/workflow-task';
 
 export const mockWorkflowTask0: WorkflowTask = {
-  id: '',
-  name: '',
-  state: '',
-  type: '',
+  id: '0',
+  name: 'TASK_SPEC_NAME',
+  title: 'Task Spec Title',
+  documentation: '# Markdown Heading\n\nSome more Markdown text.',
+  state: WorkflowTaskState.WAITING,
+  type: 'task',
   form: {
     key: 'Create a beautiful little sunset.',
     fields: [
@@ -15,7 +17,7 @@ export const mockWorkflowTask0: WorkflowTask = {
         properties: [
           {id: 'description', value: 'Decide where your cloud lives.'},
           {
-            id: 'help_text',
+            id: 'help',
             value: 'We don\'t want to set these clouds on fire. We\'ll play with clouds today.'
           }
         ]
@@ -25,10 +27,12 @@ export const mockWorkflowTask0: WorkflowTask = {
 };
 
 export const mockWorkflowTask1: WorkflowTask = {
-  id: '',
-  name: '',
-  state: '',
-  type: '',
+  id: '1',
+  name: 'TASK_SPEC_NAME',
+  title: 'Task Spec Title',
+  documentation: '# Markdown Heading\n\nSome more Markdown text.',
+  state: WorkflowTaskState.READY,
+  type: 'task',
   form: {
     key: 'Form 0.0.0.0',
     fields: [

@@ -1,13 +1,13 @@
-<ng-container>
+<ng-container *ngIf="workflowTask">
     <a
       mat-list-item
       class="process-category-step"
-      [href]="'#process_category_step_' + [processId, categoryId, form.id].join('_')"
+      [href]="'#' + workflowTask.id"
       matLine
       pageScroll
     >
-      {{ form.label }}
+      {{ workflowTask.title }}
       <span fxFlex></span>
-      <mat-icon *ngIf="isComplete(form)">check</mat-icon>
+      <mat-icon *ngIf="isComplete()">check</mat-icon>
     </a>
 </ng-container>

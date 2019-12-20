@@ -8,9 +8,7 @@ import {WorkflowTask, WorkflowTaskState} from '../_models/workflow-task';
   styleUrls: ['./workflow-steps-menu-list.component.scss']
 })
 export class WorkflowStepsMenuListComponent implements OnInit {
-  @Input() form: BpmnFormJsonField;
-  @Input() processId: string;
-  @Input() categoryId: string;
+  @Input() workflowTask: WorkflowTask;
 
   constructor() {
   }
@@ -18,7 +16,7 @@ export class WorkflowStepsMenuListComponent implements OnInit {
   ngOnInit() {
   }
 
-  isComplete(task: WorkflowTask) {
-    return task.state === WorkflowTaskState.DONE;
+  isComplete() {
+    return this.workflowTask.state === WorkflowTaskState.COMPLETED;
   }
 }

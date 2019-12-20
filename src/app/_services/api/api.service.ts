@@ -74,10 +74,10 @@ export class ApiService {
   }
 
   /** Get Workflow */
-  getWorkflow(studyId: string): Observable<Workflow> {
+  getWorkflow(workflowId: string): Observable<Workflow> {
     const url = this._endpointUrl('workflow');
     return this.httpClient
-      .get<Workflow>(url.replace('<study_id>', studyId.toString()))
+      .get<Workflow>(url.replace('<workflow_id>', workflowId.toString()))
       .pipe(catchError(this._handleError));
   }
 

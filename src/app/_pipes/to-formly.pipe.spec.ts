@@ -79,7 +79,7 @@ describe('ToFormlyPipe', () => {
         label: 'What is your favorite color?',
         type: 'enum',
         defaultValue: 'red',
-        value: [
+        options: [
           {id: 'red', name: 'Red'},
           {id: 'green', name: 'Green'},
           {id: 'blue', name: 'Blue'},
@@ -109,13 +109,13 @@ describe('ToFormlyPipe', () => {
     // type is any[] | Observable<any[]>
     let numOptions = 0;
     await after[0].templateOptions.options.forEach(() => numOptions++);
-    expect(numOptions).toEqual(before[0].value.length);
+    expect(numOptions).toEqual(before[0].options.length);
 
     expect(after[0].templateOptions.options[0].value).toEqual('red');
     expect(after[0].templateOptions.options[0].label).toEqual('Red');
     expect(after[0].templateOptions.help).toEqual(before[0].properties[0].value);
 
-    before[0].properties.push({id: 'enum_type', value: 'multicheckbox'});
+    before[0].properties.push({id: 'enum_type', value: 'checkbox'});
     const afterMulticheckbox = await pipe.transform(before);
     expect(afterMulticheckbox[0].type).toEqual('multicheckbox');
     expect(afterMulticheckbox[0].className).toEqual('vertical-checkbox-group');
@@ -154,7 +154,8 @@ describe('ToFormlyPipe', () => {
     ];
     const after = pipe.transform(before);
     expect(after[0].key).toEqual(before[0].id);
-    expect(after[0].type).toEqual('number');
+    expect(after[0].type).toEqual('input');
+    expect(after[0].templateOptions.type).toEqual('number');
     expect(after[0].templateOptions.label).toEqual(before[0].label);
   });
 

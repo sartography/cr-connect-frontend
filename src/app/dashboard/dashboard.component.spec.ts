@@ -35,7 +35,7 @@ describe('DashboardComponent', () => {
     component.study = mockStudies[0];
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne(`http://localhost:5000/v1.0/study/${mockStudy0.id}/workflow`);
+    const sReq = httpMock.expectOne(`http://localhost:5000/v1.0/study/${mockStudy0.id}/workflows`);
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockWorkflows);
 
