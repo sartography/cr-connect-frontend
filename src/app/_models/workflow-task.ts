@@ -7,6 +7,8 @@ export enum WorkflowTaskState {
 
 export interface WorkflowTask extends GenericType {
   name: string;
+  title: string;
+  documentation: string;
   state: WorkflowTaskState;
   type: string;
   form: BpmnFormJson;

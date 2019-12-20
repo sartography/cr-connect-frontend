@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BpmnFormJsonField} from "../_models/json";
+import {BpmnFormJsonField} from '../_models/json';
 import {WorkflowTask, WorkflowTaskState} from '../_models/workflow-task';
 
 @Component({
