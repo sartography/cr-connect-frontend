@@ -23,6 +23,7 @@ export class WorkflowComponent {
     const workflowId = paramMap.get('workflow_id');
     this.api.getStudy(studyId).subscribe(s => this.study = s);
     this.api.getTaskListForWorkflow(workflowId).subscribe(tasks => {
+      console.log('tasks', tasks);
       this.workflowTasks = tasks;
     });
   }

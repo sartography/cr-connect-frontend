@@ -1,7 +1,7 @@
 // TODO: Refactor this to be about Task instances
 import {WorkflowTask} from '../../_models/workflow-task';
 
-export const mockStudyTask0: WorkflowTask = {id: '0', task_id: '0', study_id: '0', is_disabled: false, is_complete: true};
+/*export const mockStudyTask0: WorkflowTask = {id: '1', name: 'bill', state: 'state', type: 'type', form: {}};
 export const mockStudyTask1: WorkflowTask = {id: '1', task_id: '1', study_id: '0', is_disabled: true, is_complete: true};
 export const mockStudyTask2: WorkflowTask = {id: '2', task_id: '2', study_id: '0', is_disabled: false, is_complete: false};
 export const mockStudyTask3: WorkflowTask = {id: '3', task_id: '3', study_id: '0', is_disabled: true, is_complete: false};
@@ -20,4 +20,4 @@ export const mockStudyTasks: WorkflowTask[] = [
   mockStudyTask5,
   mockStudyTask6,
   mockStudyTask7,
-];
+];*/

@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {WorkflowStep} from '../_models/workflow';
+import {BpmnFormJsonField} from '../_models/json';
+import {WorkflowTask, WorkflowTaskState} from '../_models/workflow-task';
 
 @Component({
   selector: 'app-workflow-steps-menu-list',
@@ -7,16 +8,17 @@ import {WorkflowStep} from '../_models/workflow';
   styleUrls: ['./workflow-steps-menu-list.component.scss']
 })
 export class WorkflowStepsMenuListComponent implements OnInit {
-  @Input() steps: WorkflowStep[];
+  @Input() form: BpmnFormJsonField;
   @Input() processId: string;
   @Input() categoryId: string;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
-  isComplete(step: WorkflowStep) {
-    return parseInt(this.categoryId, 10) < 1 && parseInt(step.id, 10) < 1;
+  isComplete(task: WorkflowTask) {
+    return task.state === WorkflowTaskState.DONE;
   }
 }

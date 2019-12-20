@@ -98,7 +98,7 @@ export class ToFormlyPipe implements PipeTransform {
 
   transform(value: BpmnFormJsonField[], ...args: any[]): FormlyFieldConfig[] {
     const result: FormlyFieldConfig[] = [];
-
+    console.log('The bpmn form is ', value);
     for (const field of value) {
       const resultField: FormlyFieldConfig = {
         key: field.id,
@@ -109,15 +109,20 @@ export class ToFormlyPipe implements PipeTransform {
       if (field.type === 'enum') {
         resultField.type = 'select';
         resultField.defaultValue = field.defaultValue;
-        resultField.templateOptions.options = field.value.map(o => {
-          return {value: o.id, label: o.name};
+        resultField.templateOptions.options = field.options.map(v => {
+          return {value: v.id, label: v.name};
         });
       } else if (field.type === 'string') {
         resultField.type = 'input';
         resultField.defaultValue = field.defaultValue;
       } else if (field.type === 'long') {
-        resultField.type = 'number';
+        resultField.type = 'input';
+        resultField.templateOptions.type = 'number';
         resultField.defaultValue = parseInt(field.defaultValue, 10);
+      } else if (field.type === 'tel') {
+        resultField.type = 'input';
+        resultField.templateOptions.type = 'tel';
+        resultField.defaultValue = field.defaultValue;
       } else if (field.type === 'boolean') {
         resultField.type = 'radio';
         resultField.defaultValue = this._stringToBool(field.defaultValue);
@@ -132,6 +137,8 @@ export class ToFormlyPipe implements PipeTransform {
         }
       } else if (field.type === 'file') {
         resultField.type = 'file';
+      } else {
+        console.error('Field type is not supported');
       }
 
       resultField.templateOptions.label = field.label;
@@ -148,24 +155,26 @@ export class ToFormlyPipe implements PipeTransform {
         for (const p of field.properties) {
           if (p.id === 'hide_expression') {
             resultField.hideExpression = p.value;
+          } else if (p.id === 'label_expression') {
+            resultField.expressionProperties['templateOptions.label'] = p.value;
           } else if (p.id === 'required_expression') {
             resultField.expressionProperties['templateOptions.required'] = p.value;
           } else if (p.id === 'description') {
             resultField.templateOptions.description = p.value;
           } else if (p.id === 'help') {
             resultField.templateOptions.help = p.value;
-          } else if (field.type === 'enum' && p.id === 'enum_type') {
-            resultField.type = p.value;
-
-            if (resultField.type === 'radio') {
-              resultField.className = 'vertical-radio-group';
-            }
-
-            if (resultField.type === 'multicheckbox') {
+          } else if (p.id === 'enum_type') {
+            if (p.value === 'checkbox') {
+              resultField.type = 'multicheckbox';
               resultField.className = 'vertical-checkbox-group';
             }
 
-            resultField.templateOptions.options = field.value.map(v => {
+            if (p.value === 'radio') {
+              resultField.type = 'radio';
+              resultField.className = 'vertical-radio-group';
+            }
+
+            resultField.templateOptions.options = field.options.map(v => {
               return {value: v.id, label: v.name};
             });
           }
@@ -174,6 +183,8 @@ export class ToFormlyPipe implements PipeTransform {
 
       result.push(resultField);
     }
+
+    console.log('result', result);
 
     return result;
   }

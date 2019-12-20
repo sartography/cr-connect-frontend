@@ -1,13 +1,13 @@
-<ng-container *ngFor="let step of steps">
+<ng-container>
     <a
       mat-list-item
       class="process-category-step"
-      [href]="'#process_category_step_' + [processId, categoryId, step.id].join('_')"
+      [href]="'#process_category_step_' + [processId, categoryId, form.id].join('_')"
       matLine
       pageScroll
     >
-      {{ step.name }}
+      {{ form.label }}
       <span fxFlex></span>
-      <mat-icon *ngIf="isComplete(step)">check</mat-icon>
+      <mat-icon *ngIf="isComplete(form)">check</mat-icon>
     </a>
 </ng-container>

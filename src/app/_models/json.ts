@@ -20,5 +20,10 @@ export interface BpmnFormJsonField {
   defaultValue?: string;
   validation?: BpmnFormJsonFieldValidationConstraint[];
   properties?: BpmnFormJsonFieldProperty[];
-  value?: BpmnFormJsonFieldEnumValue[];
+  options?: BpmnFormJsonFieldEnumValue[];
+}
+
+export interface BpmnFormJson {
+  key: string;
+  fields: BpmnFormJsonField[];
 }
