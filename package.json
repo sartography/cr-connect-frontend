@@ -12,7 +12,7 @@
     "test:once": "ng test --code-coverage --watch=false",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "ci": "npm run lint && npm run test:once && npm run e2e && sonar-scanner"
+    "ci": "npm run lint && npm run test:once && docker run -p 5000:5000 github.com/sartography/cr-connect-workflow && npm run e2e && sonar-scanner"
   },
   "private": true,
   "dependencies": {

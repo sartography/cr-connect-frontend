@@ -1,4 +1,4 @@
-<div class="studies-container">
+<div class="studies-container" fxLayout="column">
   <div fxLayout="row" fxLayoutAlign="end end" fxLayoutGap="10px">
     <button (click)="changeNumStudies(-1)" color="primary" mat-mini-fab>
       <mat-icon>exposure_neg_1</mat-icon>
@@ -9,43 +9,42 @@
   </div>
 
   <h1>Studies</h1>
+  <div
+    *ngIf="isExpanded"
+    class="alert alert-info"
+    fxFlex="100"
+  >
+    <p>To start a new study, first go to HSR IRB Protocol Builder and create a new protocol. When your protocol has
+      been created, return here to continue working on it.</p>
+    <a
+      (click)="isExpanded = false; changeNumStudies(1)"
+      color="accent"
+      href="https://www.irb.virginia.edu/index.cfm?fuseAction=ss_create.create"
+      id="cta_protocol_builder"
+      mat-flat-button
+      target="_blank"
+    >
+      Create protocol in Protocol Builder
+    </a>
+  </div>
+
+  <div
+    (click)="isExpanded = true"
+    *ngIf="!isExpanded"
+    class="alert alert-info"
+    fxFlex="100"
+    fxLayout="column"
+    fxLayoutAlign="center start"
+  >
+    <button color="primary" id="cta_new_study" mat-flat-button>
+      <mat-icon>add</mat-icon>
+      Start a new study
+    </button>
+  </div>
 
   <ng-container *ngFor="let studiesGroup of studiesByStatus; let i = index;">
-    <h2>{{studiesGroup.statusLabel}}</h2>
     <div class="status-{{studiesGroup.status}}" fxLayout="row wrap" fxLayoutGap="40px">
-      <div
-        *ngIf="i === 0 && isExpanded"
-        class="alert alert-info"
-        fxFlex="100"
-      >
-        <p>To start a new study, first go to HSR IRB Protocol Builder and create a new protocol. When your protocol has
-        been created, return here to continue working on it.</p>
-        <a
-          (click)="isExpanded = false; changeNumStudies(1)"
-          href="https://www.irb.virginia.edu/index.cfm?fuseAction=ss_create.create"
-          target="_blank"
-          color="accent"
-          mat-flat-button
-          id="cta_protocol_builder"
-        >
-          Create protocol in Protocol Builder
-        </a>
-      </div>
-
-      <div
-        *ngIf="i === 0 && !isExpanded"
-        fxLayout="column"
-        fxLayoutAlign="center start"
-        (click)="isExpanded = true"
-        class="alert alert-info"
-        fxFlex="100"
-      >
-        <button color="primary" mat-flat-button id="cta_new_study">
-          <mat-icon>add</mat-icon>
-          Start a new study
-        </button>
-      </div>
-
+      <h2>{{studiesGroup.statusLabel}}</h2>
       <app-study-card
         *ngFor="let study of studiesGroup.studies"
         [study]="study"

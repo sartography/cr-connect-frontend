@@ -22,6 +22,10 @@ export class AppPage {
     return this.getElement(selector).click();
   }
 
+  closeTab() {
+    return browser.close();
+  }
+
   focus(selector: string) {
     return browser.controlFlow().execute(() => {
       return browser.executeScript('arguments[0].focus()', this.getElement(selector).getWebElement());
@@ -38,6 +42,13 @@ export class AppPage {
 
   getLocalStorageVar(name: string) {
     return browser.executeScript(`return window.localStorage.getItem('${name}');`);
+  }
+
+  getNumTabs() {
+    return browser.getAllWindowHandles().then(wh => {
+      console.log('wh', wh);
+      return wh.length;
+    });
   }
 
   async getRoute() {
@@ -61,6 +72,14 @@ export class AppPage {
 
   setLocalStorageVar(name: string, value: string) {
     return browser.executeScript(`return window.localStorage.setItem('${name}','${value}');`);
+  }
+
+  switchFocusToTab(tabIndex: number) {
+    return browser.getAllWindowHandles().then(wh => {
+      return wh.forEach((h, i) => {
+        if (i === tabIndex) { return browser.switchTo().window(h); }
+      });
+    });
   }
 
   waitFor(t: number) {
