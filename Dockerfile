@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:alpine AS builder
 
 RUN mkdir /crc-frontend
 WORKDIR /crc-frontend
@@ -7,11 +7,10 @@ ADD package.json /crc-frontend/
 
 COPY . /crc-frontend/
 
-RUN npm install
-RUN npm install -g @angular/cli@8.3.21
+RUN npm install && \
+    npm run build:staging
 
-# add app
-COPY . /app
+FROM nginx:alpine
 
-# start app
-CMD ng serve --host 0.0.0.0
+COPY --from=builder /crc-frontend/dist/* /usr/share/nginx/html/
+
