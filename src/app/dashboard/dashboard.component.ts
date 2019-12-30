@@ -21,7 +21,7 @@ interface ChartData {
 })
 export class DashboardComponent implements OnInit {
   @Input() study: Study;
-  workflows: Workflow[];
+  @Input() workflows: Workflow[];
   colors: Color[] = [{
     backgroundColor: [
       '#E57200', // orange
@@ -36,7 +36,16 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadWorkflows();
+    this.charts = this.workflows.map(w => {
+      return {
+        workflowId: w.id,
+        title: w.name,
+        labels: this.labels,
+        data: [this.randomInts(this.labels.length)],
+        type: 'pie',
+        colors: this.colors
+      };
+    });
   }
 
   randomInts(len: number): number[] {
@@ -55,26 +64,5 @@ export class DashboardComponent implements OnInit {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
-  }
-
-  loadWorkflows() {
-    this.api.getWorkflowListForStudy(this.study.id).subscribe(sw => {
-      this.workflows = sw;
-
-      this.charts = this.workflows.map(w => {
-        return {
-          workflowId: w.id,
-          title: w.name,
-          labels: this.labels,
-          data: [this.randomInts(this.labels.length)],
-          type: 'pie',
-          colors: this.colors
-        };
-      });
-    });
-  }
-
-  startWorkflow() {
-    this.api.addWorkflowForStudy(this.study.id, 'random_fact').subscribe(s => this.study = s);
   }
 }

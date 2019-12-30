@@ -33,13 +33,8 @@ describe('DashboardComponent', () => {
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
     component.study = mockStudies[0];
+    component.workflows = mockWorkflows;
     fixture.detectChanges();
-
-    const sReq = httpMock.expectOne(`http://localhost:5000/v1.0/study/${mockStudy0.id}/workflows`);
-    expect(sReq.request.method).toEqual('GET');
-    sReq.flush(mockWorkflows);
-
-    expect(component.workflows).toBeTruthy();
   });
 
   it('should create', () => {

@@ -1,10 +1,4 @@
-<ng-container *ngIf="study">
-  <h1>{{study.title}}</h1>
-  <small>
-      protocol_builder_status: {{study.protocol_builder_status}}<br>
-      last_updated: {{study.last_updated | date}}
-  </small>
-
+<ng-container *ngIf="charts">
   <div
     *ngIf="charts.length > 0"
     fxLayout="column"
@@ -28,11 +22,5 @@
         [colors]="chart.colors"
       ></canvas>
     </div>
-  </div>
-
-  <div *ngIf="charts.length === 0">
-    <button mat-flat-button color="primary" (click)="startWorkflow()">
-      Start workflow
-    </button>
   </div>
 </ng-container>
