@@ -34,6 +34,14 @@ export class ApiService {
     this.apiRoot = environment.api;
   }
 
+  /** Add Workflow For Study */
+  addWorkflowForStudy(studyId: string, workflowSpecId: string): Observable<Study> {
+    const url = this._endpointUrl('workflowListForStudy');
+    return this.httpClient
+      .post<Study>(url.replace('<study_id>', studyId), {id: workflowSpecId})
+      .pipe(catchError(this._handleError));
+  }
+
   /** Get Studies */
   getStudies(): Observable<Study[]> {
     const url = this._endpointUrl('studyList');

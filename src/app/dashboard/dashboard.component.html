@@ -29,4 +29,10 @@
       ></canvas>
     </div>
   </div>
+
+  <div *ngIf="charts.length === 0">
+    <button mat-flat-button color="primary" (click)="startWorkflow()">
+      Start workflow
+    </button>
+  </div>
 </ng-container>

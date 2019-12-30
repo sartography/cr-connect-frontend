@@ -73,4 +73,8 @@ export class DashboardComponent implements OnInit {
       });
     });
   }
+
+  startWorkflow() {
+    this.api.addWorkflowForStudy(this.study.id, 'random_fact').subscribe(s => this.study = s);
+  }
 }
