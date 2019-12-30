@@ -8,9 +8,10 @@ ADD package.json /crc-frontend/
 COPY . /crc-frontend/
 
 RUN npm install
+RUN npm install -g @angular/cli@8.3.21
 
-RUN npm run-script build
+# add app
+COPY . /app
 
-CMD ["npm", "run-script", "start"]
-
-EXPOSE 4200
+# start app
+CMD ng serve --host 0.0.0.0
