@@ -79,8 +79,18 @@ describe('Study Administrator App', () => {
 
   it('should navigate to a study', async () => {
     const studyCard = page.getElement('app-study-card mat-card');
-    const studyId = await studyCard.getAttribute('data-study-id');
+    const studyId = await studyCard.getAttribute('data-workflow-id');
     page.clickAndExpectRoute('app-study-card', '/study/' + studyId);
+  });
+
+  it('should start workflow', async () => {
+    const numWorkflowsBefore = await page.getElements('.chart-container').count();
+    expect(numWorkflowsBefore).toEqual(0);
+
+    page.clickElement('#startWorkflow');
+
+    const numWorkflowsAfter = await page.getElements('.chart-container').count();
+    expect(numWorkflowsAfter).toBeGreaterThan(0);
   });
 
   it('should navigate to a workflow', async () => {

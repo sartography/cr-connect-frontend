@@ -12,7 +12,7 @@
 
   <app-dashboard *ngIf="workflows.length > 0" [study]="study" [workflows]="workflows"></app-dashboard>
   <div *ngIf="workflows.length === 0">
-    <button mat-flat-button color="primary" (click)="startWorkflow()">
+    <button mat-flat-button color="primary" (click)="startWorkflow()" id="startWorkflow">
       Start workflow
     </button>
   </div>
