@@ -25,6 +25,14 @@ describe('ToFormlyPipe', () => {
             value: 'model.favorite_color !== "blue" || model.favorite_color !== "yellow"'
           },
           {
+            id: 'label_expression',
+            value: 'model.has_grail ? "What shall we do now?" : "What is your quest?"'
+          },
+          {
+            id: 'placeholder',
+            value: 'State your quest here, in a complete sentence.'
+          },
+          {
             id: 'description',
             value: 'The quest for the Grail is not archaeology; it\'s a race against evil!'
           }
@@ -38,6 +46,9 @@ describe('ToFormlyPipe', () => {
     expect(after[0].templateOptions.label).toEqual(before[0].label);
     expect(after[0].hideExpression).toEqual(before[0].properties[0].value);
     expect(after[0].expressionProperties['templateOptions.required']).toEqual(before[0].properties[1].value);
+    expect(after[0].expressionProperties['templateOptions.label']).toEqual(before[0].properties[2].value);
+    expect(after[0].templateOptions.placeholder).toEqual(before[0].properties[3].value);
+    expect(after[0].templateOptions.description).toEqual(before[0].properties[4].value);
   });
 
   it('converts boolean field to Formly radio group', () => {
@@ -171,6 +182,50 @@ describe('ToFormlyPipe', () => {
     expect(after[0].key).toEqual(before[0].id);
     expect(after[0].type).toEqual('file');
     expect(after[0].templateOptions.label).toEqual(before[0].label);
+  });
+
+  it('converts textarea field to Formly textarea field', () => {
+    const before: BpmnFormJsonField[] = [
+      {
+        id: 'life_story',
+        label: 'Write a short novel that sardonically recounts the story of your life from the perspective of your best frenemy.',
+        type: 'textarea'
+      }
+    ];
+    const after = pipe.transform(before);
+    expect(after[0].key).toEqual(before[0].id);
+    expect(after[0].type).toEqual('textarea');
+    expect(after[0].templateOptions.label).toEqual(before[0].label);
+  });
+
+  it('converts tel field to Formly phone number field', () => {
+    const before: BpmnFormJsonField[] = [
+      {
+        id: 'mobile_num',
+        label: 'TPS Report',
+        type: 'tel'
+      }
+    ];
+    const after = pipe.transform(before);
+    expect(after[0].key).toEqual(before[0].id);
+    expect(after[0].type).toEqual('input');
+    expect(after[0].templateOptions.type).toEqual('tel');
+    expect(after[0].templateOptions.label).toEqual(before[0].label);
+  });
+
+  it('logs an error if field type is not supported', () => {
+    spyOn(console, 'error');
+    const before: BpmnFormJsonField[] = [
+      {
+        id: 'bad_field',
+        label: 'Mystery Field',
+        type: 'mystery'
+      }
+    ];
+    const after = pipe.transform(before);
+    expect(after[0].key).toEqual(before[0].id);
+    expect(after[0].type).toEqual(before[0].type);
+    expect(console.error).toHaveBeenCalled();
   });
 
 });

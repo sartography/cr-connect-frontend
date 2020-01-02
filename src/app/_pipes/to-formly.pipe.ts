@@ -115,6 +115,9 @@ export class ToFormlyPipe implements PipeTransform {
       } else if (field.type === 'string') {
         resultField.type = 'input';
         resultField.defaultValue = field.defaultValue;
+      } else if (field.type === 'textarea') {
+        resultField.type = 'textarea';
+        resultField.defaultValue = field.defaultValue;
       } else if (field.type === 'long') {
         resultField.type = 'input';
         resultField.templateOptions.type = 'number';
@@ -138,7 +141,8 @@ export class ToFormlyPipe implements PipeTransform {
       } else if (field.type === 'file') {
         resultField.type = 'file';
       } else {
-        console.error('Field type is not supported');
+        console.error('Field type is not supported.');
+        resultField.type = field.type;
       }
 
       resultField.templateOptions.label = field.label;
@@ -159,6 +163,8 @@ export class ToFormlyPipe implements PipeTransform {
             resultField.expressionProperties['templateOptions.label'] = p.value;
           } else if (p.id === 'required_expression') {
             resultField.expressionProperties['templateOptions.required'] = p.value;
+          } else if (p.id === 'placeholder') {
+            resultField.templateOptions.placeholder = p.value;
           } else if (p.id === 'description') {
             resultField.templateOptions.description = p.value;
           } else if (p.id === 'help') {
