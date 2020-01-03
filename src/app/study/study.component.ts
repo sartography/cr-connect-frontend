@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {Observable} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Study} from '../_models/study';
 import {Workflow} from '../_models/workflow';
 import {ApiService} from '../_services/api/api.service';
@@ -21,7 +19,7 @@ export class StudyComponent implements OnInit {
     private api: ApiService,
   ) {
     const paramMap = this.route.snapshot.paramMap;
-    const studyId = paramMap.get('study_id');
+    const studyId = parseInt(paramMap.get('study_id'), 10);
     this.api.getStudy(studyId).subscribe(s => {
       this.study = s;
       this.loadWorkflows();

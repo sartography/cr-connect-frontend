@@ -1,6 +1,5 @@
-import {GenericType} from './generic-type';
-
-export interface StudyType extends GenericType {
+export interface StudyType {
+  id: number;
   label: string;
-  task_ids: string[];
+  task_ids: number[];
 }

@@ -1,6 +1,3 @@
-import {GenericType} from './generic-type';
-import {IRBRequirement} from './irb';
-
 export enum ProtocolBuilderStatus {
   IN_PROCESS = 'in_process',
   COMPLETE = 'complete',
@@ -8,7 +5,8 @@ export enum ProtocolBuilderStatus {
   OUT_OF_DATE = 'out_of_date',
 }
 
-export interface Study extends GenericType {
+export interface Study {
+  id: number;
   title: string;
   last_updated: Date;
   protocol_builder_status: ProtocolBuilderStatus;

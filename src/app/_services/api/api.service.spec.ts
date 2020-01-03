@@ -44,7 +44,7 @@ describe('ApiService', () => {
   it('should get one study', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
-    const studyId = '0';
+    const studyId = 0;
 
     service.getStudy(studyId).subscribe(data => {
       expect(data).toBeTruthy();
@@ -59,7 +59,7 @@ describe('ApiService', () => {
   it('should get tasks for a given workflow', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
-    const workflowId = '0';
+    const workflowId = 0;
 
     service.getTaskListForWorkflow(workflowId).subscribe(data => {
       expect(data.length).toBeGreaterThan(0);
@@ -75,7 +75,7 @@ describe('ApiService', () => {
   it('should get one task', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
-    const workflowId = '0';
+    const workflowId = 0;
     const taskId = '0';
 
     service.getTaskForWorkflow(workflowId, taskId).subscribe(data => {
@@ -106,7 +106,7 @@ describe('ApiService', () => {
   it('should get workflows for a given study', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
-    const studyId = '0';
+    const studyId = 0;
 
     service.getWorkflowListForStudy(studyId).subscribe(data => {
       expect(data.length).toBeGreaterThan(0);
@@ -121,7 +121,7 @@ describe('ApiService', () => {
   it('should get one workflow', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
-    const workflowId = '0';
+    const workflowId = 0;
 
     service.getWorkflow(workflowId).subscribe(data => {
       expect(data).toBeTruthy();

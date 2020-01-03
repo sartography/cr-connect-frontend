@@ -19,8 +19,8 @@ export class WorkflowComponent {
     private api: ApiService,
   ) {
     const paramMap = this.route.snapshot.paramMap;
-    const studyId = paramMap.get('study_id');
-    const workflowId = paramMap.get('workflow_id');
+    const studyId = parseInt(paramMap.get('study_id'), 10);
+    const workflowId = parseInt(paramMap.get('workflow_id'), 10);
     this.api.getStudy(studyId).subscribe(s => this.study = s);
     this.api.getTaskListForWorkflow(workflowId).subscribe(tasks => {
       console.log('tasks', tasks);

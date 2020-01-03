@@ -1,4 +1,3 @@
-import {GenericType} from './generic-type';
 import {Links} from './links';
 
 export enum TaskState {
@@ -15,13 +14,15 @@ export interface TaskSpecs {
   [key: string]: TaskSpec;
 }
 
-export interface TaskSpec extends GenericType {
+export interface TaskSpec {
+  id: string;
   name: string;
   description: string;
   _links?: Links;
 }
 
-export interface Task extends GenericType {
+export interface Task {
+  id: string;
   label: string;
   task_spec_id: string;
   state_name: TaskState;

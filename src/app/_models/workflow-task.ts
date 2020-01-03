@@ -1,4 +1,3 @@
-import {GenericType} from './generic-type';
 import {BpmnFormJson} from './json';
 
 export enum WorkflowTaskState {
@@ -11,7 +10,8 @@ export enum WorkflowTaskState {
   MAYBE = 'MAYBE',
 }
 
-export interface WorkflowTask extends GenericType {
+export interface WorkflowTask {
+  id: string;
   name: string;
   title: string;
   documentation: string;

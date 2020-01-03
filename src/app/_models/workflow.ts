@@ -1,8 +1,8 @@
-import {GenericType} from './generic-type';
 import {Links} from './links';
 import {TaskSpecs} from './task';
 
-export interface WorkflowSpec extends GenericType {
+export interface WorkflowSpec {
+  id: string;
   name: string;
   description: string;
   task_spec_ids: string[];
@@ -10,7 +10,8 @@ export interface WorkflowSpec extends GenericType {
   _links?: Links;
 }
 
-export interface Workflow extends GenericType {
-  study_id: string;
+export interface Workflow {
+  id: number;
+  study_id: number;
   name: string;
 }

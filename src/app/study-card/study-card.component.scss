@@ -7,7 +7,7 @@ mat-card {
   border-right: 1px solid $brand-gray-tint-2;
   margin-bottom: 10px;
 
-  &.draft {
+  &.in_process {
     border-bottom: 20px solid $brand-accent;
   }
 

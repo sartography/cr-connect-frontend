@@ -35,10 +35,26 @@ export class ApiService {
   }
 
   /** Add Workflow For Study */
-  addWorkflowForStudy(studyId: string, workflowSpecId: string): Observable<Study> {
+  addStudy(study: Study): Observable<Study> {
+    const url = this._endpointUrl('studyList');
+    return this.httpClient
+      .post<Study>(url, study)
+      .pipe(catchError(this._handleError));
+  }
+
+  /** Add Workflow For Study */
+  updateStudy(studyId: string, study: Study): Observable<Study> {
+    const url = this._endpointUrl('study');
+    return this.httpClient
+      .post<Study>(url.replace('<study_id>', studyId), study)
+      .pipe(catchError(this._handleError));
+  }
+
+  /** Add Workflow For Study */
+  addWorkflowForStudy(studyId: number, workflowSpecId: string): Observable<Study> {
     const url = this._endpointUrl('workflowListForStudy');
     return this.httpClient
-      .post<Study>(url.replace('<study_id>', studyId), {id: workflowSpecId})
+      .post<Study>(url.replace('<study_id>', studyId.toString()), {id: workflowSpecId})
       .pipe(catchError(this._handleError));
   }
 
@@ -51,7 +67,7 @@ export class ApiService {
   }
 
   /** Get Study */
-  getStudy(studyId: string): Observable<Study> {
+  getStudy(studyId: number): Observable<Study> {
     const url = this._endpointUrl('study');
     return this.httpClient
       .get<Study>(url.replace('<study_id>', studyId.toString()))
@@ -59,7 +75,7 @@ export class ApiService {
   }
 
   /** Get WorkflowListForStudy */
-  getWorkflowListForStudy(studyId: string): Observable<Workflow[]> {
+  getWorkflowListForStudy(studyId: number): Observable<Workflow[]> {
     const url = this._endpointUrl('workflowListForStudy');
     return this.httpClient
       .get<Workflow[]>(url.replace('<study_id>', studyId.toString()))
@@ -67,7 +83,7 @@ export class ApiService {
   }
 
   /** Get StudyStatus */
-  getStudyStatus(studyId: string): Observable<any> {
+  getStudyStatus(studyId: number): Observable<any> {
     const url = this._endpointUrl('studyStatus');
     return this.httpClient.get<any>(url.replace('<study_id>', studyId.toString()))
       .pipe(catchError(this._handleError));
@@ -82,7 +98,7 @@ export class ApiService {
   }
 
   /** Get Workflow */
-  getWorkflow(workflowId: string): Observable<Workflow> {
+  getWorkflow(workflowId: number): Observable<Workflow> {
     const url = this._endpointUrl('workflow');
     return this.httpClient
       .get<Workflow>(url.replace('<workflow_id>', workflowId.toString()))
@@ -90,7 +106,7 @@ export class ApiService {
   }
 
   /** Get TaskForWorkflow */
-  getTaskForWorkflow(workflowId: string, taskId: string): Observable<WorkflowTask> {
+  getTaskForWorkflow(workflowId: number, taskId: string): Observable<WorkflowTask> {
     const url = this._endpointUrl('taskForWorkflow');
     const urlWithIds = url
       .replace('<workflow_id>', workflowId.toString())
@@ -100,7 +116,7 @@ export class ApiService {
   }
 
   /** Get TaskListForWorkflow */
-  getTaskListForWorkflow(workflowId: string): Observable<WorkflowTask[]> {
+  getTaskListForWorkflow(workflowId: number): Observable<WorkflowTask[]> {
     const url = this._endpointUrl('taskListForWorkflow');
     return this.httpClient
       .get<WorkflowTask[]>(url.replace('<workflow_id>', workflowId.toString()))

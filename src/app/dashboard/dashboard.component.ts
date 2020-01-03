@@ -6,7 +6,7 @@ import {Workflow} from '../_models/workflow';
 import {ApiService} from '../_services/api/api.service';
 
 interface ChartData {
-  workflowId: string;
+  workflowId: number;
   title: string;
   labels: Label[];
   data: MultiDataSet;
