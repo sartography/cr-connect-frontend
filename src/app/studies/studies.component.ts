@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProtocolBuilderStatus, Study} from '../_models/study';
 import {ApiService} from '../_services/api/api.service';
+import {newRandomStudy} from '../_testing/mocks/study.mocks';
 
 export interface StudiesByStatus {
   status: ProtocolBuilderStatus;
@@ -37,10 +38,9 @@ export class StudiesComponent implements OnInit {
     });
   }
 
-  changeNumStudies(amt: number) {
-    const numStudies = parseInt(localStorage.getItem('numstudy') || '0', 10);
-    const newVal = Math.max(0, numStudies + amt);
-    localStorage.setItem('numstudy', `${newVal}`);
-    this.loadStudies();
+  addStudy() {
+    const study = newRandomStudy();
+    console.log('study', study);
+    this.api.addStudy(study).subscribe(() => this.loadStudies());
   }
 }

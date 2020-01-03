@@ -1,13 +1,4 @@
 <div class="studies-container" fxLayout="column">
-  <div fxLayout="row" fxLayoutAlign="end end" fxLayoutGap="10px">
-    <button (click)="changeNumStudies(-1)" color="primary" mat-mini-fab>
-      <mat-icon>exposure_neg_1</mat-icon>
-    </button>
-    <button (click)="changeNumStudies(1)" color="primary" mat-mini-fab>
-      <mat-icon>exposure_plus_1</mat-icon>
-    </button>
-  </div>
-
   <h1>Studies</h1>
   <div
     *ngIf="isExpanded"
@@ -17,7 +8,7 @@
     <p>To start a new study, first go to HSR IRB Protocol Builder and create a new protocol. When your protocol has
       been created, return here to continue working on it.</p>
     <a
-      (click)="isExpanded = false; changeNumStudies(1)"
+      (click)="isExpanded = false; addStudy()"
       color="accent"
       href="https://www.irb.virginia.edu/index.cfm?fuseAction=ss_create.create"
       id="cta_protocol_builder"
@@ -43,8 +34,8 @@
   </div>
 
   <ng-container *ngFor="let studiesGroup of studiesByStatus; let i = index;">
+    <h2>{{studiesGroup.statusLabel}}</h2>
     <div class="status-{{studiesGroup.status}}" fxLayout="row wrap" fxLayoutGap="40px">
-      <h2>{{studiesGroup.statusLabel}}</h2>
       <app-study-card
         *ngFor="let study of studiesGroup.studies"
         [study]="study"
