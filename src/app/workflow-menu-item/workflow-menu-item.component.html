@@ -5,18 +5,19 @@
   </button>
 
   <mat-nav-list>
-    <ng-container *ngFor="let task of workflowTasks">
+    <ng-container *ngFor="let wf of studyWorkflows">
       <a
         mat-list-item
-        class="process-category"
-        [href]="'#' + task.id"
+        class="workflow-task"
+        [href]="'#workflow_' + wf.id"
         matLine
         pageScroll
       >
-        {{ task.title }}
+        {{ getWorkflowSpecForWorkflow(wf).display_name }}
         <span fxFlex></span>
       </a>
       <app-workflow-steps-menu-list
+        *ngFor="let task of workflowTasks"
         [workflowTask]="task"
       ></app-workflow-steps-menu-list>
     </ng-container>

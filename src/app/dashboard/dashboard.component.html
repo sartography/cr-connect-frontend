@@ -1,26 +1,23 @@
-<ng-container *ngIf="charts">
+<div
+  fxLayout="column"
+  fxLayout.gt-sm="row wrap"
+>
   <div
-    *ngIf="charts.length > 0"
-    fxLayout="column"
-    fxLayout.gt-sm="row wrap"
+    *ngFor="let chart of charts"
+    fxFlex.md="50%"
+    fxFlex.gt-md="33%"
+    class="chart-container"
+    [routerLink]="['workflow', chart.workflowId]"
+    [fragment]="'process_category_0_' + chart.workflowId"
+    [attr.data-study-id]="study.id"
+    [attr.data-workflow-id]="chart.workflowId"
   >
-    <div
-      *ngFor="let chart of charts"
-      fxFlex.md="50%"
-      fxFlex.gt-md="33%"
-      class="chart-container"
-      [routerLink]="['workflow', chart.workflowId]"
-      [fragment]="'process_category_0_' + chart.workflowId"
-      [attr.data-study-id]="study.id"
-      [attr.data-workflow-id]="chart.workflowId"
-    >
-      <h2>{{chart.title}}</h2>
-      <canvas baseChart
-        [data]="chart.data"
-        [labels]="chart.labels"
-        [chartType]="chart.type"
-        [colors]="chart.colors"
-      ></canvas>
-    </div>
+    <h2>{{chart.title}}</h2>
+    <canvas baseChart
+      [data]="chart.data"
+      [labels]="chart.labels"
+      [chartType]="chart.type"
+      [colors]="chart.colors"
+    ></canvas>
   </div>
-</ng-container>
+</div>

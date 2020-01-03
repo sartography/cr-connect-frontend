@@ -10,7 +10,12 @@
       last_updated: {{study.last_updated | date}}
   </small>
 
-  <app-dashboard *ngIf="workflows.length > 0" [study]="study" [workflows]="workflows"></app-dashboard>
+  <app-dashboard
+    *ngIf="workflows.length > 0"
+    [study]="study"
+    [workflows]="workflows"
+    [workflowSpecs]="workflowSpecs"
+  ></app-dashboard>
   <div *ngIf="workflows.length === 0">
     <button mat-flat-button color="primary" (click)="startWorkflow()" id="startWorkflow">
       Start workflow

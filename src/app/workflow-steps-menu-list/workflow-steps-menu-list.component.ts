@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {BpmnFormJsonField} from '../_models/json';
+import {WorkflowSpec} from '../_models/workflow';
 import {WorkflowTask, WorkflowTaskState} from '../_models/workflow-task';
 
 @Component({
@@ -9,6 +10,7 @@ import {WorkflowTask, WorkflowTaskState} from '../_models/workflow-task';
 })
 export class WorkflowStepsMenuListComponent implements OnInit {
   @Input() workflowTask: WorkflowTask;
+  @Input() workflowSpecs: WorkflowSpec[];
 
   constructor() {
   }

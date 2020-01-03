@@ -1,9 +1,11 @@
+@import "../../config";
+
 .process-category-step {
-  background-color: #666666;
+  background-color: $brand-gray;
   color: white;
 }
 
 .process-category-step:hover {
-  background-color: #999999;
+  background-color: $brand-gray-tint-1;
   color: white;
 }

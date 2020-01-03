@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Study} from '../_models/study';
-import {Workflow} from '../_models/workflow';
+import {Workflow, WorkflowSpec} from '../_models/workflow';
 import {ApiService} from '../_services/api/api.service';
 
 @Component({
@@ -12,6 +12,7 @@ import {ApiService} from '../_services/api/api.service';
 export class StudyComponent implements OnInit {
   study: Study;
   workflows: Workflow[] = [];
+  workflowSpecs: WorkflowSpec[];
 
   constructor(
     private route: ActivatedRoute,
@@ -20,6 +21,7 @@ export class StudyComponent implements OnInit {
   ) {
     const paramMap = this.route.snapshot.paramMap;
     const studyId = parseInt(paramMap.get('study_id'), 10);
+    this.loadWorkflowSpecs();
     this.api.getStudy(studyId).subscribe(s => {
       this.study = s;
       this.loadWorkflows();
@@ -29,10 +31,12 @@ export class StudyComponent implements OnInit {
   ngOnInit() {
   }
 
+  loadWorkflowSpecs() {
+    this.api.getWorkflowSpecList().subscribe(wfs => this.workflowSpecs = wfs);
+  }
+
   loadWorkflows() {
-    this.api.getWorkflowListForStudy(this.study.id).subscribe(sw => {
-      this.workflows = sw;
-    });
+    this.api.getWorkflowListForStudy(this.study.id).subscribe(sw => this.workflows = sw);
   }
 
   startWorkflow() {

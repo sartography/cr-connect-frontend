@@ -1,9 +1,19 @@
 <mat-sidenav-container>
   <mat-sidenav mode="side" opened  [fixedInViewport]="true" [fixedTopGap]="64">
-    <app-workflow-menu-item [study]="study" [workflowTasks]="workflowTasks"></app-workflow-menu-item>
+    <app-workflow-menu-item
+      [study]="study"
+      [workflowTasks]="workflowTasks"
+      [studyWorkflows]="studyWorkflows"
+      [workflowSpecs]="workflowSpecs"
+    ></app-workflow-menu-item>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-workflow-form [study]="study" [workflowTasks]="workflowTasks"></app-workflow-form>
+    <app-workflow-form
+      [study]="study"
+      [workflowTasks]="workflowTasks"
+      [workflow]="currentWorkflow"
+      [workflowSpec]="getWorkflowSpecForWorkflow(currentWorkflow)"
+    ></app-workflow-form>
   </mat-sidenav-content>
 </mat-sidenav-container>
 3

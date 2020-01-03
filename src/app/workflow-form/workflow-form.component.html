@@ -4,6 +4,7 @@
     <div>
       <h3>{{task.form.key}}</h3>
       <formly-form [model]="model" [fields]="task.form.fields | toFormly" [options]="options" [form]="form"></formly-form>
+      <button mat-flat-button color="primary" (click)="saveTaskData(task)">Save</button>
     </div>
   </div>
 </ng-container>

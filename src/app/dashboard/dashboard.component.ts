@@ -1,9 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {ChartType} from 'chart.js';
 import {Color, Label, MultiDataSet} from 'ng2-charts';
 import {Study} from '../_models/study';
-import {Workflow} from '../_models/workflow';
-import {ApiService} from '../_services/api/api.service';
+import {Workflow, WorkflowSpec} from '../_models/workflow';
 
 interface ChartData {
   workflowId: number;
@@ -22,6 +21,7 @@ interface ChartData {
 export class DashboardComponent implements OnInit {
   @Input() study: Study;
   @Input() workflows: Workflow[];
+  @Input() workflowSpecs: WorkflowSpec[];
   colors: Color[] = [{
     backgroundColor: [
       '#E57200', // orange
@@ -32,14 +32,15 @@ export class DashboardComponent implements OnInit {
   labels: Label[] = ['Incomplete', 'Partially Complete', 'Complete'];
   charts: ChartData[] = [];
 
-  constructor(private api: ApiService) {
+  constructor() {
   }
 
   ngOnInit() {
     this.charts = this.workflows.map(w => {
+      const spec = this.getWorkflowSpecForWorkflow(w);
       return {
         workflowId: w.id,
-        title: w.name,
+        title: spec.display_name,
         labels: this.labels,
         data: [this.randomInts(this.labels.length)],
         type: 'pie',
@@ -65,4 +66,9 @@ export class DashboardComponent implements OnInit {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
   }
+
+  getWorkflowSpecForWorkflow(wf: Workflow): WorkflowSpec {
+    return this.workflowSpecs.find(wfs => wfs.id === wf.workflow_spec_id);
+  }
+
 }

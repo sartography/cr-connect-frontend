@@ -2,8 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {FormlyFormOptions} from '@ngx-formly/core';
 import {Study} from '../_models/study';
-import {Workflow} from '../_models/workflow';
+import {Workflow, WorkflowSpec} from '../_models/workflow';
 import {WorkflowTask} from '../_models/workflow-task';
+import {ApiService} from '../_services/api/api.service';
 
 @Component({
   selector: 'app-workflow-form',
@@ -13,15 +14,19 @@ import {WorkflowTask} from '../_models/workflow-task';
 export class WorkflowFormComponent implements OnInit {
   @Input() study: Study;
   @Input() workflowTasks: WorkflowTask[];
+  @Input() workflow: Workflow;
+  @Input() workflowSpec: WorkflowSpec;
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   model: any = {};
 
-  constructor() {
+  constructor(private api: ApiService) {
   }
 
   ngOnInit() {
-    console.log('workflowTasks', this.workflowTasks);
   }
 
+  saveTaskData(task: WorkflowTask) {
+    this.api.updateTaskForWorkflow(this.workflow.id, task.id, this.model).subscribe();
+  }
 }

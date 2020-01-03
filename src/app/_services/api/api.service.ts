@@ -115,6 +115,16 @@ export class ApiService {
       .pipe(catchError(this._handleError));
   }
 
+  /** Update TaskForWorkflow */
+  updateTaskForWorkflow(workflowId: number, taskId: string, data: any): Observable<WorkflowTask> {
+    const url = this._endpointUrl('taskForWorkflow');
+    const urlWithIds = url
+      .replace('<workflow_id>', workflowId.toString())
+      .replace('<task_id>', taskId.toString());
+    return this.httpClient.put<WorkflowTask>(urlWithIds, data)
+      .pipe(catchError(this._handleError));
+  }
+
   /** Get TaskListForWorkflow */
   getTaskListForWorkflow(workflowId: number): Observable<WorkflowTask[]> {
     const url = this._endpointUrl('taskListForWorkflow');
