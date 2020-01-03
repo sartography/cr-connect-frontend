@@ -46,7 +46,6 @@ export class AppPage {
 
   getNumTabs() {
     return browser.getAllWindowHandles().then(wh => {
-      console.log('wh', wh);
       return wh.length;
     });
   }

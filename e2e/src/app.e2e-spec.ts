@@ -79,7 +79,9 @@ describe('Study Administrator App', () => {
 
   it('should navigate to a study', async () => {
     const studyCard = page.getElement('app-study-card mat-card');
-    const studyId = await studyCard.getAttribute('data-workflow-id');
+    const studyId = await studyCard.getAttribute('data-study-id');
+    await expect(studyId).not.toBeUndefined();
+    await expect(studyId).not.toBeNull();
     page.clickAndExpectRoute('app-study-card', '/study/' + studyId);
   });
 
