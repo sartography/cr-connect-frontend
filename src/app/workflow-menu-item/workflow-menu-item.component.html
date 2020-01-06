@@ -1,4 +1,4 @@
-<ng-container *ngIf="study && workflowTasks">
+<ng-container *ngIf="study && studyWorkflows">
   <button mat-flat-button [routerLink]="['/study', study.id]" ngClass="back">
     <mat-icon>chevron_left</mat-icon>
     Back
@@ -13,11 +13,11 @@
         matLine
         pageScroll
       >
-        {{ getWorkflowSpecForWorkflow(wf).display_name }}
+        {{ wf.workflow_spec ? wf.workflow_spec.display_name : wf.workflow_spec_id}}
         <span fxFlex></span>
       </a>
       <app-workflow-steps-menu-list
-        *ngFor="let task of workflowTasks"
+        *ngFor="let task of wf.workflow_tasks"
         [workflowTask]="task"
       ></app-workflow-steps-menu-list>
     </ng-container>

@@ -13,9 +13,7 @@ import {ApiService} from '../_services/api/api.service';
 })
 export class WorkflowFormComponent implements OnInit {
   @Input() study: Study;
-  @Input() workflowTasks: WorkflowTask[];
   @Input() workflow: Workflow;
-  @Input() workflowSpec: WorkflowSpec;
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   model: any = {};
@@ -27,6 +25,6 @@ export class WorkflowFormComponent implements OnInit {
   }
 
   saveTaskData(task: WorkflowTask) {
-    this.api.updateTaskForWorkflow(this.workflow.id, task.id, this.model).subscribe();
+    this.api.updateTaskForWorkflow(this.workflow.id, task.name, this.model).subscribe();
   }
 }

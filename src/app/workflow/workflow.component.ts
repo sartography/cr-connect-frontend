@@ -26,12 +26,21 @@ export class WorkflowComponent {
     const studyId = parseInt(paramMap.get('study_id'), 10);
     const workflowId = parseInt(paramMap.get('workflow_id'), 10);
     this.api.getStudy(studyId).subscribe(s => this.study = s);
-    this.api.getTaskListForWorkflow(workflowId).subscribe(tasks => this.workflowTasks = tasks);
-    this.api.getWorkflowListForStudy(studyId).subscribe(sw => {
-      this.studyWorkflows = sw;
-      this.currentWorkflow = this.studyWorkflows[0];
+    this.api.getWorkflowListForStudy(studyId).subscribe(sws => {
+      this.studyWorkflows = sws;
+      this.currentWorkflow = this.studyWorkflows.find(wf => wf.id === workflowId);
+
+      this.api.getWorkflowSpecList().subscribe(wfs => {
+        this.workflowSpecs = wfs;
+        this.studyWorkflows.forEach(wf => {
+          wf.workflow_spec = this.getWorkflowSpecForWorkflow(wf);
+        });
+      });
+
+      this.studyWorkflows.forEach(wf => {
+        this.api.getTaskListForWorkflow(wf.id).subscribe(tasks => wf.workflow_tasks = tasks);
+      });
     });
-    this.api.getWorkflowSpecList().subscribe(wfs => this.workflowSpecs = wfs);
   }
 
   getWorkflowSpecForWorkflow(wf: Workflow): WorkflowSpec {

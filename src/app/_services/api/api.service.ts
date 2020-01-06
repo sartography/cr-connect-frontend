@@ -23,7 +23,7 @@ export class ApiService {
     studyStatus: '/v1.0/study-update/<study_id>',
     workflowSpecList: '/v1.0/workflow-specification',
     workflow: '/v1.0/workflow/<workflow_id>',
-    taskForWorkflow: '/v1.0/workflow/<workflow_id>/task/<task_id>',
+    taskForWorkflow: '/v1.0/workflow/<workflow_id>/task/<task_spec_name>',
     taskListForWorkflow: '/v1.0/workflow/<workflow_id>/tasks',
   };
   apiRoot: string;
@@ -106,21 +106,21 @@ export class ApiService {
   }
 
   /** Get TaskForWorkflow */
-  getTaskForWorkflow(workflowId: number, taskId: string): Observable<WorkflowTask> {
+  getTaskForWorkflow(workflowId: number, taskSpecName: string): Observable<WorkflowTask> {
     const url = this._endpointUrl('taskForWorkflow');
     const urlWithIds = url
       .replace('<workflow_id>', workflowId.toString())
-      .replace('<task_id>', taskId.toString());
+      .replace('<task_spec_name>', taskSpecName.toString());
     return this.httpClient.get<WorkflowTask>(urlWithIds)
       .pipe(catchError(this._handleError));
   }
 
   /** Update TaskForWorkflow */
-  updateTaskForWorkflow(workflowId: number, taskId: string, data: any): Observable<WorkflowTask> {
+  updateTaskForWorkflow(workflowId: number, taskSpecName: string, data: any): Observable<WorkflowTask> {
     const url = this._endpointUrl('taskForWorkflow');
     const urlWithIds = url
       .replace('<workflow_id>', workflowId.toString())
-      .replace('<task_id>', taskId.toString());
+      .replace('<task_spec_name>', taskSpecName.toString());
     return this.httpClient.put<WorkflowTask>(urlWithIds, data)
       .pipe(catchError(this._handleError));
   }

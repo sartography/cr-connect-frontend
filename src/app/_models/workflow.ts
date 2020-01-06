@@ -1,3 +1,5 @@
+import {WorkflowTask} from './workflow-task';
+
 export enum WorkflowStatus {
   NEW = 'new',
   USER_INPUT_REQUIRED = 'user_input_required',
@@ -17,4 +19,6 @@ export interface Workflow {
   status: WorkflowStatus;
   study_id: number;
   workflow_spec_id: string;
+  workflow_spec?: WorkflowSpec;
+  workflow_tasks?: WorkflowTask[];
 }

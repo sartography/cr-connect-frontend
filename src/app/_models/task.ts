@@ -23,7 +23,7 @@ export interface TaskSpec {
 
 export interface Task {
   id: string;
-  label: string;
+  name: string;
   task_spec_id: string;
   state_name: TaskState;
   task_spec?: TaskSpec;

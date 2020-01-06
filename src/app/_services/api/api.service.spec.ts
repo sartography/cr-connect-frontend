@@ -76,14 +76,14 @@ describe('ApiService', () => {
     const httpMock = TestBed.get(HttpTestingController);
     const service: ApiService = TestBed.get(ApiService);
     const workflowId = 0;
-    const taskId = '0';
+    const taskName = 'Do the dishes';
 
-    service.getTaskForWorkflow(workflowId, taskId).subscribe(data => {
+    service.getTaskForWorkflow(workflowId, taskName).subscribe(data => {
       expect(data).toBeTruthy();
-      expect(data.id).toEqual(taskId);
+      expect(data.name).toEqual(taskName);
     });
 
-    const req = httpMock.expectOne(`http://localhost:5000/v1.0/workflow/${workflowId}/task/${taskId}`);
+    const req = httpMock.expectOne(`http://localhost:5000/v1.0/workflow/${workflowId}/task/${taskName}`);
     expect(req.request.method).toEqual('GET');
     req.flush(mockTask0);
   });
@@ -94,8 +94,8 @@ describe('ApiService', () => {
 
     service.getWorkflowSpecList().subscribe(data => {
       expect(data.length).toBeGreaterThan(0);
-      expect(data[0].name).toEqual(mockWorkflowSpecs[0].name);
-      expect(data[1].name).toEqual(mockWorkflowSpecs[1].name);
+      expect(data[0].display_name).toEqual(mockWorkflowSpecs[0].display_name);
+      expect(data[1].display_name).toEqual(mockWorkflowSpecs[1].display_name);
     });
 
     const req = httpMock.expectOne(`http://localhost:5000/v1.0/workflow-specification`);
@@ -110,7 +110,8 @@ describe('ApiService', () => {
 
     service.getWorkflowListForStudy(studyId).subscribe(data => {
       expect(data.length).toBeGreaterThan(0);
-      expect(data[0].name).toEqual(mockWorkflows[0].name);
+      expect(data[0].id).toEqual(mockWorkflows[0].id);
+      expect(data[0].workflow_spec_id).toEqual(mockWorkflows[0].workflow_spec_id);
     });
 
     const req = httpMock.expectOne(`http://localhost:5000/v1.0/study/${studyId}/workflows`);

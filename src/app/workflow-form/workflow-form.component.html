@@ -1,5 +1,5 @@
-<ng-container *ngIf="study && workflowTasks; else loading">
-  <div *ngFor="let task of workflowTasks" id="{{'task_' + task.id}}">
+<ng-container *ngIf="study && workflow; else loading">
+  <div *ngFor="let task of workflow.workflow_tasks" id="{{'task_' + task.id}}">
     <h1>{{task.title}}</h1>
     <div>
       <h3>{{task.form.key}}</h3>

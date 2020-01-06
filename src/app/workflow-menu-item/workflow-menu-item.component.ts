@@ -10,14 +10,8 @@ import {WorkflowTask} from '../_models/workflow-task';
 })
 export class WorkflowMenuItemComponent {
   @Input() study: Study;
-  @Input() workflowTasks: WorkflowTask[];
   @Input() studyWorkflows: Workflow[];
-  @Input() workflowSpecs: WorkflowSpec[];
 
   constructor() {
-  }
-
-  getWorkflowSpecForWorkflow(wf: Workflow): WorkflowSpec {
-    return this.workflowSpecs.find(wfs => wfs.id === wf.workflow_spec_id);
   }
 }
