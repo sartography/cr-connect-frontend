@@ -1,4 +1,4 @@
-import {AppEnvironment} from '../app/_models/app-environment';
+import {AppEnvironment} from 'sartography-workflow-lib';
 
 export const environment: AppEnvironment = {
   production: true,

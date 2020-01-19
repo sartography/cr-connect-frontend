@@ -1,7 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Study} from '../_models/study';
-import {Workflow, WorkflowSpec} from '../_models/workflow';
-import {WorkflowTask} from '../_models/workflow-task';
+import {Study, Workflow} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow-menu-item',

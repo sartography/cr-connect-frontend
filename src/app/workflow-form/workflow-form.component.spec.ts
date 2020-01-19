@@ -4,12 +4,15 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
+import {
+  ApiService,
+  MockEnvironment,
+  mockStudy0,
+  mockWorkflow0,
+  mockWorkflowSpec0,
+  mockWorkflowTasks
+} from 'sartography-workflow-lib';
 import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
-import {ApiService} from '../_services/api/api.service';
-import {mockStudy0} from '../_testing/mocks/study.mocks';
-import {mockWorkflowSpec0} from '../_testing/mocks/workflow-spec.mocks';
-import {mockWorkflowTasks} from '../_testing/mocks/workflow-task.mocks';
-import {mockWorkflow0} from '../_testing/mocks/workflow.mocks';
 
 import {WorkflowFormComponent} from './workflow-form.component';
 
@@ -34,6 +37,7 @@ describe('WorkflowFormComponent', () => {
       ],
       providers: [
         ApiService,
+        {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
       ]
     })
       .compileComponents();

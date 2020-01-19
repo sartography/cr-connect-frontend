@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {FormlyFieldConfig} from '@ngx-formly/core';
 import {isIterable} from 'rxjs/internal-compatibility';
-import {BpmnFormJsonField} from '../_models/json';
+import {BpmnFormJsonField} from 'sartography-workflow-lib';
 
 /***
  * Convert the given BPMN form JSON value to Formly JSON

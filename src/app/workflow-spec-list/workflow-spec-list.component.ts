@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {WorkflowSpec} from '../_models/workflow';
-import {ApiService} from '../_services/api/api.service';
+import {Component, OnInit} from '@angular/core';
+import {ApiService, WorkflowSpec} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow-spec-list',

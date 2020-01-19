@@ -1,8 +1,7 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ChartType} from 'chart.js';
 import {Color, Label, MultiDataSet} from 'ng2-charts';
-import {Study} from '../_models/study';
-import {Workflow, WorkflowSpec} from '../_models/workflow';
+import {Study, Workflow, WorkflowSpec} from 'sartography-workflow-lib';
 
 interface ChartData {
   workflowId: number;

@@ -1,10 +1,10 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatListModule} from '@angular/material/list';
-import {ApiService} from '../_services/api/api.service';
-import {mockWorkflowSpecs} from '../_testing/mocks/workflow-spec.mocks';
+import {ApiService, MockEnvironment} from 'sartography-workflow-lib';
+import {mockWorkflowSpecs} from 'sartography-workflow-lib';
 
-import { WorkflowSpecListComponent } from './workflow-spec-list.component';
+import {WorkflowSpecListComponent} from './workflow-spec-list.component';
 
 describe('WorkflowSpecListComponent', () => {
   let component: WorkflowSpecListComponent;
@@ -13,14 +13,17 @@ describe('WorkflowSpecListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WorkflowSpecListComponent ],
+      declarations: [WorkflowSpecListComponent],
       imports: [
         HttpClientTestingModule,
         MatListModule,
       ],
-      providers: [ApiService]
+      providers: [
+        ApiService,
+        {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -29,7 +32,7 @@ describe('WorkflowSpecListComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('http://localhost:5000/v1.0/workflow-specification');
+    const sReq = httpMock.expectOne('apiRoot/workflow-specification');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockWorkflowSpecs);
 

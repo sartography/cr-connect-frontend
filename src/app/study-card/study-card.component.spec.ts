@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {MatCardModule} from '@angular/material/card';
 import {RouterTestingModule} from '@angular/router/testing';
-import {mockStudies} from '../_testing/mocks/study.mocks';
+import {mockStudies} from 'sartography-workflow-lib';
 
 import { StudyCardComponent } from './study-card.component';
 

@@ -2,9 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ChartsModule} from 'ng2-charts';
-import {mockStudies} from '../_testing/mocks/study.mocks';
-import {mockWorkflowSpecs} from '../_testing/mocks/workflow-spec.mocks';
-import {mockWorkflows} from '../_testing/mocks/workflow.mocks';
+import {mockStudies, mockWorkflows, mockWorkflowSpecs} from 'sartography-workflow-lib';
 
 import {DashboardComponent} from './dashboard.component';
 

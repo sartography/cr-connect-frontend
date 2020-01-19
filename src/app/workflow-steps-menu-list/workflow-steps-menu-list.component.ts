@@ -1,7 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BpmnFormJsonField} from '../_models/json';
-import {WorkflowSpec} from '../_models/workflow';
-import {WorkflowTask, WorkflowTaskState} from '../_models/workflow-task';
+import {WorkflowSpec, WorkflowTask, WorkflowTaskState} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow-steps-menu-list',

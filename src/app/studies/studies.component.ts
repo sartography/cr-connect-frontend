@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ProtocolBuilderStatus, Study} from '../_models/study';
-import {ApiService} from '../_services/api/api.service';
-import {newRandomStudy} from '../_testing/mocks/study.mocks';
+import {ApiService, newRandomStudy, ProtocolBuilderStatus, Study} from 'sartography-workflow-lib';
 
 export interface StudiesByStatus {
   status: ProtocolBuilderStatus;

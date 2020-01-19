@@ -1,8 +1,8 @@
-import {AppEnvironment} from '../app/_models/app-environment';
+import {AppEnvironment} from 'sartography-workflow-lib';
 
 export const environment: AppEnvironment = {
   production: true,
-  api: 'http://workflow.sartography.com:5000',
+  api: 'http://workflow.sartography.com:5000/v1.0',
   googleAnalyticsKey: '',
-  irbUrl: 'https://www.irb.virginia.edu/index.cfm?fuseAction=ss_create.create',
+  irbUrl: 'http://workflow.sartography.com:5001/pb',
 };

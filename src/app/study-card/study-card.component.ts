@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Study} from '../_models/study';
+import {Study} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-study-card',

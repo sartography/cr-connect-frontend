@@ -1,9 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Study} from '../_models/study';
-import {Workflow, WorkflowSpec} from '../_models/workflow';
-import {WorkflowTask} from '../_models/workflow-task';
-import {ApiService} from '../_services/api/api.service';
+import {ApiService, Study, Workflow, WorkflowSpec, WorkflowTask} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow',

@@ -1,4 +1,4 @@
-import {BpmnFormJsonField} from '../_models/json';
+import {BpmnFormJsonField} from 'sartography-workflow-lib';
 import {ToFormlyPipe} from './to-formly.pipe';
 
 describe('ToFormlyPipe', () => {

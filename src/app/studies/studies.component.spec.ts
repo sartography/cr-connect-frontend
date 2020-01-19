@@ -4,8 +4,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {RouterTestingModule} from '@angular/router/testing';
-import {mockStudies} from '../_testing/mocks/study.mocks';
-import {ApiService} from '../_services/api/api.service';
+import {ApiService, MockEnvironment, mockStudies} from 'sartography-workflow-lib';
 import {StudyCardComponent} from '../study-card/study-card.component';
 
 import {StudiesComponent} from './studies.component';
@@ -28,7 +27,10 @@ describe('StudiesComponent', () => {
         MatProgressBarModule,
         RouterTestingModule,
       ],
-      providers: [ApiService]
+      providers: [
+        ApiService,
+        {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+      ]
     })
       .compileComponents();
   }));
@@ -39,7 +41,7 @@ describe('StudiesComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('http://localhost:5000/v1.0/study');
+    const sReq = httpMock.expectOne('apiRoot/study');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudies);
 

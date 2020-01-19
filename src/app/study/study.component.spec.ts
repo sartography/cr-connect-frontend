@@ -1,14 +1,13 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ChartsModule} from 'ng2-charts';
-import {mockStudies, mockStudy0} from '../_testing/mocks/study.mocks';
-import {ApiService} from '../_services/api/api.service';
+import {ApiService, MockEnvironment, mockStudy0} from 'sartography-workflow-lib';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 
-import { StudyComponent } from './study.component';
+import {StudyComponent} from './study.component';
 
 describe('StudyComponent', () => {
   let component: StudyComponent;
@@ -31,11 +30,12 @@ describe('StudyComponent', () => {
         ApiService,
         {
           provide: ActivatedRoute,
-          useValue: {snapshot: {paramMap: convertToParamMap({study_id: '0'})}}
-        }
+          useValue: {snapshot: {paramMap: convertToParamMap({study_id: '0'})}},
+        },
+        {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -44,7 +44,7 @@ describe('StudyComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('http://localhost:5000/v1.0/study/0');
+    const sReq = httpMock.expectOne('apiRoot/study/0');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
 
