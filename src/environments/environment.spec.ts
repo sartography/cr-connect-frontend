@@ -1,8 +1,7 @@
-import {TestBed} from '@angular/core/testing';
 import {environment as environment_dev} from './environment';
-import {environment as environment_test} from './environment.test';
-import {environment as environment_staging} from './environment.staging';
 import {environment as environment_prod} from './environment.prod';
+import {environment as environment_staging} from './environment.staging';
+import {environment as environment_test} from './environment.test';
 
 
 describe('Environments', () => {

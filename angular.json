@@ -153,7 +153,11 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "codeCoverageExclude": [
+              "src/polyfills.ts",
+              "src/test.ts"
+            ]
           }
         },
         "lint": {
