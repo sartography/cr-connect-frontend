@@ -47,7 +47,6 @@ describe('WorkflowFormComponent', () => {
     httpMock = TestBed.get(HttpTestingController);
     fixture = TestBed.createComponent(WorkflowFormComponent);
     component = fixture.componentInstance;
-    component.study = mockStudy0;
     const wf = mockWorkflow0;
     wf.workflow_tasks = mockWorkflowTasks;
     wf.workflow_spec = mockWorkflowSpec0;
