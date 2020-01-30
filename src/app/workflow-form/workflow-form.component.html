@@ -1,12 +1,10 @@
-<ng-container *ngIf="study && workflow; else loading">
-  <div *ngFor="let task of workflow.workflow_tasks" id="{{'task_' + task.id}}">
+<ng-container *ngIf="task && workflow; else loading">
     <h1>{{task.title}}</h1>
     <div>
       <h3>{{task.form.key}}</h3>
       <formly-form [model]="model" [fields]="task.form.fields | toFormly" [options]="options" [form]="form"></formly-form>
       <button mat-flat-button color="primary" (click)="saveTaskData(task)">Save</button>
     </div>
-  </div>
 </ng-container>
 
 <ng-template #loading>

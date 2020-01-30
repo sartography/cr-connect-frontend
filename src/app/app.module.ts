@@ -48,7 +48,6 @@ import {StudiesComponent} from './studies/studies.component';
 import {StudyCardComponent} from './study-card/study-card.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
-import {WorkflowMenuItemComponent} from './workflow-menu-item/workflow-menu-item.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
@@ -81,7 +80,6 @@ class ThisEnvironment implements AppEnvironment {
     StudyComponent,
     WorkflowComponent,
     WorkflowFormComponent,
-    WorkflowMenuItemComponent,
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
     StudyCardComponent,

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {FormlyFormOptions} from '@ngx-formly/core';
 import {ApiService, Study, Workflow, WorkflowTask} from 'sartography-workflow-lib';
@@ -9,8 +9,9 @@ import {ApiService, Study, Workflow, WorkflowTask} from 'sartography-workflow-li
   styleUrls: ['./workflow-form.component.scss']
 })
 export class WorkflowFormComponent implements OnInit {
-  @Input() study: Study;
+  @Input() task: WorkflowTask;
   @Input() workflow: Workflow;
+  @Output() workflowUpdated: EventEmitter<Workflow> = new EventEmitter();
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   model: any = {};
@@ -22,6 +23,10 @@ export class WorkflowFormComponent implements OnInit {
   }
 
   saveTaskData(task: WorkflowTask) {
-    this.api.updateTaskDataForWorkflow(this.workflow.id, task.name, this.model).subscribe();
+    this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, this.model).subscribe(
+      updatedWorkflow => {
+        this.workflowUpdated.emit(updatedWorkflow);
+      }
+    );
   }
 }

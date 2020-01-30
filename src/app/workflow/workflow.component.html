@@ -1,15 +1,19 @@
 <mat-sidenav-container>
   <mat-sidenav mode="side" opened  [fixedInViewport]="true" [fixedTopGap]="64">
-    <app-workflow-menu-item
-      [study]="study"
-      [studyWorkflows]="studyWorkflows"
-    ></app-workflow-menu-item>
+    <h3>Available Tasks:</h3>
+    <i>The following tasks need your attention:</i>
+    <app-workflow-steps-menu-list *ngFor="let task of readyTasks"
+      [task]="task"
+      [isCurrent] = "task === currentTask"
+      (taskSelected)="setCurrentTask($event)"
+    ></app-workflow-steps-menu-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-workflow-form
-      [study]="study"
-      [workflow]="currentWorkflow"
+    <app-workflow-form *ngIf="currentTask"
+      [task]="currentTask"
+      [workflow]="workflow"
+      (workflowUpdated)="workflowUpdated($event)"
     ></app-workflow-form>
   </mat-sidenav-content>
 </mat-sidenav-container>
-3
+
