@@ -53,7 +53,7 @@ import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflo
 import {WorkflowComponent} from './workflow/workflow.component';
 
 
-class ThisEnvironment implements AppEnvironment {
+export class ThisEnvironment implements AppEnvironment {
   production = environment.production;
   api = environment.api;
   googleAnalyticsKey = environment.googleAnalyticsKey;
