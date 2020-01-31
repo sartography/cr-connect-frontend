@@ -6,16 +6,13 @@ import {Workflow, WorkflowSpec, WorkflowTask, WorkflowTaskState} from 'sartograp
   templateUrl: './workflow-steps-menu-list.component.html',
   styleUrls: ['./workflow-steps-menu-list.component.scss']
 })
-export class WorkflowStepsMenuListComponent implements OnInit {
+export class WorkflowStepsMenuListComponent {
   @Input() task: WorkflowTask;
   @Input() isCurrent: boolean;
   @Output() taskSelected: EventEmitter<WorkflowTask> = new EventEmitter();
   taskStates = WorkflowTaskState;
 
   constructor() {
-  }
-
-  ngOnInit() {
   }
 
   selectTask() {

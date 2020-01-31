@@ -10,7 +10,7 @@
     <a
       (click)="isExpanded = false; addStudy()"
       color="accent"
-      href="https://www.irb.virginia.edu/index.cfm?fuseAction=ss_create.create"
+      [href]="irbUrl"
       id="cta_protocol_builder"
       mat-flat-button
       target="_blank"
