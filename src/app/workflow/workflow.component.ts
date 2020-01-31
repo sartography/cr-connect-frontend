@@ -10,6 +10,7 @@ import {ApiService, Workflow, WorkflowTask} from 'sartography-workflow-lib';
 export class WorkflowComponent {
   workflow: Workflow;
   readyTasks: WorkflowTask[];
+  allTasks: WorkflowTask[];
   currentTask: WorkflowTask;
 
   constructor(
@@ -26,9 +27,10 @@ export class WorkflowComponent {
   }
 
   private updateTaskList(workflow: Workflow) {
+    this.api.getTaskListForWorkflow(workflow.id, true).subscribe(tasks => this.allTasks = tasks);
     this.api.getTaskListForWorkflow(workflow.id).subscribe( tasks => {
       this.readyTasks = tasks;
-      if (this.readyTasks.length === 1) {
+      if (this.readyTasks.length >= 1) {
         this.currentTask = this.readyTasks[0];
       }
     });

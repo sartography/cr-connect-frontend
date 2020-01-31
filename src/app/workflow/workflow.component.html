@@ -2,7 +2,7 @@
   <mat-sidenav mode="side" opened  [fixedInViewport]="true" [fixedTopGap]="64">
     <h3>Available Tasks:</h3>
     <i>The following tasks need your attention:</i>
-    <app-workflow-steps-menu-list *ngFor="let task of readyTasks"
+    <app-workflow-steps-menu-list *ngFor="let task of allTasks"
       [task]="task"
       [isCurrent] = "task === currentTask"
       (taskSelected)="setCurrentTask($event)"

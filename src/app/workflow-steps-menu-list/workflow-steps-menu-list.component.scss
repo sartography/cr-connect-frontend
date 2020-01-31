@@ -1,11 +1,20 @@
 @import "../../config";
 
-.process-category-step {
+.task {
   background-color: $brand-gray;
   color: white;
 }
 
-.process-category-step:hover {
+.task:hover {
   background-color: $brand-gray-tint-1;
   color: white;
+}
+
+.task.active {
+  background-color: $brand-accent;
+}
+
+.task.disabled {
+  color: $brand-gray-tint-2;
+  pointer-events: none;
 }

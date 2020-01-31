@@ -1,14 +1,15 @@
-<ng-container *ngIf="task">
-    <button
-      mat-list-item
-      ngClass="s"
-      class="process-category-step"
-      matLine
+<mat-list *ngIf="task">
+    <mat-list-item
+      [ngClass]="{'task': true, 'active': isCurrent, 'disabled': task.state === taskStates.FUTURE}"
       pageScroll
       (click)="selectTask()"
     >
       {{ task.title }}
       <span fxFlex></span>
-      <mat-icon *ngIf="isComplete()">check</mat-icon>
-    </button>
-</ng-container>
+      <mat-icon *ngIf="task.state === taskStates.COMPLETED">check</mat-icon>
+      <mat-icon *ngIf="task.state === taskStates.WAITING">more_horiz</mat-icon>
+      <mat-icon *ngIf="task.state === taskStates.FUTURE">access_time</mat-icon>
+      <mat-icon *ngIf="task.state === taskStates.READY">create</mat-icon>
+      <mat-icon *ngIf="isCurrent">arrow_right</mat-icon>
+    </mat-list-item>
+</mat-list>

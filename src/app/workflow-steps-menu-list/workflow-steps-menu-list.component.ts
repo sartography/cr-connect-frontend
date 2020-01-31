@@ -10,6 +10,7 @@ export class WorkflowStepsMenuListComponent implements OnInit {
   @Input() task: WorkflowTask;
   @Input() isCurrent: boolean;
   @Output() taskSelected: EventEmitter<WorkflowTask> = new EventEmitter();
+  taskStates = WorkflowTaskState;
 
   constructor() {
   }
@@ -19,9 +20,5 @@ export class WorkflowStepsMenuListComponent implements OnInit {
 
   selectTask() {
     this.taskSelected.emit(this.task);
-  }
-
-  isComplete() {
-    return this.task.state === WorkflowTaskState.COMPLETED;
   }
 }
