@@ -14,3 +14,4 @@ RUN npm install && \
 ### STAGE 2: Run ###
 FROM nginx:alpine
 COPY --from=builder /crc-frontend/dist/* /usr/share/nginx/html/
+COPY --from=builder /crc-frontend/nginx.conf /etc/nginx/conf.d/default.conf
