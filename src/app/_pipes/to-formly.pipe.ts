@@ -98,7 +98,6 @@ export class ToFormlyPipe implements PipeTransform {
 
   transform(value: BpmnFormJsonField[], ...args: any[]): FormlyFieldConfig[] {
     const result: FormlyFieldConfig[] = [];
-    console.log('The bpmn form is ', value);
     for (const field of value) {
       const resultField: FormlyFieldConfig = {
         key: field.id,
@@ -189,8 +188,6 @@ export class ToFormlyPipe implements PipeTransform {
 
       result.push(resultField);
     }
-
-    console.log('result', result);
 
     return result;
   }

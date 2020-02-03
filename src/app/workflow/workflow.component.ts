@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ApiService, Workflow, WorkflowTask} from 'sartography-workflow-lib';
+import {ApiService, Workflow, WorkflowTask, WorkflowTaskState} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow',
@@ -41,16 +41,18 @@ export class WorkflowComponent {
         this.changeDetectorRef.detectChanges();
       }
 
-      this.api.getTaskListForWorkflow(workflow.id).subscribe( readyTasks => {
-        this.readyTasks = readyTasks;
-        if ((this.readyTasks.length >= 1) && (!this.taskId || !this.currentTask)) {
-          this.setCurrentTask(this.readyTasks[0]);
-        }
-      });
+      this.readyTasks = allTasks.filter(t => t.state === WorkflowTaskState.READY);
+
+      if ((this.readyTasks.length >= 1) && (!this.taskId || !this.currentTask)) {
+        this.setCurrentTask(this.readyTasks[0]);
+      }
     });
   }
 
   setCurrentTask(task: WorkflowTask) {
+    this.currentTask = task;
+
+    // TODO: Change the URL without hitting the router??
     this.router.navigate(['study', this.studyId, 'workflow', this.workflow.id, 'task', task.id]);
   }
 
