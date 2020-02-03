@@ -40,6 +40,11 @@ describe('WorkflowSpecListComponent', () => {
     expect(component.workflowSpecs.length).toEqual(mockWorkflowSpecs.length);
   });
 
+  afterEach(() => {
+    httpMock.verify();
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

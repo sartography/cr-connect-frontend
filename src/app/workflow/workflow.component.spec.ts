@@ -74,6 +74,11 @@ describe('WorkflowComponent', () => {
     tReq.flush(mockWorkflowTasks);
   });
 
+  afterEach(() => {
+    httpMock.verify();
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

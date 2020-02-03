@@ -4,6 +4,7 @@ import {FieldType} from '@ngx-formly/material';
 import {NgProgressComponent} from '@ngx-progressbar/core';
 import {FileSystemFileEntry, NgxFileDropEntry} from 'ngx-file-drop';
 import {ReplaySubject} from 'rxjs';
+import {ApiService} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-file-upload',
@@ -25,6 +26,10 @@ export class FileUploadComponent extends FieldType {
   ];
   dropZoneHover = false;
   @ViewChild(NgProgressComponent, {static: false}) progress: NgProgressComponent;
+
+  constructor(private api: ApiService) {
+    super();
+  }
 
   dropped(droppedFiles: NgxFileDropEntry[]) {
     this.droppedFiles = droppedFiles;
@@ -117,8 +122,9 @@ export class FileUploadComponent extends FieldType {
 
   updateFileList() {
     console.log('=== updateFileList ===');
-    this.model.files = this.files;
-    this.updateFilesSubject.next(Array.from(this.files));
+    const filesArrary = Array.from(this.files);
+    this.model.files = filesArrary;
+    this.updateFilesSubject.next(filesArrary);
   }
 
   updateDisplayName($event, file: File) {

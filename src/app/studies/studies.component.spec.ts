@@ -54,6 +54,11 @@ describe('StudiesComponent', () => {
     expect(numStudies).toEqual(mockStudies.length);
   });
 
+  afterEach(() => {
+    httpMock.verify();
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
