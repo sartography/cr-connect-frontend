@@ -1,0 +1,129 @@
+<ng-progress #progressBar></ng-progress>
+<div
+  [ngClass]="{'hover': dropZoneHover}"
+  class="mat-typography"
+  id="fileUpload"
+>
+  <ngx-file-drop
+    (onFileDrop)="dropped($event)"
+    (onFileLeave)="fileLeave($event)"
+    (onFileOver)="fileOver($event)"
+    class="file-upload"
+    dropZoneLabel="Drop files here"
+    id="dropZoneContainer"
+  >
+    <ng-template let-openFileSelector="openFileSelector" ngx-file-drop-content-tmp>
+      <div id="dropFilesInstructions" fxLayout="column" fxLayoutAlign="center center">
+        <mat-icon>cloud_upload</mat-icon>
+        <h3>Drop files here</h3>
+        <button mat-flat-button color="primary" (click)="openFileSelector()" type="button">Browse Files</button>
+      </div>
+    </ng-template>
+  </ngx-file-drop>
+  <div
+    *ngIf="updateFilesSubject | async"
+    id="fileQueueContainer"
+  >
+    <table
+      [dataSource]="updateFilesSubject"
+      class="mat-elevation-z8"
+      mat-table
+    >
+      <ng-container matColumnDef="type">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >Type
+        </th>
+        <td
+          *matCellDef="let file"
+          mat-cell
+        >
+          <img [src]="fileIcon(file)"/>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >Name
+        </th>
+        <td
+          *matCellDef="let file"
+          mat-cell
+        > {{truncate((file.name), 60)}} </td>
+      </ng-container>
+      <ng-container matColumnDef="display_name">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >Name
+        </th>
+        <td
+          *matCellDef="let file"
+          mat-cell
+        >
+          <mat-form-field>
+            <input
+              (blur)="updateDisplayName($event, file)"
+              [value]="file.name"
+              matInput
+              placeholder="Display name"
+            >
+          </mat-form-field>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="size">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >Size
+        </th>
+        <td
+          *matCellDef="let file"
+          mat-cell
+        > {{formatSize(file.size)}} </td>
+      </ng-container>
+      <ng-container matColumnDef="lastModifiedDate">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >Date Modified
+        </th>
+        <td
+          *matCellDef="let file"
+          mat-cell
+        > {{formatDate(file.date)}} </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+        >Actions
+        </th>
+        <td
+          *matCellDef="let file"
+          mat-cell
+        >
+          <ng-progress [id]="file.name"></ng-progress>
+          <button
+            (click)="removeFile($event, file)"
+            color="warn"
+            mat-icon-button
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr
+        *matHeaderRowDef="displayedColumns"
+        mat-header-row
+      ></tr>
+      <tr
+        *matRowDef="let row; columns: displayedColumns;"
+        mat-row
+      ></tr>
+    </table>
+  </div>
+</div>

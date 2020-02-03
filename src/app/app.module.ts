@@ -14,13 +14,16 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
+import {NgProgressModule} from '@ngx-progressbar/core';
 import {ChartsModule} from 'ng2-charts';
+import {NgxFileDropModule} from 'ngx-file-drop';
 import {MarkdownModule} from 'ngx-markdown';
 import {NgxPageScrollModule} from 'ngx-page-scroll';
 import {NgxPageScrollCoreModule} from 'ngx-page-scroll-core';
@@ -31,6 +34,7 @@ import {PipesModule} from './_pipes/pipes.module';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {FileUploadComponent} from './file-upload/file-upload.component';
 import {FooterComponent} from './footer/footer.component';
 import {HelpDialogComponent} from './help-dialog/help-dialog.component';
 import {HelpWrapperComponent} from './help-wrapper/help-wrapper.component';
@@ -51,6 +55,7 @@ import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
+import { FileValueAccessorDirective } from './file-upload/file-value-accessor.directive';
 
 
 export class ThisEnvironment implements AppEnvironment {
@@ -64,6 +69,7 @@ export class ThisEnvironment implements AppEnvironment {
   declarations: [
     AppComponent,
     DashboardComponent,
+    FileUploadComponent,
     FooterComponent,
     HelpComponent,
     HelpDialogComponent,
@@ -83,6 +89,7 @@ export class ThisEnvironment implements AppEnvironment {
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
     StudyCardComponent,
+    FileValueAccessorDirective,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -91,6 +98,9 @@ export class ThisEnvironment implements AppEnvironment {
     FlexLayoutModule,
     FormlyMaterialModule,
     FormlyModule.forRoot({
+      types: [
+        { name: 'file', component: FileUploadComponent, wrappers: ['panel'] }
+      ],
       wrappers: [
         {name: 'panel', component: PanelWrapperComponent},
         {name: 'help', component: HelpWrapperComponent},
@@ -116,11 +126,15 @@ export class ThisEnvironment implements AppEnvironment {
     MatSidenavModule,
     MatTabsModule,
     MatToolbarModule,
+    NgxFileDropModule,
     NgxPageScrollCoreModule.forRoot({duration: 500, scrollOffset: 84}),
     NgxPageScrollModule,
     PipesModule,
     ReactiveFormsModule,
-    AppRoutingModule, // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
+    AppRoutingModule,
+    NgProgressModule,
+    MatTableModule,
+    // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
