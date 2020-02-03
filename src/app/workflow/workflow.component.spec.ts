@@ -8,15 +8,13 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-b
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
+import {of} from 'rxjs';
 import {
   ApiService,
   MockEnvironment,
   mockStudy0,
-  mockWorkflow0,
-  mockWorkflow1,
-  mockWorkflows,
-  mockWorkflowSpecs,
-  mockWorkflowTask0,
+  mockWorkflow0, mockWorkflow1,
+  mockWorkflowTask0, mockWorkflowTask1,
   mockWorkflowTasks
 } from 'sartography-workflow-lib';
 import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
@@ -53,7 +51,7 @@ describe('WorkflowComponent', () => {
         ApiService,
         {
           provide: ActivatedRoute,
-          useValue: {snapshot: {paramMap: convertToParamMap({study_id: '0', workflow_id: '0'})}}
+          useValue: {paramMap: of(convertToParamMap({study_id: '0', workflow_id: '0', task_id: '0'}))}
         },
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
       ]
@@ -71,13 +69,45 @@ describe('WorkflowComponent', () => {
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
 
-    const t1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '/tasks');
-    expect(t1Req.request.method).toEqual('GET');
-    t1Req.flush(mockWorkflowTasks);
-
+    const tReq = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '/all_tasks');
+    expect(tReq.request.method).toEqual('GET');
+    tReq.flush(mockWorkflowTasks);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should change selected task', () => {
+    const routerNavigateSpy = spyOn((component as any).router, 'navigate').and.stub();
+    component.setCurrentTask(mockWorkflowTask0);
+    expect(component.currentTask).toEqual(mockWorkflowTask0);
+    expect(routerNavigateSpy).toHaveBeenCalled();
+  });
+
+  it('should update workflow', () => {
+    const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
+    component.workflowUpdated(mockWorkflow1);
+    expect(component.workflow).toEqual(mockWorkflow1);
+    expect((component as any).taskId).toBeUndefined();
+    expect(component.currentTask).toBeUndefined();
+    expect(updateTaskListSpy).toHaveBeenCalledWith(mockWorkflow1);
+  });
+
+  it('should set current task when updating task list', () => {
+    const setCurrentTaskSpy = spyOn(component, 'setCurrentTask').and.stub();
+
+    // No currently-selected task
+    (component as any).taskId = undefined;
+    component.currentTask = undefined;
+
+    (component as any).updateTaskList(mockWorkflow1);
+
+    const tReq = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow1.id + '/all_tasks');
+    expect(tReq.request.method).toEqual('GET');
+    tReq.flush(mockWorkflowTasks);
+
+    // Should select a task
+    expect(setCurrentTaskSpy).toHaveBeenCalledWith(mockWorkflowTask1);
   });
 });

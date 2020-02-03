@@ -1,40 +1,26 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges
-} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
 import {FormlyFormOptions} from '@ngx-formly/core';
-import {Subscription} from 'rxjs';
-import {ApiService, Study, Workflow, WorkflowTask} from 'sartography-workflow-lib';
 import createClone from 'rfdc';
+import {Subscription} from 'rxjs';
+import {ApiService, Workflow, WorkflowTask} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow-form',
   templateUrl: './workflow-form.component.html',
   styleUrls: ['./workflow-form.component.scss']
 })
-export class WorkflowFormComponent implements OnInit, OnChanges, OnDestroy {
+export class WorkflowFormComponent implements OnInit, OnChanges {
   @Input() task: WorkflowTask;
   @Input() workflow: Workflow;
   @Output() workflowUpdated: EventEmitter<Workflow> = new EventEmitter();
   form = new FormGroup({});
   options: FormlyFormOptions = {};
   model: any = {};
-  sub: Subscription;
   loading = true;
 
   constructor(
-    private api: ApiService,
-    private route: ActivatedRoute,
-    private changeDetectorRef: ChangeDetectorRef,
+    private api: ApiService
   ) {
   }
 
@@ -43,13 +29,9 @@ export class WorkflowFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.task) {
+    if (changes.task && changes.task.currentValue) {
       this._loadModel(changes.task.currentValue);
     }
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 
   saveTaskData(task: WorkflowTask) {
@@ -61,11 +43,8 @@ export class WorkflowFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private _loadModel(task: WorkflowTask) {
-    this.loading = true;
-    this.sub = this.route.paramMap.subscribe(paramMap => {
+    if (task && task.data) {
       this.model = createClone()(task.data);
-      this.loading = false;
-      this.changeDetectorRef.detectChanges();
-    });
+    }
   }
 }

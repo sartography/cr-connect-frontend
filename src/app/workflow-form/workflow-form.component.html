@@ -1,4 +1,4 @@
-<ng-container *ngIf="!loading; else loadingMessage">
+<ng-container *ngIf="task && workflow; else loadingMessage">
     <h1>{{task.title}}</h1>
     <div>
       <h3>{{task.form.key}}</h3>
