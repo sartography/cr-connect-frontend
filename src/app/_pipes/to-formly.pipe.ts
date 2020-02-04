@@ -137,6 +137,8 @@ export class ToFormlyPipe implements PipeTransform {
         if (field.defaultValue) {
           resultField.defaultValue = new Date(field.defaultValue);
         }
+      } else if (field.type === 'files') {
+        resultField.type = 'files';
       } else if (field.type === 'file') {
         resultField.type = 'file';
       } else {

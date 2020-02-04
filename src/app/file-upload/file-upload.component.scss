@@ -1,3 +1,5 @@
+@import "../../config";
+
 .center {
   display: flex;
   align-items: center;
@@ -6,6 +8,7 @@
 }
 
 #dropFilesInstructions {
+  color: $brand-accent;
   padding-top: 2rem;
   padding-bottom: 2rem;
   margin: 2rem;
@@ -23,12 +26,16 @@
 
 ::ng-deep #dropZoneContainer.file-upload {
   width: 100%;
-  margin: 0;
 
   .ngx-file-drop__drop-zone {
-    border: 4px dotted gray;
+    transition: 200ms ease border;
+    border: 4px dotted $brand-gray-tint-2;
+    border-radius: 6px;
     padding: 40px;
-    margin: 0;
+
+    &:hover {
+      border: 4px dotted $brand-gray-tint-1;
+    }
 
     .ngx-file-drop__content {
       width: 100%;

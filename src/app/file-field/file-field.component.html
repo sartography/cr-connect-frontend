@@ -1,0 +1,20 @@
+<mat-form-field
+  (click)="fileInput.click()"
+  [ngClass]="{'file-name': true, 'file-is-selected': !!selectedFile}"
+>
+  <mat-icon matPrefix>folder_open</mat-icon>
+  <input
+    [value]="getFileName()"
+    matInput
+    type="text"
+  >
+</mat-form-field>
+<input
+  #fileInput
+  (change)="onFileSelected($event)"
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  accept=".bpmn,.dmn,.xml,application/xml,text/xml"
+  hidden id="file"
+  type="file"
+>

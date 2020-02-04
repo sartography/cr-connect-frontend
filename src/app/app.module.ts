@@ -56,6 +56,7 @@ import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 import { FileValueAccessorDirective } from './file-upload/file-value-accessor.directive';
+import { FileFieldComponent } from './file-field/file-field.component';
 
 
 export class ThisEnvironment implements AppEnvironment {
@@ -90,6 +91,7 @@ export class ThisEnvironment implements AppEnvironment {
     WorkflowStepsMenuListComponent,
     StudyCardComponent,
     FileValueAccessorDirective,
+    FileFieldComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -99,7 +101,8 @@ export class ThisEnvironment implements AppEnvironment {
     FormlyMaterialModule,
     FormlyModule.forRoot({
       types: [
-        { name: 'file', component: FileUploadComponent, wrappers: ['panel'] }
+        { name: 'file', component: FileFieldComponent, wrappers: ['panel'] },
+        { name: 'files', component: FileUploadComponent, wrappers: ['panel'] }
       ],
       wrappers: [
         {name: 'panel', component: PanelWrapperComponent},
