@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {FormlyTemplateOptions} from '@ngx-formly/core';
 import {FieldType} from '@ngx-formly/material';
@@ -7,21 +7,25 @@ import {FileSystemFileEntry, NgxFileDropEntry} from 'ngx-file-drop';
 import {ReplaySubject} from 'rxjs';
 import {ApiService, FileMeta, FileType, Workflow} from 'sartography-workflow-lib';
 
+export interface FormFieldFileReference {
+  field_key: string;
+  file_meta_id: number;
+}
+
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss']
 })
-export class FileUploadComponent extends FieldType {
+export class FileUploadComponent extends FieldType implements OnInit {
   @Input() to: FormlyTemplateOptions;
   droppedFiles: NgxFileDropEntry[] = [];
   files = new Set<File>();
-  fileMetas: FileMeta[] = [];
+  fileMetas = new Set<FileMeta>();
   updateFilesSubject = new ReplaySubject<File[]>();
   displayedColumns: string[] = [
-    'name',
-    'display_name',
     'type',
+    'name',
     'size',
     'lastModifiedDate',
     'actions'
@@ -47,6 +51,11 @@ export class FileUploadComponent extends FieldType {
         this.loadFiles();
       });
     });
+  }
+
+  ngOnInit(): void {
+    super.ngOnInit();
+    this.model.file_meta_ids = (this.model.file_meta_ids || []) as FormFieldFileReference[];
   }
 
   dropped(droppedFiles: NgxFileDropEntry[]) {
@@ -106,10 +115,11 @@ export class FileUploadComponent extends FieldType {
   }
 
   getFileType(file: File): FileType {
-    const s = file.type || file.name;
-    const nameArray = s.toLowerCase().split(file.type ? '/' : '.');
+    const s = file.name || file.type;
+    const nameArray = s.toLowerCase().split(file.name ? '.' : '/');
     if (nameArray.length > 0) {
-      return FileType[nameArray[nameArray.length - 1]];
+      const key = nameArray[nameArray.length - 1];
+      return key as FileType;
     } else {
       return FileType.UNKNOWN;
     }
@@ -120,9 +130,6 @@ export class FileUploadComponent extends FieldType {
   }
 
   addFile(file: File) {
-    console.log('=== addFile ===');
-
-    //  TODO: Add file
     this.files.add(file);
     const fileMeta: FileMeta = {
       content_type: file.type,
@@ -132,42 +139,46 @@ export class FileUploadComponent extends FieldType {
       task_id: this.taskId,
       study_id: this.studyId,
     };
-    this.api.addFileMeta({study_id: this.studyId, task_id: this.taskId}, fileMeta);
+    this.api.addFileMeta({
+      study_id: this.studyId,
+      workflow_id: this.workflowId,
+      task_id: this.taskId
+    }, fileMeta).subscribe(fm => {
+      this.model.file_meta_ids.push({field_key: this.field.key, file_meta_id: fm.id});
+    });
     this.updateFileList();
   }
 
   removeFile($event, file: File) {
-    console.log('=== removeFile ===');
-
     //  TODO: Delete file
     $event.preventDefault();
     this.files.delete(file);
   }
 
   editFileMeta(file: File, options) {
-    console.log('=== editFileMeta ===');
-
     //  TODO: Update file
     this.updateFileList();
   }
 
   updateFileList() {
-    console.log('=== updateFileList ===');
     const filesArrary = Array.from(this.files);
     this.model.files = filesArrary;
     this.updateFilesSubject.next(filesArrary);
   }
 
-  updateDisplayName($event, file: File) {
-    console.log('=== updateDisplayName ===');
-    this.editFileMeta(file, {display_name: $event.target.value});
-  }
-
   private loadFiles() {
-    this.api.getFileMeta({task_id: this.taskId}).subscribe(fms => {
-      this.fileMetas = fms;
-      this.fileMetas.forEach(fm => {
-        this.api.getFileData(fm.id).subscribe(file => this.files.add(file as File));
+    const refs: FormFieldFileReference[] = this.model.file_meta_ids.filter(f => f.field_key === this.field.key);
+
+    refs.forEach(f => {
+      this.api.getFileMeta(f.file_meta_id).subscribe(fm => {
+        this.fileMetas.add(fm);
+        this.api.getFileData(fm.id).subscribe(blob => {
+          const file = new File([blob], fm.name, {type: fm.type, lastModified: new Date(fm.last_updated).getTime()});
+          this.files.add(file as File);
+          if (this.files.size === refs.length) {
+            this.updateFileList();
+          }
+        });
       });
     });
   }

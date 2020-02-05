@@ -8,6 +8,7 @@
     (onFileDrop)="dropped($event)"
     (onFileLeave)="fileLeave($event)"
     (onFileOver)="fileOver($event)"
+    accept=".docx,.gif,.jpg,.pdf,.png,.svg,.xlsx,.zip"
     class="file-upload"
     dropZoneLabel="Drop files here"
     id="dropZoneContainer"
@@ -53,26 +54,6 @@
           mat-cell
         > {{truncate((file.name), 60)}} </td>
       </ng-container>
-      <ng-container matColumnDef="display_name">
-        <th
-          *matHeaderCellDef
-          mat-header-cell
-        >Name
-        </th>
-        <td
-          *matCellDef="let file"
-          mat-cell
-        >
-          <mat-form-field>
-            <input
-              (blur)="updateDisplayName($event, file)"
-              [value]="file.name"
-              matInput
-              placeholder="Display name"
-            >
-          </mat-form-field>
-        </td>
-      </ng-container>
       <ng-container matColumnDef="size">
         <th
           *matHeaderCellDef
@@ -88,12 +69,12 @@
         <th
           *matHeaderCellDef
           mat-header-cell
-        >Date Modified
+        >Date Uploaded
         </th>
         <td
           *matCellDef="let file"
           mat-cell
-        > {{formatDate(file.date)}} </td>
+        > {{formatDate(file.lastModified)}} </td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th
