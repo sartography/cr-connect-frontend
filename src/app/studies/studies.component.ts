@@ -17,6 +17,7 @@ export class StudiesComponent {
   studiesByStatus: StudiesByStatus[] = [];
   isExpanded: boolean;
   irbUrl = environment.irbUrl;
+  newStudy: Study;
 
   constructor(private api: ApiService) {
     this.loadStudies();
@@ -24,12 +25,18 @@ export class StudiesComponent {
 
   loadStudies() {
     this.api.getStudies().subscribe(allStudies => {
+      const sorted = allStudies.sort((a, b) => {
+        const aTime = new Date(a.last_updated).getTime();
+        const bTime = new Date(b.last_updated).getTime()
+        return bTime - aTime;
+      });
+
       const statuses = Object.keys(ProtocolBuilderStatus);
       this.studiesByStatus = statuses.map((status, i) => {
         return {
           status: ProtocolBuilderStatus[status],
           statusLabel: status,
-          studies: allStudies.filter(s => s.protocol_builder_status === ProtocolBuilderStatus[status]),
+          studies: sorted.filter(s => s.protocol_builder_status === ProtocolBuilderStatus[status]),
         };
       });
     });
@@ -37,7 +44,9 @@ export class StudiesComponent {
 
   addStudy() {
     const study = newRandomStudy();
-    console.log('study', study);
-    this.api.addStudy(study).subscribe(() => this.loadStudies());
+    this.api.addStudy(study).subscribe(newStudy => {
+      this.newStudy = newStudy;
+      this.loadStudies();
+    });
   }
 }

@@ -39,6 +39,7 @@
       <app-study-card
         *ngFor="let study of studiesGroup.studies"
         [study]="study"
+        [isNew]="newStudy && newStudy.id === study.id"
         fxFlex="33"
       ></app-study-card>
     </div>

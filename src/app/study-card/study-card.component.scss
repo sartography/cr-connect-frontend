@@ -38,3 +38,16 @@ mat-card {
   display: block;
   text-align: right;
 }
+
+.is-new {
+  border: 1px solid $brand-primary;
+  position: relative;
+
+  &:before {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    content: 'NEW';
+    color: $brand-accent
+  }
+}

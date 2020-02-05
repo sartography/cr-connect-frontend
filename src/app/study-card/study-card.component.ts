@@ -8,6 +8,7 @@ import {Study} from 'sartography-workflow-lib';
 })
 export class StudyCardComponent implements OnInit {
   @Input() study: Study;
+  @Input() isNew: boolean;
   percentComplete: number;
 
   constructor() {

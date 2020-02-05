@@ -2,7 +2,7 @@
   [routerLink]="['/study', study.id]"
   fxLayout="column"
   fxLayoutAlign="start start"
-  [ngClass]="study.protocol_builder_status"
+  [ngClass]="[study.protocol_builder_status, isNew ? 'is-new' : '']"
   [attr.data-study-id]="study.id"
 >
   <mat-card-header>
