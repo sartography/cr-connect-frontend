@@ -22,11 +22,11 @@
     </ng-template>
   </ngx-file-drop>
   <div
-    *ngIf="updateFilesSubject | async"
+    *ngIf="updateFileMetasSubject | async"
     id="fileQueueContainer"
   >
     <table
-      [dataSource]="updateFilesSubject"
+      [dataSource]="updateFileMetasSubject"
       class="mat-elevation-z8"
       mat-table
     >
@@ -37,10 +37,10 @@
         >Type
         </th>
         <td
-          *matCellDef="let file"
+          *matCellDef="let fileMeta"
           mat-cell
         >
-          <img [src]="fileIcon(file)"/>
+          <img [src]="getFileIcon(fileMeta)"/>
         </td>
       </ng-container>
       <ng-container matColumnDef="name">
@@ -50,9 +50,9 @@
         >Name
         </th>
         <td
-          *matCellDef="let file"
+          *matCellDef="let fileMeta"
           mat-cell
-        > {{truncate((file.name), 60)}} </td>
+        > {{truncate((fileMeta.name), 60)}} </td>
       </ng-container>
       <ng-container matColumnDef="size">
         <th
@@ -61,9 +61,9 @@
         >Size
         </th>
         <td
-          *matCellDef="let file"
+          *matCellDef="let fileMeta"
           mat-cell
-        > {{formatSize(file.size)}} </td>
+        > {{formatSize(fileMeta.file.size)}} </td>
       </ng-container>
       <ng-container matColumnDef="lastModifiedDate">
         <th
@@ -72,9 +72,9 @@
         >Date Uploaded
         </th>
         <td
-          *matCellDef="let file"
+          *matCellDef="let fileMeta"
           mat-cell
-        > {{formatDate(file.lastModified)}} </td>
+        > {{formatDate(fileMeta.last_updated)}} </td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th
@@ -83,12 +83,12 @@
         >Actions
         </th>
         <td
-          *matCellDef="let file"
+          *matCellDef="let fileMeta"
           mat-cell
         >
-          <ng-progress [id]="file.name"></ng-progress>
+          <ng-progress [id]="fileMeta.name"></ng-progress>
           <button
-            (click)="removeFile($event, file)"
+            (click)="removeFile($event, fileMeta)"
             color="warn"
             mat-icon-button
           >

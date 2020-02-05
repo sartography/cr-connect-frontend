@@ -5,12 +5,8 @@ import {FieldType} from '@ngx-formly/material';
 import {NgProgressComponent} from '@ngx-progressbar/core';
 import {FileSystemFileEntry, NgxFileDropEntry} from 'ngx-file-drop';
 import {ReplaySubject} from 'rxjs';
-import {ApiService, FileMeta, FileType, Workflow} from 'sartography-workflow-lib';
-
-export interface FormFieldFileReference {
-  field_key: string;
-  file_meta_id: number;
-}
+import {ApiService, FileMeta, FileParams} from 'sartography-workflow-lib';
+import {getFileIcon, getFileType} from '../_util/file-type';
 
 @Component({
   selector: 'app-file-upload',
@@ -20,9 +16,8 @@ export interface FormFieldFileReference {
 export class FileUploadComponent extends FieldType implements OnInit {
   @Input() to: FormlyTemplateOptions;
   droppedFiles: NgxFileDropEntry[] = [];
-  files = new Set<File>();
   fileMetas = new Set<FileMeta>();
-  updateFilesSubject = new ReplaySubject<File[]>();
+  updateFileMetasSubject = new ReplaySubject<FileMeta[]>();
   displayedColumns: string[] = [
     'type',
     'name',
@@ -32,30 +27,33 @@ export class FileUploadComponent extends FieldType implements OnInit {
   ];
   dropZoneHover = false;
   @ViewChild(NgProgressComponent, {static: false}) progress: NgProgressComponent;
-  private workflowSpecId: string;
+  getFileIcon = getFileIcon;
   private studyId: number;
   private workflowId: number;
   private taskId: string;
+  private fileParams: FileParams;
 
   constructor(
     private api: ApiService,
-    private activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute,
   ) {
     super();
-    activatedRoute.paramMap.subscribe(paramMap => {
+    this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
       this.taskId = paramMap.get('task_id');
-      this.api.getWorkflow(this.workflowId).subscribe(wf => {
-        this.workflowSpecId = wf.workflow_spec_id;
-        this.loadFiles();
-      });
     });
   }
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.model.file_meta_ids = (this.model.file_meta_ids || []) as FormFieldFileReference[];
+    this.fileParams = {
+      study_id: this.studyId,
+      workflow_id: this.workflowId,
+      task_id: this.taskId,
+      form_field_key: this.field.key
+    };
+    this.loadFiles();
   }
 
   dropped(droppedFiles: NgxFileDropEntry[]) {
@@ -114,68 +112,50 @@ export class FileUploadComponent extends FieldType implements OnInit {
     }
   }
 
-  getFileType(file: File): FileType {
-    const s = file.name || file.type;
-    const nameArray = s.toLowerCase().split(file.name ? '.' : '/');
-    if (nameArray.length > 0) {
-      const key = nameArray[nameArray.length - 1];
-      return key as FileType;
-    } else {
-      return FileType.UNKNOWN;
-    }
-  }
-
-  fileIcon(file: File): string {
-    return `/assets/icons/file_types/${this.getFileType(file)}.svg`;
-  }
-
   addFile(file: File) {
-    this.files.add(file);
     const fileMeta: FileMeta = {
       content_type: file.type,
       name: file.name,
-      type: this.getFileType(file),
+      type: getFileType(file),
       file,
-      task_id: this.taskId,
-      study_id: this.studyId,
-    };
-    this.api.addFileMeta({
       study_id: this.studyId,
       workflow_id: this.workflowId,
-      task_id: this.taskId
-    }, fileMeta).subscribe(fm => {
-      this.model.file_meta_ids.push({field_key: this.field.key, file_meta_id: fm.id});
+      task_id: this.taskId,
+      form_field_key: this.field.key,
+    };
+    this.api.addFileMeta(this.fileParams, fileMeta).subscribe(fm => {
+      fm.file = file;
+      this.fileMetas.add(fm);
+      this.updateFileList();
     });
-    this.updateFileList();
   }
 
-  removeFile($event, file: File) {
-    //  TODO: Delete file
+  removeFile($event, fileMeta: FileMeta) {
     $event.preventDefault();
-    this.files.delete(file);
-  }
+    const fileMetaId = fileMeta.id;
 
-  editFileMeta(file: File, options) {
-    //  TODO: Update file
-    this.updateFileList();
+    this.api.deleteFileMeta(fileMetaId).subscribe(() => {
+      this.fileMetas.delete(fileMeta);
+      this.updateFileList();
+    });
   }
 
   updateFileList() {
-    const filesArrary = Array.from(this.files);
-    this.model.files = filesArrary;
-    this.updateFilesSubject.next(filesArrary);
+    const fileMetasArray = Array.from(this.fileMetas);
+    this.updateFileMetasSubject.next(fileMetasArray);
   }
 
   private loadFiles() {
-    const refs: FormFieldFileReference[] = this.model.file_meta_ids.filter(f => f.field_key === this.field.key);
-
-    refs.forEach(f => {
-      this.api.getFileMeta(f.file_meta_id).subscribe(fm => {
-        this.fileMetas.add(fm);
+    this.api.getFileMetas(this.fileParams).subscribe(fms => {
+      fms.forEach(fm => {
         this.api.getFileData(fm.id).subscribe(blob => {
-          const file = new File([blob], fm.name, {type: fm.type, lastModified: new Date(fm.last_updated).getTime()});
-          this.files.add(file as File);
-          if (this.files.size === refs.length) {
+          const options: FilePropertyBag = {
+            type: fm.type,
+            lastModified: new Date(fm.last_updated).getTime()
+          };
+          fm.file = new File([blob], fm.name, options);
+          this.fileMetas.add(fm);
+          if (this.fileMetas.size === fms.length) {
             this.updateFileList();
           }
         });

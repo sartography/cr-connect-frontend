@@ -1,8 +1,7 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {FormlyFormOptions} from '@ngx-formly/core';
 import createClone from 'rfdc';
-import {Subscription} from 'rxjs';
 import {ApiService, Workflow, WorkflowTask} from 'sartography-workflow-lib';
 
 @Component({
@@ -44,7 +43,6 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   private _loadModel(task: WorkflowTask) {
     if (task && task.data) {
-      console.log('task.data', task.data);
       this.model = createClone()(task.data);
     }
   }

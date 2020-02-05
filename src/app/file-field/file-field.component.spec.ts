@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {MatIconModule} from '@angular/material/icon';
 
 import { FileFieldComponent } from './file-field.component';
 
@@ -8,6 +9,9 @@ describe('FileFieldComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        MatIconModule,
+      ],
       declarations: [ FileFieldComponent ]
     })
     .compileComponents();
