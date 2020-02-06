@@ -27,7 +27,7 @@ export class StudiesComponent {
     this.api.getStudies().subscribe(allStudies => {
       const sorted = allStudies.sort((a, b) => {
         const aTime = new Date(a.last_updated).getTime();
-        const bTime = new Date(b.last_updated).getTime()
+        const bTime = new Date(b.last_updated).getTime();
         return bTime - aTime;
       });
 
