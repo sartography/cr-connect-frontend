@@ -15,3 +15,5 @@ RUN npm install && \
 FROM nginx:alpine
 COPY --from=builder /crc-frontend/dist/* /usr/share/nginx/html/
 COPY --from=builder /crc-frontend/nginx.conf /etc/nginx/conf.d/default.conf
+
+### STAGE 3: Profit! ###
