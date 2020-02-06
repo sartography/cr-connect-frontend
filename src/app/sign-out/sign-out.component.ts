@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignOutComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    localStorage.removeItem('signedIn');
+  }
 
   ngOnInit() {
   }

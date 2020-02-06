@@ -1,10 +1,11 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatCardModule} from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {RouterTestingModule} from '@angular/router/testing';
-import {ApiService} from '../_services/api/api.service';
-import {studies} from '../_services/api/api.service.spec';
+import {ApiService, MockEnvironment, mockStudies} from 'sartography-workflow-lib';
+import {StudyCardComponent} from '../study-card/study-card.component';
 
 import {StudiesComponent} from './studies.component';
 
@@ -15,14 +16,21 @@ describe('StudiesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [StudiesComponent],
+      declarations: [
+        StudiesComponent,
+        StudyCardComponent,
+      ],
       imports: [
         HttpClientTestingModule,
         MatCardModule,
+        MatIconModule,
         MatProgressBarModule,
         RouterTestingModule,
       ],
-      providers: [ApiService]
+      providers: [
+        ApiService,
+        {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+      ]
     })
       .compileComponents();
   }));
@@ -33,20 +41,22 @@ describe('StudiesComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('/assets/json/study.json');
+    const sReq = httpMock.expectOne('apiRoot/study');
     expect(sReq.request.method).toEqual('GET');
-    sReq.flush(studies);
+    sReq.flush(mockStudies);
 
-    expect(component.draftStudies).toBeTruthy();
-    expect(component.submittedStudies).toBeTruthy();
-    expect(component.activeStudies).toBeTruthy();
-    expect(component.inactiveStudies).toBeTruthy();
-    expect(
-      component.draftStudies.length +
-      component.submittedStudies.length +
-      component.activeStudies.length +
-      component.inactiveStudies.length
-    ).toEqual(studies.length);
+    expect(component.studiesByStatus).toBeTruthy();
+
+    const numStudies = component.studiesByStatus.reduce((memo, s) => {
+      return memo + s.studies.length;
+    }, 0);
+
+    expect(numStudies).toEqual(mockStudies.length);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+    fixture.destroy();
   });
 
   it('should create', () => {

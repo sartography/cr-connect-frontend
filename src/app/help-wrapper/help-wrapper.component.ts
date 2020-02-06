@@ -27,7 +27,6 @@ export class HelpWrapperComponent extends FieldWrapper implements AfterViewInit 
   openDialog(title: string, text: string) {
     this.dialog.open(HelpDialogComponent, {
       width: '600px',
-      height: '400px',
       data: {title, text}
     });
   }

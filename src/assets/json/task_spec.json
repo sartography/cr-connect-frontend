@@ -1,26 +1,26 @@
 [
   {
-    "id": 0,
+    "id": "0",
     "name": "Task Spec 1 Name",
     "description": "Task Spec 1 Description"
   },
   {
-    "id": 1,
+    "id": "1",
     "name": "Task Spec 2 Name",
     "description": "Task Spec 2 Description"
   },
   {
-    "id": 2,
+    "id": "2",
     "name": "Task Spec 3 Name",
     "description": "Task Spec 3 Description"
   },
   {
-    "id": 3,
+    "id": "3",
     "name": "Task Spec 4 Name",
     "description": "Task Spec 4 Description"
   },
   {
-    "id": 4,
+    "id": "4",
     "name": "Task Spec 5 Name",
     "description": "Task Spec 5 Description"
   }

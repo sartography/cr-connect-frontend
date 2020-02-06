@@ -1,32 +1,32 @@
 [
   {
-    "id": 0,
+    "id": "0",
     "name": "Workflow Spec 1 Name",
     "description": "Workflow Spec 1 Description",
-    "task_spec_ids": [0,1,2]
+    "task_spec_ids": ["0","1","2"]
   },
   {
-    "id": 1,
+    "id": "1",
     "name": "Workflow Spec 2 Name",
     "description": "Workflow Spec 2 Description",
-    "task_spec_ids": [0,1,2]
+    "task_spec_ids": ["0","1","2"]
   },
   {
-    "id": 2,
+    "id": "2",
     "name": "Workflow Spec 3 Name",
     "description": "Workflow Spec 3 Description",
-    "task_spec_ids": [0,1,2]
+    "task_spec_ids": ["0","1","2"]
   },
   {
-    "id": 3,
+    "id": "3",
     "name": "Workflow Spec 4 Name",
     "description": "Workflow Spec 4 Description",
-    "task_spec_ids": [0,1,2]
+    "task_spec_ids": ["0","1","2"]
   },
   {
-    "id": 4,
+    "id": "4",
     "name": "Workflow Spec 5 Name",
     "description": "Workflow Spec 5 Description",
-    "task_spec_ids": [0,1,2]
+    "task_spec_ids": ["0","1","2"]
   }
 ]

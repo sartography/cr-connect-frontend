@@ -1,7 +1,8 @@
-import {AppEnvironment} from '../app/_models/app-environment';
+import {AppEnvironment} from 'sartography-workflow-lib/lib/types/app-environment';
 
 export const environment: AppEnvironment = {
   production: true,
-  api: 'https://staging.crconnect.virginia.edu',
-  googleAnalyticsKey: ''
+  api: 'http://workflow.sartography.com:5000/v1.0',
+  googleAnalyticsKey: '',
+  irbUrl: 'http://workflow.sartography.com:5001/pb/ui',
 };

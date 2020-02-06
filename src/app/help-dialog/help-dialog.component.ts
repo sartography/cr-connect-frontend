@@ -21,4 +21,12 @@ export class HelpDialogComponent {
     this.dialogRef.close();
   }
 
+  unescape(text: string): string {
+    const textAfter = text
+      .split('\\r\\n')
+      .join('\n')
+      .split('\\n')
+      .join('\n');
+    return(textAfter);
+  }
 }

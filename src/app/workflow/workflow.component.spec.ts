@@ -2,14 +2,23 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
-import {ApiService} from '../_services/api/api.service';
-import {workflowProcesses} from '../_services/api/api.service.spec';
-import {WorkflowProcessMenuItemComponent} from '../workflow-process-menu-item/workflow-process-menu-item.component';
-import {WorkflowProcessComponent} from '../workflow-process/workflow-process.component';
+import {of} from 'rxjs';
+import {
+  ApiService,
+  MockEnvironment,
+  mockStudy0,
+  mockWorkflow0, mockWorkflow1,
+  mockWorkflowTask0, mockWorkflowTask1,
+  mockWorkflowTasks
+} from 'sartography-workflow-lib';
+import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
+import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
 import {WorkflowStepsMenuListComponent} from '../workflow-steps-menu-list/workflow-steps-menu-list.component';
 
 import {WorkflowComponent} from './workflow.component';
@@ -22,9 +31,9 @@ describe('WorkflowComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        ToFormlyPipe,
         WorkflowComponent,
-        WorkflowProcessComponent,
-        WorkflowProcessMenuItemComponent,
+        WorkflowFormComponent,
         WorkflowStepsMenuListComponent,
       ],
       imports: [
@@ -34,10 +43,18 @@ describe('WorkflowComponent', () => {
         MatIconModule,
         MatListModule,
         MatSidenavModule,
+        MatProgressSpinnerModule,
         NoopAnimationsModule,
         RouterTestingModule,
       ],
-      providers: [ApiService]
+      providers: [
+        ApiService,
+        {
+          provide: ActivatedRoute,
+          useValue: {paramMap: of(convertToParamMap({study_id: '0', workflow_id: '0', task_id: '0'}))}
+        },
+        {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+      ]
     })
       .compileComponents();
   }));
@@ -48,15 +65,54 @@ describe('WorkflowComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('/assets/json/workflow_process.json');
+    const sReq = httpMock.expectOne('apiRoot/workflow/' + mockStudy0.id);
     expect(sReq.request.method).toEqual('GET');
-    sReq.flush(workflowProcesses);
+    sReq.flush(mockStudy0);
 
-    expect(component.process).toBeTruthy();
-    expect(component.process.id).toEqual(workflowProcesses[0].id);
+    const tReq = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '/all_tasks');
+    expect(tReq.request.method).toEqual('GET');
+    tReq.flush(mockWorkflowTasks);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+    fixture.destroy();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should change selected task', () => {
+    const routerNavigateSpy = spyOn((component as any).router, 'navigate').and.stub();
+    component.setCurrentTask(mockWorkflowTask0);
+    expect(component.currentTask).toEqual(mockWorkflowTask0);
+    expect(routerNavigateSpy).toHaveBeenCalled();
+  });
+
+  it('should update workflow', () => {
+    const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
+    component.workflowUpdated(mockWorkflow1);
+    expect(component.workflow).toEqual(mockWorkflow1);
+    expect((component as any).taskId).toBeUndefined();
+    expect(component.currentTask).toBeUndefined();
+    expect(updateTaskListSpy).toHaveBeenCalledWith(mockWorkflow1);
+  });
+
+  it('should set current task when updating task list', () => {
+    const setCurrentTaskSpy = spyOn(component, 'setCurrentTask').and.stub();
+
+    // No currently-selected task
+    (component as any).taskId = undefined;
+    component.currentTask = undefined;
+
+    (component as any).updateTaskList(mockWorkflow1);
+
+    const tReq = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow1.id + '/all_tasks');
+    expect(tReq.request.method).toEqual('GET');
+    tReq.flush(mockWorkflowTasks);
+
+    // Should select a task
+    expect(setCurrentTaskSpy).toHaveBeenCalledWith(mockWorkflowTask1);
   });
 });

@@ -1,7 +1,9 @@
 <h1 mat-dialog-title>{{data.title}}</h1>
 <div mat-dialog-content>
-  {{data.text}}
+  <markdown>
+    {{unescape(data.text)}}
+  </markdown>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()" cdkFocusInitial>Ok</button>
+  <button (click)="onNoClick()" mat-button>Ok</button>
 </div>

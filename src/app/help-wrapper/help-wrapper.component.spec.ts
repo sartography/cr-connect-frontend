@@ -1,9 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
-import {workflowProcesses} from '../_services/api/api.service.spec';
+import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
+import {mockWorkflowTask0} from 'sartography-workflow-lib';
 
-import { HelpWrapperComponent } from './help-wrapper.component';
+import {HelpWrapperComponent} from './help-wrapper.component';
 
 describe('HelpWrapperComponent', () => {
   let component: HelpWrapperComponent;
@@ -11,14 +12,15 @@ describe('HelpWrapperComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HelpWrapperComponent ],
+      declarations: [HelpWrapperComponent],
       imports: [
         MatDialogModule,
         MatIconModule,
       ],
       providers: [
         {provide: MatDialogRef, useValue: {}},
-        {provide: MAT_DIALOG_DATA,
+        {
+          provide: MAT_DIALOG_DATA,
           useValue: {
             title: 'Happy Little Title',
             text: 'Just go out and talk to a tree. Make friends with it. There we go. Only God can make a tree - but you can paint one.'
@@ -26,13 +28,14 @@ describe('HelpWrapperComponent', () => {
         }
       ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(async () => {
     fixture = TestBed.createComponent(HelpWrapperComponent);
     component = fixture.componentInstance;
-    component.field = workflowProcesses[0].categories[0].steps[0].form.fields[0];
+    const pipe = new ToFormlyPipe();
+    component.field = pipe.transform(mockWorkflowTask0.form.fields)[0];
     fixture.detectChanges();
   });
 

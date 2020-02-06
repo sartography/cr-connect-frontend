@@ -1,10 +1,10 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatListModule} from '@angular/material/list';
-import {ApiService} from '../_services/api/api.service';
-import {workflowSpecs} from '../_services/api/api.service.spec';
+import {ApiService, MockEnvironment} from 'sartography-workflow-lib';
+import {mockWorkflowSpecs} from 'sartography-workflow-lib';
 
-import { WorkflowSpecListComponent } from './workflow-spec-list.component';
+import {WorkflowSpecListComponent} from './workflow-spec-list.component';
 
 describe('WorkflowSpecListComponent', () => {
   let component: WorkflowSpecListComponent;
@@ -13,14 +13,17 @@ describe('WorkflowSpecListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WorkflowSpecListComponent ],
+      declarations: [WorkflowSpecListComponent],
       imports: [
         HttpClientTestingModule,
         MatListModule,
       ],
-      providers: [ApiService]
+      providers: [
+        ApiService,
+        {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -29,12 +32,17 @@ describe('WorkflowSpecListComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('/assets/json/workflow_spec.json');
+    const sReq = httpMock.expectOne('apiRoot/workflow-specification');
     expect(sReq.request.method).toEqual('GET');
-    sReq.flush(workflowSpecs);
+    sReq.flush(mockWorkflowSpecs);
 
     expect(component.workflowSpecs).toBeTruthy();
-    expect(component.workflowSpecs.length).toEqual(workflowSpecs.length);
+    expect(component.workflowSpecs.length).toEqual(mockWorkflowSpecs.length);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+    fixture.destroy();
   });
 
   it('should create', () => {

@@ -1,0 +1,23 @@
+<mat-form-field
+  [ngClass]="{'file-name': true, 'file-is-selected': !!selectedFile}"
+>
+  <mat-icon (click)="fileInput.click()" matPrefix>folder_open</mat-icon>
+  <input
+    (click)="fileInput.click()"
+    [value]="getFileName()"
+    matInput
+    type="text"
+  >
+  <span matSuffix>
+    <button *ngIf="selectedFileMeta" mat-icon-button (click)="removeFile()" color="warn"><mat-icon>delete</mat-icon></button>
+  </span>
+
+</mat-form-field>
+<input
+  #fileInput
+  (change)="onFileSelected($event)"
+  [formlyAttributes]="field"
+  hidden id="file"
+  type="file"
+  accept=".docx,.gif,.jpg,.pdf,.png,.svg,.xlsx,.zip"
+>

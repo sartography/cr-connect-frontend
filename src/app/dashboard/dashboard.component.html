@@ -1,21 +1,15 @@
-<button mat-flat-button routerLink="/studies" ngClass="back">
-  <mat-icon>chevron_left</mat-icon>
-  Back
-</button>
-
-<h1>Dashboard</h1>
 <div
-  *ngIf="charts.length > 0"
   fxLayout="column"
   fxLayout.gt-sm="row wrap"
 >
   <div
-    *ngFor="let chart of charts; let i = index"
+    *ngFor="let chart of charts"
     fxFlex.md="50%"
     fxFlex.gt-md="33%"
     class="chart-container"
-    [routerLink]="['/workflow']"
-    [fragment]="'process_category_0_' + i"
+    [routerLink]="['workflow', chart.workflowId]"
+    [attr.data-study-id]="study.id"
+    [attr.data-workflow-id]="chart.workflowId"
   >
     <h2>{{chart.title}}</h2>
     <canvas baseChart
