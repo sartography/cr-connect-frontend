@@ -85,22 +85,14 @@ describe('Study Administrator App', () => {
     page.clickAndExpectRoute('app-study-card', '/study/' + studyId);
   });
 
-  it('should start workflow', async () => {
-    const numWorkflowsBefore = await page.getElements('.chart-container').count();
-    expect(numWorkflowsBefore).toEqual(0);
-
-    page.clickElement('#startWorkflow');
-
-    const numWorkflowsAfter = await page.getElements('.chart-container').count();
-    expect(numWorkflowsAfter).toBeGreaterThan(0);
-  });
-
   it('should navigate to a workflow', async () => {
+    expect(page.getElements('.chart-container').count()).toBeGreaterThan(0);
     const chart = page.getElement('.chart-container');
     const studyId = await chart.getAttribute('data-study-id');
     const workflowId = await chart.getAttribute('data-workflow-id');
-    const expectedRoute = `/study/${studyId}/workflow/${workflowId}#process_category_0_1`;
-    page.clickAndExpectRoute('.chart-container', expectedRoute);
+    const expectedRoute = `/study/${studyId}/workflow/${workflowId}/task/`;
+    page.clickElement('.chart-container');
+    expect(page.getRoute()).toContain(expectedRoute);
   });
 
   it('should sign out', () => {
