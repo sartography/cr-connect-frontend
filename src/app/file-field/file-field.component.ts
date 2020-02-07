@@ -91,7 +91,7 @@ export class FileFieldComponent extends FieldType implements OnInit {
           fm.file = file;
           this.selectedFileMeta = fm;
           this.selectedFile = file;
-        }, error => console.log('FileFieldComponent getFileData error', error));
+        });
       });
     });
   }

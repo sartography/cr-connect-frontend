@@ -4,7 +4,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {RouterTestingModule} from '@angular/router/testing';
-import {ApiService, MockEnvironment, mockStudies} from 'sartography-workflow-lib';
+import {of} from 'rxjs';
+import {ApiService, MockEnvironment, mockStudies, mockStudy0} from 'sartography-workflow-lib';
 import {StudyCardComponent} from '../study-card/study-card.component';
 
 import {StudiesComponent} from './studies.component';
@@ -61,5 +62,15 @@ describe('StudiesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should add a study', () => {
+    const loadStudiesSpy = spyOn(component, 'loadStudies').and.stub();
+    const addStudySpy = spyOn((component as any).api, 'addStudy').and.returnValue(of(mockStudy0));
+    component.addStudy();
+
+    expect(addStudySpy).toHaveBeenCalled();
+    expect(component.newStudy).toEqual(mockStudy0);
+    expect(loadStudiesSpy).toHaveBeenCalled();
   });
 });

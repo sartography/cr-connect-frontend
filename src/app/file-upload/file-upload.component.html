@@ -74,7 +74,7 @@
         <td
           *matCellDef="let fileMeta"
           mat-cell
-        > {{formatDate(fileMeta.last_updated)}} </td>
+        > {{fileMeta.last_updated | date:'short'}} </td>
       </ng-container>
       <ng-container matColumnDef="actions">
         <th

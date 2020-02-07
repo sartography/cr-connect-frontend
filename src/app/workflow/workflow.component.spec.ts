@@ -116,5 +116,20 @@ describe('WorkflowComponent', () => {
 
     // Should select a task
     expect(setCurrentTaskSpy).toHaveBeenCalledWith(mockWorkflowTask1);
+
+    // Delete all tasks from workflow
+    setCurrentTaskSpy.calls.reset();
+    mockWorkflow0.last_task = undefined;
+    mockWorkflow0.next_task = undefined;
+    mockWorkflow0.user_tasks = [];
+    (component as any).updateTaskList(mockWorkflow0);
+
+    const t2Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
+    expect(t2Req.request.method).toEqual('GET');
+    t2Req.flush(mockWorkflow0);
+
+    // Should be no task to select.
+    expect(setCurrentTaskSpy).not.toHaveBeenCalled();
+    expect(component.currentTask).toBeUndefined();
   });
 });

@@ -79,30 +79,22 @@ export class FileUploadComponent extends FieldType implements OnInit {
 
   formatSize(bytes: number, decimalPlaces = 2): string {
     const sizes = ['KB', 'MB', 'GB', 'TB'];
-    const factor = Math.pow(10, decimalPlaces);
+    const factor = Math.pow(2, 10 * decimalPlaces);
 
     for (let i = 0; i < sizes.length; i++) {
-      const divisor = Math.pow(10, (3 * (i + 1)));
-      const nextDivisor = Math.pow(10, (3 * (i + 2)));
+      const divisor = Math.pow(2, (10 * (i + 1)));
+      const nextDivisor = Math.pow(2, (10 * (i + 2)));
 
       if (bytes < nextDivisor) {
-        return `${Math.round(bytes / divisor * factor) / factor} ${sizes[i]}`;
+        const num = Math.round(bytes / divisor * factor) / factor;
+        return `${num.toFixed(decimalPlaces)} ${sizes[i]}`;
       }
     }
   }
 
-  formatDate(d: Date | string | number): string {
-    const dateObj = (d instanceof Date) ? d : new Date(d);
-
-    return `
-      ${dateObj.getFullYear()}/${dateObj.getMonth()}/${dateObj.getDay()}
-      ${dateObj.getHours()}:${dateObj.getMinutes()}
-    `;
-  }
-
   truncate(s: string, maxLength = 20): string {
     if (s) {
-      if (s.length > (maxLength - 3)) {
+      if (s.length > maxLength) {
         return s.slice(0, maxLength) + '...';
       } else {
         return s;

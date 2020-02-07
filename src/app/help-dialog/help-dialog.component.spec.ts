@@ -16,7 +16,12 @@ describe('HelpDialogComponent', () => {
         MatDialogModule
       ],
       providers: [
-        {provide: MatDialogRef, useValue: {}},
+        {
+          provide: MatDialogRef, useValue: {
+            close: (dialogResult: any) => {
+            }
+          }
+        },
         {
           provide: MAT_DIALOG_DATA,
           useValue: {
@@ -37,5 +42,17 @@ describe('HelpDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should convert escaped line breaks', () => {
+    expect(component.unescape('Un\\nescape\\r\\nme\nplease!')).toEqual('Un\nescape\nme\nplease!');
+    expect(component.unescape('Un\\r\\nescape\\r\\nme\\r\\nplease!')).toEqual('Un\nescape\nme\nplease!');
+    expect(component.unescape('But\nleave\nme\nalone.')).toEqual('But\nleave\nme\nalone.');
+  });
+
+  it('should close dialog', () => {
+    const closeSpy = spyOn(component.dialogRef, 'close').and.stub();
+    component.onNoClick();
+    expect(closeSpy).toHaveBeenCalledWith();
   });
 });

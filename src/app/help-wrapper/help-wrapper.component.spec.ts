@@ -42,4 +42,10 @@ describe('HelpWrapperComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should open dialog', () => {
+    const openSpy = spyOn(component.dialog, 'open').and.stub();
+    component.openDialog('this is a title', 'and here is some text');
+    expect(openSpy).toHaveBeenCalled();
+  });
 });

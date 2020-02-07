@@ -1,6 +1,8 @@
 import { Directive } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
+
+/** Enables file fields to be triggered by change events */
 @Directive({
   selector: '[appFileValueAccessor], input[type=file]',
   // tslint:disable-next-line

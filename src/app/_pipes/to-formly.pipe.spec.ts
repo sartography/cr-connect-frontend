@@ -184,6 +184,20 @@ describe('ToFormlyPipe', () => {
     expect(after[0].templateOptions.label).toEqual(before[0].label);
   });
 
+  it('converts files field to file uploader', () => {
+    const before: BpmnFormJsonField[] = [
+      {
+        id: 'upload_files',
+        label: 'My New Filing Technique Is Unstoppable',
+        type: 'files'
+      }
+    ];
+    const after = pipe.transform(before);
+    expect(after[0].key).toEqual(before[0].id);
+    expect(after[0].type).toEqual('files');
+    expect(after[0].templateOptions.label).toEqual(before[0].label);
+  });
+
   it('converts textarea field to Formly textarea field', () => {
     const before: BpmnFormJsonField[] = [
       {
