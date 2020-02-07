@@ -9,7 +9,7 @@
     ></app-workflow-steps-menu-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-workflow-form *ngIf="currentTask"
+    <app-workflow-form *ngIf="currentTask && currentTask.type === taskTypes.USER_TASK; else noTask"
       [task]="currentTask"
       [workflow]="workflow"
       (workflowUpdated)="workflowUpdated($event)"
@@ -17,3 +17,16 @@
   </mat-sidenav-content>
 </mat-sidenav-container>
 
+<ng-template #noTask>
+  <div class="task-status" fxLayout="column" fxLayoutAlign="center center">
+    <div class="non-user-task" *ngIf="currentTask">
+      <h1>{{currentTask.name}}</h1>
+      <h2>Task type: {{currentTask.type}}</h2>
+      <h3>Status: {{currentTask.state}}</h3>
+    </div>
+    <div class="no-task" *ngIf="!currentTask">
+      <h1>No tasks found.</h1>
+      <p>This workflow does not have any tasks in it.</p>
+    </div>
+  </div>
+</ng-template>
