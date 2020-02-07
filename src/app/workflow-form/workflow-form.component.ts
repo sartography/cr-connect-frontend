@@ -44,6 +44,14 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   private _loadModel(task: WorkflowTask) {
     if (task && task.data) {
       this.model = createClone()(task.data);
+      const label = `Data for Workflow Task: '${task.name} (${task.id})'`;
+      console.group(label);
+      console.table(Object.entries(task.data).map(e => {
+        return {
+          'Form Field Name': e[0],
+          'Stored Value': e[1]};
+      }));
+      console.groupEnd();
     }
   }
 }
