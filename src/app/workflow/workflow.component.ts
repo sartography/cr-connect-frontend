@@ -47,16 +47,15 @@ export class WorkflowComponent {
   }
 
   private updateTaskList(workflow: Workflow) {
-    this.api.getTaskListForWorkflow(workflow.id, true).subscribe(allTasks => {
-      this.allTasks = allTasks;
-      if (this.taskId) {
-        this.currentTask = this.allTasks.find(t => t.id === this.taskId);
-      }
-
-      this.readyTasks = allTasks.filter(t => t.state === WorkflowTaskState.READY);
-
-      if ((this.readyTasks.length >= 1) && (!this.taskId || !this.currentTask)) {
-        this.setCurrentTask(this.readyTasks[0]);
+    this.api.getWorkflow(workflow.id).subscribe(wf => {
+      this.allTasks = wf.user_tasks;
+      this.readyTasks = this.allTasks.filter(t => t.state === WorkflowTaskState.READY);
+      const taskId = this.taskId || wf.next_task_id || this.readyTasks[0].id || wf.user_tasks[0].id;
+      if (taskId) {
+        const currentTask = this.allTasks.find(t => t.id === taskId);
+        if (currentTask) {
+          this.setCurrentTask(currentTask);
+        }
       }
     });
   }

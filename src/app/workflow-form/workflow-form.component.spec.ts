@@ -2,13 +2,11 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
 import {
   ApiService,
   MockEnvironment,
-  mockStudy0,
   mockWorkflow0,
   mockWorkflowSpec0,
   mockWorkflowTasks
@@ -50,7 +48,7 @@ describe('WorkflowFormComponent', () => {
     fixture = TestBed.createComponent(WorkflowFormComponent);
     component = fixture.componentInstance;
     const wf = mockWorkflow0;
-    wf.workflow_tasks = mockWorkflowTasks;
+    wf.user_tasks = mockWorkflowTasks;
     wf.workflow_spec = mockWorkflowSpec0;
 
     component.workflow = wf;
