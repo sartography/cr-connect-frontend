@@ -1,10 +1,10 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {of} from 'rxjs';
 import {ApiService, MockEnvironment} from 'sartography-workflow-lib';
 
-import { FileBaseComponent } from './file-base.component';
+import {FileBaseComponent} from './file-base.component';
 
 describe('FileBaseComponent', () => {
   let component: FileBaseComponent;
@@ -16,7 +16,7 @@ describe('FileBaseComponent', () => {
       imports: [
         HttpClientTestingModule,
       ],
-      declarations: [ FileBaseComponent ],
+      declarations: [FileBaseComponent],
       providers: [
         ApiService,
         {
@@ -26,7 +26,7 @@ describe('FileBaseComponent', () => {
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -25,28 +25,32 @@
     *ngIf="updateFileMetasSubject | async"
     id="fileQueueContainer"
   >
+    <h4 id="uploaded_files_table_heading">Uploaded files</h4>
     <table
       [dataSource]="updateFileMetasSubject"
       class="mat-elevation-z8"
       mat-table
+      aria-describedby="uploaded_files_table_heading"
     >
       <ng-container matColumnDef="type">
         <th
           *matHeaderCellDef
           mat-header-cell
+          id="uploaded_files_type"
         >Type
         </th>
         <td
           *matCellDef="let fileMeta"
           mat-cell
         >
-          <img [src]="getFileIcon(fileMeta)"/>
+          <img [alt]="fileMeta.type" [src]="getFileIcon(fileMeta)"/>
         </td>
       </ng-container>
       <ng-container matColumnDef="name">
         <th
           *matHeaderCellDef
           mat-header-cell
+          id="uploaded_files_name"
         >Name
         </th>
         <td
@@ -58,6 +62,7 @@
         <th
           *matHeaderCellDef
           mat-header-cell
+          id="uploaded_files_size"
         >Size
         </th>
         <td
@@ -69,6 +74,7 @@
         <th
           *matHeaderCellDef
           mat-header-cell
+          id="uploaded_files_date"
         >Date Uploaded
         </th>
         <td
@@ -80,6 +86,7 @@
         <th
           *matHeaderCellDef
           mat-header-cell
+          id="uploaded_files_actions"
         >Actions
         </th>
         <td
