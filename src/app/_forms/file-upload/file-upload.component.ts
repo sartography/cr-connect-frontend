@@ -1,20 +1,17 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {FormlyTemplateOptions} from '@ngx-formly/core';
-import {FieldType} from '@ngx-formly/material';
-import {NgProgressComponent} from '@ngx-progressbar/core';
 import {FileSystemFileEntry, NgxFileDropEntry} from 'ngx-file-drop';
 import {ReplaySubject} from 'rxjs';
-import {ApiService, FileMeta, FileParams} from 'sartography-workflow-lib';
-import {getFileIcon, getFileType} from '../_util/file-type';
+import {ApiService, FileMeta} from 'sartography-workflow-lib';
+import {getFileIcon, getFileType} from '../../_util/file-type';
+import {FileBaseComponent} from '../file-base/file-base.component';
 
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
   styleUrls: ['./file-upload.component.scss']
 })
-export class FileUploadComponent extends FieldType implements OnInit {
-  @Input() to: FormlyTemplateOptions;
+export class FileUploadComponent extends FileBaseComponent {
   droppedFiles: NgxFileDropEntry[] = [];
   fileMetas = new Set<FileMeta>();
   updateFileMetasSubject = new ReplaySubject<FileMeta[]>();
@@ -26,34 +23,13 @@ export class FileUploadComponent extends FieldType implements OnInit {
     'actions'
   ];
   dropZoneHover = false;
-  @ViewChild(NgProgressComponent, {static: false}) progress: NgProgressComponent;
   getFileIcon = getFileIcon;
-  private studyId: number;
-  private workflowId: number;
-  private taskId: string;
-  private fileParams: FileParams;
 
   constructor(
-    private api: ApiService,
-    private route: ActivatedRoute,
+    protected api: ApiService,
+    protected route: ActivatedRoute
   ) {
-    super();
-    this.route.paramMap.subscribe(paramMap => {
-      this.studyId = parseInt(paramMap.get('study_id'), 10);
-      this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
-      this.taskId = paramMap.get('task_id');
-    });
-  }
-
-  ngOnInit(): void {
-    super.ngOnInit();
-    this.fileParams = {
-      study_id: this.studyId,
-      workflow_id: this.workflowId,
-      task_id: this.taskId,
-      form_field_key: this.field.key
-    };
-    this.loadFiles();
+    super(api, route);
   }
 
   dropped(droppedFiles: NgxFileDropEntry[]) {
@@ -61,7 +37,7 @@ export class FileUploadComponent extends FieldType implements OnInit {
     this.dropZoneHover = false;
     this.droppedFiles.forEach((droppedFile, i) => {
       if (droppedFile.fileEntry.isFile) {
-        const fileEntry = droppedFile.fileEntry as FileSystemFileEntry;
+        const fileEntry: FileSystemFileEntry = droppedFile.fileEntry as FileSystemFileEntry;
         fileEntry.file((newFile: File) => this.addFile(newFile));
       }
     });
@@ -137,7 +113,7 @@ export class FileUploadComponent extends FieldType implements OnInit {
     this.updateFileMetasSubject.next(fileMetasArray);
   }
 
-  private loadFiles() {
+  loadFiles() {
     this.api.getFileMetas(this.fileParams).subscribe(fms => {
       fms.forEach(fm => {
         this.api.getFileData(fm.id).subscribe(blob => {

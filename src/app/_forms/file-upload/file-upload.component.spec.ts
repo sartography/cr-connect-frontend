@@ -5,10 +5,9 @@ import {MatTableModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
-import {NgProgressModule} from '@ngx-progressbar/core';
-import {FileSystemEntry, FileSystemFileEntry, NgxFileDropEntry, NgxFileDropModule} from 'ngx-file-drop';
+import {FileSystemFileEntry, NgxFileDropEntry, NgxFileDropModule} from 'ngx-file-drop';
 import {of} from 'rxjs';
-import {ApiService, MockEnvironment, mockFileMeta0, mockFileMeta1, mockFileMetas} from 'sartography-workflow-lib';
+import {ApiService, MockEnvironment, mockFileMeta0, mockFileMetas} from 'sartography-workflow-lib';
 import {FileUploadComponent} from './file-upload.component';
 
 describe('FileUploadComponent', () => {
@@ -17,18 +16,18 @@ describe('FileUploadComponent', () => {
   let httpMock: HttpTestingController;
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
-      declarations: [FileUploadComponent],
       imports: [
         FormsModule,
+        HttpClientTestingModule,
         MatFormFieldModule,
         MatIconModule,
         MatTableModule,
-        NgProgressModule,
         NgxFileDropModule,
         ReactiveFormsModule,
-        HttpClientTestingModule,
+      ],
+      declarations: [
+        FileUploadComponent,
       ],
       providers: [
         ApiService,

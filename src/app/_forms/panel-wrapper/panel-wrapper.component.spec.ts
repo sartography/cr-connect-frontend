@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatCardModule} from '@angular/material/card';
-import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
+import {ToFormlyPipe} from '../../_pipes/to-formly.pipe';
 import {mockWorkflowTask0} from 'sartography-workflow-lib';
 
 import {PanelWrapperComponent} from './panel-wrapper.component';

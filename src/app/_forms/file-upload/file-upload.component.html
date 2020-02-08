@@ -1,4 +1,3 @@
-<ng-progress #progressBar></ng-progress>
 <div
   [ngClass]="{'hover': dropZoneHover}"
   class="mat-typography"
@@ -16,7 +15,8 @@
     <ng-template let-openFileSelector="openFileSelector" ngx-file-drop-content-tmp>
       <div id="dropFilesInstructions" fxLayout="column" fxLayoutAlign="center center">
         <mat-icon>cloud_upload</mat-icon>
-        <h3>Drop files here</h3>
+        <h3>Drag & drop <strong>{{to.label}}</strong> files here</h3>
+        <p *ngIf="to.description">{{to.description}}</p>
         <button mat-flat-button color="primary" (click)="openFileSelector()" type="button">Browse Files</button>
       </div>
     </ng-template>
@@ -86,7 +86,6 @@
           *matCellDef="let fileMeta"
           mat-cell
         >
-          <ng-progress [id]="fileMeta.name"></ng-progress>
           <button
             (click)="removeFile($event, fileMeta)"
             color="warn"
