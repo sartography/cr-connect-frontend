@@ -156,7 +156,8 @@
             "scripts": [],
             "codeCoverageExclude": [
               "src/polyfills.ts",
-              "src/test.ts"
+              "src/test.ts",
+              "docker/**/*"
             ]
           }
         },

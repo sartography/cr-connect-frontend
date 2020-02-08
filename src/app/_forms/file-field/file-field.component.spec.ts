@@ -8,8 +8,7 @@ import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-b
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {FormlyModule} from '@ngx-formly/core';
 import {of} from 'rxjs';
-import {ApiService, MockEnvironment, mockFileMeta0, mockFileMetas} from 'sartography-workflow-lib';
-
+import {ApiService, MockEnvironment, mockFileMeta0} from 'sartography-workflow-lib';
 import {FileFieldComponent} from './file-field.component';
 
 describe('FileFieldComponent', () => {
@@ -62,7 +61,50 @@ describe('FileFieldComponent', () => {
     expect(component.selectedFileMeta).toEqual(mockFileMeta0);
   });
 
+  afterEach(() => {
+    httpMock.verify();
+    fixture.destroy();
+  });
+
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should select a file', () => {
+    const addFileSpy = spyOn(component, 'addFile').and.stub();
+    const eventWithFile = {target: {files: [mockFileMeta0.file]}};
+    (component as any).onFileSelected(eventWithFile);
+    expect(component.selectedFile).toEqual(mockFileMeta0.file);
+    expect(addFileSpy).toHaveBeenCalledWith(mockFileMeta0.file);
+
+    // Should get file from selectedFileMeta if it's not in the file field
+    addFileSpy.calls.reset();
+    component.selectedFile = undefined;
+    component.selectedFileMeta = mockFileMeta0;
+    const eventNoFile = {target: {files: []}};
+    (component as any).onFileSelected(eventNoFile);
+    expect(component.selectedFile).toEqual(mockFileMeta0.file);
+    expect(addFileSpy).not.toHaveBeenCalled();
+  });
+
+  it('should add a file', () => {
+    spyOn((component as any).api, 'addFileMeta').and.returnValue(of(mockFileMeta0));
+    const loadFilesSpy = spyOn(component, 'loadFiles').and.stub();
+    component.addFile(mockFileMeta0.file);
+    expect(component.selectedFile).toEqual(mockFileMeta0.file);
+    expect(component.selectedFileMeta).toEqual(mockFileMeta0);
+    expect(loadFilesSpy).toHaveBeenCalled();
+  });
+
+  it('should remove a file', () => {
+    spyOn((component as any).api, 'deleteFileMeta').and.returnValue(of(null));
+    const loadFilesSpy = spyOn(component, 'loadFiles').and.stub();
+    component.selectedFileMeta = mockFileMeta0;
+    component.selectedFile = mockFileMeta0.file;
+
+    component.removeFile();
+    expect(component.selectedFileMeta).toBeUndefined();
+    expect(component.selectedFile).toBeUndefined();
+    expect(loadFilesSpy).toHaveBeenCalled();
   });
 });

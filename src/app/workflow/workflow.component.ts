@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ApiService, Workflow, WorkflowTask, WorkflowTaskState} from 'sartography-workflow-lib';
+import {ApiService, Workflow, WorkflowTask, WorkflowTaskState, WorkflowTaskType} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow',
@@ -15,6 +15,7 @@ export class WorkflowComponent {
   private studyId: number;
   private workflowId: number;
   private taskId: string;
+  taskTypes = WorkflowTaskType;
 
   constructor(
     private route: ActivatedRoute,
@@ -47,18 +48,26 @@ export class WorkflowComponent {
   }
 
   private updateTaskList(workflow: Workflow) {
-    this.api.getTaskListForWorkflow(workflow.id, true).subscribe(allTasks => {
-      this.allTasks = allTasks;
-      if (this.taskId) {
-        this.currentTask = this.allTasks.find(t => t.id === this.taskId);
+    this.api.getWorkflow(workflow.id).subscribe(wf => {
+      let currentTask: WorkflowTask;
+      this.allTasks = wf.user_tasks || [];
+      if (this.allTasks && (this.allTasks.length > 0)) {
+        this.readyTasks = this.allTasks.filter(t => t.state === WorkflowTaskState.READY);
+        const taskId = this.taskId ||
+          (wf.next_task && wf.next_task.id) ||
+          (this.readyTasks && this.readyTasks[0].id) ||
+          wf.user_tasks[0].id;
+        if (taskId) {
+          currentTask = this.allTasks.find(t => t.id === taskId);
+          if (currentTask) {
+            this.setCurrentTask(currentTask);
+          }
+        }
       }
 
-      this.readyTasks = allTasks.filter(t => t.state === WorkflowTaskState.READY);
-
-      if ((this.readyTasks.length >= 1) && (!this.taskId || !this.currentTask)) {
-        this.setCurrentTask(this.readyTasks[0]);
+      if (!currentTask) {
+        this.currentTask = wf.last_task || undefined;
       }
     });
   }
-
 }

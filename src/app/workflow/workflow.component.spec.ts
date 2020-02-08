@@ -13,8 +13,10 @@ import {
   ApiService,
   MockEnvironment,
   mockStudy0,
-  mockWorkflow0, mockWorkflow1,
-  mockWorkflowTask0, mockWorkflowTask1,
+  mockWorkflow0,
+  mockWorkflow1,
+  mockWorkflowTask0,
+  mockWorkflowTask1,
   mockWorkflowTasks
 } from 'sartography-workflow-lib';
 import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
@@ -69,9 +71,9 @@ describe('WorkflowComponent', () => {
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
 
-    const tReq = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '/all_tasks');
+    const tReq = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
     expect(tReq.request.method).toEqual('GET');
-    tReq.flush(mockWorkflowTasks);
+    tReq.flush(mockWorkflow0);
   });
 
   afterEach(() => {
@@ -108,11 +110,26 @@ describe('WorkflowComponent', () => {
 
     (component as any).updateTaskList(mockWorkflow1);
 
-    const tReq = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow1.id + '/all_tasks');
+    const tReq = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow1.id);
     expect(tReq.request.method).toEqual('GET');
-    tReq.flush(mockWorkflowTasks);
+    tReq.flush(mockWorkflow0);
 
     // Should select a task
     expect(setCurrentTaskSpy).toHaveBeenCalledWith(mockWorkflowTask1);
+
+    // Delete all tasks from workflow
+    setCurrentTaskSpy.calls.reset();
+    mockWorkflow0.last_task = undefined;
+    mockWorkflow0.next_task = undefined;
+    mockWorkflow0.user_tasks = [];
+    (component as any).updateTaskList(mockWorkflow0);
+
+    const t2Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
+    expect(t2Req.request.method).toEqual('GET');
+    t2Req.flush(mockWorkflow0);
+
+    // Should be no task to select.
+    expect(setCurrentTaskSpy).not.toHaveBeenCalled();
+    expect(component.currentTask).toBeUndefined();
   });
 });
