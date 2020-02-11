@@ -55,6 +55,7 @@ import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
+import { WorkflowFilesComponent } from './workflow-files/workflow-files.component';
 import { FileValueAccessorDirective } from './_forms/file-upload/file-value-accessor.directive';
 import { FileFieldComponent } from './_forms/file-field/file-field.component';
 import { FileBaseComponent } from './_forms/file-base/file-base.component';
@@ -90,6 +91,7 @@ export class ThisEnvironment implements AppEnvironment {
     WorkflowFormComponent,
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
+    WorkflowFilesComponent,
     StudyCardComponent,
     FileValueAccessorDirective,
     FileFieldComponent,

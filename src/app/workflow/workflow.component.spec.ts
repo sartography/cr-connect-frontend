@@ -1,13 +1,15 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {ActivatedRoute, convertToParamMap} from '@angular/router';
+import {ActivatedRoute, convertToParamMap, Router} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
+import {FormlyMaterialModule} from '@ngx-formly/material';
 import {of} from 'rxjs';
 import {
   ApiService,
@@ -24,11 +26,13 @@ import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
 import {WorkflowStepsMenuListComponent} from '../workflow-steps-menu-list/workflow-steps-menu-list.component';
 
 import {WorkflowComponent} from './workflow.component';
+import {WorkflowFilesComponent} from '../workflow-files/workflow-files.component';
 
 describe('WorkflowComponent', () => {
   let component: WorkflowComponent;
   let fixture: ComponentFixture<WorkflowComponent>;
   let httpMock: HttpTestingController;
+  const mockRouter = {navigate: jasmine.createSpy('navigate')};
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -37,12 +41,15 @@ describe('WorkflowComponent', () => {
         WorkflowComponent,
         WorkflowFormComponent,
         WorkflowStepsMenuListComponent,
+        WorkflowFilesComponent,
       ],
       imports: [
         BrowserAnimationsModule,
-        FormlyModule,
+        FormlyMaterialModule,
+        FormlyModule.forRoot(),
         HttpClientTestingModule,
         MatIconModule,
+        MatInputModule,
         MatListModule,
         MatSidenavModule,
         MatProgressSpinnerModule,
@@ -54,6 +61,10 @@ describe('WorkflowComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {paramMap: of(convertToParamMap({study_id: '0', workflow_id: '0', task_id: '0'}))}
+        },
+        {
+          provide: Router,
+          useValue: mockRouter
         },
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
       ]
@@ -67,13 +78,10 @@ describe('WorkflowComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('apiRoot/workflow/' + mockStudy0.id);
-    expect(sReq.request.method).toEqual('GET');
-    sReq.flush(mockStudy0);
-
-    const tReq = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
-    expect(tReq.request.method).toEqual('GET');
-    tReq.flush(mockWorkflow0);
+    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
+    expect(wf1Req.request.method).toEqual('GET');
+    wf1Req.flush(mockWorkflow0);
+    expect(component.workflow).toEqual(mockWorkflow0);
   });
 
   afterEach(() => {
@@ -86,10 +94,11 @@ describe('WorkflowComponent', () => {
   });
 
   it('should change selected task', () => {
-    const routerNavigateSpy = spyOn((component as any).router, 'navigate').and.stub();
     component.setCurrentTask(mockWorkflowTask0);
     expect(component.currentTask).toEqual(mockWorkflowTask0);
-    expect(routerNavigateSpy).toHaveBeenCalled();
+    expect(mockRouter.navigate).toHaveBeenCalledWith([
+      'study', mockStudy0.id, 'workflow', mockWorkflow0.id, 'task', mockWorkflowTask0.id
+    ]);
   });
 
   it('should update workflow', () => {
@@ -98,7 +107,7 @@ describe('WorkflowComponent', () => {
     expect(component.workflow).toEqual(mockWorkflow1);
     expect((component as any).taskId).toBeUndefined();
     expect(component.currentTask).toBeUndefined();
-    expect(updateTaskListSpy).toHaveBeenCalledWith(mockWorkflow1);
+    expect(updateTaskListSpy).toHaveBeenCalledWith(mockWorkflow1.id);
   });
 
   it('should set current task when updating task list', () => {
@@ -108,7 +117,7 @@ describe('WorkflowComponent', () => {
     (component as any).taskId = undefined;
     component.currentTask = undefined;
 
-    (component as any).updateTaskList(mockWorkflow1);
+    (component as any).updateTaskList(mockWorkflow1.id);
 
     const tReq = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow1.id);
     expect(tReq.request.method).toEqual('GET');
@@ -122,7 +131,7 @@ describe('WorkflowComponent', () => {
     mockWorkflow0.last_task = undefined;
     mockWorkflow0.next_task = undefined;
     mockWorkflow0.user_tasks = [];
-    (component as any).updateTaskList(mockWorkflow0);
+    (component as any).updateTaskList(mockWorkflow0.id);
 
     const t2Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
     expect(t2Req.request.method).toEqual('GET');

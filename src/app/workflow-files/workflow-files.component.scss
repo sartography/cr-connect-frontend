@@ -1,0 +1,19 @@
+@import "../../config";
+
+h3 {
+  color: white;
+}
+
+em {
+  color: white;
+}
+
+.file {
+  background-color:  $brand-accent;
+  color: white;
+}
+
+.file:hover {
+  background-color: $brand-gray-tint-1;
+  color: white;
+}
