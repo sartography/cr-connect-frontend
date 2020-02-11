@@ -127,7 +127,9 @@ export class ToFormlyPipe implements PipeTransform {
         resultField.defaultValue = field.defaultValue;
       } else if (field.type === 'boolean') {
         resultField.type = 'radio';
-        resultField.defaultValue = this._stringToBool(field.defaultValue);
+        if (field.defaultValue !== undefined || field.defaultValue !== null || field.defaultValue !== '') {
+          resultField.defaultValue = this._stringToBool(field.defaultValue);
+        }
         resultField.templateOptions.options = [
           {value: true, label: 'Yes'},
           {value: false, label: 'No'},
