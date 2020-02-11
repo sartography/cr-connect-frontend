@@ -48,7 +48,10 @@ export class WorkflowComponent {
     this.api.getWorkflow(workflowId).subscribe(wf => {
       let currentTask: WorkflowTask;
       this.workflow = wf;
-      this.allTasks = wf.user_tasks || [];
+
+      // De-dupe tasks, in case of parallel joins
+      this.allTasks = this.dedupeTasks(wf.user_tasks || []);
+
       if (this.allTasks && (this.allTasks.length > 0)) {
         this.readyTasks = this.allTasks.filter(t => t.state === WorkflowTaskState.READY);
         const taskId = this.taskId ||
@@ -69,4 +72,15 @@ export class WorkflowComponent {
     });
   }
 
+  private dedupeTasks(workflowTasks: WorkflowTask[]): WorkflowTask[] {
+    const deduped: { [key: string]: WorkflowTask; } = {};
+    workflowTasks.forEach(t => {
+      if (deduped.hasOwnProperty(t.name)) {
+        delete deduped[t.name];
+      }
+
+      deduped[t.name] = t;
+    });
+    return Object.values(deduped);
+  }
 }
