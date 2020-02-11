@@ -8,7 +8,7 @@
       (taskSelected)="setCurrentTask($event)"
     ></app-workflow-steps-menu-list>
     <h3>Workflow Files:</h3>
-    <app-workflow-files [workflow]="workflow"></app-workflow-files>
+    <app-workflow-files *ngIf="workflow" [workflow]="workflow"></app-workflow-files>
   </mat-sidenav>
   <mat-sidenav-content>
     <app-workflow-form *ngIf="currentTask && currentTask.type === taskTypes.USER_TASK; else noTask"

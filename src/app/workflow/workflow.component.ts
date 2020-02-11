@@ -26,10 +26,7 @@ export class WorkflowComponent {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
       this.taskId = paramMap.get('task_id');
-      this.api.getWorkflow(this.workflowId).subscribe(wf => {
-        this.workflow = wf;
-        this.updateTaskList(this.workflow);
-      });
+      this.updateTaskList(this.workflowId);
     });
   }
 
@@ -44,12 +41,13 @@ export class WorkflowComponent {
     this.workflow = wf;
     this.taskId = undefined;
     this.currentTask = undefined;
-    this.updateTaskList(wf);
+    this.updateTaskList(wf.id);
   }
 
-  private updateTaskList(workflow: Workflow) {
-    this.api.getWorkflow(workflow.id).subscribe(wf => {
+  private updateTaskList(workflowId: number) {
+    this.api.getWorkflow(workflowId).subscribe(wf => {
       let currentTask: WorkflowTask;
+      this.workflow = wf;
       this.allTasks = wf.user_tasks || [];
       if (this.allTasks && (this.allTasks.length > 0)) {
         this.readyTasks = this.allTasks.filter(t => t.state === WorkflowTaskState.READY);

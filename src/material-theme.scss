@@ -212,4 +212,8 @@
     max-height: 85vh;
   }
 
+  .loading {
+    height: calc(100vh - 64px);
+  }
+
 }
