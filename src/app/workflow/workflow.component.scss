@@ -12,8 +12,25 @@ mat-sidenav-content {
   padding: 40px;
 }
 
+h3 {
+  margin-top: 20px;
+  color: white;
+}
+
+em {
+  color: white;
+}
+
 mat-list-item.disabled {
   cursor: not-allowed !important;
   opacity: 0.5;
   text-decoration: none;
+}
+
+.task-status {
+  min-height: 70vh;
+}
+
+app-workflow-files {
+  padding-top: 20px;
 }

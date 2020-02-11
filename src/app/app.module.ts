@@ -45,6 +45,7 @@ import {WorkflowProcessComponent} from './workflow-process/workflow-process.comp
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
+import { WorkflowFilesComponent } from './workflow-files/workflow-files.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import {WorkflowComponent} from './workflow/workflow.component';
     WorkflowProcessMenuItemComponent,
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
+    WorkflowFilesComponent,
   ],
   imports: [
     AppRoutingModule,

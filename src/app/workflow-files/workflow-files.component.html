@@ -1,0 +1,10 @@
+<mat-list *ngIf="files">
+  <em *ngIf="files.length > 0">The following files were created or uploaded as a part of this workflow.</em>
+  <em *ngIf="files.length == 0">No files are currently associated with this workflow.</em>
+
+  <mat-list-item class="file" *ngFor="let file of files" (click)="downloadFile(file)">
+    {{ file.name }}
+    <span fxFlex></span>
+    <mat-icon>file</mat-icon>
+  </mat-list-item>
+</mat-list>

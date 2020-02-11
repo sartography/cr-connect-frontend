@@ -13,6 +13,7 @@ import {WorkflowProcessComponent} from '../workflow-process/workflow-process.com
 import {WorkflowStepsMenuListComponent} from '../workflow-steps-menu-list/workflow-steps-menu-list.component';
 
 import {WorkflowComponent} from './workflow.component';
+import {WorkflowFilesComponent} from "../workflow-files/workflow-files.component";
 
 describe('WorkflowComponent', () => {
   let component: WorkflowComponent;
@@ -26,6 +27,7 @@ describe('WorkflowComponent', () => {
         WorkflowProcessComponent,
         WorkflowProcessMenuItemComponent,
         WorkflowStepsMenuListComponent,
+        WorkflowFilesComponent
       ],
       imports: [
         BrowserAnimationsModule,

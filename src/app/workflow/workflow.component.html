@@ -5,6 +5,8 @@
       Back
     </button>
     <app-workflow-process-menu-item *ngIf="process" [process]="process"></app-workflow-process-menu-item>
+    <h3>Workflow Files:</h3>
+    <app-workflow-files [workflow]="workflow"></app-workflow-files>
   </mat-sidenav>
   <mat-sidenav-content>
     <app-workflow-process *ngIf="process" [process]="process"></app-workflow-process>

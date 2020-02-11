@@ -22,4 +22,5 @@ export class WorkflowComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subs.forEach(s => s.unsubscribe());
   }
+
 }
