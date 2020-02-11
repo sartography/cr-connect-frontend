@@ -105,8 +105,8 @@ export class ThisEnvironment implements AppEnvironment {
     FormlyMaterialModule,
     FormlyModule.forRoot({
       types: [
-        { name: 'file', component: FileFieldComponent, wrappers: ['panel'] },
-        { name: 'files', component: FileUploadComponent, wrappers: ['panel'] }
+        { name: 'file', component: FileFieldComponent, wrappers: ['form-field'] },
+        { name: 'files', component: FileUploadComponent, wrappers: ['form-field'] }
       ],
       wrappers: [
         {name: 'panel', component: PanelWrapperComponent},

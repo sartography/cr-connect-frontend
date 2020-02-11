@@ -1,6 +1,6 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {AbstractControl, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatTableModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
@@ -55,7 +55,7 @@ describe('FileUploadComponent', () => {
     mockFileMetas.forEach((fm, i) => {
       const fReq = httpMock.expectOne(`apiRoot/file/${fm.id}/data`);
       expect(fReq.request.method).toEqual('GET');
-      fReq.flush(mockFileMetas[i].file);
+      fReq.flush(new Blob([], {type: mockFileMetas[i].file.type}));
     });
 
     expect((component as any).fileMetas).toEqual(new Set(mockFileMetas));
