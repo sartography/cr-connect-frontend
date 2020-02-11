@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormControl} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {ApiService, FileMeta} from 'sartography-workflow-lib';
 import {getFileType} from '../../_util/file-type';
@@ -9,7 +10,7 @@ import {FileBaseComponent} from '../file-base/file-base.component';
   templateUrl: './file-field.component.html',
   styleUrls: ['./file-field.component.scss']
 })
-export class FileFieldComponent extends FileBaseComponent {
+export class FileFieldComponent extends FileBaseComponent implements OnInit {
   selectedFile: File;
   selectedFileMeta: FileMeta;
 
@@ -18,6 +19,10 @@ export class FileFieldComponent extends FileBaseComponent {
     protected route: ActivatedRoute
   ) {
     super(api, route);
+  }
+
+  ngOnInit(): void {
+    super.ngOnInit();
   }
 
   onFileSelected($event: Event) {
@@ -71,6 +76,10 @@ export class FileFieldComponent extends FileBaseComponent {
           fm.file = file;
           this.selectedFileMeta = fm;
           this.selectedFile = file;
+          if (this.model && this.formControl) {
+            this.model[this.field.key] = fm.id;
+            this.formControl.setValue(fm.id);
+          }
         });
       });
     });
