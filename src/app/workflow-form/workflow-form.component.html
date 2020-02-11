@@ -1,0 +1,14 @@
+<ng-container *ngIf="task && workflow; else loadingMessage">
+    <h1>{{task.title}}</h1>
+    <div>
+      <h3>{{task.form.key}}</h3>
+      <formly-form [model]="model" [fields]="task.form.fields | toFormly" [options]="options" [form]="form"></formly-form>
+      <button mat-flat-button color="primary" (click)="saveTaskData(task)">Save</button>
+    </div>
+</ng-container>
+
+<ng-template #loadingMessage>
+  <div class="loading" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

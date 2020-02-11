@@ -1,9 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ChartsModule} from 'ng2-charts';
+import {mockStudies, mockWorkflows, mockWorkflowSpecs} from 'sartography-workflow-lib';
 
-import { DashboardComponent } from './dashboard.component';
+import {DashboardComponent} from './dashboard.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -11,19 +12,22 @@ describe('DashboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DashboardComponent ],
+      declarations: [DashboardComponent],
       imports: [
         MatIconModule,
         RouterTestingModule,
         ChartsModule,
-      ],
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
+    component.study = mockStudies[0];
+    component.workflows = mockWorkflows;
+    component.workflowSpecs = mockWorkflowSpecs;
     fixture.detectChanges();
   });
 

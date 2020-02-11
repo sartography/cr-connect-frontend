@@ -1,0 +1,32 @@
+@import "../../../config";
+
+mat-form-field.file-name {
+  width: 100%;
+  padding-bottom: 0;
+  margin-bottom: 0;
+
+  ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .mat-input-element {
+    color: $brand-accent;
+  }
+
+  mat-icon[matprefix] {
+    color: $brand-accent;
+    margin-right: 0.5rem;
+  }
+
+  &.file-is-selected {
+    .mat-input-element {
+      color: $brand-gray;
+    }
+
+    mat-icon[matprefix] {
+      color: $brand-gray;
+    }
+  }
+
+}

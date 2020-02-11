@@ -1,47 +1,48 @@
-<div class="container">
+<div class="studies-container" fxLayout="column">
   <h1>Studies</h1>
-  <h2>In Progress</h2>
-  <div fxLayout="row wrap" fxLayoutGap="40px" class="status-draft">
-    <mat-card *ngFor="let study of draftStudies" fxLayout="column" fxLayoutAlign="center center" [routerLink]="['/dashboard']">
-      <mat-card-title>{{study.title}}</mat-card-title>
-      <mat-card-content fxLayout="column" fxLayoutAlign="center center">
-        <div class="big-number">
-          {{study.percent_complete}}<span class="percent">%</span>
-        </div>
-        <div>complete</div>
-        <mat-progress-bar mode="determinate" value="{{study.percent_complete}}"></mat-progress-bar>
-      </mat-card-content>
-    </mat-card>
+  <div
+    *ngIf="isExpanded"
+    class="alert alert-info"
+    fxFlex="100"
+  >
+    <p>To start a new study, first go to HSR IRB Protocol Builder and create a new protocol. When your protocol has
+      been created, return here to continue working on it.</p>
+    <a
+      (click)="isExpanded = false; addStudy()"
+      color="accent"
+      [href]="irbUrl"
+      id="cta_protocol_builder"
+      mat-flat-button
+      target="_blank"
+    >
+      Create protocol in Protocol Builder
+    </a>
   </div>
 
-  <h2>Submitted</h2>
-  <div fxLayout="row wrap" fxLayoutGap="40px" class="status-submitted">
-    <mat-card *ngFor="let study of submittedStudies" fxLayout="column" fxLayoutAlign="center center">
-      <mat-card-title>{{study.title}}</mat-card-title>
-      <mat-card-content fxLayout="column" fxLayoutAlign="center center">
-        {{study.date_submitted}}
-      </mat-card-content>
-    </mat-card>
+  <div
+    (click)="isExpanded = true"
+    *ngIf="!isExpanded"
+    class="alert alert-info"
+    fxFlex="100"
+    fxLayout="column"
+    fxLayoutAlign="center start"
+  >
+    <button color="primary" id="cta_new_study" mat-flat-button>
+      <mat-icon>add</mat-icon>
+      Start a new study
+    </button>
   </div>
 
-  <h2>Active</h2>
-  <div fxLayout="row wrap" fxLayoutGap="40px" class="status-active">
-    <mat-card *ngFor="let study of activeStudies" fxLayout="column" fxLayoutAlign="center center">
-      <mat-card-content fxLayout="column" fxLayoutAlign="center center">
-        {{study.title}}
-        {{study.last_updated}}
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <h2>Inactive</h2>
-  <div fxLayout="row wrap" fxLayoutGap="40px" class="status-inactive">
-    <mat-card *ngFor="let study of inactiveStudies" fxLayout="column" fxLayoutAlign="center center">
-      <mat-card-content fxLayout="column" fxLayoutAlign="center center">
-        {{study.title}}
-        {{study.last_updated}}
-      </mat-card-content>
-    </mat-card>
-  </div>
+  <ng-container *ngFor="let studiesGroup of studiesByStatus; let i = index;">
+    <h2>{{studiesGroup.statusLabel}}</h2>
+    <div class="status-{{studiesGroup.status}}" fxLayout="row wrap" fxLayoutGap="40px">
+      <app-study-card
+        *ngFor="let study of studiesGroup.studies"
+        [study]="study"
+        [isNew]="newStudy && newStudy.id === study.id"
+        fxFlex="33"
+      ></app-study-card>
+    </div>
+  </ng-container>
 </div>
 

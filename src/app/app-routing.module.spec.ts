@@ -10,6 +10,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -19,20 +20,26 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
 import {ChartsModule} from 'ng2-charts';
+import {ToFormlyPipe} from './_pipes/to-formly.pipe';
 import {routes} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {FooterComponent} from './footer/footer.component';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
-import {SignOutComponent} from './sign-out/sign-out.component';
 import {NavbarComponent} from './navbar/navbar.component';
-import {PreferencesComponent} from './preferences/preferences.component';
+import {NotificationsComponent} from './notifications/notifications.component';
+import {ProfileComponent} from './profile/profile.component';
+import {SignInComponent} from './sign-in/sign-in.component';
+import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesComponent} from './studies/studies.component';
-import {WorkflowProcessMenuItemComponent} from './workflow-process-menu-item/workflow-process-menu-item.component';
-import {WorkflowProcessComponent} from './workflow-process/workflow-process.component';
+import {StudyCardComponent} from './study-card/study-card.component';
+import {StudyComponent} from './study/study.component';
+import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
+
 
 describe('Router: App', () => {
   let location: Location;
@@ -45,16 +52,21 @@ describe('Router: App', () => {
         AppComponent,
         DashboardComponent,
         DashboardComponent,
+        FooterComponent,
         HelpComponent,
         HomeComponent,
         InboxComponent,
-        SignOutComponent,
         NavbarComponent,
-        PreferencesComponent,
+        NotificationsComponent,
+        ProfileComponent,
+        SignInComponent,
+        SignOutComponent,
         StudiesComponent,
+        StudyCardComponent,
+        StudyComponent,
+        ToFormlyPipe,
         WorkflowComponent,
-        WorkflowProcessComponent,
-        WorkflowProcessMenuItemComponent,
+        WorkflowFormComponent,
         WorkflowStepsMenuListComponent,
       ],
       imports: [
@@ -73,11 +85,14 @@ describe('Router: App', () => {
         MatProgressBarModule,
         MatSelectModule,
         MatSidenavModule,
+        MatProgressSpinnerModule,
         MatToolbarModule,
         NoopAnimationsModule,
         RouterTestingModule.withRoutes(routes),
       ],
-      providers: [HttpClient]
+      providers: [
+        HttpClient,
+      ]
     });
 
     router = TestBed.get(Router);

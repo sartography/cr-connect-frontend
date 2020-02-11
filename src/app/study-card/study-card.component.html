@@ -1,0 +1,26 @@
+<mat-card
+  [routerLink]="['/study', study.id]"
+  fxLayout="column"
+  fxLayoutAlign="start start"
+  [ngClass]="[study.protocol_builder_status, isNew ? 'is-new' : '']"
+  [attr.data-study-id]="study.id"
+>
+  <mat-card-header>
+    <mat-card-title>{{study.title}}</mat-card-title>
+    <mat-card-subtitle>
+      {{study.protocol_builder_status}}<br>
+      Last updated: {{study.last_updated | date}}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content fxLayout="column" fxLayoutAlign="start start">
+    <div fxFlex="100">
+      <div
+        *ngIf="study.protocol_builder_status === 'in_process'"
+        class="percent-complete"
+        [ngStyle]="{width: percentComplete + '%'}"
+      >
+        {{percentComplete}}%
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,24 @@
+<button mat-flat-button routerLink="/" ngClass="back">
+  <mat-icon>chevron_left</mat-icon>
+  Back
+</button>
+
+<ng-container *ngIf="study">
+  <h1>{{study.title}}</h1>
+  <small>
+      protocol_builder_status: {{study.protocol_builder_status}}<br>
+      last_updated: {{study.last_updated | date}}
+  </small>
+
+  <app-dashboard
+    *ngIf="workflows.length > 0"
+    [study]="study"
+    [workflows]="workflows"
+    [workflowSpecs]="workflowSpecs"
+  ></app-dashboard>
+  <div *ngIf="workflows.length === 0">
+    <button mat-flat-button color="primary" (click)="startWorkflow()" id="startWorkflow">
+      Start workflow
+    </button>
+  </div>
+</ng-container>

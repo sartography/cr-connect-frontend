@@ -1,13 +1,13 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {DashboardComponent} from './dashboard/dashboard.component';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
-import {PreferencesComponent} from './preferences/preferences.component';
+import {NotificationsComponent} from './notifications/notifications.component';
+import {ProfileComponent} from './profile/profile.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
-import {StudiesComponent} from './studies/studies.component';
+import {StudyComponent} from './study/study.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 
 
@@ -17,15 +17,15 @@ export const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'studies',
-    component: StudiesComponent
+    path: 'study/:study_id',
+    component: StudyComponent
   },
   {
-    path: 'dashboard',
-    component: DashboardComponent
+    path: 'study/:study_id/workflow/:workflow_id',
+    component: WorkflowComponent
   },
   {
-    path: 'workflow',
+    path: 'study/:study_id/workflow/:workflow_id/task/:task_id',
     component: WorkflowComponent
   },
   {
@@ -37,15 +37,19 @@ export const routes: Routes = [
     component: InboxComponent
   },
   {
-    path: 'preferences',
-    component: PreferencesComponent
+    path: 'notifications',
+    component: NotificationsComponent
   },
   {
-    path: 'signin',
+    path: 'profile',
+    component: ProfileComponent
+  },
+  {
+    path: 'sign-in',
     component: SignInComponent
   },
   {
-    path: 'signout',
+    path: 'sign-out',
     component: SignOutComponent
   }
 

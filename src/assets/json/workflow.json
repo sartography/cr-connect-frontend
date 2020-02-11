@@ -1,0 +1,412 @@
+[
+  {
+    "id": "0",
+    "name": "Process 0",
+    "categories": [
+      {
+        "id": "0",
+        "name": "Category 0.0",
+        "steps": [
+          {
+            "id": "0",
+            "name": "Step 0.0.0",
+            "form": {
+              "id": "0",
+              "name": "Form 0.0.0.0",
+              "fields": [
+                {
+                  "id": "should_ask_color",
+                  "label": "Does color affect your mood?",
+                  "type": "boolean",
+                  "defaultValue": "false",
+                  "validation": [
+                    {
+                      "name": "required",
+                      "config": "true"
+                    }
+                  ],
+                  "properties": [
+                    {
+                      "id": "help",
+                      "value": "[![Hey look, it's Bob Ross!](https://live.staticflickr.com/7101/13988422432_c3d9f28b9a_m.jpg)](https://www.bobrosslipsum.com/)\n\n# Bob Ross Says:\n\nOnce you learn the technique, ohhh! Turn you loose on the world; you become a tiger. Maybe there's a happy little bush that lives right there.\n\nI guess I'm a little weird. I like to talk to trees and animals. That's okay though; I have more fun than most people. The very fact that you're aware of suffering is enough reason to be overjoyed that you're alive and can experience it."
+                    }
+                  ]
+                },
+                {
+                  "id": "favorite_color",
+                  "label": "What is your favorite color?",
+                  "type": "enum",
+                  "defaultValue": "indigo",
+                  "value": [
+                    {
+                      "id": "red",
+                      "name": "Red"
+                    },
+                    {
+                      "id": "orange",
+                      "name": "Orange"
+                    },
+                    {
+                      "id": "yellow",
+                      "name": "Yellow"
+                    },
+                    {
+                      "id": "green",
+                      "name": "Green"
+                    },
+                    {
+                      "id": "blue",
+                      "name": "Blue"
+                    },
+                    {
+                      "id": "indigo",
+                      "name": "Indigo"
+                    },
+                    {
+                      "id": "violet",
+                      "name": "Violet"
+                    },
+                    {
+                      "id": "brown",
+                      "name": "Brown"
+                    },
+                    {
+                      "id": "black",
+                      "name": "Black"
+                    },
+                    {
+                      "id": "white",
+                      "name": "White"
+                    },
+                    {
+                      "id": "other",
+                      "name": "Other"
+                    }
+                  ],
+                  "properties": [
+                    {
+                      "id": "hide_expression",
+                      "value": "!model.should_ask_color"
+                    },
+                    {
+                      "id": "description",
+                      "value": "If you don't have a favorite color, choose the one you hate least."
+                    },
+                    {
+                      "id": "help",
+                      "value": "[![Hey look, it's Bob Ross!](https://live.staticflickr.com/7101/13988422432_c3d9f28b9a_m.jpg)](https://www.bobrosslipsum.com/)\n\n# Bob Ross Says:\n\nThis is your world, whatever makes you happy you can put in it. Go crazy. This is an example of what you can do with just a few things, a little imagination and a happy dream in your heart. You create the dream - then you bring it into your world. You have freedom here. The only guide is your heart. Maybe there was an old trapper that lived out here and maybe one day he went to check his beaver traps, and maybe he fell into the river and drowned. Just go out and talk to a tree. Make friends with it."
+                    }
+                  ]
+                },
+                {
+                  "id": "other_color",
+                  "label": "Enter other color",
+                  "type": "string",
+                  "properties": [
+                    {
+                      "id": "hide_expression",
+                      "value": "!(model.should_ask_color && (model.favorite_color === 'other'))"
+                    },
+                    {
+                      "id": "required_expression",
+                      "value": "model.should_ask_color && (model.favorite_color === 'other')"
+                    },
+                    {
+                      "id": "description",
+                      "value": "Van Dyke Brown is a very nice brown, it's almost like a chocolate brown."
+                    },
+                    {
+                      "id": "help",
+                      "value": "[![Hey look, it's Bob Ross!](https://live.staticflickr.com/7101/13988422432_c3d9f28b9a_m.jpg)](https://www.bobrosslipsum.com/)\n\n# Bob Ross Says:\n\nYou need to have a very firm paint to do this. We might as well make some Almighty mountains today as well, what the heck. It's all a game of angles. As trees get older they lose their chlorophyll. Trees cover up a multitude of sins."
+                    }
+                  ]
+                },
+                {
+                  "id": "dessert",
+                  "label": "What do you want for dessert?",
+                  "type": "enum",
+                  "value": [
+                    {
+                      "id": "carrot_cake",
+                      "name": "Carrot Cake"
+                    },
+                    {
+                      "id": "apple_pie",
+                      "name": "Apple Pie"
+                    },
+                    {
+                      "id": "bread_pudding",
+                      "name": "Bread Pudding"
+                    },
+                    {
+                      "id": "creme_brulee",
+                      "name": "Crème Brûlée"
+                    },
+                    {
+                      "id": "ice_cream",
+                      "name": "Ice Cream"
+                    },
+                    {
+                      "id": "berries_and_cream",
+                      "name": "Berries and Cream"
+                    }
+                  ],
+                  "properties": [
+                    {
+                      "id": "enum_type",
+                      "value": "multicheckbox"
+                    },
+                    {
+                      "id": "description",
+                      "value": "Select all that apply."
+                    },
+                    {
+                      "id": "help",
+                      "value": "[![Cupcakes!](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Cupcakes%2C_chocolate_and_strawberry_flavour.jpg/320px-Cupcakes%2C_chocolate_and_strawberry_flavour.jpg)](http://www.cupcakeipsum.com/)\n\n# Cotton candy jelly biscuit marzipan cookie.\n\nCupcake ipsum dolor sit amet. Macaroon sugar plum toffee. Marshmallow toffee gummies. Gummies jelly ice cream gummi bears muffin oat cake icing. Icing sesame snaps topping gummi bears dragée. Topping jelly-o chocolate chocolate cake. Fruitcake candy canes dessert sweet roll cake gummi bears. Cupcake caramels sweet croissant tiramisu jelly beans. Sweet fruitcake sugar plum topping fruitcake chupa chups pie tootsie roll lemon drops. Pudding chocolate cake cake. Bonbon macaroon soufflé topping donut sweet roll dessert cheesecake. Fruitcake cookie cookie. Lollipop oat cake jelly-o cookie sweet."
+                    }
+                  ]
+                },
+                {
+                  "id": "dietary_restrictions",
+                  "label": "Any dietary restrictions?",
+                  "type": "enum",
+                  "value": [
+                    {
+                      "id": "gf",
+                      "name": "Gluten Free"
+                    },
+                    {
+                      "id": "ovo_lacto_vegetarian",
+                      "name": "Vegetarian, but Eggs and Milk are OK."
+                    },
+                    {
+                      "id": "gf_veg",
+                      "name": "Gluten Free Vegetarian"
+                    },
+                    {
+                      "id": "vegan",
+                      "name": "Vegan"
+                    },
+                    {
+                      "id": "gf_veg",
+                      "name": "Gluten Free Vegan"
+                    },
+                    {
+                      "id": "halal",
+                      "name": "Halal"
+                    },
+                    {
+                      "id": "kosher",
+                      "name": "Kosher"
+                    },
+                    {
+                      "id": "no_red_meat",
+                      "name": "I eat all foods except red meat."
+                    },
+                    {
+                      "id": "only_red_meat",
+                      "name": "I only eat red meat. Nothing else."
+                    },
+                    {
+                      "id": "only_food",
+                      "name": "I eat food."
+                    },
+                    {
+                      "id": "none",
+                      "name": "I eat everything. Including things that aren't food."
+                    }
+                  ],
+                  "properties": [
+                    {
+                      "id": "enum_type",
+                      "value": "radio"
+                    },
+                    {
+                      "id": "description",
+                      "value": "You can choose only one. Sorry."
+                    },
+                    {
+                      "id": "help",
+                      "value": "[![Om nom nom nom nom.](https://www.ohio.edu/sites/default/files/2019-02/special_diets.png)](https://tunaipsum.com/)\n\n# Skilfish warbonnet eel golden loach oceanic whitetip shark.\n\nDelta smelt sarcastic fringehead tigerperch thornfish mud minnow. Snailfish tube-eye beaked salmon, \"sea raven; prickleback sleeper shark sailbearer climbing gourami.\" New World rivuline Pacific viperfish limia deep sea smelt firefish Rabbitfish snake mackerel; duckbilled barracudina. Devil ray, peacock flounder coffinfish codlet Sundaland noodlefish sheepshead scat priapumfish beachsalmon sargassum fish swamp-eel, smooth dogfish poacher sea bass. Frilled shark jellynose fish redtooth triggerfish hammerhead shark chain pickerel; finback cat shark. Chubsucker taimen longfin escolar sabertooth fish leatherjacket trout cod vimba scorpionfish oilfish sardine zebra bullhead shark smelt four-eyed fish. Climbing perch yellowfin grouper char wallago sailback scorpionfish: smoothtongue African glass catfish lagena--red snapper. Smooth dogfish bango hog sucker blue shark longfin escolar banjo catfish. Masu salmon, ponyfish, goby Red whalefish marine hatchetfish, \"sockeye salmon ground shark walleye pollock.\""
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "id": 1,
+            "name": "Step 0.0.1",
+            "form": {
+              "id": "0",
+              "name": "Form 0.0.1.0",
+              "fields": []
+            }
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "name": "Category 0.1",
+        "steps": [
+          {
+            "id": "0",
+            "name": "Step 0.1.0",
+            "form": {
+              "id": "0",
+              "name": "Form 0.1.0.0",
+              "fields":[]
+            }
+          },
+          {
+            "id": 1,
+            "name": "Step 0.1.1",
+            "form": {
+              "id": "0",
+              "name": "Form 0.1.1.0",
+              "fields": []
+            }
+          },
+          {
+            "id": 2,
+            "name": "Step 0.1.2",
+            "form": {
+              "id": "0",
+              "name": "Form 0.1.2.0",
+              "fields": []
+            }
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Category 0.2",
+        "steps": [
+          {
+            "id": "0",
+            "name": "Step 0.2.0",
+            "form": {
+              "id": "0",
+              "name": "Form 0.2.0.0",
+              "fields": []
+            }
+          },
+          {
+            "id": 1,
+            "name": "Step 0.2.1",
+            "form": {
+              "id": "0",
+              "name": "Form 0.2.1.0",
+              "fields": []
+            }
+          },
+          {
+            "id": 2,
+            "name": "Step 0.2.2",
+            "form": {
+              "id": "0",
+              "name": "Form 0.2.2.0",
+              "fields": []
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Process 1",
+    "categories": [
+      {
+        "id": "0",
+        "name": "Category 1.0",
+        "steps": [
+          {
+            "id": "0",
+            "name": "Step 1.0.0",
+            "form": {
+              "id": "0",
+              "name": "Form 1.0.0.0",
+              "fields": []
+            }
+          },
+          {
+            "id": 1,
+            "name": "Step 1.0.1",
+            "form": {
+              "id": "0",
+              "name": "Form 1.0.1.0",
+              "fields": []
+            }
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "name": "Category 1.1",
+        "steps": [
+          {
+            "id": "0",
+            "name": "Step 1.1.0",
+            "form": {
+              "id": "0",
+              "name": "Form 1.1.0.0",
+              "fields": []
+            }
+          },
+          {
+            "id": 1,
+            "name": "Step 1.1.1",
+            "form": {
+              "id": "0",
+              "name": "Form 1.1.1.0",
+              "fields": []
+            }
+          },
+          {
+            "id": 2,
+            "name": "Step 1.1.2",
+            "form": {
+              "id": "0",
+              "name": "Form 1.1.2.0",
+              "fields": []
+            }
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Category 1.2",
+        "steps": [
+          {
+            "id": "0",
+            "name": "Step 1.2.0",
+            "form": {
+              "id": "0",
+              "name": "Form 1.2.0.0",
+              "fields": []
+            }
+          },
+          {
+            "id": 1,
+            "name": "Step 1.2.1",
+            "form": {
+              "id": "0",
+              "name": "Form 1.2.1.0",
+              "fields": []
+            }
+          },
+          {
+            "id": 2,
+            "name": "Step 1.2.2",
+            "form": {
+              "id": "0",
+              "name": "Form 1.2.2.0",
+              "fields": []
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

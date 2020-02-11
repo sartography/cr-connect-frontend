@@ -1,3 +1,4 @@
+@import "../../config";
 
 h3 {
   color: white;
@@ -8,11 +9,11 @@ em {
 }
 
 .file {
-  background-color: black;
+  background-color:  $brand-accent;
   color: white;
 }
 
 .file:hover {
-  background-color: #333333;
+  background-color: $brand-gray-tint-1;
   color: white;
 }
