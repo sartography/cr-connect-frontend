@@ -12,9 +12,9 @@ export class WorkflowComponent {
   readyTasks: WorkflowTask[];
   allTasks: WorkflowTask[];
   currentTask: WorkflowTask;
-  private studyId: number;
-  private workflowId: number;
-  private taskId: string;
+  studyId: number;
+  workflowId: number;
+  taskId: string;
   taskTypes = WorkflowTaskType;
 
   constructor(
