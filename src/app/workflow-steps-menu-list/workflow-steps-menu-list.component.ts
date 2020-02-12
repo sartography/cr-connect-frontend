@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Workflow, WorkflowSpec, WorkflowTask, WorkflowTaskState} from 'sartography-workflow-lib';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {WorkflowTask, WorkflowTaskState} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow-steps-menu-list',

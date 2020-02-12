@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {FormlyFormOptions} from '@ngx-formly/core';
 import createClone from 'rfdc';
 import {ApiService, Workflow, WorkflowTask} from 'sartography-workflow-lib';
 
@@ -14,7 +13,6 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   @Input() workflow: Workflow;
   @Output() workflowUpdated: EventEmitter<Workflow> = new EventEmitter();
   form = new FormGroup({});
-  options: FormlyFormOptions = {};
   model: any = {};
   loading = true;
 
@@ -49,7 +47,8 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
       console.table(Object.entries(task.data).map(e => {
         return {
           'Form Field Name': e[0],
-          'Stored Value': e[1]};
+          'Stored Value': e[1]
+        };
       }));
       console.groupEnd();
     }

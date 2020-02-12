@@ -10,7 +10,9 @@ import {
   ApiService,
   MockEnvironment,
   mockWorkflow0,
-  mockWorkflowSpec0, mockWorkflowTask0, mockWorkflowTask1,
+  mockWorkflowSpec0,
+  mockWorkflowTask0,
+  mockWorkflowTask1,
   mockWorkflowTasks
 } from 'sartography-workflow-lib';
 import {ToFormlyPipe} from '../_pipes/to-formly.pipe';

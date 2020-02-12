@@ -29,36 +29,36 @@ import {NgxPageScrollModule} from 'ngx-page-scroll';
 import {NgxPageScrollCoreModule} from 'ngx-page-scroll-core';
 import {ApiService, AppEnvironment} from 'sartography-workflow-lib';
 import {environment} from '../environments/environment';
+import {FileBaseComponent} from './_forms/file-base/file-base.component';
+import {FileFieldComponent} from './_forms/file-field/file-field.component';
+import {FileUploadComponent} from './_forms/file-upload/file-upload.component';
+import {FileValueAccessorDirective} from './_forms/file-upload/file-value-accessor.directive';
+import {HelpDialogComponent} from './_forms/help-dialog/help-dialog.component';
+import {HelpWrapperComponent} from './_forms/help-wrapper/help-wrapper.component';
+import {helpWrapperExtension} from './_forms/help-wrapper/help-wrapper.extension';
+import {PanelWrapperComponent} from './_forms/panel-wrapper/panel-wrapper.component';
 import {PipesModule} from './_pipes/pipes.module';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
-import {FileUploadComponent} from './_forms/file-upload/file-upload.component';
 import {FooterComponent} from './footer/footer.component';
-import {HelpDialogComponent} from './_forms/help-dialog/help-dialog.component';
-import {HelpWrapperComponent} from './_forms/help-wrapper/help-wrapper.component';
-import {helpWrapperExtension} from './_forms/help-wrapper/help-wrapper.extension';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NotificationsComponent} from './notifications/notifications.component';
-import {PanelWrapperComponent} from './_forms/panel-wrapper/panel-wrapper.component';
 import {ProfileComponent} from './profile/profile.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudyCardComponent} from './study-card/study-card.component';
 import {StudyComponent} from './study/study.component';
+import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
-import { WorkflowFilesComponent } from './workflow-files/workflow-files.component';
-import { FileValueAccessorDirective } from './_forms/file-upload/file-value-accessor.directive';
-import { FileFieldComponent } from './_forms/file-field/file-field.component';
-import { FileBaseComponent } from './_forms/file-base/file-base.component';
 
 
 export class ThisEnvironment implements AppEnvironment {
@@ -105,8 +105,8 @@ export class ThisEnvironment implements AppEnvironment {
     FormlyMaterialModule,
     FormlyModule.forRoot({
       types: [
-        { name: 'file', component: FileFieldComponent, wrappers: ['form-field'] },
-        { name: 'files', component: FileUploadComponent, wrappers: ['form-field'] }
+        {name: 'file', component: FileFieldComponent, wrappers: ['form-field']},
+        {name: 'files', component: FileUploadComponent, wrappers: ['form-field']}
       ],
       wrappers: [
         {name: 'panel', component: PanelWrapperComponent},

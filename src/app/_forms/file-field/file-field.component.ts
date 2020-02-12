@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {ApiService, FileMeta} from 'sartography-workflow-lib';
 import {getFileType} from '../../_util/file-type';
