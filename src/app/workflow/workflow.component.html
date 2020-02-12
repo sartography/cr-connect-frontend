@@ -1,5 +1,10 @@
 <mat-sidenav-container>
   <mat-sidenav mode="side" opened  [fixedInViewport]="true" [fixedTopGap]="64">
+    <button mat-button routerLink="/study/{{studyId}}" [ngClass]="'back'">
+      <mat-icon>chevron_left</mat-icon>
+      Back
+    </button>
+
     <h3>Available Tasks:</h3>
     <em>The following tasks need your attention:</em>
     <app-workflow-steps-menu-list *ngFor="let task of allTasks"
