@@ -176,6 +176,7 @@ export class ToFormlyPipe implements PipeTransform {
             if (p.value === 'checkbox') {
               resultField.type = 'multicheckbox';
               resultField.className = 'vertical-checkbox-group';
+              resultField.templateOptions.type = 'array';
             }
 
             if (p.value === 'radio') {
