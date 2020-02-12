@@ -11,7 +11,7 @@
     <app-workflow-files *ngIf="workflow" [workflow]="workflow"></app-workflow-files>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-workflow-form *ngIf="currentTask && currentTask.type === taskTypes.USER_TASK; else noTask"
+    <app-workflow-form *ngIf="hasIncompleteUserTask(); else noTask"
       [task]="currentTask"
       [workflow]="workflow"
       (workflowUpdated)="workflowUpdated($event)"
@@ -25,6 +25,9 @@
       <h1>{{currentTask.name}}</h1>
       <h2>Task type: {{currentTask.type}}</h2>
       <h3>Status: {{currentTask.state}}</h3>
+      <code>
+        {{currentTask.data | json}}
+      </code>
     </div>
     <div class="no-task" *ngIf="!currentTask">
       <h1>No tasks found.</h1>

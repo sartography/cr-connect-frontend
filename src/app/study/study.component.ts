@@ -34,7 +34,11 @@ export class StudyComponent implements OnInit {
   }
 
   loadWorkflows() {
-    this.api.getWorkflowListForStudy(this.study.id).subscribe(sw => this.workflows = sw);
+    this.api
+      .getWorkflowListForStudy(this.study.id)
+      .subscribe(sw => {
+        this.workflows = sw.sort((a, b) => (a.id > b.id) ? 1 : -1);
+      });
   }
 
   startWorkflow() {
