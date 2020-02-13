@@ -2,7 +2,7 @@
     <h1>{{task.title}}</h1>
     <div>
       <h3>{{task.form.key}}</h3>
-      <formly-form [model]="model" [fields]="task.form.fields | toFormly" [form]="form"></formly-form>
+      <formly-form [model]="model" [fields]="task.form.fields | toFormly" [form]="form" (keyup)="handleKeyUp($event)"></formly-form>
       <button mat-flat-button color="primary" (click)="saveTaskData(task)" [disabled]="form.invalid">Save</button>
     </div>
 </ng-container>
