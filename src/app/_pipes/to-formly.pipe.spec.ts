@@ -98,7 +98,7 @@ describe('ToFormlyPipe', () => {
         validation: [
           {
             name: 'required',
-            config: 'false'
+            config: 'true'
           }
         ],
         properties: [
@@ -114,7 +114,7 @@ describe('ToFormlyPipe', () => {
     expect(after[0].type).toEqual('select');
     expect(after[0].defaultValue).toEqual('red');
     expect(after[0].templateOptions.label).toEqual(before[0].label);
-    expect(after[0].templateOptions.required).toEqual(false);
+    expect(after[0].templateOptions.required).toEqual(true);
 
     // Stupid hack to check length of options array because its
     // type is any[] | Observable<any[]>
@@ -232,6 +232,36 @@ describe('ToFormlyPipe', () => {
     expect(after[0].key).toEqual(before[0].id);
     expect(after[0].type).toEqual('input');
     expect(after[0].templateOptions.type).toEqual('tel');
+    expect(after[0].templateOptions.label).toEqual(before[0].label);
+  });
+
+  it('converts email field to Formly email field', () => {
+    const before: BpmnFormJsonField[] = [
+      {
+        id: 'email',
+        label: 'Email address',
+        type: 'email'
+      }
+    ];
+    const after = pipe.transform(before);
+    expect(after[0].key).toEqual(before[0].id);
+    expect(after[0].type).toEqual('input');
+    expect(after[0].templateOptions.type).toEqual('email');
+    expect(after[0].templateOptions.label).toEqual(before[0].label);
+  });
+
+  it('converts URL field to Formly URL field', () => {
+    const before: BpmnFormJsonField[] = [
+      {
+        id: 'mobile_num',
+        label: 'TPS Report',
+        type: 'url'
+      }
+    ];
+    const after = pipe.transform(before);
+    expect(after[0].key).toEqual(before[0].id);
+    expect(after[0].type).toEqual('input');
+    expect(after[0].templateOptions.type).toEqual('url');
     expect(after[0].templateOptions.label).toEqual(before[0].label);
   });
 

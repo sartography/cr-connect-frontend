@@ -1,5 +1,5 @@
 import {HttpClientModule} from '@angular/common/http';
-import {NgModule} from '@angular/core';
+import {Injectable, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
@@ -37,6 +37,18 @@ import {HelpDialogComponent} from './_forms/help-dialog/help-dialog.component';
 import {HelpWrapperComponent} from './_forms/help-wrapper/help-wrapper.component';
 import {helpWrapperExtension} from './_forms/help-wrapper/help-wrapper.extension';
 import {PanelWrapperComponent} from './_forms/panel-wrapper/panel-wrapper.component';
+import {
+  EmailValidator,
+  EmailValidatorMessage,
+  MaxValidationMessage,
+  MinValidationMessage,
+  MulticheckboxValidator,
+  MulticheckboxValidatorMessage,
+  PhoneValidator,
+  PhoneValidatorMessage, ShowError,
+  UrlValidator,
+  UrlValidatorMessage
+} from './_forms/validators/formly.validator';
 import {PipesModule} from './_pipes/pipes.module';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -66,6 +78,41 @@ export class ThisEnvironment implements AppEnvironment {
   api = environment.api;
   googleAnalyticsKey = environment.googleAnalyticsKey;
   irbUrl = environment.irbUrl;
+}
+
+@Injectable()
+export class FormlyConfig {
+  public static config = {
+    extras: {
+      showError: ShowError,
+    },
+    types: [
+      {name: 'file', component: FileFieldComponent, wrappers: ['form-field']},
+      {name: 'files', component: FileUploadComponent, wrappers: ['form-field']}
+    ],
+    validators: [
+      {name: 'phone', validation: PhoneValidator},
+      {name: 'email', validation: EmailValidator},
+      {name: 'url', validation: UrlValidator},
+      {name: 'multicheckbox', validation: MulticheckboxValidator},
+    ],
+    validationMessages: [
+      {name: 'phone', message: PhoneValidatorMessage},
+      {name: 'email', message: EmailValidatorMessage},
+      {name: 'url', message: UrlValidatorMessage},
+      {name: 'multicheckbox', message: MulticheckboxValidatorMessage},
+      {name: 'required', message: 'This field is required.'},
+      {name: 'min', message: MinValidationMessage},
+      {name: 'max', message: MaxValidationMessage},
+    ],
+    wrappers: [
+      {name: 'panel', component: PanelWrapperComponent},
+      {name: 'help', component: HelpWrapperComponent},
+    ],
+    extensions: [
+      {name: 'help', extension: {onPopulate: helpWrapperExtension}},
+    ],
+  };
 }
 
 @NgModule({
@@ -103,19 +150,7 @@ export class ThisEnvironment implements AppEnvironment {
     ChartsModule,
     FlexLayoutModule,
     FormlyMaterialModule,
-    FormlyModule.forRoot({
-      types: [
-        {name: 'file', component: FileFieldComponent, wrappers: ['form-field']},
-        {name: 'files', component: FileUploadComponent, wrappers: ['form-field']}
-      ],
-      wrappers: [
-        {name: 'panel', component: PanelWrapperComponent},
-        {name: 'help', component: HelpWrapperComponent},
-      ],
-      extensions: [
-        {name: 'help', extension: {onPopulate: helpWrapperExtension}},
-      ],
-    }),
+    FormlyModule.forRoot(FormlyConfig.config),
     FormsModule,
     HttpClientModule,
     MarkdownModule.forRoot(),

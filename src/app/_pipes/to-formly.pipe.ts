@@ -2,6 +2,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 import {FormlyFieldConfig} from '@ngx-formly/core';
 import {isIterable} from 'rxjs/internal-compatibility';
 import {BpmnFormJsonField} from 'sartography-workflow-lib';
+import {EmailValidator, PhoneValidator} from '../_forms/validators/formly.validator';
 
 /***
  * Convert the given BPMN form JSON value to Formly JSON
@@ -105,47 +106,71 @@ export class ToFormlyPipe implements PipeTransform {
         expressionProperties: {}
       };
 
-      if (field.type === 'enum') {
-        resultField.type = 'select';
-        resultField.defaultValue = field.defaultValue;
-        resultField.templateOptions.options = field.options.map(v => {
-          return {value: v.id, label: v.name};
-        });
-      } else if (field.type === 'string') {
-        resultField.type = 'input';
-        resultField.defaultValue = field.defaultValue;
-      } else if (field.type === 'textarea') {
-        resultField.type = 'textarea';
-        resultField.defaultValue = field.defaultValue;
-      } else if (field.type === 'long') {
-        resultField.type = 'input';
-        resultField.templateOptions.type = 'number';
-        resultField.defaultValue = parseInt(field.defaultValue, 10);
-      } else if (field.type === 'tel') {
-        resultField.type = 'input';
-        resultField.templateOptions.type = 'tel';
-        resultField.defaultValue = field.defaultValue;
-      } else if (field.type === 'boolean') {
-        resultField.type = 'radio';
-        if (field.defaultValue !== undefined && field.defaultValue !== null && field.defaultValue !== '') {
-          resultField.defaultValue = this._stringToBool(field.defaultValue);
-        }
-        resultField.templateOptions.options = [
-          {value: true, label: 'Yes'},
-          {value: false, label: 'No'},
-        ];
-      } else if (field.type === 'date') {
-        resultField.type = 'date';
-        if (field.defaultValue) {
-          resultField.defaultValue = new Date(field.defaultValue);
-        }
-      } else if (field.type === 'files') {
-        resultField.type = 'files';
-      } else if (field.type === 'file') {
-        resultField.type = 'file';
-      } else {
-        console.error('Field type is not supported.');
-        resultField.type = field.type;
+      switch (field.type) {
+        case 'enum':
+          resultField.type = 'select';
+          resultField.defaultValue = field.defaultValue;
+          resultField.templateOptions.options = field.options.map(v => {
+            return {value: v.id, label: v.name};
+          });
+          break;
+        case 'string':
+          resultField.type = 'input';
+          resultField.defaultValue = field.defaultValue;
+          break;
+        case 'textarea':
+          resultField.type = 'textarea';
+          resultField.defaultValue = field.defaultValue;
+          break;
+        case 'long':
+          resultField.type = 'input';
+          resultField.templateOptions.type = 'number';
+          resultField.defaultValue = parseInt(field.defaultValue, 10);
+          break;
+        case 'url':
+          resultField.type = 'input';
+          resultField.templateOptions.type = 'url';
+          resultField.defaultValue = field.defaultValue;
+          resultField.validators = {validation: ['url']};
+          break;
+        case 'email':
+          resultField.type = 'input';
+          resultField.templateOptions.type = 'email';
+          resultField.defaultValue = field.defaultValue;
+          resultField.validators = {validation: ['email']};
+          break;
+        case 'tel':
+          resultField.type = 'input';
+          resultField.templateOptions.type = 'tel';
+          resultField.defaultValue = field.defaultValue;
+          resultField.validators = {validation: ['phone']};
+          break;
+        case 'boolean':
+          resultField.type = 'radio';
+          if (field.defaultValue !== undefined && field.defaultValue !== null && field.defaultValue !== '') {
+            resultField.defaultValue = this._stringToBool(field.defaultValue);
+          }
+          resultField.templateOptions.options = [
+            {value: true, label: 'Yes'},
+            {value: false, label: 'No'},
+          ];
+          break;
+        case 'date':
+          resultField.type = 'date';
+          if (field.defaultValue) {
+            resultField.defaultValue = new Date(field.defaultValue);
+          }
+          break;
+        case 'files':
+          resultField.type = 'files';
+          break;
+        case 'file':
+          resultField.type = 'file';
+          break;
+        default:
+          console.error('Field type is not supported.');
+          resultField.type = field.type;
+          break;
       }
 
       resultField.templateOptions.label = field.label;
@@ -193,7 +218,9 @@ export class ToFormlyPipe implements PipeTransform {
                 if (p.value === 'checkbox') {
                   resultField.type = 'multicheckbox';
                   resultField.className = 'vertical-checkbox-group';
-                  resultField.templateOptions.type = 'array';
+                  if (resultField.templateOptions.required) {
+                    resultField.validators = {validation: ['multicheckbox']};
+                  }
                 }
 
                 if (p.value === 'radio') {
