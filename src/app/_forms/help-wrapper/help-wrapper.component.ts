@@ -24,7 +24,9 @@ export class HelpWrapperComponent extends FieldWrapper implements AfterViewInit 
     }
   }
 
-  openDialog(title: string, text: string) {
+  openDialog($event: MouseEvent, title: string, text: string) {
+    $event.preventDefault();
+    $event.stopPropagation();
     this.dialog.open(HelpDialogComponent, {
       width: '600px',
       data: {title, text}
