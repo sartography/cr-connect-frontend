@@ -203,13 +203,21 @@ describe('ToFormlyPipe', () => {
       {
         id: 'life_story',
         label: 'Write a short novel that sardonically recounts the story of your life from the perspective of your best frenemy.',
-        type: 'textarea'
+        type: 'textarea',
+        properties: [
+          {id: 'rows', value: '5'},
+          {id: 'cols', value: '3'},
+          {id: 'autosize', value: 'true'},
+        ]
       }
     ];
     const after = pipe.transform(before);
     expect(after[0].key).toEqual(before[0].id);
     expect(after[0].type).toEqual('textarea');
     expect(after[0].templateOptions.label).toEqual(before[0].label);
+    expect(after[0].templateOptions.rows).toEqual(5);
+    expect(after[0].templateOptions.cols).toEqual(3);
+    expect(after[0].templateOptions.autosize).toEqual(true);
   });
 
   it('converts tel field to Formly phone number field', () => {
@@ -233,7 +241,10 @@ describe('ToFormlyPipe', () => {
       {
         id: 'bad_field',
         label: 'Mystery Field',
-        type: 'mystery'
+        type: 'mystery',
+        properties: [
+          {id: 'bad_prop', value: 'whatever'}
+        ]
       }
     ];
     const after = pipe.transform(before);

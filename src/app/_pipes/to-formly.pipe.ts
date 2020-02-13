@@ -160,33 +160,54 @@ export class ToFormlyPipe implements PipeTransform {
 
       if (field.properties && isIterable(field.properties) && (field.properties.length > 0)) {
         for (const p of field.properties) {
-          if (p.id === 'hide_expression') {
-            resultField.hideExpression = p.value;
-          } else if (p.id === 'label_expression') {
-            resultField.expressionProperties['templateOptions.label'] = p.value;
-          } else if (p.id === 'required_expression') {
-            resultField.expressionProperties['templateOptions.required'] = p.value;
-          } else if (p.id === 'placeholder') {
-            resultField.templateOptions.placeholder = p.value;
-          } else if (p.id === 'description') {
-            resultField.templateOptions.description = p.value;
-          } else if (p.id === 'help') {
-            resultField.templateOptions.help = p.value;
-          } else if (field.type === 'enum' && p.id === 'enum_type') {
-            if (p.value === 'checkbox') {
-              resultField.type = 'multicheckbox';
-              resultField.className = 'vertical-checkbox-group';
-              resultField.templateOptions.type = 'array';
-            }
+          switch (p.id) {
+            case 'hide_expression':
+              resultField.hideExpression = p.value;
+              break;
+            case 'label_expression':
+              resultField.expressionProperties['templateOptions.label'] = p.value;
+              break;
+            case 'required_expression':
+              resultField.expressionProperties['templateOptions.required'] = p.value;
+              break;
+            case 'placeholder':
+              resultField.templateOptions.placeholder = p.value;
+              break;
+            case 'description':
+              resultField.templateOptions.description = p.value;
+              break;
+            case 'help':
+              resultField.templateOptions.help = p.value;
+              break;
+            case 'autosize':
+              resultField.templateOptions.autosize = this._stringToBool(p.value);
+              break;
+            case 'rows':
+              resultField.templateOptions.rows = parseInt(p.value, 10);
+              break;
+            case 'cols':
+              resultField.templateOptions.cols = parseInt(p.value, 10);
+              break;
+            case 'enum_type':
+              if (field.type === 'enum') {
+                if (p.value === 'checkbox') {
+                  resultField.type = 'multicheckbox';
+                  resultField.className = 'vertical-checkbox-group';
+                  resultField.templateOptions.type = 'array';
+                }
 
-            if (p.value === 'radio') {
-              resultField.type = 'radio';
-              resultField.className = 'vertical-radio-group';
-            }
+                if (p.value === 'radio') {
+                  resultField.type = 'radio';
+                  resultField.className = 'vertical-radio-group';
+                }
 
-            resultField.templateOptions.options = field.options.map(v => {
-              return {value: v.id, label: v.name};
-            });
+                resultField.templateOptions.options = field.options.map(v => {
+                  return {value: v.id, label: v.name};
+                });
+              }
+              break;
+            default:
+              break;
           }
         }
       }
