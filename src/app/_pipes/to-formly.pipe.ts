@@ -202,6 +202,9 @@ export class ToFormlyPipe implements PipeTransform {
             case 'required_expression':
               resultField.expressionProperties['templateOptions.required'] = p.value;
               break;
+            case 'readonly':
+              resultField.templateOptions.readonly = this._stringToBool(p.value);
+              break;
             case 'placeholder':
               resultField.templateOptions.placeholder = p.value;
               break;
