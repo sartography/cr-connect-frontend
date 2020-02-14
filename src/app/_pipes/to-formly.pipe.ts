@@ -293,8 +293,8 @@ export class ToFormlyPipe implements PipeTransform {
   }
 
   private _toSnakeCase(str: string): string {
-    str.trim();
     return !str ? '' : String(str)
+      .trim()
       .replace(/\W+/gi, '_')
       .toLowerCase();
   }
