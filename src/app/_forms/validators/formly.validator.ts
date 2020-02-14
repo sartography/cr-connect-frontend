@@ -56,7 +56,7 @@ export function ShowError(field: FieldType) {
     field.formControl.invalid &&
     (
       field.formControl.dirty ||
-      (field.options.parentForm && field.options.parentForm.submitted) ||
-      (field.field.validation && field.field.validation.show)
+      (field.options && field.options.parentForm && field.options.parentForm.submitted) ||
+      (field.field && field.field.validation && field.field.validation.show)
     );
 }
