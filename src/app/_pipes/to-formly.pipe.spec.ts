@@ -98,7 +98,7 @@ describe('ToFormlyPipe', () => {
         validation: [
           {
             name: 'required',
-            config: 'false'
+            config: 'true'
           }
         ],
         properties: [
@@ -114,7 +114,7 @@ describe('ToFormlyPipe', () => {
     expect(after[0].type).toEqual('select');
     expect(after[0].defaultValue).toEqual('red');
     expect(after[0].templateOptions.label).toEqual(before[0].label);
-    expect(after[0].templateOptions.required).toEqual(false);
+    expect(after[0].templateOptions.required).toEqual(true);
 
     // Stupid hack to check length of options array because its
     // type is any[] | Observable<any[]>
@@ -203,13 +203,21 @@ describe('ToFormlyPipe', () => {
       {
         id: 'life_story',
         label: 'Write a short novel that sardonically recounts the story of your life from the perspective of your best frenemy.',
-        type: 'textarea'
+        type: 'textarea',
+        properties: [
+          {id: 'rows', value: '5'},
+          {id: 'cols', value: '3'},
+          {id: 'autosize', value: 'true'},
+        ]
       }
     ];
     const after = pipe.transform(before);
     expect(after[0].key).toEqual(before[0].id);
     expect(after[0].type).toEqual('textarea');
     expect(after[0].templateOptions.label).toEqual(before[0].label);
+    expect(after[0].templateOptions.rows).toEqual(5);
+    expect(after[0].templateOptions.cols).toEqual(3);
+    expect(after[0].templateOptions.autosize).toEqual(true);
   });
 
   it('converts tel field to Formly phone number field', () => {
@@ -227,13 +235,107 @@ describe('ToFormlyPipe', () => {
     expect(after[0].templateOptions.label).toEqual(before[0].label);
   });
 
+  it('converts email field to Formly email field', () => {
+    const before: BpmnFormJsonField[] = [
+      {
+        id: 'email',
+        label: 'Email address',
+        type: 'email'
+      }
+    ];
+    const after = pipe.transform(before);
+    expect(after[0].key).toEqual(before[0].id);
+    expect(after[0].type).toEqual('input');
+    expect(after[0].templateOptions.type).toEqual('email');
+    expect(after[0].templateOptions.label).toEqual(before[0].label);
+  });
+
+  it('converts URL field to Formly URL field', () => {
+    const before: BpmnFormJsonField[] = [
+      {
+        id: 'mobile_num',
+        label: 'TPS Report',
+        type: 'url'
+      }
+    ];
+    const after = pipe.transform(before);
+    expect(after[0].key).toEqual(before[0].id);
+    expect(after[0].type).toEqual('input');
+    expect(after[0].templateOptions.type).toEqual('url');
+    expect(after[0].templateOptions.label).toEqual(before[0].label);
+  });
+
+  it('converts group names into Formly field groups', async () => {
+    const before: BpmnFormJsonField[] = [
+      {
+        id: 'first_name',
+        label: 'First Name',
+        type: 'string',
+        properties: [
+          {id: 'group', value: 'Contact Info'},
+        ]
+      },
+      {
+        id: 'line_1',
+        label: 'Street Address Line 1',
+        type: 'string',
+        properties: [
+          {id: 'group', value: 'Address'},
+        ]
+      },
+      {
+        id: 'line_2',
+        label: 'Street Address Line 1',
+        type: 'string',
+        properties: [
+          {id: 'group', value: 'Address'},
+        ]
+      },
+      {
+        id: 'last_name',
+        label: 'Last Name',
+        type: 'string',
+        properties: [
+          {id: 'group', value: 'Contact Info'},
+        ]
+      },
+      {
+        id: 'favorite_number',
+        label: 'Favorite Number',
+        type: 'long',
+      },
+    ];
+    const after = pipe.transform(before);
+    expect(after.length).toEqual(3);
+
+    // Group 1
+    expect(after[0].key).toEqual('contact_info');
+    expect(after[0].templateOptions.label).toEqual(before[0].properties[0].value);
+    expect(after[0].fieldGroup[0].key).toEqual(before[0].id);
+    expect(after[0].fieldGroup[1].key).toEqual(before[3].id);
+
+    // Group 2
+    expect(after[1].key).toEqual('address');
+    expect(after[1].templateOptions.label).toEqual(before[1].properties[0].value);
+    expect(after[1].fieldGroup[0].key).toEqual(before[1].id);
+    expect(after[1].fieldGroup[1].key).toEqual(before[2].id);
+
+    // Last item has no group
+    expect(after[2].key).toEqual(before[4].id);
+    expect(after[2].templateOptions.label).toEqual(before[4].label);
+    expect(after[2].fieldGroup).toBeUndefined();
+  });
+
   it('logs an error if field type is not supported', () => {
     spyOn(console, 'error');
     const before: BpmnFormJsonField[] = [
       {
         id: 'bad_field',
         label: 'Mystery Field',
-        type: 'mystery'
+        type: 'mystery',
+        properties: [
+          {id: 'bad_prop', value: 'whatever'}
+        ]
       }
     ];
     const after = pipe.transform(before);

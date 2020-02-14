@@ -3,7 +3,7 @@
   <button
     *ngIf="to.help"
     mat-icon-button
-    (click)="openDialog(to.label, to.help)"
+    (click)="openDialog($event, to.label, to.help)"
   >
     <mat-icon>help</mat-icon>
   </button>
