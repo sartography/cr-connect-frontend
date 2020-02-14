@@ -1,8 +1,9 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {FormlyFieldConfig} from '@ngx-formly/core';
+import createClone from 'rfdc';
 import {isIterable} from 'rxjs/internal-compatibility';
 import {BpmnFormJsonField} from 'sartography-workflow-lib';
-import {EmailValidator, PhoneValidator} from '../_forms/validators/formly.validator';
+
 
 /***
  * Convert the given BPMN form JSON value to Formly JSON
@@ -106,6 +107,7 @@ export class ToFormlyPipe implements PipeTransform {
         expressionProperties: {}
       };
 
+      // Convert bpmnjs field type to Formly field type
       switch (field.type) {
         case 'enum':
           resultField.type = 'select';
@@ -175,6 +177,7 @@ export class ToFormlyPipe implements PipeTransform {
 
       resultField.templateOptions.label = field.label;
 
+      // Convert bpmnjs field validations to Formly field requirements
       if (field.validation && isIterable(field.validation) && (field.validation.length > 0)) {
         for (const v of field.validation) {
           if (v.name === 'required') {
@@ -183,9 +186,13 @@ export class ToFormlyPipe implements PipeTransform {
         }
       }
 
+      // Convert bpmnjs field properties to Formly template options.
       if (field.properties && isIterable(field.properties) && (field.properties.length > 0)) {
         for (const p of field.properties) {
           switch (p.id) {
+            case 'group':
+              resultField.templateOptions.groupName = p.value;
+              break;
             case 'hide_expression':
               resultField.hideExpression = p.value;
               break;
@@ -242,11 +249,53 @@ export class ToFormlyPipe implements PipeTransform {
       result.push(resultField);
     }
 
-    return result;
+    return this._makeGroups(result);
   }
 
   private _stringToBool(s: string) {
     return s.toLowerCase() === 'true';
   }
 
+  /** Convert group names into actual Formly fieldGroups */
+  private _makeGroups(result: FormlyFieldConfig[]) {
+    const grouped: FormlyFieldConfig[] = [];
+
+    result.forEach(field => {
+      if (field.templateOptions.groupName) {
+
+        // look for existing group
+        const groupName = field.templateOptions.groupName;
+        const group = grouped.find(g => g.templateOptions.groupName === groupName);
+
+        if (group) {
+          group.fieldGroup.push(createClone()(field));
+        } else {
+          // if not found, add the group, then add it to the grouped array
+          const newGroup: FormlyFieldConfig = {
+            key: this._toSnakeCase(groupName),
+            templateOptions: {
+              label: groupName,
+            },
+            fieldGroup: [createClone()(field)],
+            wrappers: ['panel'],
+          };
+
+          newGroup.templateOptions.groupName = groupName;
+          grouped.push(newGroup);
+        }
+      } else {
+        // no group name. just add it
+        grouped.push(field);
+      }
+    });
+
+    return grouped;
+  }
+
+  private _toSnakeCase(str: string): string {
+    str.trim();
+    return !str ? '' : String(str)
+      .replace(/\W+/gi, '_')
+      .toLowerCase();
+  }
 }

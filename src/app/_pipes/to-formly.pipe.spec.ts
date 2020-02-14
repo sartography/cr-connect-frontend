@@ -265,6 +265,67 @@ describe('ToFormlyPipe', () => {
     expect(after[0].templateOptions.label).toEqual(before[0].label);
   });
 
+  it('converts group names into Formly field groups', async () => {
+    const before: BpmnFormJsonField[] = [
+      {
+        id: 'first_name',
+        label: 'First Name',
+        type: 'string',
+        properties: [
+          {id: 'group', value: 'Contact Info'},
+        ]
+      },
+      {
+        id: 'line_1',
+        label: 'Street Address Line 1',
+        type: 'string',
+        properties: [
+          {id: 'group', value: 'Address'},
+        ]
+      },
+      {
+        id: 'line_2',
+        label: 'Street Address Line 1',
+        type: 'string',
+        properties: [
+          {id: 'group', value: 'Address'},
+        ]
+      },
+      {
+        id: 'last_name',
+        label: 'Last Name',
+        type: 'string',
+        properties: [
+          {id: 'group', value: 'Contact Info'},
+        ]
+      },
+      {
+        id: 'favorite_number',
+        label: 'Favorite Number',
+        type: 'long',
+      },
+    ];
+    const after = pipe.transform(before);
+    expect(after.length).toEqual(3);
+
+    // Group 1
+    expect(after[0].key).toEqual('contact_info');
+    expect(after[0].templateOptions.label).toEqual(before[0].properties[0].value);
+    expect(after[0].fieldGroup[0].key).toEqual(before[0].id);
+    expect(after[0].fieldGroup[1].key).toEqual(before[3].id);
+
+    // Group 2
+    expect(after[1].key).toEqual('address');
+    expect(after[1].templateOptions.label).toEqual(before[1].properties[0].value);
+    expect(after[1].fieldGroup[0].key).toEqual(before[1].id);
+    expect(after[1].fieldGroup[1].key).toEqual(before[2].id);
+
+    // Last item has no group
+    expect(after[2].key).toEqual(before[4].id);
+    expect(after[2].templateOptions.label).toEqual(before[4].label);
+    expect(after[2].fieldGroup).toBeUndefined();
+  });
+
   it('logs an error if field type is not supported', () => {
     spyOn(console, 'error');
     const before: BpmnFormJsonField[] = [
