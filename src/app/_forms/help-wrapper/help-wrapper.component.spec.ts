@@ -44,7 +44,7 @@ describe('HelpWrapperComponent', () => {
   });
 
   it('should open dialog', () => {
-    const event = jasmine.createSpyObj('event', ['preventDefault', 'stopPropagation'])
+    const event = jasmine.createSpyObj('event', ['preventDefault', 'stopPropagation']);
     const openSpy = spyOn(component.dialog, 'open').and.stub();
     component.openDialog(event, 'this is a title', 'and here is some text');
     expect(event.preventDefault).toHaveBeenCalled();
