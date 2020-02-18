@@ -18,9 +18,7 @@ export class FormPrintoutComponent {
   }
 
   getModelValue(key: string) {
-    console.log('key', key);
     let val = this.field.model[key];
-    console.log('val', val);
 
     // If this is a select field, get the human-readable label for it
     if (this.field.fieldGroup) {

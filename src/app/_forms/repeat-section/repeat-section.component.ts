@@ -17,9 +17,6 @@ export class RepeatSectionComponent extends FieldArrayType implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('field', this.field);
-    console.log('field.parent', this.field.parent);
-    console.log('field.model', this.field.model);
   }
 
   openDialog(i: number, f?: FormlyFieldConfig) {
@@ -43,7 +40,7 @@ export class RepeatSectionComponent extends FieldArrayType implements OnInit {
         }
 
         super.add(i, model);
-        console.log('this.field.fieldGroup', this.field.fieldGroup);
+        console.log('dialogRef.afterClosed this.model', this.model);
       }
     });
   }

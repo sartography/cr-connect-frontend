@@ -1,16 +1,15 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
-import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatTableModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
-import {FormlyFormBuilder, FormlyModule} from '@ngx-formly/core';
+import {FormlyConfig, FormlyFormBuilder, FormlyModule} from '@ngx-formly/core';
 import {FormlyFieldConfigCache} from '@ngx-formly/core/lib/components/formly.field.config';
 import {FileSystemFileEntry, NgxFileDropEntry, NgxFileDropModule} from 'ngx-file-drop';
 import {of} from 'rxjs';
 import {ApiService, MockEnvironment, mockFileMeta0, mockFileMetas} from 'sartography-workflow-lib';
-import {FormlyConfig} from '../../app.module';
 import {FileUploadComponent} from './file-upload.component';
 
 describe('FileUploadComponent', () => {
@@ -25,7 +24,11 @@ describe('FileUploadComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        FormlyModule.forRoot(config),
+        FormlyModule.forRoot({
+          types: [
+            {name: 'files', component: FileUploadComponent, wrappers: ['form-field']},
+          ],
+        }),
         FormsModule,
         HttpClientTestingModule,
         MatFormFieldModule,
@@ -44,7 +47,6 @@ describe('FileUploadComponent', () => {
           useValue: {paramMap: of(convertToParamMap({study_id: '0', workflow_id: '0', task_id: '0'}))},
         },
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
-        FormlyConfig,
       ]
     })
       .compileComponents();

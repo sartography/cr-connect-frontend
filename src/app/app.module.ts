@@ -85,7 +85,7 @@ export class ThisEnvironment implements AppEnvironment {
 }
 
 @Injectable()
-export class FormlyConfig {
+export class AppFormlyConfig {
   public static config = {
     extras: {
       showError: ShowError,
@@ -159,7 +159,7 @@ export class FormlyConfig {
     DeviceDetectorModule.forRoot(),
     FlexLayoutModule,
     FormlyMaterialModule,
-    FormlyModule.forRoot(FormlyConfig.config),
+    FormlyModule.forRoot(AppFormlyConfig.config),
     FormsModule,
     HttpClientModule,
     MarkdownModule.forRoot(),

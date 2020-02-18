@@ -2,6 +2,7 @@
   fxLayout="column"
   fxLayoutGap="1em"
   class="container"
+  *ngIf="field && field.fieldArray"
 >
   <mat-card *ngFor="let f of field.fieldGroup; let i = index;" class="repeat">
     <mat-card-content fxLayout="row">
@@ -32,7 +33,7 @@
   </mat-card>
 </div>
 
-<div class="repeat-action">
+<div class="repeat-action" *ngIf="field && field.templateOptions">
   <button
     mat-flat-button
     color="primary"
