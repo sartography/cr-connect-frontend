@@ -4,6 +4,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {MatNativeDateModule} from '@angular/material/core';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
@@ -21,6 +22,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
+import {FormlyMatDatepickerModule} from '@ngx-formly/material/datepicker';
 import {NgProgressModule} from '@ngx-progressbar/core';
 import {ChartsModule} from 'ng2-charts';
 import {DeviceDetectorModule} from 'ngx-device-detector';
@@ -158,6 +160,7 @@ export class AppFormlyConfig {
     ChartsModule,
     DeviceDetectorModule.forRoot(),
     FlexLayoutModule,
+    FormlyMatDatepickerModule,
     FormlyMaterialModule,
     FormlyModule.forRoot(AppFormlyConfig.config),
     FormsModule,
@@ -171,6 +174,7 @@ export class AppFormlyConfig {
     MatInputModule,
     MatListModule,
     MatMenuModule,
+    MatNativeDateModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatSelectModule,

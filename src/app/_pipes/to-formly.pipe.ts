@@ -17,7 +17,7 @@ import {BpmnFormJsonField} from 'sartography-workflow-lib';
           id: 'should_ask_color',
           label: 'Does color affect your mood?',
           type: 'boolean',
-          defaultValue: 'false',
+          default_value: 'false',
           validation: [
             {name: 'required', config: 'true'}
           ]
@@ -26,7 +26,7 @@ import {BpmnFormJsonField} from 'sartography-workflow-lib';
           id: 'favorite_color',
           label: 'What is your favorite color?',
           type: 'enum',
-          defaultValue: 'indigo',
+          default_value: 'indigo',
           value: [
             {id: 'red', name: 'Red'},
             {id: 'orange', name: 'Orange'},
@@ -111,46 +111,46 @@ export class ToFormlyPipe implements PipeTransform {
       switch (field.type) {
         case 'enum':
           resultField.type = 'select';
-          resultField.defaultValue = field.defaultValue;
+          resultField.defaultValue = field.default_value;
           resultField.templateOptions.options = field.options.map(v => {
             return {value: v.id, label: v.name};
           });
           break;
         case 'string':
           resultField.type = 'input';
-          resultField.defaultValue = field.defaultValue;
+          resultField.defaultValue = field.default_value;
           break;
         case 'textarea':
           resultField.type = 'textarea';
-          resultField.defaultValue = field.defaultValue;
+          resultField.defaultValue = field.default_value;
           break;
         case 'long':
           resultField.type = 'input';
           resultField.templateOptions.type = 'number';
-          resultField.defaultValue = parseInt(field.defaultValue, 10);
+          resultField.defaultValue = parseInt(field.default_value, 10);
           break;
         case 'url':
           resultField.type = 'input';
           resultField.templateOptions.type = 'url';
-          resultField.defaultValue = field.defaultValue;
+          resultField.defaultValue = field.default_value;
           resultField.validators = {validation: ['url']};
           break;
         case 'email':
           resultField.type = 'input';
           resultField.templateOptions.type = 'email';
-          resultField.defaultValue = field.defaultValue;
+          resultField.defaultValue = field.default_value;
           resultField.validators = {validation: ['email']};
           break;
         case 'tel':
           resultField.type = 'input';
           resultField.templateOptions.type = 'tel';
-          resultField.defaultValue = field.defaultValue;
+          resultField.defaultValue = field.default_value;
           resultField.validators = {validation: ['phone']};
           break;
         case 'boolean':
           resultField.type = 'radio';
-          if (field.defaultValue !== undefined && field.defaultValue !== null && field.defaultValue !== '') {
-            resultField.defaultValue = this._stringToBool(field.defaultValue);
+          if (field.default_value !== undefined && field.default_value !== null && field.default_value !== '') {
+            resultField.defaultValue = this._stringToBool(field.default_value);
           }
           resultField.templateOptions.options = [
             {value: true, label: 'Yes'},
@@ -159,8 +159,8 @@ export class ToFormlyPipe implements PipeTransform {
           break;
         case 'date':
           resultField.type = 'datepicker';
-          if (field.defaultValue) {
-            resultField.defaultValue = new Date(field.defaultValue);
+          if (field.default_value) {
+            resultField.defaultValue = new Date(field.default_value);
           }
           break;
         case 'files':
@@ -205,8 +205,11 @@ export class ToFormlyPipe implements PipeTransform {
             case 'required_expression':
               resultField.expressionProperties['templateOptions.required'] = p.value;
               break;
-            case 'readonly':
+            case 'read_only':
+              console.log('readonly field', field);
               resultField.templateOptions.readonly = this._stringToBool(p.value);
+              resultField.className = 'read-only';
+              console.log('readonly resultField', resultField);
               break;
             case 'placeholder':
               resultField.templateOptions.placeholder = p.value;

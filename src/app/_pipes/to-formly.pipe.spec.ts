@@ -14,7 +14,7 @@ describe('ToFormlyPipe', () => {
         id: 'full_name',
         label: 'What is your quest?',
         type: 'string',
-        defaultValue: 'I seek the Holy Grail!',
+        default_value: 'I seek the Holy Grail!',
         properties: [
           {
             id: 'hide_expression',
@@ -42,7 +42,7 @@ describe('ToFormlyPipe', () => {
     const after = pipe.transform(before);
     expect(after[0].key).toEqual(before[0].id);
     expect(after[0].type).toEqual('input');
-    expect(after[0].defaultValue).toEqual(before[0].defaultValue);
+    expect(after[0].defaultValue).toEqual(before[0].default_value);
     expect(after[0].templateOptions.label).toEqual(before[0].label);
     expect(after[0].hideExpression).toEqual(before[0].properties[0].value);
     expect(after[0].expressionProperties['templateOptions.required']).toEqual(before[0].properties[1].value);
@@ -51,13 +51,26 @@ describe('ToFormlyPipe', () => {
     expect(after[0].templateOptions.description).toEqual(before[0].properties[4].value);
   });
 
+  it('converts read only field to Formly readonly property', () => {
+    const before: BpmnFormJsonField[] = [
+      {
+        id: 'random_number',
+        label: 'Pick a number. Any number',
+        type: 'long',
+        properties: [{id: 'read_only', value: 'true'}]
+      }
+    ];
+    const after = pipe.transform(before);
+    expect(after[0].templateOptions.readonly).toEqual(true);
+  });
+
   it('converts boolean field to Formly radio group', () => {
     const before: BpmnFormJsonField[] = [
       {
         id: 'should_ask_color',
         label: 'Does color affect your mood?',
         type: 'boolean',
-        defaultValue: 'false',
+        default_value: 'false',
         validation: [
           {
             name: 'required',
@@ -89,7 +102,7 @@ describe('ToFormlyPipe', () => {
         id: 'favorite_color',
         label: 'What is your favorite color?',
         type: 'enum',
-        defaultValue: 'red',
+        default_value: 'red',
         options: [
           {id: 'red', name: 'Red'},
           {id: 'green', name: 'Green'},
@@ -143,7 +156,7 @@ describe('ToFormlyPipe', () => {
         id: 'pb_time',
         label: 'What time is it?',
         type: 'date',
-        defaultValue: '1955-11-12T22:04:12.345Z'
+        default_value: '1955-11-12T22:04:12.345Z'
       }
     ];
     const after = pipe.transform(before);
@@ -151,7 +164,7 @@ describe('ToFormlyPipe', () => {
     expect(after[0].type).toEqual('datepicker');
 
     const afterDate = await after[0].defaultValue;
-    expect(afterDate.toISOString()).toEqual(before[0].defaultValue);
+    expect(afterDate.toISOString()).toEqual(before[0].default_value);
     expect(after[0].templateOptions.label).toEqual(before[0].label);
   });
 
@@ -324,6 +337,81 @@ describe('ToFormlyPipe', () => {
     expect(after[2].key).toEqual(before[4].id);
     expect(after[2].templateOptions.label).toEqual(before[4].label);
     expect(after[2].fieldGroup).toBeUndefined();
+  });
+
+
+  it('converts repeating section names into Formly repeating sections', async () => {
+    const before: BpmnFormJsonField[] = [
+      {
+        id: 'first_name',
+        label: 'First Name',
+        type: 'string',
+        properties: [
+          {id: 'repeat', value: 'Contact'},
+          {id: 'group', value: 'Full Name'},
+        ]
+      },
+      {
+        id: 'line_1',
+        label: 'Street Address Line 1',
+        type: 'string',
+        properties: [
+          {id: 'repeat', value: 'Contact'},
+          {id: 'group', value: 'Address'},
+        ]
+      },
+      {
+        id: 'line_2',
+        label: 'Street Address Line 1',
+        type: 'string',
+        properties: [
+          {id: 'repeat', value: 'Contact'},
+          {id: 'group', value: 'Address'},
+        ]
+      },
+      {
+        id: 'last_name',
+        label: 'Last Name',
+        type: 'string',
+        properties: [
+          {id: 'repeat', value: 'Contact'},
+          {id: 'group', value: 'Full Name'},
+        ]
+      },
+      {
+        id: 'favorite_number',
+        label: 'Favorite Number',
+        type: 'long',
+      },
+    ];
+    const after = pipe.transform(before);
+    expect(after.length).toEqual(2);
+
+    // Repeat Section
+    expect(after[0].key).toEqual('contact');
+    expect(after[0].templateOptions.label).toEqual(before[0].properties[0].value);
+    expect(after[0].fieldArray).toBeDefined();
+    expect(after[0].fieldArray.fieldGroup).toBeDefined();
+
+    // Repeat Section - Group 1
+    expect(after[0].fieldArray.fieldGroup[0].key).toEqual('full_name');
+    expect(after[0].fieldArray.fieldGroup[0]).toBeDefined();
+    expect(after[0].fieldArray.fieldGroup[0].fieldGroup[0]).toBeDefined();
+    expect(after[0].fieldArray.fieldGroup[0].fieldGroup[0].templateOptions.label).toEqual(before[0].label);
+    expect(after[0].fieldArray.fieldGroup[0].fieldGroup[1].templateOptions.label).toEqual(before[3].label);
+
+    // Repeat Section - Group 2
+    expect(after[0].fieldArray.fieldGroup[1].key).toEqual('address');
+    expect(after[0].fieldArray.fieldGroup[1]).toBeDefined();
+    expect(after[0].fieldArray.fieldGroup[1].fieldGroup[0]).toBeDefined();
+    expect(after[0].fieldArray.fieldGroup[1].fieldGroup[0].templateOptions.label).toEqual(before[1].label);
+    expect(after[0].fieldArray.fieldGroup[1].fieldGroup[1].templateOptions.label).toEqual(before[2].label);
+
+    // Last item has no group
+    expect(after[1].key).toEqual(before[4].id);
+    expect(after[1].templateOptions.label).toEqual(before[4].label);
+    expect(after[1].fieldGroup).toBeUndefined();
+    expect(after[1].fieldArray).toBeUndefined();
   });
 
   it('logs an error if field type is not supported', () => {
