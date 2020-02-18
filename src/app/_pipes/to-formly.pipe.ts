@@ -225,8 +225,11 @@ export class ToFormlyPipe implements PipeTransform {
               break;
             case 'rows':
               resultField.templateOptions.rows = parseInt(p.value, 10);
+              resultField.templateOptions.minRows = parseInt(p.value, 10);
+              resultField.templateOptions.autosizeMinRows = parseInt(p.value, 10);
               break;
             case 'cols':
+              resultField.className = 'textarea-cols';
               resultField.templateOptions.cols = parseInt(p.value, 10);
               break;
             case 'enum_type':
