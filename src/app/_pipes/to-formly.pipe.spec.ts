@@ -35,6 +35,10 @@ describe('ToFormlyPipe', () => {
           {
             id: 'description',
             value: 'The quest for the Grail is not archaeology; it\'s a race against evil!'
+          },
+          {
+            id: 'markdown_description',
+            value: '# Heading 2\nThis is some markdown text!'
           }
         ]
       }
@@ -49,6 +53,7 @@ describe('ToFormlyPipe', () => {
     expect(after[0].expressionProperties['templateOptions.label']).toEqual(before[0].properties[2].value);
     expect(after[0].templateOptions.placeholder).toEqual(before[0].properties[3].value);
     expect(after[0].templateOptions.description).toEqual(before[0].properties[4].value);
+    expect(after[0].templateOptions.markdownDescription).toEqual(before[0].properties[5].value);
   });
 
   it('converts read only field to Formly readonly property', () => {

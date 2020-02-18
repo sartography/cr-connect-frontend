@@ -15,18 +15,11 @@ export class HelpDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<HelpDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: HelpDialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: HelpDialogData) {
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  unescape(text: string): string {
-    const textAfter = text
-      .split('\\r\\n')
-      .join('\n')
-      .split('\\n')
-      .join('\n');
-    return(textAfter);
-  }
 }
