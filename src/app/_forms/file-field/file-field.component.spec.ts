@@ -6,11 +6,10 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
-import {FormlyFormBuilder, FormlyModule} from '@ngx-formly/core';
+import {FormlyConfig, FormlyFormBuilder, FormlyModule} from '@ngx-formly/core';
 import {FormlyFieldConfigCache} from '@ngx-formly/core/lib/components/formly.field.config';
 import {of} from 'rxjs';
 import {ApiService, MockEnvironment, mockFileMeta0} from 'sartography-workflow-lib';
-import {FormlyConfig} from '../../app.module';
 import {FileFieldComponent} from './file-field.component';
 
 describe('FileFieldComponent', () => {
@@ -26,7 +25,11 @@ describe('FileFieldComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        FormlyModule.forRoot(config),
+        FormlyModule.forRoot({
+          types: [
+            {name: 'file', component: FileFieldComponent, wrappers: ['form-field']},
+          ],
+        }),
         FormsModule,
         HttpClientTestingModule,
         MatFormFieldModule,
@@ -43,7 +46,6 @@ describe('FileFieldComponent', () => {
           useValue: {paramMap: of(convertToParamMap({study_id: '0', workflow_id: '0', task_id: '0'}))},
         },
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
-        FormlyConfig,
       ]
     })
       .compileComponents();

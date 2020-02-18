@@ -4,6 +4,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {MatNativeDateModule} from '@angular/material/core';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
@@ -21,8 +22,10 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
+import {FormlyMatDatepickerModule} from '@ngx-formly/material/datepicker';
 import {NgProgressModule} from '@ngx-progressbar/core';
 import {ChartsModule} from 'ng2-charts';
+import {DeviceDetectorModule} from 'ngx-device-detector';
 import {NgxFileDropModule} from 'ngx-file-drop';
 import {MarkdownModule} from 'ngx-markdown';
 import {NgxPageScrollModule} from 'ngx-page-scroll';
@@ -33,10 +36,13 @@ import {FileBaseComponent} from './_forms/file-base/file-base.component';
 import {FileFieldComponent} from './_forms/file-field/file-field.component';
 import {FileUploadComponent} from './_forms/file-upload/file-upload.component';
 import {FileValueAccessorDirective} from './_forms/file-upload/file-value-accessor.directive';
+import {FormPrintoutComponent} from './_forms/form-printout/form-printout.component';
 import {HelpDialogComponent} from './_forms/help-dialog/help-dialog.component';
 import {HelpWrapperComponent} from './_forms/help-wrapper/help-wrapper.component';
 import {helpWrapperExtension} from './_forms/help-wrapper/help-wrapper.extension';
 import {PanelWrapperComponent} from './_forms/panel-wrapper/panel-wrapper.component';
+import {RepeatSectionDialogComponent} from './_forms/repeat-section-dialog/repeat-section-dialog.component';
+import {RepeatSectionComponent} from './_forms/repeat-section/repeat-section.component';
 import {
   EmailValidator,
   EmailValidatorMessage,
@@ -45,12 +51,12 @@ import {
   MulticheckboxValidator,
   MulticheckboxValidatorMessage,
   PhoneValidator,
-  PhoneValidatorMessage, ShowError,
+  PhoneValidatorMessage,
+  ShowError,
   UrlValidator,
   UrlValidatorMessage
 } from './_forms/validators/formly.validator';
 import {PipesModule} from './_pipes/pipes.module';
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
@@ -81,14 +87,15 @@ export class ThisEnvironment implements AppEnvironment {
 }
 
 @Injectable()
-export class FormlyConfig {
+export class AppFormlyConfig {
   public static config = {
     extras: {
       showError: ShowError,
     },
     types: [
       {name: 'file', component: FileFieldComponent, wrappers: ['form-field']},
-      {name: 'files', component: FileUploadComponent, wrappers: ['form-field']}
+      {name: 'files', component: FileUploadComponent, wrappers: ['form-field']},
+      {name: 'repeat', component: RepeatSectionComponent},
     ],
     validators: [
       {name: 'phone', validation: PhoneValidator},
@@ -119,8 +126,12 @@ export class FormlyConfig {
   declarations: [
     AppComponent,
     DashboardComponent,
+    FileBaseComponent,
+    FileFieldComponent,
     FileUploadComponent,
+    FileValueAccessorDirective,
     FooterComponent,
+    FormPrintoutComponent,
     HelpComponent,
     HelpDialogComponent,
     HelpWrapperComponent,
@@ -130,27 +141,28 @@ export class FormlyConfig {
     NotificationsComponent,
     PanelWrapperComponent,
     ProfileComponent,
+    RepeatSectionComponent,
+    RepeatSectionDialogComponent,
     SignInComponent,
     SignOutComponent,
     StudiesComponent,
+    StudyCardComponent,
     StudyComponent,
     WorkflowComponent,
+    WorkflowFilesComponent,
     WorkflowFormComponent,
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
-    WorkflowFilesComponent,
-    StudyCardComponent,
-    FileValueAccessorDirective,
-    FileFieldComponent,
-    FileBaseComponent,
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     ChartsModule,
+    DeviceDetectorModule.forRoot(),
     FlexLayoutModule,
+    FormlyMatDatepickerModule,
     FormlyMaterialModule,
-    FormlyModule.forRoot(FormlyConfig.config),
+    FormlyModule.forRoot(AppFormlyConfig.config),
     FormsModule,
     HttpClientModule,
     MarkdownModule.forRoot(),
@@ -162,20 +174,21 @@ export class FormlyConfig {
     MatInputModule,
     MatListModule,
     MatMenuModule,
+    MatNativeDateModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSidenavModule,
+    MatTableModule,
     MatTabsModule,
     MatToolbarModule,
+    NgProgressModule,
     NgxFileDropModule,
     NgxPageScrollCoreModule.forRoot({duration: 500, scrollOffset: 84}),
     NgxPageScrollModule,
     PipesModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    NgProgressModule,
-    MatTableModule,
     // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [
@@ -185,7 +198,8 @@ export class FormlyConfig {
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    HelpDialogComponent
+    HelpDialogComponent,
+    RepeatSectionDialogComponent,
   ],
 })
 export class AppModule {

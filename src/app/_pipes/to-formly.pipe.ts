@@ -17,7 +17,7 @@ import {BpmnFormJsonField} from 'sartography-workflow-lib';
           id: 'should_ask_color',
           label: 'Does color affect your mood?',
           type: 'boolean',
-          defaultValue: 'false',
+          default_value: 'false',
           validation: [
             {name: 'required', config: 'true'}
           ]
@@ -26,7 +26,7 @@ import {BpmnFormJsonField} from 'sartography-workflow-lib';
           id: 'favorite_color',
           label: 'What is your favorite color?',
           type: 'enum',
-          defaultValue: 'indigo',
+          default_value: 'indigo',
           value: [
             {id: 'red', name: 'Red'},
             {id: 'orange', name: 'Orange'},
@@ -111,46 +111,46 @@ export class ToFormlyPipe implements PipeTransform {
       switch (field.type) {
         case 'enum':
           resultField.type = 'select';
-          resultField.defaultValue = field.defaultValue;
+          resultField.defaultValue = field.default_value;
           resultField.templateOptions.options = field.options.map(v => {
             return {value: v.id, label: v.name};
           });
           break;
         case 'string':
           resultField.type = 'input';
-          resultField.defaultValue = field.defaultValue;
+          resultField.defaultValue = field.default_value;
           break;
         case 'textarea':
           resultField.type = 'textarea';
-          resultField.defaultValue = field.defaultValue;
+          resultField.defaultValue = field.default_value;
           break;
         case 'long':
           resultField.type = 'input';
           resultField.templateOptions.type = 'number';
-          resultField.defaultValue = parseInt(field.defaultValue, 10);
+          resultField.defaultValue = parseInt(field.default_value, 10);
           break;
         case 'url':
           resultField.type = 'input';
           resultField.templateOptions.type = 'url';
-          resultField.defaultValue = field.defaultValue;
+          resultField.defaultValue = field.default_value;
           resultField.validators = {validation: ['url']};
           break;
         case 'email':
           resultField.type = 'input';
           resultField.templateOptions.type = 'email';
-          resultField.defaultValue = field.defaultValue;
+          resultField.defaultValue = field.default_value;
           resultField.validators = {validation: ['email']};
           break;
         case 'tel':
           resultField.type = 'input';
           resultField.templateOptions.type = 'tel';
-          resultField.defaultValue = field.defaultValue;
+          resultField.defaultValue = field.default_value;
           resultField.validators = {validation: ['phone']};
           break;
         case 'boolean':
           resultField.type = 'radio';
-          if (field.defaultValue !== undefined && field.defaultValue !== null && field.defaultValue !== '') {
-            resultField.defaultValue = this._stringToBool(field.defaultValue);
+          if (field.default_value !== undefined && field.default_value !== null && field.default_value !== '') {
+            resultField.defaultValue = this._stringToBool(field.default_value);
           }
           resultField.templateOptions.options = [
             {value: true, label: 'Yes'},
@@ -158,9 +158,9 @@ export class ToFormlyPipe implements PipeTransform {
           ];
           break;
         case 'date':
-          resultField.type = 'date';
-          if (field.defaultValue) {
-            resultField.defaultValue = new Date(field.defaultValue);
+          resultField.type = 'datepicker';
+          if (field.default_value) {
+            resultField.defaultValue = new Date(field.default_value);
           }
           break;
         case 'files':
@@ -193,6 +193,9 @@ export class ToFormlyPipe implements PipeTransform {
             case 'group':
               resultField.templateOptions.groupName = p.value;
               break;
+            case 'repeat':
+              resultField.templateOptions.repeatSectionName = p.value;
+              break;
             case 'hide_expression':
               resultField.hideExpression = p.value;
               break;
@@ -201,6 +204,12 @@ export class ToFormlyPipe implements PipeTransform {
               break;
             case 'required_expression':
               resultField.expressionProperties['templateOptions.required'] = p.value;
+              break;
+            case 'read_only':
+              console.log('readonly field', field);
+              resultField.templateOptions.readonly = this._stringToBool(p.value);
+              resultField.className = 'read-only';
+              console.log('readonly resultField', resultField);
               break;
             case 'placeholder':
               resultField.templateOptions.placeholder = p.value;
@@ -249,7 +258,7 @@ export class ToFormlyPipe implements PipeTransform {
       result.push(resultField);
     }
 
-    return this._makeGroups(result);
+    return this._makeRepeats(this._makeGroups(result));
   }
 
   private _stringToBool(s: string) {
@@ -257,10 +266,12 @@ export class ToFormlyPipe implements PipeTransform {
   }
 
   /** Convert group names into actual Formly fieldGroups */
-  private _makeGroups(result: FormlyFieldConfig[]) {
+  private _makeGroups(fields: FormlyFieldConfig[]) {
     const grouped: FormlyFieldConfig[] = [];
 
-    result.forEach(field => {
+    fields.forEach(field => {
+
+      // If the field has a group name, add it to its group
       if (field.templateOptions.groupName) {
 
         // look for existing group
@@ -268,7 +279,7 @@ export class ToFormlyPipe implements PipeTransform {
         const group = grouped.find(g => g.templateOptions.groupName === groupName);
 
         if (group) {
-          group.fieldGroup.push(createClone()(field));
+          group.fieldGroup.push(field);
         } else {
           // if not found, add the group, then add it to the grouped array
           const newGroup: FormlyFieldConfig = {
@@ -276,21 +287,84 @@ export class ToFormlyPipe implements PipeTransform {
             templateOptions: {
               label: groupName,
             },
-            fieldGroup: [createClone()(field)],
+            fieldGroup: [field],
             wrappers: ['panel'],
           };
 
+          if (field.templateOptions.repeatSectionName) {
+            newGroup.templateOptions.repeatSectionName = field.templateOptions.repeatSectionName;
+            delete field.templateOptions.repeatSectionName;
+          }
+
           newGroup.templateOptions.groupName = groupName;
+          delete field.templateOptions.groupName;
           grouped.push(newGroup);
         }
       } else {
-        // no group name. just add it
+        // Field has no group name. Just add it.
         grouped.push(field);
+      }
+    });
+
+    grouped.forEach(field => {
+      if (field.templateOptions.groupName) {
+        delete field.templateOptions.groupName;
       }
     });
 
     return grouped;
   }
+
+
+  /** Convert repeating section names into actual Formly repeating sections */
+  private _makeRepeats(fields: FormlyFieldConfig[]) {
+    const grouped: FormlyFieldConfig[] = [];
+
+    fields.forEach(field => {
+
+      // If the field has a group name, add it to its group
+      if (field.templateOptions.repeatSectionName) {
+
+        // look for existing group
+        const repeatSectionName = field.templateOptions.repeatSectionName;
+        const group = grouped.find(g => g.templateOptions.repeatSectionName === repeatSectionName);
+
+        if (group) {
+          group.fieldArray.fieldGroup.push(field);
+        } else {
+          // if not found, add the group, then add it to the grouped array
+          const newGroup: FormlyFieldConfig = {
+            key: this._toSnakeCase(repeatSectionName),
+            type: 'repeat',
+            templateOptions: {
+              label: repeatSectionName,
+            },
+            fieldArray: {
+              fieldGroup: [field],
+            },
+            wrappers: ['panel'],
+          };
+
+          newGroup.templateOptions.repeatSectionName = repeatSectionName;
+          delete field.templateOptions.repeatSectionName;
+          grouped.push(newGroup);
+        }
+      } else {
+        // Field has no group name. Just add it.
+        grouped.push(field);
+      }
+    });
+
+    grouped.forEach(field => {
+      if (field.templateOptions.repeatSectionName) {
+        delete field.templateOptions.repeatSectionName;
+      }
+    });
+
+    return grouped;
+  }
+
+
 
   private _toSnakeCase(str: string): string {
     return !str ? '' : String(str)
