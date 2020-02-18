@@ -158,7 +158,7 @@ export class ToFormlyPipe implements PipeTransform {
           ];
           break;
         case 'date':
-          resultField.type = 'date';
+          resultField.type = 'datepicker';
           if (field.defaultValue) {
             resultField.defaultValue = new Date(field.defaultValue);
           }
@@ -308,7 +308,7 @@ export class ToFormlyPipe implements PipeTransform {
         delete field.templateOptions.groupName;
       }
     });
-    console.log('with groups', grouped);
+
     return grouped;
   }
 
@@ -357,7 +357,7 @@ export class ToFormlyPipe implements PipeTransform {
         delete field.templateOptions.repeatSectionName;
       }
     });
-    console.log('with repeats', grouped);
+
     return grouped;
   }
 

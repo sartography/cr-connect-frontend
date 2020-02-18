@@ -33,14 +33,13 @@ export class RepeatSectionComponent extends FieldArrayType implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(model => {
+    dialogRef.afterClosed().subscribe((model: any) => {
       if (model) {
         if (this.field.fieldGroup.length > i) {
           super.remove(i);
         }
 
         super.add(i, model);
-        console.log('dialogRef.afterClosed this.model', this.model);
       }
     });
   }

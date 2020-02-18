@@ -1,17 +1,23 @@
 import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
+import {MatNativeDateModule} from '@angular/material/core';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
+import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {FormlyConfig, FormlyFieldConfig, FormlyFormBuilder, FormlyModule} from '@ngx-formly/core';
+import {FieldArrayType, FormlyConfig, FormlyFieldConfig, FormlyFormBuilder, FormlyModule} from '@ngx-formly/core';
 import {FormlyFieldConfigCache} from '@ngx-formly/core/lib/components/formly.field.config';
 import {FormlyMaterialModule} from '@ngx-formly/material';
-import {AppFormlyConfig} from '../../app.module';
+import {FormlyMatDatepickerModule} from '@ngx-formly/material/datepicker';
+import {DeviceDetectorService} from 'ngx-device-detector';
+import {of} from 'rxjs';
+import {mockFormlyFieldConfig, mockFormlyFieldModel} from '../../_mocks/form/mockForm';
 import {FormPrintoutComponent} from '../form-printout/form-printout.component';
 import {PanelWrapperComponent} from '../panel-wrapper/panel-wrapper.component';
+import {RepeatSectionDialogComponent} from '../repeat-section-dialog/repeat-section-dialog.component';
 import {RepeatSectionComponent} from './repeat-section.component';
 
 describe('RepeatSectionComponent', () => {
@@ -49,12 +55,14 @@ describe('RepeatSectionComponent', () => {
           ],
         }),
         FormlyMaterialModule,
+        FormlyMatDatepickerModule,
         FormsModule,
         MatCardModule,
         MatDialogModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatNativeDateModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
       ],
@@ -62,18 +70,35 @@ describe('RepeatSectionComponent', () => {
         FormPrintoutComponent,
         PanelWrapperComponent,
         RepeatSectionComponent,
+        RepeatSectionDialogComponent,
       ],
       providers: [
-        {provide: MatDialogRef, useValue: {}},
         {
-          provide: MAT_DIALOG_DATA,
+          provide: MatDialogRef,
           useValue: {
-            title: 'Happy Little Title',
-            fields: mockFields,
-            model: {}
+            close: (dialogResult: any) => {
+            },
+            afterClosed: (dialogResult: any) => of({
+              field_key: {
+                first_field: 'First Field Value',
+                second_field: 'Second Field Value',
+                third_field: {a: true},
+              }
+            }),
           }
         },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: []
+        },
+        DeviceDetectorService,
       ],
+    }).overrideModule(BrowserDynamicTestingModule, {
+      set: {
+        entryComponents: [
+          RepeatSectionDialogComponent
+        ]
+      }
     })
       .compileComponents();
   }));
@@ -83,25 +108,44 @@ describe('RepeatSectionComponent', () => {
     config = formlyConfig;
     builder = formlyBuilder;
     field = {
-      key: 'hi',
+      key: 'field_key',
       defaultValue: 'Hello there.',
       type: 'repeat',
       templateOptions: {label: 'Repeating Section'},
       fieldArray: {
-        fieldGroup: mockFields,
+        fieldGroup: mockFormlyFieldConfig.fieldGroup,
       },
       fieldGroup: []
     };
-    builder.buildForm(form, [field], {}, {});
+    builder.buildForm(form, [field], [mockFormlyFieldModel], {});
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RepeatSectionComponent);
     component = fixture.componentInstance;
+    component.field = field;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should open dialog', () => {
+    const data = {
+      field_key: {
+        first_field: 'First Field Value',
+        second_field: 'Second Field Value',
+        third_field: {a: true},
+      }
+    };
+    spyOn(FieldArrayType.prototype, 'remove');
+    spyOn(FieldArrayType.prototype, 'add');
+    // @ts-ignore
+    const openDialogSpy = spyOn(component.dialog, 'open').and.returnValue({afterClosed: () => of(data)});
+    component.openDialog(0);
+    expect(openDialogSpy).toHaveBeenCalled();
+    expect(FieldArrayType.prototype.remove).toHaveBeenCalled();
+    expect(FieldArrayType.prototype.add).toHaveBeenCalled();
   });
 });

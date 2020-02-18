@@ -69,6 +69,8 @@ export class RepeatSectionDialogComponent implements AfterContentInit {
 
     if (this.noErrors()) {
       this.dialogRef.close(JSON.parse(JSON.stringify(this.data.model)));
+    } else {
+      this.onInvalidFields();
     }
   }
 }

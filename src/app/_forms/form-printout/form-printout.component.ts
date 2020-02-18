@@ -28,6 +28,7 @@ export class FormPrintoutComponent {
           const opts = f.templateOptions.options as SelectFieldOption[];
           opts.forEach(o => {
             if (!this._isOther(o.value) && !this._isOther(o.label)) {
+
               if (
                 o.value === val ||
                 (
