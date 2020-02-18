@@ -1,7 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
-import {MarkdownModule} from 'ngx-markdown';
+import {MarkdownModule, MarkdownService} from 'ngx-markdown';
 import {ToFormlyPipe} from '../../_pipes/to-formly.pipe';
 import {mockWorkflowTask0} from 'sartography-workflow-lib';
 import {UnescapeLineBreaksPipe} from '../../_pipes/unescape-line-breaks.pipe';
@@ -19,7 +19,7 @@ describe('HelpWrapperComponent', () => {
         UnescapeLineBreaksPipe,
       ],
       imports: [
-        // MarkdownModule,
+        MarkdownModule.forRoot(),
         MatDialogModule,
         MatIconModule,
       ],
@@ -31,7 +31,8 @@ describe('HelpWrapperComponent', () => {
             title: 'Happy Little Title',
             text: 'Just go out and talk to a tree. Make friends with it. There we go. Only God can make a tree - but you can paint one.'
           }
-        }
+        },
+        MarkdownService,
       ],
     })
       .compileComponents();
