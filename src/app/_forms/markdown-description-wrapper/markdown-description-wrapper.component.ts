@@ -21,7 +21,6 @@ export class MarkdownDescriptionWrapperComponent extends FieldWrapper implements
   }
 
   ngAfterViewInit(): void {
-    console.log('this.to.markdownDescription', this.to.markdownDescription);
   }
 }
 

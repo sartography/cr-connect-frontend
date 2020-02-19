@@ -1,8 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {MatCardModule} from '@angular/material/card';
 import {MarkdownModule, MarkdownService} from 'ngx-markdown';
-import {ToFormlyPipe} from '../../_pipes/to-formly.pipe';
+import createClone from 'rfdc';
 import {mockWorkflowTask0} from 'sartography-workflow-lib';
+import {ToFormlyPipe} from '../../_pipes/to-formly.pipe';
 import {UnescapeLineBreaksPipe} from '../../_pipes/unescape-line-breaks.pipe';
 
 import {MarkdownDescriptionWrapperComponent} from './markdown-description-wrapper.component';
@@ -19,7 +19,6 @@ describe('MarkdownDescriptionWrapperComponent', () => {
       ],
       imports: [
         MarkdownModule.forRoot(),
-        MatCardModule,
       ],
       providers: [
         MarkdownService,
@@ -32,7 +31,12 @@ describe('MarkdownDescriptionWrapperComponent', () => {
     fixture = TestBed.createComponent(MarkdownDescriptionWrapperComponent);
     component = fixture.componentInstance;
     const pipe = new ToFormlyPipe();
-    component.field = pipe.transform(mockWorkflowTask0.form.fields)[0];
+    const fields = createClone()(mockWorkflowTask0.form.fields);
+    fields[0].properties.push({
+      id: 'markdown_description',
+      value: '# Heading 1\n\n## Heading 2\n\n[link](https://sartography.com)'
+    });
+    component.field = pipe.transform(fields)[0];
     fixture.detectChanges();
   });
 

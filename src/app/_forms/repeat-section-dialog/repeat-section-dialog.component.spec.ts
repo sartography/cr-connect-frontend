@@ -1,56 +1,83 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {FormsModule} from '@angular/forms';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {FormGroup, FormsModule} from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MatIconModule} from '@angular/material/icon';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {FormlyFieldConfig, FormlyModule} from '@ngx-formly/core';
+import {FormlyConfig, FormlyFormBuilder, FormlyModule} from '@ngx-formly/core';
+import {FormlyFieldConfigCache} from '@ngx-formly/core/lib/components/formly.field.config';
 import {FormlyMaterialModule} from '@ngx-formly/material';
+import {FormlyMatDatepickerModule} from '@ngx-formly/material/datepicker';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {mockFormlyFieldConfig, mockFormlyFieldModel} from '../../_mocks/form/mockForm';
+import {FormPrintoutComponent} from '../form-printout/form-printout.component';
+import {PanelWrapperComponent} from '../panel-wrapper/panel-wrapper.component';
+import {RepeatSectionComponent} from '../repeat-section/repeat-section.component';
 import {RepeatSectionDialogComponent} from './repeat-section-dialog.component';
 
 describe('RepeatSectionDialogComponent', () => {
   let component: RepeatSectionDialogComponent;
   let fixture: ComponentFixture<RepeatSectionDialogComponent>;
-  const mockFields: FormlyFieldConfig[] = [
-    {key: 'first_field', type: 'input', templateOptions: {label: 'first field'}},
-    {key: 'second_field', type: 'input', templateOptions: {label: 'second field'}},
-    {
-      key: 'third_field', type: 'radio', templateOptions: {
-        label: 'third field',
-        options: [
-          {label: 'Option A', value: 'a'},
-          {label: 'Option B', value: 'b'},
-          {label: 'Option C', value: 'c'},
-        ]
-      }
-    },
-  ];
+  let builder: FormlyFormBuilder;
+  let form: FormGroup;
+  let field: FormlyFieldConfigCache;
+  let config: FormlyConfig;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        FormlyModule.forRoot(),
+        FormlyMatDatepickerModule,
+        FormlyModule.forRoot({
+          types: [
+            {name: 'repeat', component: RepeatSectionComponent},
+          ],
+          wrappers: [
+            {name: 'panel', component: PanelWrapperComponent},
+          ],
+        }),
         FormlyMaterialModule,
         FormsModule,
+        MatCardModule,
+        MatDialogModule,
+        MatIconModule,
+        MatNativeDateModule,
         NoopAnimationsModule,
       ],
       declarations: [
-        RepeatSectionDialogComponent
+        FormPrintoutComponent,
+        PanelWrapperComponent,
+        RepeatSectionComponent,
+        RepeatSectionDialogComponent,
       ],
       providers: [
         DeviceDetectorService,
-        {provide: MatDialogRef, useValue: {}},
+        {
+          provide: MatDialogRef, useValue: {
+            close: () => {
+            }
+          }
+        },
         {
           provide: MAT_DIALOG_DATA,
           useValue: {
             title: 'Happy Little Title',
-            fields: mockFields,
-            model: {}
+            fields: [mockFormlyFieldConfig],
+            model: mockFormlyFieldModel
           }
         },
       ],
     })
       .compileComponents();
+  }));
+
+  beforeEach(inject([FormlyFormBuilder, FormlyConfig], (formlyBuilder: FormlyFormBuilder, formlyConfig: FormlyConfig) => {
+    form = new FormGroup({});
+    config = formlyConfig;
+    builder = formlyBuilder;
+    field = mockFormlyFieldConfig;
+    builder.buildForm(form, [field], [mockFormlyFieldModel], {});
   }));
 
   beforeEach(() => {
@@ -61,5 +88,17 @@ describe('RepeatSectionDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should close the dialog on no click', () => {
+    const closeDialogSpy = spyOn(component.dialogRef, 'close').and.stub();
+    component.onNoClick();
+    expect(closeDialogSpy).toHaveBeenCalled();
+  });
+
+  it('should highlight required fields', () => {
+    const updateDisableSaveSpy = spyOn(component, 'updateDisableSave').and.stub();
+    component.highlightRequiredFields(field.fieldGroup);
+    expect(updateDisableSaveSpy).toHaveBeenCalled();
   });
 });

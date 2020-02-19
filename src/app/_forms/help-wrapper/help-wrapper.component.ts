@@ -9,23 +9,14 @@ import {HelpDialogComponent} from '../help-dialog/help-dialog.component';
   templateUrl: './help-wrapper.component.html',
   styleUrls: ['./help-wrapper.component.scss']
 })
-export class HelpWrapperComponent extends FieldWrapper implements OnInit, AfterViewInit {
+export class HelpWrapperComponent extends FieldWrapper implements AfterViewInit {
   @ViewChild('matSuffix', {static: false}) matSuffix: TemplateRef<any>;
   expanded = false;
 
   constructor(
-    public dialog: MatDialog,
-    private markdownService: MarkdownService
+    public dialog: MatDialog
   ) {
     super();
-  }
-
-  ngOnInit(): void {
-    const linkRenderer = this.markdownService.renderer.link;
-    this.markdownService.renderer.link = (href, title, text) => {
-      const html = linkRenderer.call(this.markdownService.renderer, href, title, text);
-      return html.replace(/^<a /, '<a target="_blank" rel="nofollow" ')
-    };
   }
 
   ngAfterViewInit() {

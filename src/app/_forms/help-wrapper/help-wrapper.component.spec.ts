@@ -2,10 +2,10 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import {MarkdownModule, MarkdownService} from 'ngx-markdown';
-import {ToFormlyPipe} from '../../_pipes/to-formly.pipe';
+import createClone from 'rfdc';
 import {mockWorkflowTask0} from 'sartography-workflow-lib';
+import {ToFormlyPipe} from '../../_pipes/to-formly.pipe';
 import {UnescapeLineBreaksPipe} from '../../_pipes/unescape-line-breaks.pipe';
-
 import {HelpWrapperComponent} from './help-wrapper.component';
 
 describe('HelpWrapperComponent', () => {
@@ -42,7 +42,12 @@ describe('HelpWrapperComponent', () => {
     fixture = TestBed.createComponent(HelpWrapperComponent);
     component = fixture.componentInstance;
     const pipe = new ToFormlyPipe();
-    component.field = pipe.transform(mockWorkflowTask0.form.fields)[0];
+    const fields = createClone()(mockWorkflowTask0.form.fields);
+    fields[0].properties.push({
+      id: 'help',
+      value: '# Heading 1\n\n## Heading 2\n\n[link](https://sartography.com)'
+    });
+    component.field = pipe.transform(fields)[0];
     fixture.detectChanges();
   });
 

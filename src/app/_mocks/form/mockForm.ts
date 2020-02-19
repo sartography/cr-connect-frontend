@@ -1,5 +1,9 @@
 export const mockFormlyFieldModel = {
-  group_key: {
+  parent_group: {
+    child_group: {
+      child_group_first_field: '',
+      child_group_second_field: ''
+    },
     first_field: 'First field value',
     second_field: 'Second field value',
     third_field: {
@@ -12,11 +16,50 @@ export const mockFormlyFieldModel = {
 };
 
 export const mockFormlyFieldConfig = {
-  key: 'group_key',
-  defaultValue: 'Hello there.',
+  key: 'parent_group',
   fieldGroup: [
-    {key: 'first_field', type: 'input', templateOptions: {label: 'First Field'}},
-    {key: 'second_field', type: 'input', templateOptions: {label: 'Second Field'}},
+    {
+      key: 'child_group',
+      templateOptions: {
+        label: 'First Group',
+      },
+      fieldGroup: [
+        {
+          key: 'child_group_first_field',
+          type: 'input',
+          templateOptions: {
+            label: 'First Group First Field',
+            description: 'First Group First Field Description',
+            markdownDescription: '# Heading 1\n\n## Heading 2\n\n[link](https://sartography.com)',
+          }
+        },
+        {
+          key: 'child_group_second_field',
+          type: 'input',
+          templateOptions: {
+            label: 'First Group Second Field',
+            description: 'First Group Second Field Description',
+            markdownDescription: '# Heading 1\n\n## Heading 2\n\n[link](https://sartography.com)',
+          }
+        },
+      ]
+    },
+    {
+      key: 'first_field',
+      type: 'input',
+      templateOptions: {
+        label: 'First Field',
+        description: 'First Field Description',
+        markdownDescription: '# Heading 1\n\n## Heading 2\n\n[link](https://sartography.com)',
+      }
+    },
+    {
+      key: 'second_field',
+      type: 'input',
+      templateOptions: {
+        label: 'Second Field'
+      }
+    },
     {
       key: 'third_field', type: 'multicheckbox', templateOptions: {
         label: 'Third Field',
