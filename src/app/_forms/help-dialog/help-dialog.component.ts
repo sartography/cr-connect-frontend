@@ -25,7 +25,7 @@ export class HelpDialogComponent implements OnInit {
     const linkRenderer = this.markdownService.renderer.link;
     this.markdownService.renderer.link = (href, title, text) => {
       const html = linkRenderer.call(this.markdownService.renderer, href, title, text);
-      return html.replace(/^<a /, '<a target="_blank" rel="nofollow" ')
+      return html.replace(/^<a /, '<a target="_blank" rel="nofollow" ');
     };
   }
 
