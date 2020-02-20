@@ -1,5 +1,8 @@
 <ng-container *ngIf="task && workflow; else loadingMessage">
     <h1>{{task.title}}</h1>
+    <div class="documentation">
+      <markdown [data]="task.documentation"></markdown>
+    </div>
     <div>
       <h3>{{task.form.key}}</h3>
       <formly-form [model]="model" [fields]="task.form.fields | toFormly" [options]="options" [form]="form"></formly-form>

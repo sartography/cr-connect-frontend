@@ -1,0 +1,10 @@
+@import "../../config";
+.documentation {
+  background-color: $brand-primary-tint-4;
+  margin: 10px 0 20px 0;
+  padding: 10px;
+}
+
+.documentation markdown ::ng-deep h1 {
+  font-size: 24px;
+}
