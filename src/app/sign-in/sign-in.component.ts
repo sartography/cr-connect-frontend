@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
+import {FormlyFieldConfig} from '@ngx-formly/core';
+import {ApiService, AppEnvironment, User} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-sign-in',
@@ -6,13 +10,79 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sign-in.component.scss']
 })
 export class SignInComponent implements OnInit {
+  form = new FormGroup({});
+  model: any = {};
+  fields: FormlyFieldConfig[] = [
+    {
+      key: 'uid',
+      type: 'input',
+      defaultValue: 'czn1z',
+      templateOptions: {
+        required: true,
+        label: 'UVA Computing ID',
+      },
+    },
+    {
+      key: 'email_address',
+      type: 'input',
+      defaultValue: 'czn1z@virginia.edu',
+      templateOptions: {
+        required: true,
+        type: 'email',
+        label: 'UVA Email Address',
+      },
+      validators: {validation: ['email']},
+    },
+    {
+      key: 'first_name',
+      type: 'input',
+      defaultValue: 'Cordi',
+      templateOptions: {
+        label: 'First Name',
+      },
+    },
+    {
+      key: 'last_name',
+      type: 'input',
+      defaultValue: 'Nator',
+      templateOptions: {
+        label: 'First Name',
+      },
+    },
+  ];
+  error: Error;
 
-  constructor() { }
+
+  constructor(
+    @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
+    private router: Router,
+    private api: ApiService
+  ) {
+  }
 
   ngOnInit() {
+    this._redirectOnProduction();
   }
 
   signIn() {
-    localStorage.setItem('signedIn', 'true');
+    this.error = undefined;
+
+    // For testing purposes, create a user to simulate login.
+    if (!this.environment.production) {
+      this.api.openSession(this.model);
+    } else {
+      this.error = new Error('This feature does not work in production.');
+    }
+  }
+
+  // If this is production, verify the user and redirect to home page.
+  private _redirectOnProduction() {
+    if (this.environment.production) {
+      this.api.getUser().subscribe((user: User) => {
+        if (user) {
+          this.router.navigate(['/']);
+        }
+      });
+    }
   }
 }

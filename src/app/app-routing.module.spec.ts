@@ -20,6 +20,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
 import {ChartsModule} from 'ng2-charts';
+import {SessionRedirectComponent} from 'sartography-workflow-lib';
 import {ToFormlyPipe} from './_pipes/to-formly.pipe';
 import {routes} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -60,6 +61,7 @@ describe('Router: App', () => {
         NavbarComponent,
         NotificationsComponent,
         ProfileComponent,
+        SessionRedirectComponent,
         SignInComponent,
         SignOutComponent,
         StudiesComponent,

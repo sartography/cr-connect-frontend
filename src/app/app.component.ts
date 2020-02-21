@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {User} from 'sartography-workflow-lib';
+import {isSignedIn} from './_util/is-signed-in';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'CR Connect';
+  user: User;
+  isSignedIn = isSignedIn;
+
+  constructor() {
+  }
 }

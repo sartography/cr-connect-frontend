@@ -1,15 +1,2 @@
-<div
-  *ngIf="!isSignedIn()"
-  class="full-height"
-  fxLayout="column"
-  fxLayoutAlign="center center"
->
-  <h1>Welcome</h1>
-  <button
-    mat-flat-button
-    color="primary"
-    [routerLink]="['/sign-in']"
-    id="cta_sign_in"
-  >Sign in</button>
-</div>
+<app-sign-in *ngIf="!isSignedIn()"></app-sign-in>
 <app-studies *ngIf="isSignedIn()"></app-studies>

@@ -1,4 +1,4 @@
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Injectable, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -30,7 +30,13 @@ import {NgxFileDropModule} from 'ngx-file-drop';
 import {MarkdownModule} from 'ngx-markdown';
 import {NgxPageScrollModule} from 'ngx-page-scroll';
 import {NgxPageScrollCoreModule} from 'ngx-page-scroll-core';
-import {ApiService, AppEnvironment} from 'sartography-workflow-lib';
+import {
+  ApiService,
+  AppEnvironment,
+  AuthInterceptor,
+  SartographyWorkflowLibModule,
+  SessionRedirectComponent
+} from 'sartography-workflow-lib';
 import {environment} from '../environments/environment';
 import {FileBaseComponent} from './_forms/file-base/file-base.component';
 import {FileFieldComponent} from './_forms/file-field/file-field.component';
@@ -149,6 +155,7 @@ export class AppFormlyConfig {
     ProfileComponent,
     RepeatSectionComponent,
     RepeatSectionDialogComponent,
+    SessionRedirectComponent,
     SignInComponent,
     SignOutComponent,
     StudiesComponent,
@@ -198,9 +205,14 @@ export class AppFormlyConfig {
     AppRoutingModule, // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     ApiService,
-    {provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment}
+    {provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent],
   entryComponents: [
