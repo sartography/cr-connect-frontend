@@ -8,31 +8,18 @@ describe('Study Administrator App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('should display fake sign-in screen', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('CR CONNECT');
+    expect(page.getText('h1')).toEqual('FAKE UVA NETBADGE SIGN IN (FOR TESTING ONLY)');
   });
 
-  it('should click sign-in button', () => {
-    page.clickAndExpectRoute('#cta_sign_in', '/sign-in');
-  });
-
-  it('should navigate to home screen', () => {
-    page.clickAndExpectRoute('#nav_home', '/');
+  it('should click sign-in and navigate to home screen', () => {
+    page.clickAndExpectRoute('#sign_in', '/');
+    expect(page.getElements('#cta_new_study').count()).toBeGreaterThan(0);
   });
 
   it('should navigate to help screen', () => {
     page.clickAndExpectRoute('#nav_help', '/help');
-  });
-
-  it('should navigate to sign-in screen', () => {
-    page.clickAndExpectRoute('#nav_sign_in', '/sign-in');
-  });
-
-  it('should sign in', () => {
-    page.clickAndExpectRoute('#nav_sign_in', '/sign-in');
-    page.clickAndExpectRoute('#cta_sign_in', '/');
-    expect(page.getElements('#cta_new_study').count()).toBeGreaterThan(0);
   });
 
   it('should navigate to profile', () => {
@@ -84,6 +71,11 @@ describe('Study Administrator App', () => {
     await expect(studyId).not.toBeNull();
     page.clickAndExpectRoute('app-study-card', '/study/' + studyId);
   });
+
+  // it('should start a workflow', async () => {
+  //   await page.clickElement('#startWorkflow');
+  //   await page.waitFor(1000);
+  // });
 
   it('should navigate to a workflow', async () => {
     expect(page.getElements('.chart-container').count()).toBeGreaterThan(0);

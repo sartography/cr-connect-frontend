@@ -41,6 +41,9 @@ export class NavbarComponent implements OnInit {
       this.api.getUser().subscribe(u => {
         this.user = u;
         this._loadNavLinks();
+      }, error => {
+        localStorage.removeItem('token');
+        this.api.openUrl('/');
       });
     }
   }

@@ -66,6 +66,7 @@ export class SignInComponent implements OnInit {
 
   signIn() {
     this.error = undefined;
+    localStorage.removeItem('token');
 
     // For testing purposes, create a user to simulate login.
     if (!this.environment.production) {
@@ -79,10 +80,14 @@ export class SignInComponent implements OnInit {
   private _redirectOnProduction() {
     if (this.environment.production) {
       this.api.getUser().subscribe((user: User) => {
-        if (user) {
-          this.router.navigate(['/']);
-        }
+        this.router.navigate(['/']);
+      }, e => {
+        this.error = e;
+        localStorage.removeItem('token');
+        this.router.navigate(['/']);
       });
+    } else {
+      localStorage.removeItem('token');
     }
   }
 }

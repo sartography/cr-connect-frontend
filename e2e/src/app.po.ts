@@ -55,8 +55,8 @@ export class AppPage {
     return '/' + url.split(browser.baseUrl)[1];
   }
 
-  getTitleText() {
-    return element(by.css('app-root .site-title')).getText() as Promise<string>;
+  getText(selector: string) {
+    return element(by.css(selector)).getText() as Promise<string>;
   }
 
   getUrl() {
