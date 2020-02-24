@@ -1,7 +1,7 @@
 import { AppPage } from './app.po';
 import { browser, logging } from 'protractor';
 
-describe('Study Administrator App', () => {
+describe('Clinical Research Coordinator App', () => {
   let page: AppPage;
 
   beforeEach(() => {
