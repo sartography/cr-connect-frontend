@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {ApiService, User} from 'sartography-workflow-lib';
-import {isSignedIn} from '../_util/is-signed-in';
+import {ApiService, isSignedIn, User} from 'sartography-workflow-lib';
 
 interface NavItem {
   path?: string;

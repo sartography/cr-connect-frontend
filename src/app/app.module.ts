@@ -30,13 +30,7 @@ import {NgxFileDropModule} from 'ngx-file-drop';
 import {MarkdownModule} from 'ngx-markdown';
 import {NgxPageScrollModule} from 'ngx-page-scroll';
 import {NgxPageScrollCoreModule} from 'ngx-page-scroll-core';
-import {
-  ApiService,
-  AppEnvironment,
-  AuthInterceptor,
-  SartographyWorkflowLibModule,
-  SessionRedirectComponent
-} from 'sartography-workflow-lib';
+import {ApiService, AppEnvironment, AuthInterceptor, SessionRedirectComponent} from 'sartography-workflow-lib';
 import {environment} from '../environments/environment';
 import {FileBaseComponent} from './_forms/file-base/file-base.component';
 import {FileFieldComponent} from './_forms/file-field/file-field.component';

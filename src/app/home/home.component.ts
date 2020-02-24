@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {isSignedIn} from '../_util/is-signed-in';
+import {isSignedIn} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-home',

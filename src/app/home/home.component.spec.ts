@@ -1,3 +1,4 @@
+import {Component} from '@angular/core';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatCardModule} from '@angular/material/card';
@@ -11,8 +12,20 @@ import {FormlyMaterialModule} from '@ngx-formly/material';
 import {SignInComponent} from '../sign-in/sign-in.component';
 import {StudiesComponent} from '../studies/studies.component';
 import {StudyCardComponent} from '../study-card/study-card.component';
-
 import {HomeComponent} from './home.component';
+
+
+@Component({
+  selector: 'app-sign-in',
+  template: ''
+})
+class MockSignInComponent {}
+
+@Component({
+  selector: 'app-studies',
+  template: ''
+})
+class MockStudiesComponent {}
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -21,24 +34,10 @@ describe('HomeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        SignInComponent,
-        StudiesComponent,
-        StudyCardComponent,
         HomeComponent,
+        MockSignInComponent,
+        MockStudiesComponent
       ],
-      imports: [
-        BrowserAnimationsModule,
-        FormlyMaterialModule,
-        FormlyModule.forRoot(),
-        FormsModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        NoopAnimationsModule,
-        ReactiveFormsModule,
-        RouterTestingModule,
-      ]
     })
       .compileComponents();
   }));
