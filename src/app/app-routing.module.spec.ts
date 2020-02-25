@@ -41,6 +41,7 @@ import {WorkflowFilesComponent} from './workflow-files/workflow-files.component'
 import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
+import {MarkdownModule} from 'ngx-markdown';
 
 
 describe('Router: App', () => {
@@ -93,6 +94,7 @@ describe('Router: App', () => {
         MatToolbarModule,
         NoopAnimationsModule,
         RouterTestingModule.withRoutes(routes),
+        MarkdownModule
       ],
       providers: [
         HttpClient,

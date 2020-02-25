@@ -27,6 +27,7 @@ import {WorkflowStepsMenuListComponent} from '../workflow-steps-menu-list/workfl
 
 import {WorkflowComponent} from './workflow.component';
 import {WorkflowFilesComponent} from '../workflow-files/workflow-files.component';
+import {MarkdownComponent, MarkdownModule} from "ngx-markdown";
 
 describe('WorkflowComponent', () => {
   let component: WorkflowComponent;
@@ -55,6 +56,7 @@ describe('WorkflowComponent', () => {
         MatProgressSpinnerModule,
         NoopAnimationsModule,
         RouterTestingModule,
+        MarkdownModule
       ],
       providers: [
         ApiService,
@@ -111,8 +113,6 @@ describe('WorkflowComponent', () => {
   });
 
   it('should set current task when updating task list', () => {
-    const setCurrentTaskSpy = spyOn(component, 'setCurrentTask').and.stub();
-
     // No currently-selected task
     (component as any).taskId = undefined;
     component.currentTask = undefined;
@@ -124,10 +124,9 @@ describe('WorkflowComponent', () => {
     tReq.flush(mockWorkflow0);
 
     // Should select a task
-    expect(setCurrentTaskSpy).toHaveBeenCalledWith(mockWorkflowTask1);
+    expect(component.currentTask).toBeTruthy();
 
     // Delete all tasks from workflow
-    setCurrentTaskSpy.calls.reset();
     mockWorkflow0.last_task = undefined;
     mockWorkflow0.next_task = undefined;
     mockWorkflow0.user_tasks = [];
@@ -138,7 +137,6 @@ describe('WorkflowComponent', () => {
     t2Req.flush(mockWorkflow0);
 
     // Should be no task to select.
-    expect(setCurrentTaskSpy).not.toHaveBeenCalled();
     expect(component.currentTask).toBeUndefined();
   });
 });

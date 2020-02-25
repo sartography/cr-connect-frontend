@@ -18,6 +18,7 @@ import {
 import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
 
 import {WorkflowFormComponent} from './workflow-form.component';
+import {MarkdownModule} from "ngx-markdown";
 
 describe('WorkflowFormComponent', () => {
   let httpMock: HttpTestingController;
@@ -37,7 +38,7 @@ describe('WorkflowFormComponent', () => {
         HttpClientTestingModule,
         MatProgressSpinnerModule,
         NoopAnimationsModule,
-
+        MarkdownModule
       ],
       providers: [
         ApiService,
