@@ -1,7 +1,7 @@
 @import "../../config";
 
 mat-sidenav {
-  width: 250px;
+  width: 400px;
   background-color: black;
 }
 
@@ -30,4 +30,8 @@ mat-list-item.disabled {
 
 app-workflow-files {
   padding-top: 20px;
+}
+
+.back {
+  color: white;
 }

@@ -1,12 +1,13 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
-import {FormlyModule} from '@ngx-formly/core';
+import {FormlyConfig, FormlyFormBuilder, FormlyModule} from '@ngx-formly/core';
+import {FormlyFieldConfigCache} from '@ngx-formly/core/lib/components/formly.field.config';
 import {of} from 'rxjs';
 import {ApiService, MockEnvironment, mockFileMeta0} from 'sartography-workflow-lib';
 import {FileFieldComponent} from './file-field.component';
@@ -15,12 +16,20 @@ describe('FileFieldComponent', () => {
   let component: FileFieldComponent;
   let fixture: ComponentFixture<FileFieldComponent>;
   let httpMock: HttpTestingController;
+  let builder: FormlyFormBuilder;
+  let form: FormGroup;
+  let field: FormlyFieldConfigCache;
+  let config: FormlyConfig;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        FormlyModule,
+        FormlyModule.forRoot({
+          types: [
+            {name: 'file', component: FileFieldComponent, wrappers: ['form-field']},
+          ],
+        }),
         FormsModule,
         HttpClientTestingModule,
         MatFormFieldModule,
@@ -42,11 +51,22 @@ describe('FileFieldComponent', () => {
       .compileComponents();
   }));
 
+  beforeEach(inject([FormlyFormBuilder, FormlyConfig], (formlyBuilder: FormlyFormBuilder, formlyConfig: FormlyConfig) => {
+    form = new FormGroup({});
+    config = formlyConfig;
+    builder = formlyBuilder;
+    field = {
+      key: 'hi',
+      defaultValue: 'Hello there.'
+    };
+    builder.buildForm(form, [field], {}, {});
+  }));
+
   beforeEach(() => {
     httpMock = TestBed.get(HttpTestingController);
     fixture = TestBed.createComponent(FileFieldComponent);
     component = fixture.componentInstance;
-    component.field = {key: 'hi'};
+    component.field = field;
     fixture.detectChanges();
 
     const fmsReq = httpMock.expectOne('apiRoot/file?study_id=0&workflow_id=0&task_id=0&form_field_key=hi');

@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {SessionRedirectComponent} from 'sartography-workflow-lib';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
@@ -51,6 +52,10 @@ export const routes: Routes = [
   {
     path: 'sign-out',
     component: SignOutComponent
+  },
+  {
+    path: 'session/:token',
+    component: SessionRedirectComponent
   }
 
 ];

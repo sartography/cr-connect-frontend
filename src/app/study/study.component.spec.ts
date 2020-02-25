@@ -5,16 +5,8 @@ import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ChartsModule} from 'ng2-charts';
 import {of} from 'rxjs';
-import {
-  ApiService,
-  MockEnvironment,
-  mockStudy0,
-  mockWorkflows,
-  mockWorkflowSpec0,
-  mockWorkflowSpecs
-} from 'sartography-workflow-lib';
+import {ApiService, MockEnvironment, mockStudy0, mockWorkflows, mockWorkflowSpecs} from 'sartography-workflow-lib';
 import {DashboardComponent} from '../dashboard/dashboard.component';
-
 import {StudyComponent} from './study.component';
 
 describe('StudyComponent', () => {

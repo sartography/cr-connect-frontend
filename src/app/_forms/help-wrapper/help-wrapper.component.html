@@ -1,9 +1,9 @@
 <ng-container #fieldComponent></ng-container>
-<ng-template #matSuffix>
+<ng-template *ngIf="to.help" #matSuffix>
   <button
     *ngIf="to.help"
     mat-icon-button
-    (click)="openDialog(to.label, to.help)"
+    (click)="openDialog($event, to.label, to.help)"
   >
     <mat-icon>help</mat-icon>
   </button>

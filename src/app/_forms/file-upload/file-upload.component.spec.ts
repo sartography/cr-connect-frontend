@@ -1,10 +1,12 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatTableModule} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
+import {FormlyConfig, FormlyFormBuilder, FormlyModule} from '@ngx-formly/core';
+import {FormlyFieldConfigCache} from '@ngx-formly/core/lib/components/formly.field.config';
 import {FileSystemFileEntry, NgxFileDropEntry, NgxFileDropModule} from 'ngx-file-drop';
 import {of} from 'rxjs';
 import {ApiService, MockEnvironment, mockFileMeta0, mockFileMetas} from 'sartography-workflow-lib';
@@ -14,10 +16,19 @@ describe('FileUploadComponent', () => {
   let component: FileUploadComponent;
   let fixture: ComponentFixture<FileUploadComponent>;
   let httpMock: HttpTestingController;
+  let builder: FormlyFormBuilder;
+  let form: FormGroup;
+  let field: FormlyFieldConfigCache;
+  let config: FormlyConfig;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        FormlyModule.forRoot({
+          types: [
+            {name: 'files', component: FileUploadComponent, wrappers: ['form-field']},
+          ],
+        }),
         FormsModule,
         HttpClientTestingModule,
         MatFormFieldModule,
@@ -41,11 +52,22 @@ describe('FileUploadComponent', () => {
       .compileComponents();
   }));
 
+  beforeEach(inject([FormlyFormBuilder, FormlyConfig], (formlyBuilder: FormlyFormBuilder, formlyConfig: FormlyConfig) => {
+    form = new FormGroup({});
+    config = formlyConfig;
+    builder = formlyBuilder;
+    field = {
+      key: 'hi',
+      defaultValue: 'Hello there.'
+    };
+    builder.buildForm(form, [field], {}, {});
+  }));
+
   beforeEach(() => {
     httpMock = TestBed.get(HttpTestingController);
     fixture = TestBed.createComponent(FileUploadComponent);
     component = fixture.componentInstance;
-    component.field = {key: 'hi'};
+    component.field = field;
     fixture.detectChanges();
 
     const fmsReq = httpMock.expectOne('apiRoot/file?study_id=0&workflow_id=0&task_id=0&form_field_key=hi');
@@ -55,7 +77,7 @@ describe('FileUploadComponent', () => {
     mockFileMetas.forEach((fm, i) => {
       const fReq = httpMock.expectOne(`apiRoot/file/${fm.id}/data`);
       expect(fReq.request.method).toEqual('GET');
-      fReq.flush(mockFileMetas[i].file);
+      fReq.flush(new Blob([], {type: mockFileMetas[i].file.type}));
     });
 
     expect((component as any).fileMetas).toEqual(new Set(mockFileMetas));

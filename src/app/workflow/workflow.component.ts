@@ -12,9 +12,9 @@ export class WorkflowComponent {
   readyTasks: WorkflowTask[];
   allTasks: WorkflowTask[];
   currentTask: WorkflowTask;
-  private studyId: number;
-  private workflowId: number;
-  private taskId: string;
+  studyId: number;
+  workflowId: number;
+  taskId: string;
   taskTypes = WorkflowTaskType;
 
   constructor(
@@ -54,10 +54,12 @@ export class WorkflowComponent {
 
       if (this.allTasks && (this.allTasks.length > 0)) {
         this.readyTasks = this.allTasks.filter(t => t.state === WorkflowTaskState.READY);
+
         const taskId = this.taskId ||
           (wf.next_task && wf.next_task.id) ||
-          (this.readyTasks && this.readyTasks[0].id) ||
-          wf.user_tasks[0].id;
+          (this.readyTasks && (this.readyTasks.length > 0) && this.readyTasks[0].id) ||
+          (wf.user_tasks && (wf.user_tasks.length > 0) && wf.user_tasks[0].id) ||
+          (wf.last_task && wf.last_task.id);
         if (taskId) {
           currentTask = this.allTasks.find(t => t.id === taskId);
           if (currentTask) {
@@ -82,5 +84,21 @@ export class WorkflowComponent {
       deduped[t.name] = t;
     });
     return Object.values(deduped);
+  }
+
+  hasIncompleteUserTask() {
+    if (this.allTasks && (this.allTasks.length > 0)) {
+      const incompleteStates = [
+        WorkflowTaskState.READY,
+        WorkflowTaskState.FUTURE,
+        WorkflowTaskState.WAITING,
+      ];
+      const incompleteTasks = this.allTasks.filter(t => incompleteStates.includes(t.state));
+      return this.currentTask &&
+        (this.currentTask.type === WorkflowTaskType.USER_TASK) &&
+        (incompleteTasks.length > 0);
+    } else {
+      return false;
+    }
   }
 }

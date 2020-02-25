@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {ApiService} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-sign-out',
@@ -7,11 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignOutComponent implements OnInit {
 
-  constructor() {
-    localStorage.removeItem('signedIn');
+  constructor(private api: ApiService) {
+    localStorage.removeItem('token');
   }
 
   ngOnInit() {
   }
 
+  goHome() {
+    this.api.openUrl('/');
+  }
 }

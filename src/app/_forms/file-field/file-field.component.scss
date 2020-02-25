@@ -1,32 +1,21 @@
 @import "../../../config";
 
-mat-form-field.file-name {
+.file-name {
   width: 100%;
   padding-bottom: 0;
   margin-bottom: 0;
-
-  ::ng-deep .mat-form-field-wrapper {
-    padding-bottom: 0;
-    margin-bottom: 0;
-  }
-
-  .mat-input-element {
-    color: $brand-accent;
-  }
-
-  mat-icon[matprefix] {
-    color: $brand-accent;
-    margin-right: 0.5rem;
-  }
+  margin-top: 1rem;
+  color: $brand-accent;
+  height: 2rem;
+  transition: margin-top 300ms ease-in-out;
 
   &.file-is-selected {
-    .mat-input-element {
-      color: $brand-gray;
-    }
-
-    mat-icon[matprefix] {
-      color: $brand-gray;
-    }
+    color: $brand-gray;
   }
+}
 
+::ng-deep .mat-form-field-should-float {
+  .file-name {
+    margin-top: 0;
+  }
 }

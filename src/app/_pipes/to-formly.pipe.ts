@@ -1,7 +1,9 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {FormlyFieldConfig} from '@ngx-formly/core';
+import createClone from 'rfdc';
 import {isIterable} from 'rxjs/internal-compatibility';
 import {BpmnFormJsonField} from 'sartography-workflow-lib';
+
 
 /***
  * Convert the given BPMN form JSON value to Formly JSON
@@ -15,7 +17,7 @@ import {BpmnFormJsonField} from 'sartography-workflow-lib';
           id: 'should_ask_color',
           label: 'Does color affect your mood?',
           type: 'boolean',
-          defaultValue: 'false',
+          default_value: 'false',
           validation: [
             {name: 'required', config: 'true'}
           ]
@@ -24,7 +26,7 @@ import {BpmnFormJsonField} from 'sartography-workflow-lib';
           id: 'favorite_color',
           label: 'What is your favorite color?',
           type: 'enum',
-          defaultValue: 'indigo',
+          default_value: 'indigo',
           value: [
             {id: 'red', name: 'Red'},
             {id: 'orange', name: 'Orange'},
@@ -102,54 +104,80 @@ export class ToFormlyPipe implements PipeTransform {
       const resultField: FormlyFieldConfig = {
         key: field.id,
         templateOptions: {},
-        expressionProperties: {}
+        expressionProperties: {},
       };
 
-      if (field.type === 'enum') {
-        resultField.type = 'select';
-        resultField.defaultValue = field.defaultValue;
-        resultField.templateOptions.options = field.options.map(v => {
-          return {value: v.id, label: v.name};
-        });
-      } else if (field.type === 'string') {
-        resultField.type = 'input';
-        resultField.defaultValue = field.defaultValue;
-      } else if (field.type === 'textarea') {
-        resultField.type = 'textarea';
-        resultField.defaultValue = field.defaultValue;
-      } else if (field.type === 'long') {
-        resultField.type = 'input';
-        resultField.templateOptions.type = 'number';
-        resultField.defaultValue = parseInt(field.defaultValue, 10);
-      } else if (field.type === 'tel') {
-        resultField.type = 'input';
-        resultField.templateOptions.type = 'tel';
-        resultField.defaultValue = field.defaultValue;
-      } else if (field.type === 'boolean') {
-        resultField.type = 'radio';
-        if (field.defaultValue !== undefined || field.defaultValue !== null || field.defaultValue !== '') {
-          resultField.defaultValue = this._stringToBool(field.defaultValue);
-        }
-        resultField.templateOptions.options = [
-          {value: true, label: 'Yes'},
-          {value: false, label: 'No'},
-        ];
-      } else if (field.type === 'date') {
-        resultField.type = 'date';
-        if (field.defaultValue) {
-          resultField.defaultValue = new Date(field.defaultValue);
-        }
-      } else if (field.type === 'files') {
-        resultField.type = 'files';
-      } else if (field.type === 'file') {
-        resultField.type = 'file';
-      } else {
-        console.error('Field type is not supported.');
-        resultField.type = field.type;
+      // Convert bpmnjs field type to Formly field type
+      switch (field.type) {
+        case 'enum':
+          resultField.type = 'select';
+          resultField.defaultValue = field.default_value;
+          resultField.templateOptions.options = field.options.map(v => {
+            return {value: v.id, label: v.name};
+          });
+          break;
+        case 'string':
+          resultField.type = 'input';
+          resultField.defaultValue = field.default_value;
+          break;
+        case 'textarea':
+          resultField.type = 'textarea';
+          resultField.defaultValue = field.default_value;
+          break;
+        case 'long':
+          resultField.type = 'input';
+          resultField.templateOptions.type = 'number';
+          resultField.defaultValue = parseInt(field.default_value, 10);
+          break;
+        case 'url':
+          resultField.type = 'input';
+          resultField.templateOptions.type = 'url';
+          resultField.defaultValue = field.default_value;
+          resultField.validators = {validation: ['url']};
+          break;
+        case 'email':
+          resultField.type = 'input';
+          resultField.templateOptions.type = 'email';
+          resultField.defaultValue = field.default_value;
+          resultField.validators = {validation: ['email']};
+          break;
+        case 'tel':
+          resultField.type = 'input';
+          resultField.templateOptions.type = 'tel';
+          resultField.defaultValue = field.default_value;
+          resultField.validators = {validation: ['phone']};
+          break;
+        case 'boolean':
+          resultField.type = 'radio';
+          if (field.default_value !== undefined && field.default_value !== null && field.default_value !== '') {
+            resultField.defaultValue = this._stringToBool(field.default_value);
+          }
+          resultField.templateOptions.options = [
+            {value: true, label: 'Yes'},
+            {value: false, label: 'No'},
+          ];
+          break;
+        case 'date':
+          resultField.type = 'datepicker';
+          if (field.default_value) {
+            resultField.defaultValue = new Date(field.default_value);
+          }
+          break;
+        case 'files':
+          resultField.type = 'files';
+          break;
+        case 'file':
+          resultField.type = 'file';
+          break;
+        default:
+          console.error('Field type is not supported.');
+          resultField.type = field.type;
+          break;
       }
 
       resultField.templateOptions.label = field.label;
 
+      // Convert bpmnjs field validations to Formly field requirements
       if (field.validation && isIterable(field.validation) && (field.validation.length > 0)) {
         for (const v of field.validation) {
           if (v.name === 'required') {
@@ -158,34 +186,75 @@ export class ToFormlyPipe implements PipeTransform {
         }
       }
 
+      // Convert bpmnjs field properties to Formly template options.
       if (field.properties && isIterable(field.properties) && (field.properties.length > 0)) {
         for (const p of field.properties) {
-          if (p.id === 'hide_expression') {
-            resultField.hideExpression = p.value;
-          } else if (p.id === 'label_expression') {
-            resultField.expressionProperties['templateOptions.label'] = p.value;
-          } else if (p.id === 'required_expression') {
-            resultField.expressionProperties['templateOptions.required'] = p.value;
-          } else if (p.id === 'placeholder') {
-            resultField.templateOptions.placeholder = p.value;
-          } else if (p.id === 'description') {
-            resultField.templateOptions.description = p.value;
-          } else if (p.id === 'help') {
-            resultField.templateOptions.help = p.value;
-          } else if (field.type === 'enum' && p.id === 'enum_type') {
-            if (p.value === 'checkbox') {
-              resultField.type = 'multicheckbox';
-              resultField.className = 'vertical-checkbox-group';
-            }
+          switch (p.id) {
+            case 'group':
+              resultField.templateOptions.groupName = p.value;
+              break;
+            case 'repeat':
+              resultField.templateOptions.repeatSectionName = p.value;
+              break;
+            case 'hide_expression':
+              resultField.hideExpression = p.value;
+              break;
+            case 'label_expression':
+              resultField.expressionProperties['templateOptions.label'] = p.value;
+              break;
+            case 'required_expression':
+              resultField.expressionProperties['templateOptions.required'] = p.value;
+              break;
+            case 'read_only':
+              resultField.templateOptions.readonly = this._stringToBool(p.value);
+              resultField.className = 'read-only';
+              break;
+            case 'placeholder':
+              resultField.templateOptions.placeholder = p.value;
+              break;
+            case 'description':
+              resultField.templateOptions.description = p.value;
+              break;
+            case 'help':
+              resultField.templateOptions.help = p.value;
+              break;
+            case 'markdown_description':
+              resultField.templateOptions.markdownDescription = p.value;
+              break;
+            case 'autosize':
+              resultField.templateOptions.autosize = this._stringToBool(p.value);
+              break;
+            case 'rows':
+              resultField.templateOptions.rows = parseInt(p.value, 10);
+              resultField.templateOptions.minRows = parseInt(p.value, 10);
+              resultField.templateOptions.autosizeMinRows = parseInt(p.value, 10);
+              break;
+            case 'cols':
+              resultField.className = 'textarea-cols';
+              resultField.templateOptions.cols = parseInt(p.value, 10);
+              break;
+            case 'enum_type':
+              if (field.type === 'enum') {
+                if (p.value === 'checkbox') {
+                  resultField.type = 'multicheckbox';
+                  resultField.className = 'vertical-checkbox-group';
+                  if (resultField.templateOptions.required) {
+                    resultField.validators = {validation: ['multicheckbox']};
+                  }
+                }
 
-            if (p.value === 'radio') {
-              resultField.type = 'radio';
-              resultField.className = 'vertical-radio-group';
-            }
+                if (p.value === 'radio') {
+                  resultField.type = 'radio';
+                  resultField.className = 'vertical-radio-group';
+                }
 
-            resultField.templateOptions.options = field.options.map(v => {
-              return {value: v.id, label: v.name};
-            });
+                resultField.templateOptions.options = field.options.map(v => {
+                  return {value: v.id, label: v.name};
+                });
+              }
+              break;
+            default:
+              break;
           }
         }
       }
@@ -193,11 +262,118 @@ export class ToFormlyPipe implements PipeTransform {
       result.push(resultField);
     }
 
-    return result;
+    return this._makeRepeats(this._makeGroups(result));
   }
 
   private _stringToBool(s: string) {
     return s.toLowerCase() === 'true';
   }
 
+  /** Convert group names into actual Formly fieldGroups */
+  private _makeGroups(fields: FormlyFieldConfig[]) {
+    const grouped: FormlyFieldConfig[] = [];
+
+    fields.forEach(field => {
+
+      // If the field has a group name, add it to its group
+      if (field.templateOptions.groupName) {
+
+        // look for existing group
+        const groupName = field.templateOptions.groupName;
+        const group = grouped.find(g => g.templateOptions.groupName === groupName);
+
+        if (group) {
+          group.fieldGroup.push(field);
+        } else {
+          // if not found, add the group, then add it to the grouped array
+          const newGroup: FormlyFieldConfig = {
+            key: this._toSnakeCase(groupName),
+            templateOptions: {
+              label: groupName,
+            },
+            fieldGroup: [field],
+            wrappers: ['panel'],
+          };
+
+          if (field.templateOptions.repeatSectionName) {
+            newGroup.templateOptions.repeatSectionName = field.templateOptions.repeatSectionName;
+            delete field.templateOptions.repeatSectionName;
+          }
+
+          newGroup.templateOptions.groupName = groupName;
+          delete field.templateOptions.groupName;
+          grouped.push(newGroup);
+        }
+      } else {
+        // Field has no group name. Just add it.
+        grouped.push(field);
+      }
+    });
+
+    grouped.forEach(field => {
+      if (field.templateOptions.groupName) {
+        delete field.templateOptions.groupName;
+      }
+    });
+
+    return grouped;
+  }
+
+
+  /** Convert repeating section names into actual Formly repeating sections */
+  private _makeRepeats(fields: FormlyFieldConfig[]) {
+    const grouped: FormlyFieldConfig[] = [];
+
+    fields.forEach(field => {
+
+      // If the field has a group name, add it to its group
+      if (field.templateOptions.repeatSectionName) {
+
+        // look for existing group
+        const repeatSectionName = field.templateOptions.repeatSectionName;
+        const group = grouped.find(g => g.templateOptions.repeatSectionName === repeatSectionName);
+
+        if (group) {
+          group.fieldArray.fieldGroup.push(field);
+        } else {
+          // if not found, add the group, then add it to the grouped array
+          const newGroup: FormlyFieldConfig = {
+            key: this._toSnakeCase(repeatSectionName),
+            type: 'repeat',
+            templateOptions: {
+              label: repeatSectionName,
+            },
+            fieldArray: {
+              fieldGroup: [field],
+            },
+            wrappers: ['panel'],
+          };
+
+          newGroup.templateOptions.repeatSectionName = repeatSectionName;
+          delete field.templateOptions.repeatSectionName;
+          grouped.push(newGroup);
+        }
+      } else {
+        // Field has no group name. Just add it.
+        grouped.push(field);
+      }
+    });
+
+    grouped.forEach(field => {
+      if (field.templateOptions.repeatSectionName) {
+        delete field.templateOptions.repeatSectionName;
+      }
+    });
+
+    return grouped;
+  }
+
+
+
+  private _toSnakeCase(str: string): string {
+    return !str ? '' : String(str)
+      .trim()
+      .replace(/\W+/gi, '_')
+      .toLowerCase();
+  }
 }

@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {isSignedIn} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-home',
@@ -6,11 +7,9 @@ import {Component} from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  isSignedIn = isSignedIn;
 
   constructor() {
   }
 
-  isSignedIn() {
-    return localStorage.getItem('signedIn') === 'true';
-  }
 }
