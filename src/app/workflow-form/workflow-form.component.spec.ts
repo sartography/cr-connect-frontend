@@ -5,6 +5,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
+import {MarkdownModule} from 'ngx-markdown';
 import {of} from 'rxjs';
 import {
   ApiService,
@@ -16,9 +17,7 @@ import {
   mockWorkflowTasks
 } from 'sartography-workflow-lib';
 import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
-
 import {WorkflowFormComponent} from './workflow-form.component';
-import {MarkdownModule} from "ngx-markdown";
 
 describe('WorkflowFormComponent', () => {
   let httpMock: HttpTestingController;
