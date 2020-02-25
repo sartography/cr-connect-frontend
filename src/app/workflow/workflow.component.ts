@@ -25,8 +25,7 @@ export class WorkflowComponent {
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
-      this.taskId = paramMap.get('task_id');
-      this.updateTaskList(this.workflowId);
+      this.updateTaskList(this.workflowId, paramMap.get('task_id'));
     });
   }
 
@@ -56,11 +55,9 @@ export class WorkflowComponent {
     this.updateTaskList(wf.id);
   }
 
-  private updateTaskList(workflowId: number) {
+  private updateTaskList(workflowId: number, forceTaskId?: string) {
     this.api.getWorkflow(workflowId).subscribe(wf => {
       this.workflow = wf;
-      this.currentTask = wf.next_task;
-      this.logTaskData(this.currentTask);
 
       // De-dupe tasks, in case of parallel joins
       this.allTasks = this.dedupeTasks(wf.user_tasks || []);
@@ -68,6 +65,15 @@ export class WorkflowComponent {
       if (this.allTasks && (this.allTasks.length > 0)) {
         this.readyTasks = this.allTasks.filter(t => t.state === WorkflowTaskState.READY);
       }
+
+      // The current task will be set by the backend, unless specifically forced.
+      if (forceTaskId) {
+        this.currentTask = this.allTasks.filter(t => t.id === forceTaskId)[0];
+      } else {
+        this.currentTask = wf.next_task;
+      }
+      this.logTaskData(this.currentTask);
+
     });
   }
 
