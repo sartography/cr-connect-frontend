@@ -1,22 +1,15 @@
 <div class="full-height" fxLayout="column" fxLayoutAlign="center center">
-  <h1>UVA NetBadge Sign In</h1>
-  <form>
-    <mat-form-field class="full-width">
-      <input matInput placeholder="UVA Computing ID">
-    </mat-form-field>
-
-    <mat-form-field class="full-width">
-      <input matInput type="password" placeholder="Password">
-    </mat-form-field>
-
+  <h1>Fake UVA NetBadge Sign In (for testing only)</h1>
+  <formly-form [fields]="fields" [form]="form" [model]="model">
+    <mat-error *ngIf="error">{{error}}</mat-error>
     <button
-      [routerLink]="['/']"
-      color="primary"
       (click)="signIn()"
+      [disabled]="form.invalid"
+      color="primary"
+      id="sign_in"
       mat-flat-button
-      id="cta_sign_in"
     >
       Sign in
     </button>
-  </form>
+  </formly-form>
 </div>

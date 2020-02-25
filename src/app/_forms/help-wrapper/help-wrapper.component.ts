@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {FieldWrapper} from '@ngx-formly/core';
+import {MarkdownService} from 'ngx-markdown';
 import {HelpDialogComponent} from '../help-dialog/help-dialog.component';
 
 @Component({
@@ -12,7 +13,9 @@ export class HelpWrapperComponent extends FieldWrapper implements AfterViewInit 
   @ViewChild('matSuffix', {static: false}) matSuffix: TemplateRef<any>;
   expanded = false;
 
-  constructor(public dialog: MatDialog) {
+  constructor(
+    public dialog: MatDialog
+  ) {
     super();
   }
 

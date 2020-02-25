@@ -1,6 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
-import {MarkdownModule} from 'ngx-markdown';
+import {MarkdownModule, MarkdownService} from 'ngx-markdown';
+import {UnescapeLineBreaksPipe} from '../../_pipes/unescape-line-breaks.pipe';
 
 import {HelpDialogComponent} from './help-dialog.component';
 
@@ -10,7 +11,10 @@ describe('HelpDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HelpDialogComponent],
+      declarations: [
+        HelpDialogComponent,
+        UnescapeLineBreaksPipe,
+      ],
       imports: [
         MarkdownModule.forRoot(),
         MatDialogModule
@@ -26,9 +30,12 @@ describe('HelpDialogComponent', () => {
           provide: MAT_DIALOG_DATA,
           useValue: {
             title: 'Happy Little Title',
-            text: 'Just go out and talk to a tree. Make friends with it. There we go. Only God can make a tree - but you can paint one.'
+            text: '# Heading 1\n\n## Heading 2\n\n[link](https://sartography.com)\n\n' +
+              'Just go out and talk to a tree. Make friends with it. There we go. ' +
+              'Only God can make a tree - but you can paint one.'
           }
-        }
+        },
+        MarkdownService,
       ]
     })
       .compileComponents();
@@ -42,12 +49,6 @@ describe('HelpDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should convert escaped line breaks', () => {
-    expect(component.unescape('Un\\nescape\\r\\nme\nplease!')).toEqual('Un\nescape\nme\nplease!');
-    expect(component.unescape('Un\\r\\nescape\\r\\nme\\r\\nplease!')).toEqual('Un\nescape\nme\nplease!');
-    expect(component.unescape('But\nleave\nme\nalone.')).toEqual('But\nleave\nme\nalone.');
   });
 
   it('should close dialog', () => {

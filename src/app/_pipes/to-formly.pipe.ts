@@ -104,7 +104,7 @@ export class ToFormlyPipe implements PipeTransform {
       const resultField: FormlyFieldConfig = {
         key: field.id,
         templateOptions: {},
-        expressionProperties: {}
+        expressionProperties: {},
       };
 
       // Convert bpmnjs field type to Formly field type
@@ -206,10 +206,8 @@ export class ToFormlyPipe implements PipeTransform {
               resultField.expressionProperties['templateOptions.required'] = p.value;
               break;
             case 'read_only':
-              console.log('readonly field', field);
               resultField.templateOptions.readonly = this._stringToBool(p.value);
               resultField.className = 'read-only';
-              console.log('readonly resultField', resultField);
               break;
             case 'placeholder':
               resultField.templateOptions.placeholder = p.value;
@@ -220,13 +218,19 @@ export class ToFormlyPipe implements PipeTransform {
             case 'help':
               resultField.templateOptions.help = p.value;
               break;
+            case 'markdown_description':
+              resultField.templateOptions.markdownDescription = p.value;
+              break;
             case 'autosize':
               resultField.templateOptions.autosize = this._stringToBool(p.value);
               break;
             case 'rows':
               resultField.templateOptions.rows = parseInt(p.value, 10);
+              resultField.templateOptions.minRows = parseInt(p.value, 10);
+              resultField.templateOptions.autosizeMinRows = parseInt(p.value, 10);
               break;
             case 'cols':
+              resultField.className = 'textarea-cols';
               resultField.templateOptions.cols = parseInt(p.value, 10);
               break;
             case 'enum_type':

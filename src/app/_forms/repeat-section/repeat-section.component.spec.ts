@@ -8,13 +8,14 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {BrowserDynamicTestingModule} from '@angular/platform-browser-dynamic/testing';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {FieldArrayType, FormlyConfig, FormlyFieldConfig, FormlyFormBuilder, FormlyModule} from '@ngx-formly/core';
+import {FieldArrayType, FormlyConfig, FormlyFormBuilder, FormlyModule} from '@ngx-formly/core';
 import {FormlyFieldConfigCache} from '@ngx-formly/core/lib/components/formly.field.config';
 import {FormlyMaterialModule} from '@ngx-formly/material';
 import {FormlyMatDatepickerModule} from '@ngx-formly/material/datepicker';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import createClone from 'rfdc';
 import {of} from 'rxjs';
-import {mockFormlyFieldConfig, mockFormlyFieldModel} from '../../_mocks/form/mockForm';
+import {mockFormlyFieldConfig} from '../../_mocks/form/mockForm';
 import {FormPrintoutComponent} from '../form-printout/form-printout.component';
 import {PanelWrapperComponent} from '../panel-wrapper/panel-wrapper.component';
 import {RepeatSectionDialogComponent} from '../repeat-section-dialog/repeat-section-dialog.component';
@@ -27,20 +28,13 @@ describe('RepeatSectionComponent', () => {
   let form: FormGroup;
   let field: FormlyFieldConfigCache;
   let config: FormlyConfig;
-  const mockFields: FormlyFieldConfig[] = [
-    {key: 'first_field', type: 'input', templateOptions: {label: 'first field'}},
-    {key: 'second_field', type: 'input', templateOptions: {label: 'second field'}},
-    {
-      key: 'third_field', type: 'radio', templateOptions: {
-        label: 'third field',
-        options: [
-          {label: 'Option A', value: 'a'},
-          {label: 'Option B', value: 'b'},
-          {label: 'Option C', value: 'c'},
-        ]
-      }
-    },
-  ];
+  const mockData = {
+    field_key: {
+      first_field: 'First Field Value',
+      second_field: 'Second Field Value',
+      third_field: {a: true},
+    }
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -78,13 +72,7 @@ describe('RepeatSectionComponent', () => {
           useValue: {
             close: (dialogResult: any) => {
             },
-            afterClosed: (dialogResult: any) => of({
-              field_key: {
-                first_field: 'First Field Value',
-                second_field: 'Second Field Value',
-                third_field: {a: true},
-              }
-            }),
+            afterClosed: (dialogResult: any) => of(mockData),
           }
         },
         {
@@ -109,15 +97,13 @@ describe('RepeatSectionComponent', () => {
     builder = formlyBuilder;
     field = {
       key: 'field_key',
-      defaultValue: 'Hello there.',
       type: 'repeat',
       templateOptions: {label: 'Repeating Section'},
       fieldArray: {
         fieldGroup: mockFormlyFieldConfig.fieldGroup,
       },
-      fieldGroup: []
     };
-    builder.buildForm(form, [field], [mockFormlyFieldModel], {});
+    builder.buildForm(form, [field], [mockData], {});
   }));
 
   beforeEach(() => {
@@ -132,20 +118,12 @@ describe('RepeatSectionComponent', () => {
   });
 
   it('should open dialog', () => {
-    const data = {
-      field_key: {
-        first_field: 'First Field Value',
-        second_field: 'Second Field Value',
-        third_field: {a: true},
-      }
-    };
-    spyOn(FieldArrayType.prototype, 'remove');
-    spyOn(FieldArrayType.prototype, 'add');
+    const addSpy = spyOn(FieldArrayType.prototype, 'add').and.stub();
     // @ts-ignore
-    const openDialogSpy = spyOn(component.dialog, 'open').and.returnValue({afterClosed: () => of(data)});
+    const openDialogSpy = spyOn(component.dialog, 'open').and.returnValue({afterClosed: () => of(mockData)});
+
     component.openDialog(0);
     expect(openDialogSpy).toHaveBeenCalled();
-    expect(FieldArrayType.prototype.remove).toHaveBeenCalled();
-    expect(FieldArrayType.prototype.add).toHaveBeenCalled();
+    expect(addSpy).toHaveBeenCalled();
   });
 });

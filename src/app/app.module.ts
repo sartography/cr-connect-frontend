@@ -1,4 +1,4 @@
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Injectable, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -30,7 +30,7 @@ import {NgxFileDropModule} from 'ngx-file-drop';
 import {MarkdownModule} from 'ngx-markdown';
 import {NgxPageScrollModule} from 'ngx-page-scroll';
 import {NgxPageScrollCoreModule} from 'ngx-page-scroll-core';
-import {ApiService, AppEnvironment} from 'sartography-workflow-lib';
+import {ApiService, AppEnvironment, AuthInterceptor, SessionRedirectComponent} from 'sartography-workflow-lib';
 import {environment} from '../environments/environment';
 import {FileBaseComponent} from './_forms/file-base/file-base.component';
 import {FileFieldComponent} from './_forms/file-field/file-field.component';
@@ -40,6 +40,8 @@ import {FormPrintoutComponent} from './_forms/form-printout/form-printout.compon
 import {HelpDialogComponent} from './_forms/help-dialog/help-dialog.component';
 import {HelpWrapperComponent} from './_forms/help-wrapper/help-wrapper.component';
 import {helpWrapperExtension} from './_forms/help-wrapper/help-wrapper.extension';
+import {MarkdownDescriptionWrapperComponent} from './_forms/markdown-description-wrapper/markdown-description-wrapper.component';
+import {markdownDescriptionWrapperExtension} from './_forms/markdown-description-wrapper/markdown-description-wrapper.extension';
 import {PanelWrapperComponent} from './_forms/panel-wrapper/panel-wrapper.component';
 import {RepeatSectionDialogComponent} from './_forms/repeat-section-dialog/repeat-section-dialog.component';
 import {RepeatSectionComponent} from './_forms/repeat-section/repeat-section.component';
@@ -57,6 +59,7 @@ import {
   UrlValidatorMessage
 } from './_forms/validators/formly.validator';
 import {PipesModule} from './_pipes/pipes.module';
+import {UnescapeLineBreaksPipe} from './_pipes/unescape-line-breaks.pipe';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
@@ -114,9 +117,11 @@ export class AppFormlyConfig {
     ],
     wrappers: [
       {name: 'panel', component: PanelWrapperComponent},
+      {name: 'markdown_description', component: MarkdownDescriptionWrapperComponent},
       {name: 'help', component: HelpWrapperComponent},
     ],
     extensions: [
+      {name: 'markdown_description', extension: {onPopulate: markdownDescriptionWrapperExtension}},
       {name: 'help', extension: {onPopulate: helpWrapperExtension}},
     ],
   };
@@ -137,17 +142,20 @@ export class AppFormlyConfig {
     HelpWrapperComponent,
     HomeComponent,
     InboxComponent,
+    MarkdownDescriptionWrapperComponent,
     NavbarComponent,
     NotificationsComponent,
     PanelWrapperComponent,
     ProfileComponent,
     RepeatSectionComponent,
     RepeatSectionDialogComponent,
+    SessionRedirectComponent,
     SignInComponent,
     SignOutComponent,
     StudiesComponent,
     StudyCardComponent,
     StudyComponent,
+    UnescapeLineBreaksPipe,
     WorkflowComponent,
     WorkflowFilesComponent,
     WorkflowFormComponent,
@@ -188,13 +196,17 @@ export class AppFormlyConfig {
     NgxPageScrollModule,
     PipesModule,
     ReactiveFormsModule,
-    AppRoutingModule,
-    // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
+    AppRoutingModule, // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     ApiService,
-    {provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment}
+    {provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent],
   entryComponents: [
