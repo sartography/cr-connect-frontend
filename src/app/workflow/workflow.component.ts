@@ -25,16 +25,29 @@ export class WorkflowComponent {
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
-      this.taskId = paramMap.get('task_id');
-      this.updateTaskList(this.workflowId);
+      this.updateTaskList(this.workflowId, paramMap.get('task_id'));
     });
   }
 
   setCurrentTask(task: WorkflowTask) {
     this.currentTask = task;
-
     // TODO: Change the URL without hitting the router??
     this.router.navigate(['study', this.studyId, 'workflow', this.workflow.id, 'task', task.id]);
+  }
+
+  logTaskData(task) {
+    if (task) {
+      const label = `Data for Workflow Task: '${task.name} (${task.id})'`;
+      console.group(label);
+      console.table(Object.entries(task.data).map(e => {
+        return {
+          'Form Field Name': e[0],
+          'Stored Value': e[1]
+        };
+      }));
+      console.groupEnd();
+      console.log('Task:', task);
+    }
   }
 
   workflowUpdated(wf: Workflow) {
@@ -44,9 +57,8 @@ export class WorkflowComponent {
     this.updateTaskList(wf.id);
   }
 
-  private updateTaskList(workflowId: number) {
+  private updateTaskList(workflowId: number, forceTaskId?: string) {
     this.api.getWorkflow(workflowId).subscribe(wf => {
-      let currentTask: WorkflowTask;
       this.workflow = wf;
 
       // De-dupe tasks, in case of parallel joins
@@ -54,23 +66,16 @@ export class WorkflowComponent {
 
       if (this.allTasks && (this.allTasks.length > 0)) {
         this.readyTasks = this.allTasks.filter(t => t.state === WorkflowTaskState.READY);
-
-        const taskId = this.taskId ||
-          (wf.next_task && wf.next_task.id) ||
-          (this.readyTasks && (this.readyTasks.length > 0) && this.readyTasks[0].id) ||
-          (wf.user_tasks && (wf.user_tasks.length > 0) && wf.user_tasks[0].id) ||
-          (wf.last_task && wf.last_task.id);
-        if (taskId) {
-          currentTask = this.allTasks.find(t => t.id === taskId);
-          if (currentTask) {
-            this.setCurrentTask(currentTask);
-          }
-        }
       }
 
-      if (!currentTask) {
-        this.currentTask = wf.last_task || undefined;
+      // The current task will be set by the backend, unless specifically forced.
+      if (forceTaskId) {
+        this.currentTask = this.allTasks.filter(t => t.id === forceTaskId)[0];
+      } else {
+        this.currentTask = wf.next_task;
       }
+      this.logTaskData(this.currentTask);
+
     });
   }
 

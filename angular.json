@@ -30,7 +30,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/marked/lib/marked.js"
+          ]
           },
           "configurations": {
             "production": {
@@ -153,7 +155,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [],
+            "scripts": [
+                "node_modules/marked/lib/marked.js"
+            ],
             "codeCoverageExclude": [
               "src/polyfills.ts",
               "src/test.ts",

@@ -82,7 +82,7 @@ describe('Clinical Research Coordinator App', () => {
     const chart = page.getElement('.chart-container');
     const studyId = await chart.getAttribute('data-study-id');
     const workflowId = await chart.getAttribute('data-workflow-id');
-    const expectedRoute = `/study/${studyId}/workflow/${workflowId}/task/`;
+    const expectedRoute = `/study/${studyId}/workflow/${workflowId}`;
     page.clickElement('.chart-container');
     expect(page.getRoute()).toContain(expectedRoute);
   });

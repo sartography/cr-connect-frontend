@@ -9,7 +9,7 @@
     <em>The following tasks need your attention:</em>
     <app-workflow-steps-menu-list *ngFor="let task of allTasks"
       [task]="task"
-      [isCurrent] = "task === currentTask"
+      [isCurrent] = "task.id === currentTask.id"
       (taskSelected)="setCurrentTask($event)"
     ></app-workflow-steps-menu-list>
     <h3>Workflow Files:</h3>
@@ -27,12 +27,19 @@
 <ng-template #noTask>
   <div class="task-status" fxLayout="column" fxLayoutAlign="center center">
     <div class="non-user-task" *ngIf="currentTask">
-      <h1>{{currentTask.name}}</h1>
-      <h2>Task type: {{currentTask.type}}</h2>
-      <h3>Status: {{currentTask.state}}</h3>
-      <code>
-        {{currentTask.data | json}}
-      </code>
+      <div class="documentation">
+        <markdown [data]="currentTask.documentation"></markdown>
+      </div>
+      <div *ngIf="!currentTask.documentation">
+        <h1>{{currentTask.name}}</h1>
+        <h2>Task type: {{currentTask.type}}</h2>
+        <h3>Status: {{currentTask.state}}</h3>
+        <p>Please add documentation to this event to provide users with a custom message
+        about their progress.</p>
+        <code>
+          {{currentTask.data | json}}
+        </code>
+      </div>
     </div>
     <div class="no-task" *ngIf="!currentTask">
       <h1>No tasks found.</h1>
