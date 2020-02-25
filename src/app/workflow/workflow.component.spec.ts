@@ -10,6 +10,8 @@ import {ActivatedRoute, convertToParamMap, Router} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
+import {MarkdownModule} from 'ngx-markdown';
+import createClone from 'rfdc';
 import {of} from 'rxjs';
 import {
   ApiService,
@@ -18,15 +20,15 @@ import {
   mockWorkflow0,
   mockWorkflow1,
   mockWorkflowTask0,
-  mockWorkflowTask1,
-  mockWorkflowTasks
+  mockWorkflowTasks,
+  WorkflowTaskState,
+  WorkflowTaskType
 } from 'sartography-workflow-lib';
 import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
+import {WorkflowFilesComponent} from '../workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
 import {WorkflowStepsMenuListComponent} from '../workflow-steps-menu-list/workflow-steps-menu-list.component';
-
 import {WorkflowComponent} from './workflow.component';
-import {WorkflowFilesComponent} from '../workflow-files/workflow-files.component';
 
 describe('WorkflowComponent', () => {
   let component: WorkflowComponent;
@@ -55,6 +57,7 @@ describe('WorkflowComponent', () => {
         MatProgressSpinnerModule,
         NoopAnimationsModule,
         RouterTestingModule,
+        MarkdownModule
       ],
       providers: [
         ApiService,
@@ -111,8 +114,6 @@ describe('WorkflowComponent', () => {
   });
 
   it('should set current task when updating task list', () => {
-    const setCurrentTaskSpy = spyOn(component, 'setCurrentTask').and.stub();
-
     // No currently-selected task
     (component as any).taskId = undefined;
     component.currentTask = undefined;
@@ -124,10 +125,9 @@ describe('WorkflowComponent', () => {
     tReq.flush(mockWorkflow0);
 
     // Should select a task
-    expect(setCurrentTaskSpy).toHaveBeenCalledWith(mockWorkflowTask1);
+    expect(component.currentTask).toBeTruthy();
 
     // Delete all tasks from workflow
-    setCurrentTaskSpy.calls.reset();
     mockWorkflow0.last_task = undefined;
     mockWorkflow0.next_task = undefined;
     mockWorkflow0.user_tasks = [];
@@ -138,7 +138,46 @@ describe('WorkflowComponent', () => {
     t2Req.flush(mockWorkflow0);
 
     // Should be no task to select.
-    expect(setCurrentTaskSpy).not.toHaveBeenCalled();
     expect(component.currentTask).toBeUndefined();
+  });
+
+  it('should log task data', () => {
+    const consoleGroupSpy = spyOn(console, 'group').and.stub();
+    const consoleTableSpy = spyOn(console, 'table').and.stub();
+    const consoleGroupEndSpy = spyOn(console, 'groupEnd').and.stub();
+    const consoleLogSpy = spyOn(console, 'log').and.stub();
+
+    const taskWithData = createClone()(mockWorkflowTask0);
+    taskWithData.data = {
+      favorite_color: 'blue',
+      favorite_number: '13',
+    };
+    component.logTaskData(taskWithData);
+    expect(consoleGroupSpy).toHaveBeenCalled();
+    expect(consoleTableSpy).toHaveBeenCalled();
+    expect(consoleGroupEndSpy).toHaveBeenCalled();
+    expect(consoleLogSpy).toHaveBeenCalled();
+
+    // Log nothing if no task defined
+    consoleGroupSpy.calls.reset();
+    consoleTableSpy.calls.reset();
+    consoleGroupEndSpy.calls.reset();
+    consoleLogSpy.calls.reset();
+    component.logTaskData(undefined);
+    expect(consoleGroupSpy).not.toHaveBeenCalled();
+    expect(consoleTableSpy).not.toHaveBeenCalled();
+    expect(consoleGroupEndSpy).not.toHaveBeenCalled();
+    expect(consoleLogSpy).not.toHaveBeenCalled();
+  });
+
+  it('should determine whether there are incomplete tasks', () => {
+    component.allTasks = [];
+    expect(component.hasIncompleteUserTask()).toBeFalsy();
+
+    component.allTasks = mockWorkflowTasks;
+    component.currentTask = mockWorkflowTask0;
+    component.currentTask.type = WorkflowTaskType.USER_TASK;
+    component.currentTask.state = WorkflowTaskState.READY;
+    expect(component.hasIncompleteUserTask()).toBeTruthy();
   });
 });
