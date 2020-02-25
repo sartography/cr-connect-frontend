@@ -46,7 +46,7 @@ describe('WorkflowFilesComponent', () => {
   }));
 
   beforeEach(() => {
-    httpMock = TestBed.get(HttpTestingController);
+    httpMock = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(WorkflowFilesComponent);
     component = fixture.componentInstance;
     component.workflow = mockWorkflow0;

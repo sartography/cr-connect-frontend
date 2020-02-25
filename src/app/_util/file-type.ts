@@ -20,11 +20,12 @@ export const getFileType = (file: File): FileType => {
 
 const stringToFileType = (s: string, separator: string): FileType | undefined => {
   const sArray = s.toLowerCase().split(separator);
+  const fileTypes = Object.values(FileType).map(v => v.toString());
 
   if (sArray.length > 0) {
     const ext = sArray[sArray.length - 1];
 
-    if (Object.values(FileType).includes(ext)) {
+    if (fileTypes.includes(ext)) {
       return ext as FileType;
     }
   }

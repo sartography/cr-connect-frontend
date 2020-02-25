@@ -48,7 +48,7 @@ describe('WorkflowFormComponent', () => {
   }));
 
   beforeEach(() => {
-    httpMock = TestBed.get(HttpTestingController);
+    httpMock = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(WorkflowFormComponent);
     component = fixture.componentInstance;
     const wf = mockWorkflow0;

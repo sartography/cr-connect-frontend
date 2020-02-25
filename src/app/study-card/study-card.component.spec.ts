@@ -30,7 +30,7 @@ describe('StudyCardComponent', () => {
   }));
 
   beforeEach(() => {
-    httpMock = TestBed.get(HttpTestingController);
+    httpMock = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(StudyCardComponent);
     component = fixture.componentInstance;
     component.study = mockStudy0;

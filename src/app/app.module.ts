@@ -82,6 +82,7 @@ import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflo
 import {WorkflowComponent} from './workflow/workflow.component';
 
 
+@Injectable()
 export class ThisEnvironment implements AppEnvironment {
   production = environment.production;
   api = environment.api;
