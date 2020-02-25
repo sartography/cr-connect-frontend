@@ -36,16 +36,18 @@ export class WorkflowComponent {
   }
 
   logTaskData(task) {
-    const label = `Data for Workflow Task: '${task.name} (${task.id})'`;
-    console.group(label);
-    console.table(Object.entries(task.data).map(e => {
-      return {
-        'Form Field Name': e[0],
-        'Stored Value': e[1]
-      };
-    }));
-    console.groupEnd();
-    console.log('Task:', task);
+    if (task) {
+      const label = `Data for Workflow Task: '${task.name} (${task.id})'`;
+      console.group(label);
+      console.table(Object.entries(task.data).map(e => {
+        return {
+          'Form Field Name': e[0],
+          'Stored Value': e[1]
+        };
+      }));
+      console.groupEnd();
+      console.log('Task:', task);
+    }
   }
 
   workflowUpdated(wf: Workflow) {
