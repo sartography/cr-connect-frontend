@@ -63,7 +63,7 @@ describe('FileFieldComponent', () => {
   }));
 
   beforeEach(() => {
-    httpMock = TestBed.get(HttpTestingController);
+    httpMock = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(FileFieldComponent);
     component = fixture.componentInstance;
     component.field = field;

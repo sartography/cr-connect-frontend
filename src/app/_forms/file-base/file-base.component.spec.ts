@@ -30,7 +30,7 @@ describe('FileBaseComponent', () => {
   }));
 
   beforeEach(() => {
-    httpMock = TestBed.get(HttpTestingController);
+    httpMock = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(FileBaseComponent);
     component = fixture.componentInstance;
     component.field = {key: 'hi'};
