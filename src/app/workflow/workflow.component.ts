@@ -32,9 +32,21 @@ export class WorkflowComponent {
 
   setCurrentTask(task: WorkflowTask) {
     this.currentTask = task;
-
     // TODO: Change the URL without hitting the router??
     this.router.navigate(['study', this.studyId, 'workflow', this.workflow.id, 'task', task.id]);
+  }
+
+  logTaskData(task) {
+    const label = `Data for Workflow Task: '${task.name} (${task.id})'`;
+    console.group(label);
+    console.table(Object.entries(task.data).map(e => {
+      return {
+        'Form Field Name': e[0],
+        'Stored Value': e[1]
+      };
+    }));
+    console.groupEnd();
+    console.log('Task:', task);
   }
 
   workflowUpdated(wf: Workflow) {
@@ -46,30 +58,15 @@ export class WorkflowComponent {
 
   private updateTaskList(workflowId: number) {
     this.api.getWorkflow(workflowId).subscribe(wf => {
-      let currentTask: WorkflowTask;
       this.workflow = wf;
+      this.currentTask = wf.next_task;
+      this.logTaskData(this.currentTask);
 
       // De-dupe tasks, in case of parallel joins
       this.allTasks = this.dedupeTasks(wf.user_tasks || []);
 
       if (this.allTasks && (this.allTasks.length > 0)) {
         this.readyTasks = this.allTasks.filter(t => t.state === WorkflowTaskState.READY);
-
-        const taskId = this.taskId ||
-          (wf.next_task && wf.next_task.id) ||
-          (this.readyTasks && (this.readyTasks.length > 0) && this.readyTasks[0].id) ||
-          (wf.user_tasks && (wf.user_tasks.length > 0) && wf.user_tasks[0].id) ||
-          (wf.last_task && wf.last_task.id);
-        if (taskId) {
-          currentTask = this.allTasks.find(t => t.id === taskId);
-          if (currentTask) {
-            this.setCurrentTask(currentTask);
-          }
-        }
-      }
-
-      if (!currentTask) {
-        this.currentTask = wf.last_task || undefined;
       }
     });
   }
