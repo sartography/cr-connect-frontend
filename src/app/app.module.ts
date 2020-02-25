@@ -30,7 +30,7 @@ import {NgxFileDropModule} from 'ngx-file-drop';
 import {MarkdownModule} from 'ngx-markdown';
 import {NgxPageScrollModule} from 'ngx-page-scroll';
 import {NgxPageScrollCoreModule} from 'ngx-page-scroll-core';
-import {ApiService, AppEnvironment, AuthInterceptor, SessionRedirectComponent} from 'sartography-workflow-lib';
+import {ApiService, AppEnvironment, AuthInterceptor, SartographyWorkflowLibModule} from 'sartography-workflow-lib';
 import {environment} from '../environments/environment';
 import {FileBaseComponent} from './_forms/file-base/file-base.component';
 import {FileFieldComponent} from './_forms/file-field/file-field.component';
@@ -149,7 +149,6 @@ export class AppFormlyConfig {
     ProfileComponent,
     RepeatSectionComponent,
     RepeatSectionDialogComponent,
-    SessionRedirectComponent,
     SignInComponent,
     SignOutComponent,
     StudiesComponent,
@@ -196,6 +195,7 @@ export class AppFormlyConfig {
     NgxPageScrollModule,
     PipesModule,
     ReactiveFormsModule,
+    SartographyWorkflowLibModule,
     AppRoutingModule, // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [
