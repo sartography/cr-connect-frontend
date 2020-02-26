@@ -9,7 +9,7 @@
     <em>The following tasks need your attention:</em>
     <app-workflow-steps-menu-list *ngFor="let task of allTasks"
       [task]="task"
-      [isCurrent] = "task.id === currentTask.id"
+      [isCurrent] = "currentTask && task.id === currentTask.id"
       (taskSelected)="setCurrentTask($event)"
     ></app-workflow-steps-menu-list>
     <h3>Workflow Files:</h3>
