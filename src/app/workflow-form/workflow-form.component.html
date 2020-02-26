@@ -1,6 +1,6 @@
 <ng-container *ngIf="task && workflow; else loadingMessage">
     <h1>{{task.title}}</h1>
-    <div class="documentation">
+    <div class="documentation" *ngIf="task.documentation">
       <markdown [data]="task.documentation"></markdown>
     </div>
     <div>

@@ -27,7 +27,7 @@
 <ng-template #noTask>
   <div class="task-status" fxLayout="column" fxLayoutAlign="center center">
     <div class="non-user-task" *ngIf="currentTask">
-      <div class="documentation">
+      <div class="documentation" *ngIf="currentTask.documentation">
         <markdown [data]="currentTask.documentation"></markdown>
       </div>
       <div *ngIf="!currentTask.documentation">
