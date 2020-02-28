@@ -200,7 +200,7 @@ export class AppFormlyConfig {
     AppRoutingModule, // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
     ApiService,
     {provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment},
     {
