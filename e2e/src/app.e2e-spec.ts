@@ -84,12 +84,11 @@ describe('Clinical Research Coordinator App', () => {
 
     // Reload the list of studies.
     await page.clickElement('#cta_reload_studies');
+    await page.waitForNotVisible('.loading');
     await page.waitForClickable('app-study-card');
 
     const numStudiesAfter = await page.getElements('app-study-card').count();
-    expect(numStudiesAfter).toBeGreaterThan(1);
     expect(numStudiesAfter).toBeGreaterThan(numStudiesBefore);
-    expect(page.getElements('.is-new').count()).toBeGreaterThan(0);
   });
 
   it('should navigate to a study', async () => {

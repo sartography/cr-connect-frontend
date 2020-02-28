@@ -15,7 +15,7 @@
   <mat-card-content fxLayout="column" fxLayoutAlign="start start">
     <div fxFlex="100">
       <div
-        *ngIf="!study.inactive && study.protocol_builder_status === 'in_process'"
+        *ngIf="!study.inactive && study.protocol_builder_status === 'complete'"
         class="percent-complete"
         [ngStyle]="{width: percentComplete + '%'}"
       >
