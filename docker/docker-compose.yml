@@ -29,3 +29,11 @@ services:
     ports:
       - "5000:5000"
     command: ./wait-for-it.sh db:5432 -t 0 -- ./docker_run.sh
+
+  pb:
+    container_name: pb
+    image: sartography/protocol-builder-mock
+    ports:
+      - "5001:5001"
+    command: ./docker_run.sh
+
