@@ -44,5 +44,17 @@
       ></app-study-card>
     </div>
   </ng-container>
+
+  <ng-container *ngIf="inactiveStudies && inactiveStudies.length > 0">
+    <h2>Inactive Studies</h2>
+    <div class="status-inactive" fxLayout="row wrap" fxLayoutGap="40px">
+      <app-study-card
+        *ngFor="let study of inactiveStudies"
+        [study]="study"
+        [isNew]="false"
+        fxFlex="33"
+      ></app-study-card>
+    </div>
+  </ng-container>
 </div>
 

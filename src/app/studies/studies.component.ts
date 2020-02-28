@@ -18,6 +18,7 @@ export class StudiesComponent {
   isExpanded: boolean;
   irbUrl = environment.irbUrl;
   newStudy: Study;
+  inactiveStudies: Study[];
 
   constructor(private api: ApiService) {
     this.loadStudies();
@@ -36,9 +37,10 @@ export class StudiesComponent {
         return {
           status: ProtocolBuilderStatus[status],
           statusLabel: status,
-          studies: sorted.filter(s => s.protocol_builder_status === ProtocolBuilderStatus[status]),
+          studies: sorted.filter(s => !s.inactive && (s.protocol_builder_status === ProtocolBuilderStatus[status])),
         };
       });
+      this.inactiveStudies = sorted.filter(s => s.inactive);
     });
   }
 

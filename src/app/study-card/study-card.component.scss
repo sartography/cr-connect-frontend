@@ -51,3 +51,8 @@ mat-card {
     color: $brand-accent
   }
 }
+
+.inactive {
+  opacity: 0.5;
+  pointer-events: none;
+}
