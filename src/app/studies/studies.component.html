@@ -1,60 +1,65 @@
 <div class="studies-container" fxLayout="column">
   <h1>Studies</h1>
   <div
-    *ngIf="isExpanded"
     class="alert alert-info"
     fxFlex="100"
   >
     <p>To start a new study, first go to HSR IRB Protocol Builder and create a new protocol. When your protocol has
       been created, return here to continue working on it.</p>
-    <a
-      (click)="isExpanded = false; addStudy()"
-      color="accent"
-      [href]="irbUrl"
-      id="cta_protocol_builder"
-      mat-flat-button
-      target="_blank"
-    >
-      Create protocol in Protocol Builder
-    </a>
+    <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="center center">
+      <a
+        [href]="irbUrl"
+        color="primary"
+        id="cta_protocol_builder"
+        mat-flat-button
+        target="_blank"
+      >
+        <mat-icon>add</mat-icon>
+        Create new protocol
+        <mat-icon>open_in_new</mat-icon>
+      </a>
+      <a
+        (click)="loading = true; loadStudies()"
+        color="accent"
+        id="cta_reload_studies"
+        mat-flat-button
+        target="_blank"
+      >
+        <mat-icon>refresh</mat-icon>
+        Check for new protocols
+      </a>
+    </div>
   </div>
 
-  <div
-    (click)="isExpanded = true"
-    *ngIf="!isExpanded"
-    class="alert alert-info"
-    fxFlex="100"
-    fxLayout="column"
-    fxLayoutAlign="center start"
-  >
-    <button color="primary" id="cta_new_study" mat-flat-button>
-      <mat-icon>add</mat-icon>
-      Start a new study
-    </button>
+  <div *ngIf="!loading; else loadingMessage">
+    <ng-container *ngFor="let studiesGroup of studiesByStatus; let i = index;">
+      <h2>{{studiesGroup.statusLabel}}</h2>
+      <div class="status-{{studiesGroup.status}}" fxLayout="row wrap" fxLayoutGap="40px">
+        <app-study-card
+          *ngFor="let study of studiesGroup.studies"
+          [study]="study"
+          [isNew]="isNewStudy(study.id)"
+          fxFlex="33"
+        ></app-study-card>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="inactiveStudies && inactiveStudies.length > 0">
+      <h2>Inactive Studies</h2>
+      <div class="status-inactive" fxLayout="row wrap" fxLayoutGap="40px">
+        <app-study-card
+          *ngFor="let study of inactiveStudies"
+          [study]="study"
+          [isNew]="false"
+          fxFlex="33"
+        ></app-study-card>
+      </div>
+    </ng-container>
   </div>
-
-  <ng-container *ngFor="let studiesGroup of studiesByStatus; let i = index;">
-    <h2>{{studiesGroup.statusLabel}}</h2>
-    <div class="status-{{studiesGroup.status}}" fxLayout="row wrap" fxLayoutGap="40px">
-      <app-study-card
-        *ngFor="let study of studiesGroup.studies"
-        [study]="study"
-        [isNew]="newStudy && newStudy.id === study.id"
-        fxFlex="33"
-      ></app-study-card>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="inactiveStudies && inactiveStudies.length > 0">
-    <h2>Inactive Studies</h2>
-    <div class="status-inactive" fxLayout="row wrap" fxLayoutGap="40px">
-      <app-study-card
-        *ngFor="let study of inactiveStudies"
-        [study]="study"
-        [isNew]="false"
-        fxFlex="33"
-      ></app-study-card>
-    </div>
-  </ng-container>
 </div>
 
+<ng-template #loadingMessage>
+  <div class="loading" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
