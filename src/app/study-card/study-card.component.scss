@@ -7,7 +7,7 @@ mat-card {
   border-right: 1px solid $brand-gray-tint-2;
   margin-bottom: 10px;
 
-  &.in_process {
+  &.complete {
     border-bottom: 20px solid $brand-accent;
   }
 
@@ -50,4 +50,9 @@ mat-card {
     content: 'NEW';
     color: $brand-accent
   }
+}
+
+.inactive {
+  opacity: 0.5;
+  pointer-events: none;
 }

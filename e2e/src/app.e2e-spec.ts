@@ -1,11 +1,15 @@
-import { AppPage } from './app.po';
-import { browser, logging } from 'protractor';
+import {browser, logging} from 'protractor';
+import {HttpClient} from 'protractor-http-client';
+import {environment} from '../../src/environments/environment';
+import {AppPage} from './app.po';
 
 describe('Clinical Research Coordinator App', () => {
   let page: AppPage;
+  let http: HttpClient;
 
   beforeEach(() => {
     page = new AppPage();
+    http = new HttpClient(environment.irbUrl);
   });
 
   it('should display fake sign-in screen', () => {
@@ -15,7 +19,7 @@ describe('Clinical Research Coordinator App', () => {
 
   it('should click sign-in and navigate to home screen', () => {
     page.clickAndExpectRoute('#sign_in', '/');
-    expect(page.getElements('#cta_new_study').count()).toBeGreaterThan(0);
+    expect(page.getElements('#cta_protocol_builder').count()).toBeGreaterThan(0);
   });
 
   it('should navigate to help screen', () => {
@@ -36,32 +40,55 @@ describe('Clinical Research Coordinator App', () => {
     page.setLocalStorageVar('numstudy', '1');
     expect(page.getLocalStorageVar('numstudy')).toEqual('1');
     page.clickAndExpectRoute('#nav_home', '/');
-    expect(page.getElements('#cta_new_study').count()).toBeGreaterThan(0);
+    expect(page.getElements('#cta_protocol_builder').count()).toBeGreaterThan(0);
   });
 
-  it('should add a new study', async () => {
-    // const numStudiesBefore = await page.getElements('app-study-card').count();
-
-    // Should display message about going to Protocol Builder to add a new study.
-    page.clickElement('#cta_new_study');
+  it('should open Protocol Builder in new window', async () => {
     expect(page.getElements('#cta_protocol_builder').count()).toEqual(1);
+    expect(page.getElements('#cta_reload_studies').count()).toEqual(1);
 
-    // Should open Protocol Builder in new tab.
+    // Open Protocol Builder in new tab.
     const numTabsBefore = await page.getNumTabs();
     page.clickElement('#cta_protocol_builder');
     const numTabsAfter = await page.getNumTabs();
     expect(numTabsAfter).toBeGreaterThan(numTabsBefore);
 
-    // Close the new tab.
+    // Close Protocol Builder tab.
     await page.switchFocusToTab(1);
-    page.closeTab();
+    await page.closeTab();
     await page.switchFocusToTab(0);
+  });
 
-    // TODO: Create mock Protocol Builder and increment number of studies.
-    // expect(numStudiesAfter).toBeGreaterThan(numStudiesBefore);
+  it('should load new study from Protocol Builder', async () => {
+    const numStudiesBefore = await page.getElements('app-study-card').count();
+
+    // Add a new study to Protocol Builder.
+    http.post('/new_study', '' +
+      `STUDYID=${Math.floor(Math.random() * 100000)}&` +
+      `TITLE=${encodeURIComponent('New study title')}&` +
+      `NETBADGEID=czn1z&` +
+      `DATE_MODIFIED=${encodeURIComponent(new Date().toISOString())}&` +
+      `requirements=9&` +
+      `requirements=21&` +
+      `requirements=40&` +
+      `requirements=44&` +
+      `requirements=52&` +
+      `requirements=53&` +
+      `HSRNUMBER=${Math.floor(Math.random() * 100000)}&` +
+      `Q_COMPLETE=y`,
+      {'Content-Type': 'application/x-www-form-urlencoded'}
+    ).catch(error => {
+      console.error(error);
+    });
+    http.failOnHttpError = false;
+
+    // Reload the list of studies.
+    await page.clickElement('#cta_reload_studies');
+    await page.waitForNotVisible('.loading');
+    await page.waitForClickable('app-study-card');
 
     const numStudiesAfter = await page.getElements('app-study-card').count();
-    expect(numStudiesAfter).toBeGreaterThan(0);
+    expect(numStudiesAfter).toBeGreaterThan(numStudiesBefore);
   });
 
   it('should navigate to a study', async () => {

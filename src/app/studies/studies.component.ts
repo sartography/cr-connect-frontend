@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiService, newRandomStudy, ProtocolBuilderStatus, Study} from 'sartography-workflow-lib';
-import {environment} from '../../environments/environment';
+import {Component, Inject} from '@angular/core';
+import {ApiService, AppEnvironment, ProtocolBuilderStatus, Study} from 'sartography-workflow-lib';
+
 
 export interface StudiesByStatus {
   status: ProtocolBuilderStatus;
@@ -14,12 +14,19 @@ export interface StudiesByStatus {
   styleUrls: ['./studies.component.scss']
 })
 export class StudiesComponent {
+  beforeStudyIds: number[] = [];
+  afterStudyIds: number[] = [];
   studiesByStatus: StudiesByStatus[] = [];
-  isExpanded: boolean;
-  irbUrl = environment.irbUrl;
+  irbUrl: string;
   newStudy: Study;
+  inactiveStudies: Study[];
+  loading = true;
 
-  constructor(private api: ApiService) {
+  constructor(
+    @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
+    private api: ApiService,
+  ) {
+    this.irbUrl = environment.irbUrl;
     this.loadStudies();
   }
 
@@ -31,22 +38,35 @@ export class StudiesComponent {
         return bTime - aTime;
       });
 
+      // Save the previous set of ids
+      this.beforeStudyIds = this.afterStudyIds;
+
+      // New studies
+      this.afterStudyIds = sorted.map(s => s.id);
+
+      // Don't mark all the studies as new if this is the first time loading studies
+      if (this.beforeStudyIds.length === 0) {
+        this.beforeStudyIds = this.afterStudyIds;
+      }
+
       const statuses = Object.keys(ProtocolBuilderStatus);
       this.studiesByStatus = statuses.map((status, i) => {
         return {
           status: ProtocolBuilderStatus[status],
           statusLabel: status,
-          studies: sorted.filter(s => s.protocol_builder_status === ProtocolBuilderStatus[status]),
+          studies: sorted.filter(s => !s.inactive && (s.protocol_builder_status === ProtocolBuilderStatus[status])),
         };
       });
+      this.inactiveStudies = sorted.filter(s => s.inactive);
+      this.loading = false;
     });
   }
 
-  addStudy() {
-    const study = newRandomStudy();
-    this.api.addStudy(study).subscribe(newStudy => {
-      this.newStudy = newStudy;
-      this.loadStudies();
-    });
+  openProtocolBuilder() {
+    window.open(this.irbUrl, '_blank');
+  }
+
+  isNewStudy(studyId: number) {
+    return !this.beforeStudyIds.includes(studyId);
   }
 }

@@ -90,4 +90,14 @@ export class AppPage {
     return browser.wait(ExpectedConditions.elementToBeClickable(e), 5000);
   }
 
+  waitForNotVisible(selector: string) {
+    const e = this.getElement(selector);
+    return browser.wait(ExpectedConditions.invisibilityOf(e), 5000);
+  }
+
+  waitForVisible(selector: string) {
+    const e = this.getElement(selector);
+    return browser.wait(ExpectedConditions.visibilityOf(e), 5000);
+  }
+
 }
