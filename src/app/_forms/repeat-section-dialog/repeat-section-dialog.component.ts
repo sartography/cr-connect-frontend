@@ -37,13 +37,19 @@ export class RepeatSectionDialogComponent implements AfterContentInit {
   }
 
   onNoClick(): void {
-    // Reset data model to initial state
-    Object.keys(this.initialModel).forEach(k => {
-      this.data.model[k] = this.initialModel[k];
-    });
+    const isEmpty = Object.keys(this.initialModel).length === 0 && this.initialModel.constructor === Object;
 
-    const isEmpty = Object.keys(this.data.model).length === 0 && this.data.model.constructor === Object;
-    this.dialogRef.close(isEmpty ? undefined : this.data.model);
+    if (isEmpty) {
+      this.dialogRef.close(undefined);
+    } else {
+      // Reset data model to initial state
+      Object.keys(this.initialModel).forEach(k => {
+        this.data.model[k] = this.initialModel[k];
+      });
+
+      this.dialogRef.close(this.data.model);
+    }
+
   }
 
   highlightRequiredFields(fields: FormlyFieldConfig[]) {
