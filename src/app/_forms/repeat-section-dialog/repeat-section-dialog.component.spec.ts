@@ -91,9 +91,20 @@ describe('RepeatSectionDialogComponent', () => {
   });
 
   it('should close the dialog on no click', () => {
+
+    // Return nothing if no initial model is empty
     const closeDialogSpy = spyOn(component.dialogRef, 'close').and.stub();
+    component.initialModel = {};
+    component.data.model = {blah: 'fnord'};
     component.onNoClick();
-    expect(closeDialogSpy).toHaveBeenCalled();
+    expect(closeDialogSpy).toHaveBeenCalledWith(undefined);
+
+    // Return initial model if it has been edited
+    closeDialogSpy.calls.reset();
+    component.initialModel = {blort: 'glop'};
+    component.data.model = {blort: 'I have been modified!'};
+    component.onNoClick();
+    expect(closeDialogSpy).toHaveBeenCalledWith({blort: 'glop'});
   });
 
   it('should highlight required fields', () => {
