@@ -1,3 +1,4 @@
+import {isDefined} from '@angular/compiler/src/util';
 import {Component, Input} from '@angular/core';
 import {FormlyFieldConfig} from '@ngx-formly/core';
 
@@ -28,13 +29,12 @@ export class FormPrintoutComponent {
           const opts = f.templateOptions.options as SelectFieldOption[];
           opts.forEach(o => {
             if (!this._isOther(o.value) && !this._isOther(o.label)) {
-
               if (
                 o.value === val ||
                 (
+                  !!val &&
                   typeof val === 'object' &&
-                  val.constructor &&
-                  val.constructor.name === 'Object' &&
+                  Object.getPrototypeOf(val) === Object.getPrototypeOf({}) &&
                   val.hasOwnProperty(o.value) &&
                   val[o.value] === true
                 )
@@ -74,6 +74,5 @@ export class FormPrintoutComponent {
   private _isOther(value: string): boolean {
     return value && typeof value === 'string' && value.toLowerCase() === 'other';
   }
-
 
 }
