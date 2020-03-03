@@ -7,11 +7,6 @@
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
 
-  h1 {
-    text-transform: uppercase;
-    color: $brand-accent;
-  }
-
   html, body {
     height: 100%;
   }

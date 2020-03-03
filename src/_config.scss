@@ -48,20 +48,13 @@ $brand-accent-light: $brand-accent-tint-4;
 $brand-warning: #DF1E43;
 $brand-warning-muted: desaturate(scale-color($brand-warning, $lightness: 30%), 20%);
 $brand-warning-light: scale-color($brand-warning, $lightness: 90%);
-$easeDuration: 300ms;
-$animationDuration: 500ms;
-$tile-height-1x: 226px;
-$tile-height-2x: 288px;
-$uva-header-height: 40px;
-$site-header-height: 64px;
-$search-bar-height-sm: 64px;
-$search-bar-height-md: 128px;
-$search-bar-height-lg: 64px;
-$header-height-sm: ($uva-header-height + $site-header-height + $search-bar-height-sm);
-$header-height-md: ($uva-header-height + $site-header-height + $search-bar-height-md);
-$header-height-lg: ($uva-header-height + $site-header-height + $search-bar-height-lg);
 
 // Green
 $brand-green: #64B343;
 $brand-green-muted: #8EC774;
 $brand-green-light: #B5D9A3;
+
+// Dimensions
+$easeDuration: 300ms;
+$animationDuration: 500ms;
+$header-height: 84px;
