@@ -36,10 +36,11 @@
 <div class="repeat-action" *ngIf="field && field.templateOptions">
   <button
     mat-flat-button
-    color="primary"
+    color="accent"
     type="button"
     (click)="openDialog(field.fieldGroup ? field.fieldGroup.length : 0)"
   >
+    <mat-icon>add</mat-icon>
     {{ field.templateOptions.description || 'Add ' + field.templateOptions.label }}
   </button>
 </div>
