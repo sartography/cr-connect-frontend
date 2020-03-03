@@ -18,6 +18,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormlyModule} from '@ngx-formly/core';
@@ -197,7 +198,9 @@ export class AppFormlyConfig {
     PipesModule,
     ReactiveFormsModule,
     SartographyWorkflowLibModule,
-    AppRoutingModule, // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
+    AppRoutingModule,
+    MatTooltipModule,
+    // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},

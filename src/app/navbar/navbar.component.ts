@@ -50,9 +50,8 @@ export class NavbarComponent implements OnInit {
   private _loadNavLinks() {
     const displayName = this.user.display_name || this.user.first_name || this.user.last_name;
     this.navLinks = [
-      {path: '/', id: 'nav_home', label: 'Home'},
-      {path: '/inbox', id: 'nav_inbox', label: 'Inbox'},
-      {path: '/help', id: 'nav_help', label: 'Help'},
+      {path: '/help', id: 'nav_help', label: 'Help & User Guide', icon: 'help'},
+      {path: '/inbox', id: 'nav_inbox', label: 'Inbox & Notifications', icon: 'notifications'},
       {
         id: 'nav_account', label: `${displayName} (${this.user.email_address})`,
         icon: 'account_circle',
