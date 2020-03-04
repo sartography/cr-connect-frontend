@@ -27,3 +27,17 @@ h2 {
   margin-bottom: 10px;
   background-color: #d5d0d1;
 }
+
+mat-panel-title.mat-h2 {
+  padding-top: 16px;
+
+  mat-chip {
+    margin-left: 1em;
+
+    &.draft { background-color: $brand-primary; color: white; }
+    &.in_process { background-color: $brand-primary-tint-1; color: white; }
+    &.in_review { background-color: $brand-primary-tint-2; color: white; }
+    &.review_complete { background-color: $brand-primary-tint-3; }
+    &.inactive { background-color: $brand-gray-light; }
+  }
+}

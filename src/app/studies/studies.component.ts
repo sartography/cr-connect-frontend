@@ -1,5 +1,11 @@
 import {Component, Inject} from '@angular/core';
-import {ApiService, AppEnvironment, ProtocolBuilderStatus, Study} from 'sartography-workflow-lib';
+import {
+  ApiService,
+  AppEnvironment,
+  ProtocolBuilderStatus,
+  ProtocolBuilderStatusLabels,
+  Study
+} from 'sartography-workflow-lib';
 
 
 export interface StudiesByStatus {
@@ -32,6 +38,7 @@ export class StudiesComponent {
 
   loadStudies() {
     this.api.getStudies().subscribe(allStudies => {
+      console.log('allStudies', allStudies)
       const sorted = allStudies.sort((a, b) => {
         const aTime = new Date(a.last_updated).getTime();
         const bTime = new Date(b.last_updated).getTime();
@@ -50,11 +57,13 @@ export class StudiesComponent {
       }
 
       const statuses = Object.keys(ProtocolBuilderStatus);
+      console.log('statuses', statuses);
       this.studiesByStatus = statuses.map((status, i) => {
+        console.log('ProtocolBuilderStatus[status]', ProtocolBuilderStatus[status]);
         return {
           status: ProtocolBuilderStatus[status],
-          statusLabel: status,
-          studies: sorted.filter(s => !s.inactive && (s.protocol_builder_status === ProtocolBuilderStatus[status])),
+          statusLabel: ProtocolBuilderStatusLabels[status],
+          studies: sorted.filter(s => !s.inactive && (s.protocol_builder_status === status)),
         };
       });
       this.inactiveStudies = sorted.filter(s => s.inactive);
