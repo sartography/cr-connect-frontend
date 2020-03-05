@@ -41,3 +41,15 @@ mat-panel-title.mat-h2 {
     &.inactive { background-color: $brand-gray-light; }
   }
 }
+
+.study-row {
+  cursor: pointer;
+
+  &:hover {
+    background-color: $brand-gray-light;
+  }
+}
+
+.mat-table {
+  min-width: 75vw;
+}

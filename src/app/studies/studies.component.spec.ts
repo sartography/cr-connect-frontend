@@ -1,8 +1,10 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatCardModule} from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ApiService, MockEnvironment, mockStudies} from 'sartography-workflow-lib';
 import {StudyCardComponent} from '../study-card/study-card.component';
@@ -22,8 +24,10 @@ describe('StudiesComponent', () => {
       imports: [
         HttpClientTestingModule,
         MatCardModule,
+        MatExpansionModule,
         MatIconModule,
         MatProgressBarModule,
+        MatProgressSpinnerModule,
         RouterTestingModule,
       ],
       providers: [

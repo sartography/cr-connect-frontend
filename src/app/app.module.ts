@@ -18,6 +18,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -77,7 +78,7 @@ import {ProfileComponent} from './profile/profile.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesComponent} from './studies/studies.component';
-import {StudyCardComponent} from './study-card/study-card.component';
+import {StudyProgressComponent} from './study-progress/study-progress.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
@@ -157,8 +158,8 @@ export class AppFormlyConfig {
     SignInComponent,
     SignOutComponent,
     StudiesComponent,
-    StudyCardComponent,
     StudyComponent,
+    StudyProgressComponent,
     UnescapeLineBreaksPipe,
     WorkflowComponent,
     WorkflowFilesComponent,
@@ -206,6 +207,7 @@ export class AppFormlyConfig {
     MatExpansionModule,
     MatChipsModule,
     MatBadgeModule,
+    MatSortModule,
     // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [

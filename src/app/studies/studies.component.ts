@@ -1,4 +1,6 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, ViewChild} from '@angular/core';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 import {
   ApiService,
   AppEnvironment,
@@ -12,6 +14,7 @@ export interface StudiesByStatus {
   status: ProtocolBuilderStatus;
   statusLabel: string;
   studies: Study[];
+  dataSource: MatTableDataSource<Study>;
 }
 
 @Component({
@@ -20,13 +23,19 @@ export interface StudiesByStatus {
   styleUrls: ['./studies.component.scss']
 })
 export class StudiesComponent {
-  beforeStudyIds: number[] = [];
-  afterStudyIds: number[] = [];
+  beforeStudyIds: number[];
+  afterStudyIds: number[];
   studiesByStatus: StudiesByStatus[] = [];
   irbUrl: string;
   newStudy: Study;
   inactiveStudies: Study[];
   loading = true;
+  displayedColumns: string[] = [
+    'title',
+    'id',
+    'progress',
+    'protocol_builder_status',
+  ];
 
   constructor(
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
@@ -38,7 +47,7 @@ export class StudiesComponent {
 
   loadStudies() {
     this.api.getStudies().subscribe(allStudies => {
-      console.log('allStudies', allStudies)
+      console.log('allStudies.length', allStudies.length);
       const sorted = allStudies.sort((a, b) => {
         const aTime = new Date(a.last_updated).getTime();
         const bTime = new Date(b.last_updated).getTime();
@@ -52,21 +61,22 @@ export class StudiesComponent {
       this.afterStudyIds = sorted.map(s => s.id);
 
       // Don't mark all the studies as new if this is the first time loading studies
-      if (this.beforeStudyIds.length === 0) {
+      if (this.beforeStudyIds === undefined) {
         this.beforeStudyIds = this.afterStudyIds;
       }
 
-      const statuses = Object.keys(ProtocolBuilderStatus);
-      console.log('statuses', statuses);
-      this.studiesByStatus = statuses.map((status, i) => {
-        console.log('ProtocolBuilderStatus[status]', ProtocolBuilderStatus[status]);
+      const statusKeys = Object.keys(ProtocolBuilderStatus);
+      this.studiesByStatus = statusKeys.map((statusKey, i) => {
+        const filtered = sorted.filter(s => s.protocol_builder_status.toLowerCase() === statusKey.toLowerCase());
         return {
-          status: ProtocolBuilderStatus[status],
-          statusLabel: ProtocolBuilderStatusLabels[status],
-          studies: sorted.filter(s => !s.inactive && (s.protocol_builder_status === status)),
+          status: ProtocolBuilderStatus[statusKey],
+          statusLabel: ProtocolBuilderStatusLabels[statusKey],
+          studies: filtered,
+          dataSource: new MatTableDataSource(filtered),
         };
       });
-      this.inactiveStudies = sorted.filter(s => s.inactive);
+
+      console.log('studiesByStatus', this.studiesByStatus);
       this.loading = false;
     });
   }
@@ -77,5 +87,9 @@ export class StudiesComponent {
 
   isNewStudy(studyId: number) {
     return !this.beforeStudyIds.includes(studyId);
+  }
+
+  stepsProgress(study: Study) {
+
   }
 }

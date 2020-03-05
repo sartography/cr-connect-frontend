@@ -2,14 +2,15 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ApiService, Study, Workflow, WorkflowTaskState} from 'sartography-workflow-lib';
 
 @Component({
-  selector: 'app-study-card',
-  templateUrl: './study-card.component.html',
-  styleUrls: ['./study-card.component.scss']
+  selector: 'app-study-progress',
+  templateUrl: './study-progress.component.html',
+  styleUrls: ['./study-progress.component.scss']
 })
-export class StudyCardComponent implements OnInit {
+export class StudyProgressComponent implements OnInit {
   @Input() study: Study;
-  @Input() isNew: boolean;
   workflows: Workflow[];
+  numTasksComplete = 0;
+  numTasksTotal = 0;
   percentComplete = 0;
 
   constructor(private api: ApiService) {
@@ -23,20 +24,22 @@ export class StudyCardComponent implements OnInit {
   }
 
   calculatePercentComplete() {
-    let numTasks = 0;
-    let numDone = 0;
+    this.numTasksTotal = 0;
+    this.numTasksComplete = 0;
+
     const doneStates = [
       WorkflowTaskState.COMPLETED,
       WorkflowTaskState.CANCELLED,
     ];
 
     this.workflows.forEach(wf => {
-      numTasks += wf.user_tasks.length;
-      numDone += wf.user_tasks.filter(t => doneStates.includes(t.state)).length;
+      this.numTasksTotal += wf.user_tasks.length;
+      this.numTasksComplete += wf.user_tasks.filter(t => doneStates.includes(t.state)).length;
     });
 
-    if (numTasks > 0) {
-      this.percentComplete = Math.floor(numDone / numTasks * 100);
+    if (this.numTasksTotal > 0) {
+      this.percentComplete = Math.floor(this.numTasksComplete / this.numTasksTotal * 100);
     }
   }
+
 }
