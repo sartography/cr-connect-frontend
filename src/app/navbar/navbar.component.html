@@ -1,9 +1,13 @@
 <nav *ngIf="isSignedIn() && user">
   <a
     [routerLink]="['/']"
-    class="site-title mat-display-1"
+    class="site-title mat-title"
+    id="nav_home"
     mat-button
-  >CR Connect</a>
+  >
+    <img class="logo" src="/assets/logo/uva_rotunda.svg" alt="University of Virginia">
+    CR Connect
+  </a>
   <div class="flex-spacer"></div>
   <ng-container *ngFor="let link of navLinks">
     <a *ngIf="!link.links"
@@ -11,8 +15,9 @@
        [ngClass]="{'active': isLinkActive(link.path)}"
        [routerLink]="link.path"
        mat-button
+       [matTooltip]="link.label"
     >
-      {{link.label}}
+      <mat-icon>{{link.icon}}</mat-icon>
     </a>
 
     <ng-container *ngIf="link.links">
@@ -21,9 +26,9 @@
         [id]="link.id"
         [matMenuTriggerFor]="menu"
         mat-button
+       [matTooltip]="link.label"
       >
         <mat-icon>{{link.icon}}</mat-icon>
-        {{link.label}}
       </button>
       <mat-menu #menu="matMenu" xPosition="before">
         <button

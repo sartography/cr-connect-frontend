@@ -2,10 +2,13 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Injectable, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatBadgeModule} from '@angular/material/badge';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
+import {MatChipsModule} from '@angular/material/chips';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
@@ -15,9 +18,11 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormlyModule} from '@ngx-formly/core';
@@ -73,7 +78,7 @@ import {ProfileComponent} from './profile/profile.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesComponent} from './studies/studies.component';
-import {StudyCardComponent} from './study-card/study-card.component';
+import {StudyProgressComponent} from './study-progress/study-progress.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
@@ -153,8 +158,8 @@ export class AppFormlyConfig {
     SignInComponent,
     SignOutComponent,
     StudiesComponent,
-    StudyCardComponent,
     StudyComponent,
+    StudyProgressComponent,
     UnescapeLineBreaksPipe,
     WorkflowComponent,
     WorkflowFilesComponent,
@@ -197,7 +202,13 @@ export class AppFormlyConfig {
     PipesModule,
     ReactiveFormsModule,
     SartographyWorkflowLibModule,
-    AppRoutingModule, // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
+    AppRoutingModule,
+    MatTooltipModule,
+    MatExpansionModule,
+    MatChipsModule,
+    MatBadgeModule,
+    MatSortModule,
+    // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},

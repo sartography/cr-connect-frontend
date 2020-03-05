@@ -1,24 +1,20 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {MatCardModule} from '@angular/material/card';
 import {RouterTestingModule} from '@angular/router/testing';
 import createClone from 'rfdc';
 import {ApiService, MockEnvironment, mockStudy0, mockWorkflows, WorkflowTaskState} from 'sartography-workflow-lib';
-import {StudyCardComponent} from './study-card.component';
+import {StudyProgressComponent} from './study-progress.component';
 
-describe('StudyCardComponent', () => {
-  let component: StudyCardComponent;
-  let fixture: ComponentFixture<StudyCardComponent>;
+describe('StudyProgressComponent', () => {
+  let component: StudyProgressComponent;
+  let fixture: ComponentFixture<StudyProgressComponent>;
   let httpMock: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        StudyCardComponent
-      ],
+      declarations: [StudyProgressComponent],
       imports: [
         HttpClientTestingModule,
-        MatCardModule,
         RouterTestingModule,
       ],
       providers: [
@@ -31,7 +27,7 @@ describe('StudyCardComponent', () => {
 
   beforeEach(() => {
     httpMock = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(StudyCardComponent);
+    fixture = TestBed.createComponent(StudyProgressComponent);
     component = fixture.componentInstance;
     component.study = mockStudy0;
     fixture.detectChanges();

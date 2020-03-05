@@ -7,18 +7,13 @@
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
 
-  h1 {
-    text-transform: uppercase;
-    color: $brand-accent;
-  }
-
   html, body {
     height: 100%;
   }
 
   body {
     margin: 0;
-    padding-top: 64px;
+    padding-top: $header-height;
   }
 
   mat-radio-button, .mat-checkbox {

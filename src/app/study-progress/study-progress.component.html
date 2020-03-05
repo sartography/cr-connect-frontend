@@ -1,0 +1,11 @@
+<div *ngIf="numTasksTotal > 0; else loading" fxLayout="column" class="tasks-complete">
+  {{numTasksComplete}}/{{numTasksTotal}}
+  <div fxFlex="100">
+    <div
+      class="percent-complete"
+      [ngStyle]="{width: percentComplete + '%'}"
+    >&nbsp;</div>
+  </div>
+</div>
+
+<ng-template #loading>...</ng-template>

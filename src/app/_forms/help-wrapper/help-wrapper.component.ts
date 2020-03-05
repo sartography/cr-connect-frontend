@@ -19,11 +19,9 @@ export class HelpWrapperComponent extends FieldWrapper implements AfterViewInit 
   }
 
   ngAfterViewInit() {
-    console.log('this.to', this.to);
     if (this.matSuffix) {
       Promise.resolve().then(() => {
         this.to.suffix = this.matSuffix;
-        console.log('this.to.suffix', this.to.suffix);
       });
     }
   }

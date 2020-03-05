@@ -32,29 +32,48 @@
   </div>
 
   <div *ngIf="!loading; else loadingMessage">
-    <ng-container *ngFor="let studiesGroup of studiesByStatus; let i = index;">
-      <h2>{{studiesGroup.statusLabel}}</h2>
-      <div class="status-{{studiesGroup.status}}" fxLayout="row wrap" fxLayoutGap="40px">
-        <app-study-card
-          *ngFor="let study of studiesGroup.studies"
-          [study]="study"
-          [isNew]="isNewStudy(study.id)"
-          fxFlex="33"
-        ></app-study-card>
-      </div>
-    </ng-container>
+    <mat-expansion-panel *ngFor="let studiesGroup of studiesByStatus; let i = index;" [expanded]="studiesGroup.studies.length > 0">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="mat-h2">
+          {{studiesGroup.statusLabel}}
+          <mat-chip-list>
+            <mat-chip [selectable]="false" [ngClass]="studiesGroup.status.toString().toLowerCase()">{{studiesGroup.studies.length}}</mat-chip>
+          </mat-chip-list>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="status-{{studiesGroup.status.toString().toLowerCase()}}" fxLayout="row wrap" fxLayoutGap="40px">
+        <table mat-table [dataSource]="studiesGroup.dataSource" matSort class="mat-elevation-z0">
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+            <td mat-cell *matCellDef="let study"> {{study.title}} </td>
+          </ng-container>
 
-    <ng-container *ngIf="inactiveStudies && inactiveStudies.length > 0">
-      <h2>Inactive Studies</h2>
-      <div class="status-inactive" fxLayout="row wrap" fxLayoutGap="40px">
-        <app-study-card
-          *ngFor="let study of inactiveStudies"
-          [study]="study"
-          [isNew]="false"
-          fxFlex="33"
-        ></app-study-card>
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Study ID </th>
+            <td mat-cell *matCellDef="let study"> {{study.id}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="progress">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Progress </th>
+            <td mat-cell *matCellDef="let study"><app-study-progress [study]="study"></app-study-progress></td>
+          </ng-container>
+
+          <ng-container matColumnDef="protocol_builder_status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+            <td mat-cell *matCellDef="let study"> {{study.protocol_builder_status}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let study; columns: displayedColumns;"
+            [routerLink]="['/study', study.id]"
+            [ngClass]="'study-row'"
+            [attr.data-study-id]="study.id"
+          ></tr>
+        </table>
       </div>
-    </ng-container>
+    </mat-expansion-panel>
   </div>
 </div>
 

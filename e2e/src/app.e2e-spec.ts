@@ -14,7 +14,7 @@ describe('Clinical Research Coordinator App', () => {
 
   it('should display fake sign-in screen', () => {
     page.navigateTo();
-    expect(page.getText('h1')).toEqual('FAKE UVA NETBADGE SIGN IN (FOR TESTING ONLY)');
+    expect(page.getText('h1')).toEqual('Fake UVA NetBadge Sign In (for testing only)');
   });
 
   it('should click sign-in and navigate to home screen', () => {
@@ -60,7 +60,7 @@ describe('Clinical Research Coordinator App', () => {
   });
 
   it('should load new study from Protocol Builder', async () => {
-    const numStudiesBefore = await page.getElements('app-study-card').count();
+    const numStudiesBefore = await page.getElements('.study-row').count();
 
     // Add a new study to Protocol Builder.
     http.post('/new_study', '' +
@@ -85,24 +85,19 @@ describe('Clinical Research Coordinator App', () => {
     // Reload the list of studies.
     await page.clickElement('#cta_reload_studies');
     await page.waitForNotVisible('.loading');
-    await page.waitForClickable('app-study-card');
+    await page.waitForClickable('.study-row');
 
-    const numStudiesAfter = await page.getElements('app-study-card').count();
+    const numStudiesAfter = await page.getElements('.study-row').count();
     expect(numStudiesAfter).toBeGreaterThan(numStudiesBefore);
   });
 
   it('should navigate to a study', async () => {
-    const studyCard = page.getElement('app-study-card mat-card');
-    const studyId = await studyCard.getAttribute('data-study-id');
+    const studyRow = page.getElement('.study-row');
+    const studyId = await studyRow.getAttribute('data-study-id');
     await expect(studyId).not.toBeUndefined();
     await expect(studyId).not.toBeNull();
-    page.clickAndExpectRoute('app-study-card', '/study/' + studyId);
+    page.clickAndExpectRoute('.study-row', '/study/' + studyId);
   });
-
-  // it('should start a workflow', async () => {
-  //   await page.clickElement('#startWorkflow');
-  //   await page.waitFor(1000);
-  // });
 
   it('should navigate to a workflow', async () => {
     expect(page.getElements('.chart-container').count()).toBeGreaterThan(0);
