@@ -35,7 +35,6 @@ import {ProfileComponent} from './profile/profile.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesComponent} from './studies/studies.component';
-import {StudyCardComponent} from './study-card/study-card.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
@@ -66,7 +65,6 @@ describe('Router: App', () => {
         SignInComponent,
         SignOutComponent,
         StudiesComponent,
-        StudyCardComponent,
         StudyComponent,
         ToFormlyPipe,
         WorkflowComponent,

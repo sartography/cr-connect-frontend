@@ -7,7 +7,6 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ApiService, MockEnvironment, mockStudies} from 'sartography-workflow-lib';
-import {StudyCardComponent} from '../study-card/study-card.component';
 import {StudiesComponent} from './studies.component';
 
 describe('StudiesComponent', () => {
@@ -19,7 +18,6 @@ describe('StudiesComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         StudiesComponent,
-        StudyCardComponent,
       ],
       imports: [
         HttpClientTestingModule,

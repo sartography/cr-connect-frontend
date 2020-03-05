@@ -92,17 +92,12 @@ describe('Clinical Research Coordinator App', () => {
   });
 
   it('should navigate to a study', async () => {
-    const studyCard = page.getElement('.study-row');
-    const studyId = await studyCard.getAttribute('data-study-id');
+    const studyRow = page.getElement('.study-row');
+    const studyId = await studyRow.getAttribute('data-study-id');
     await expect(studyId).not.toBeUndefined();
     await expect(studyId).not.toBeNull();
     page.clickAndExpectRoute('.study-row', '/study/' + studyId);
   });
-
-  // it('should start a workflow', async () => {
-  //   await page.clickElement('#startWorkflow');
-  //   await page.waitFor(1000);
-  // });
 
   it('should navigate to a workflow', async () => {
     expect(page.getElements('.chart-container').count()).toBeGreaterThan(0);
