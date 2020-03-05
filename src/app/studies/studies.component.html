@@ -69,6 +69,7 @@
             *matRowDef="let study; columns: displayedColumns;"
             [routerLink]="['/study', study.id]"
             [ngClass]="'study-row'"
+            [attr.data-study-id]="study.id"
           ></tr>
         </table>
       </div>
