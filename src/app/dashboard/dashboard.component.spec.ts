@@ -1,9 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {RouterTestingModule} from '@angular/router/testing';
-import {ChartsModule} from 'ng2-charts';
 import {mockStudies, mockWorkflows, mockWorkflowSpecs} from 'sartography-workflow-lib';
-
 import {DashboardComponent} from './dashboard.component';
 
 describe('DashboardComponent', () => {
@@ -14,9 +13,9 @@ describe('DashboardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [DashboardComponent],
       imports: [
+        MatCardModule,
         MatIconModule,
         RouterTestingModule,
-        ChartsModule,
       ]
     })
       .compileComponents();
