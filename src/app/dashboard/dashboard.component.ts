@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Study, Workflow, WorkflowSpec, WorkflowTaskState} from 'sartography-workflow-lib';
+import {ApiService, Study, Workflow, WorkflowSpec, WorkflowTaskState} from 'sartography-workflow-lib';
 
 interface CardData {
   workflowId: number;
@@ -7,6 +7,7 @@ interface CardData {
   labels: string[];
   numIncompleteTasks: number;
   numCompleteTasks: number;
+  numTotalTasks: number;
 }
 
 interface WorkflowStatus {
@@ -26,19 +27,23 @@ export class DashboardComponent implements OnInit {
   labels = ['Incomplete', 'Partially Complete', 'Complete'];
   cards: CardData[] = [];
 
-  constructor() {
+  constructor(private api: ApiService) {
   }
 
   ngOnInit() {
-    this.cards = this.workflows.map(w => {
+    this.workflows.forEach(w => {
       const spec = this.getWorkflowSpecForWorkflow(w);
-      return {
-        workflowId: w.id,
-        title: spec.display_name,
-        labels: this.labels,
-        numIncompleteTasks: this.numIncomplete(w),
-        numCompleteTasks: this.numComplete(w),
-      };
+      this.api.getWorkflowStats(w.id).subscribe(stats => {
+        console.log('stats', stats);
+        this.cards.push({
+          workflowId: w.id,
+          title: spec.display_name,
+          labels: this.labels,
+          numIncompleteTasks: stats.num_tasks_incomplete,
+          numCompleteTasks: stats.num_tasks_complete,
+          numTotalTasks: stats.num_tasks_total,
+        });
+      });
     });
   }
 
@@ -56,24 +61,5 @@ export class DashboardComponent implements OnInit {
     } else {
       return {name: 'inactive', label: 'Inactive'};
     }
-  }
-
-  private numIncomplete(w: Workflow): number {
-    const incompleteStates = [
-      WorkflowTaskState.WAITING,
-      WorkflowTaskState.FUTURE,
-      WorkflowTaskState.LIKELY,
-      WorkflowTaskState.MAYBE,
-      WorkflowTaskState.READY,
-    ];
-    return w.user_tasks.filter(t => incompleteStates.includes(t.state)).length;
-  }
-
-  private numComplete(w: Workflow): number {
-    const completeStates = [
-      WorkflowTaskState.CANCELLED,
-      WorkflowTaskState.COMPLETED,
-    ];
-    return w.user_tasks.filter(t => completeStates.includes(t.state)).length;
   }
 }
