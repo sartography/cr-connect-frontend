@@ -8,6 +8,7 @@ interface CardData {
   numIncompleteTasks: number;
   numCompleteTasks: number;
   numTotalTasks: number;
+  isActive: boolean;
 }
 
 interface WorkflowStatus {
@@ -31,10 +32,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('this.workflows', this.workflows);
     this.workflows.forEach(w => {
       const spec = this.getWorkflowSpecForWorkflow(w);
       this.api.getWorkflowStats(w.id).subscribe(stats => {
-        console.log('stats', stats);
         this.cards.push({
           workflowId: w.id,
           title: spec.display_name,
@@ -42,6 +43,7 @@ export class DashboardComponent implements OnInit {
           numIncompleteTasks: stats.num_tasks_incomplete,
           numCompleteTasks: stats.num_tasks_complete,
           numTotalTasks: stats.num_tasks_total,
+          isActive: w.is_active,
         });
       });
     });
