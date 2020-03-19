@@ -99,8 +99,7 @@ export class ThisEnvironment implements AppEnvironment {
     ChartsModule,
     DeviceDetectorModule.forRoot(),
     FlexLayoutModule,
-    SartographyFormsModule,
-    SartographyPipesModule,
+    FormlyModule,
     FormsModule,
     HttpClientModule,
     MarkdownModule.forRoot(),
@@ -130,10 +129,10 @@ export class ThisEnvironment implements AppEnvironment {
     NgxPageScrollCoreModule.forRoot({duration: 500, scrollOffset: 84}),
     NgxPageScrollModule,
     ReactiveFormsModule,
+    SartographyFormsModule,
+    SartographyPipesModule,
     SartographyWorkflowLibModule,
-    AppRoutingModule,
-    FormlyModule,
-    // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
+    AppRoutingModule, // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
