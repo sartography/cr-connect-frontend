@@ -45,7 +45,7 @@
     "ngx-page-scroll-core": "^7.0.0",
     "rfdc": "^1.1.4",
     "rxjs": "~6.5.4",
-    "sartography-workflow-lib": "0.0.62",
+    "sartography-workflow-lib": "0.0.68",
     "ts-md5": "^1.2.7",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
@@ -71,6 +71,6 @@
     "sonar-scanner": "^3.1.0",
     "ts-node": "~8.6.2",
     "tslint": "~6.0.0",
-    "typescript": "^3.7.5"
+    "typescript": "~3.7.5"
   }
 }

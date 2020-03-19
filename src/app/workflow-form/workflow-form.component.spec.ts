@@ -14,9 +14,9 @@ import {
   mockWorkflowSpec0,
   mockWorkflowTask0,
   mockWorkflowTask1,
-  mockWorkflowTasks
+  mockWorkflowTasks,
+  ToFormlyPipe
 } from 'sartography-workflow-lib';
-import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
 import {WorkflowFormComponent} from './workflow-form.component';
 
 describe('WorkflowFormComponent', () => {
