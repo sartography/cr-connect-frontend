@@ -1,9 +1,7 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatListModule} from '@angular/material/list';
-import {ApiService, MockEnvironment} from 'sartography-workflow-lib';
-import {mockWorkflowSpecs} from 'sartography-workflow-lib';
-
+import {ApiService, MockEnvironment, mockWorkflowSpecs} from 'sartography-workflow-lib';
 import {WorkflowSpecListComponent} from './workflow-spec-list.component';
 
 describe('WorkflowSpecListComponent', () => {

@@ -1,15 +1,19 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ChartType} from 'chart.js';
-import {Color, Label, MultiDataSet} from 'ng2-charts';
-import {Study, Workflow, WorkflowSpec, WorkflowTaskState} from 'sartography-workflow-lib';
+import {ApiService, Study, Workflow, WorkflowSpec, WorkflowTaskState} from 'sartography-workflow-lib';
 
-interface ChartData {
+interface CardData {
   workflowId: number;
   title: string;
-  labels: Label[];
-  data: MultiDataSet;
-  type: ChartType;
-  colors: Color[];
+  labels: string[];
+  numIncompleteTasks: number;
+  numCompleteTasks: number;
+  numTotalTasks: number;
+  isActive: boolean;
+}
+
+interface WorkflowStatus {
+  name: string;
+  label: string;
 }
 
 @Component({
@@ -21,34 +25,27 @@ export class DashboardComponent implements OnInit {
   @Input() study: Study;
   @Input() workflows: Workflow[];
   @Input() workflowSpecs: WorkflowSpec[];
-  colors: Color[] = [{
-    backgroundColor: [
-      '#E57200', // orange
-      '#5266a5', // light blue
-      '#232D4B', // dark blue
-    ]
-  }];
-  labels: Label[] = ['Incomplete', 'Partially Complete', 'Complete'];
-  charts: ChartData[] = [];
+  labels = ['Incomplete', 'Partially Complete', 'Complete'];
+  cards: CardData[] = [];
 
-  constructor() {
+  constructor(private api: ApiService) {
   }
 
   ngOnInit() {
-    this.charts = this.workflows.map(w => {
+    console.log('this.workflows', this.workflows);
+    this.workflows.forEach(w => {
       const spec = this.getWorkflowSpecForWorkflow(w);
-      return {
-        workflowId: w.id,
-        title: spec.display_name,
-        labels: this.labels,
-        data: [[
-          this.numIncomplete(w),
-          this.numPartial(w),
-          this.numComplete(w),
-        ]],
-        type: 'pie',
-        colors: this.colors
-      };
+      this.api.getWorkflowStats(w.id).subscribe(stats => {
+        this.cards.push({
+          workflowId: w.id,
+          title: spec.display_name,
+          labels: this.labels,
+          numIncompleteTasks: stats.num_tasks_incomplete,
+          numCompleteTasks: stats.num_tasks_complete,
+          numTotalTasks: stats.num_tasks_total,
+          isActive: w.is_active,
+        });
+      });
     });
   }
 
@@ -56,26 +53,15 @@ export class DashboardComponent implements OnInit {
     return this.workflowSpecs.find(wfs => wfs.id === wf.workflow_spec_id);
   }
 
-  private numIncomplete(w: Workflow): number {
-    const incompleteStates = [
-      WorkflowTaskState.WAITING,
-      WorkflowTaskState.FUTURE,
-      WorkflowTaskState.LIKELY,
-      WorkflowTaskState.MAYBE,
-    ];
-    return w.user_tasks.filter(t => incompleteStates.includes(t.state)).length;
+  statusText(card: CardData): WorkflowStatus {
+    if (card.numCompleteTasks === 0 && card.numIncompleteTasks > 0) {
+      return {name: 'not-started', label: 'Not started'};
+    } else if (card.numCompleteTasks > 0 && card.numIncompleteTasks > 0) {
+      return {name: 'in-progress', label: 'In progress'};
+    } else if (card.numIncompleteTasks === 0 && card.numCompleteTasks > 0) {
+      return {name: 'complete', label: 'Ready for submission'};
+    } else {
+      return {name: 'inactive', label: 'Inactive'};
+    }
   }
-
-  private numPartial(w: Workflow): number {
-    return w.user_tasks.filter(t => WorkflowTaskState.READY === t.state).length;
-  }
-
-  private numComplete(w: Workflow): number {
-    const completeStates = [
-      WorkflowTaskState.CANCELLED,
-      WorkflowTaskState.COMPLETED,
-    ];
-    return w.user_tasks.filter(t => completeStates.includes(t.state)).length;
-  }
-
 }

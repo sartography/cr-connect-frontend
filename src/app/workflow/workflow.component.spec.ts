@@ -22,9 +22,9 @@ import {
   mockWorkflowTask0,
   mockWorkflowTasks,
   WorkflowTaskState,
-  WorkflowTaskType
+  WorkflowTaskType,
+  ToFormlyPipe
 } from 'sartography-workflow-lib';
-import {ToFormlyPipe} from '../_pipes/to-formly.pipe';
 import {WorkflowFilesComponent} from '../workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
 import {WorkflowStepsMenuListComponent} from '../workflow-steps-menu-list/workflow-steps-menu-list.component';

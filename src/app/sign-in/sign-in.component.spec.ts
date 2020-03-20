@@ -9,8 +9,11 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
 import {of} from 'rxjs';
-import {ApiService, MockEnvironment, mockUser} from 'sartography-workflow-lib';
-import {EmailValidator, EmailValidatorMessage} from '../_forms/validators/formly.validator';
+import {
+  ApiService, MockEnvironment, mockUser,
+  EmailValidator,
+  EmailValidatorMessage
+} from 'sartography-workflow-lib';
 import {SignInComponent} from './sign-in.component';
 
 describe('SignInComponent', () => {

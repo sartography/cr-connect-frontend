@@ -4,11 +4,32 @@
 </button>
 
 <ng-container *ngIf="study">
-  <h1>{{study.title}}</h1>
-  <small>
-      protocol_builder_status: {{study.protocol_builder_status}}<br>
-      last_updated: {{study.last_updated | date}}
-  </small>
+
+  <div class="study-metadata">
+    <mat-list dense>
+      <mat-list-item>
+        <div class="list-item-label">Study Title:</div>
+        <div class="list-item-value">{{study.title}}</div>
+      </mat-list-item>
+      <mat-list-item>
+        <div class="list-item-label">Status:</div>
+        <div class="list-item-value">{{getStatusLabel(study.protocol_builder_status)}}</div>
+      </mat-list-item>
+      <mat-list-item>
+        <div class="list-item-label">Primary Investigator:</div>
+        <div class="list-item-value">{{study.primary_investigator_id}}</div>
+      </mat-list-item>
+      <mat-list-item>
+        <div class="list-item-label">Sub Investigator:</div>
+        <div class="list-item-value">...</div>
+      </mat-list-item>
+      <mat-list-item>
+        <div class="list-item-label">Department Contact:</div>
+        <div class="list-item-value">...</div>
+      </mat-list-item>
+    </mat-list>
+    <mat-divider></mat-divider>
+  </div>
 
   <app-dashboard
     *ngIf="workflows.length > 0"

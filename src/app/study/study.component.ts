@@ -1,6 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ApiService, Study, Workflow, WorkflowSpec} from 'sartography-workflow-lib';
+import {
+  ApiService,
+  ProtocolBuilderStatus,
+  ProtocolBuilderStatusLabels,
+  Study,
+  Workflow,
+  WorkflowSpec
+} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-study',
@@ -43,5 +50,9 @@ export class StudyComponent implements OnInit {
 
   startWorkflow() {
     this.api.addWorkflowForStudy(this.study.id, 'random_fact').subscribe(() => this.loadWorkflows());
+  }
+
+  getStatusLabel(status: ProtocolBuilderStatus) {
+    return ProtocolBuilderStatusLabels[status.toUpperCase()];
   }
 }
