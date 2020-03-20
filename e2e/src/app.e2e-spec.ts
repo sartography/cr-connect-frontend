@@ -100,12 +100,12 @@ describe('Clinical Research Coordinator App', () => {
   });
 
   it('should navigate to a workflow', async () => {
-    expect(page.getElements('.chart-container').count()).toBeGreaterThan(0);
-    const chart = page.getElement('.chart-container');
-    const studyId = await chart.getAttribute('data-study-id');
-    const workflowId = await chart.getAttribute('data-workflow-id');
+    expect(page.getElements('.workflow-container').count()).toBeGreaterThan(0);
+    const workflow = page.getElement('.workflow-container');
+    const studyId = await workflow.getAttribute('data-study-id');
+    const workflowId = await workflow.getAttribute('data-workflow-id');
     const expectedRoute = `/study/${studyId}/workflow/${workflowId}`;
-    page.clickElement('.chart-container');
+    page.clickElement('.workflow-container');
     expect(page.getRoute()).toContain(expectedRoute);
   });
 
