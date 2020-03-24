@@ -47,7 +47,7 @@ export class SignInComponent implements OnInit {
       type: 'input',
       defaultValue: 'Nator',
       templateOptions: {
-        label: 'First Name',
+        label: 'Last Name',
       },
     },
   ];
