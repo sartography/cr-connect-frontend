@@ -5,27 +5,51 @@
 }
 
 mat-card {
+  margin: 26px;
+  padding: 0;
   cursor: pointer;
-  height: 300px;
   border: 1px solid $brand-gray;
-  margin-bottom: 26px;
-
-  &:hover {
-    border: 1px solid $brand-accent;
-  }
-
-
-  mat-card-header {
-    padding-top: 16px;
-  }
 
   mat-card-content {
-    padding: 16px;
-    h4 {
-      &.not-started { color: $brand-gray; }
+    mat-list {
+      margin: 0;
+      padding: 0;
+    }
+
+    mat-list-item {
+      border-bottom: 1px solid $brand-gray;
+      height: inherit;
+
+      &:last-of-type {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: $brand-accent;
+        color: white;
+
+        * { color: white; }
+      }
+
+      .mat-list-item-content {
+        padding: 1rem;
+      }
+
+      &.not-started { color: black; }
+      &.in-progress { color: black; }
+      &.complete { color: black; }
+      &.inactive { color: $brand-gray-tint-1; }
+    }
+
+    .workflow-status {
+      font-size: 1rem;
+      white-space: nowrap;
+      margin-right: 1rem;
+
+      &.not-started { color: black; }
       &.in-progress { color: $brand-accent; }
       &.complete { color: $brand-accent; }
-      &.inactive { color: $brand-gray; }
+      &.inactive { color: $brand-gray-tint-1; }
     }
 
     .inactive-message {
@@ -37,4 +61,24 @@ mat-card {
       }
     }
   }
+}
+
+::ng-deep .mat-tab-labels .mat-tab-label .mat-tab-label-content {
+  color: black;
+  font-size: 1.25rem;
+}
+
+::ng-deep .mat-tab-label:not(.mat-tab-disabled) {
+  opacity: 1;
+}
+
+::ng-deep .mat-list-base .mat-list-item .mat-list-item-content,
+::ng-deep .mat-list-base .mat-list-option .mat-list-item-content {
+  padding: 2rem;
+}
+
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
+::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  color: $brand-accent;
+  background-color: $brand-accent;
 }
