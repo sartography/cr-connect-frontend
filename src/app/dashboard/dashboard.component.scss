@@ -35,10 +35,10 @@ mat-card {
         padding: 1rem;
       }
 
-      &.not-started { color: black; }
-      &.in-progress { color: black; }
-      &.complete { color: black; }
-      &.inactive { color: $brand-gray-tint-1; }
+      &.not_started { color: black; }
+      &.user_input_required { color: black; }
+      &.waiting { color: black; }
+      &.complete { color: $brand-gray-tint-1; }
     }
 
     .workflow-status {
@@ -46,10 +46,10 @@ mat-card {
       white-space: nowrap;
       margin-right: 1rem;
 
-      &.not-started { color: black; }
-      &.in-progress { color: $brand-accent; }
-      &.complete { color: $brand-accent; }
-      &.inactive { color: $brand-gray-tint-1; }
+      &.not_started { color: black; }
+      &.user_input_required { color: $brand-accent; }
+      &.waiting { color: $brand-accent; }
+      &.complete { color: $brand-gray-tint-1; }
     }
 
     .inactive-message {

@@ -3,31 +3,37 @@
     *ngFor="let cat of categoryTabs"
   >
     <mat-tab
-      *ngIf="cat.workflowListItems && cat.workflowListItems.length > 0"
+      *ngIf="cat.workflows && cat.workflows.length > 0"
       label="{{cat.display_name}}"
     >
       <mat-card class="mat-elevation-z0">
         <mat-card-content>
           <mat-list>
             <mat-list-item
-              *ngFor="let workflowListItem of cat.workflowListItems"
-              [routerLink]="['workflow', workflowListItem.workflowId]"
+              *ngFor="let workflowListItem of cat.workflows"
+              [routerLink]="['workflow', workflowListItem.id]"
               [attr.data-study-id]="study.id"
-              [attr.data-workflow-id]="workflowListItem.workflowId"
-              [ngClass]="'workflow-list-item ' + statusText(workflowListItem).name"
+              [attr.data-workflow-id]="workflowListItem.id"
+              [ngClass]="'workflow-list-item ' + workflowListItem.state"
             >
-              <h1 mat-line>{{workflowListItem.title}}</h1>
+              <h1 mat-line>display_name: {{workflowListItem.display_name}}</h1>
+              <h4 mat-line>status: {{workflowListItem.status}}</h4>
+              <h4 mat-line>state: {{workflowListItem.state}}</h4>
+              <h4 mat-line>description: {{workflowListItem.description}}</h4>
+              <h4 mat-line>name: {{workflowListItem.name}}</h4>
+              <h4 mat-line>total_tasks: {{workflowListItem.total_tasks}}</h4>
+              <h4 mat-line>completed_tasks: {{workflowListItem.completed_tasks}}</h4>
               <span fxFlex></span>
-              <div *ngIf="statusText(workflowListItem).name === 'inactive'">
-                <span class="workflow-status {{statusText(workflowListItem).name}}">{{statusText(workflowListItem).label}}</span>
+              <div *ngIf="workflowListItem.state === 'disabled'">
+                <span class="workflow-status {{workflowListItem.state}}">{{workflowListItem.state}}</span>
               </div>
-              <ng-container *ngIf="statusText(workflowListItem).name !== 'inactive'">
-                <ng-container *ngIf="workflowListItem.numCompleteTasks > 0">
-                  <span class="workflow-status {{statusText(workflowListItem).name}}">{{workflowListItem.numCompleteTasks}} / {{workflowListItem.numTotalTasks}} tasks complete</span>
+              <ng-container *ngIf="workflowListItem.state !== 'disabled'">
+                <ng-container *ngIf="workflowListItem.total_tasks > 0">
+                  <span class="workflow-status {{workflowListItem.status}}">{{workflowListItem.completed_tasks}} / {{workflowListItem.total_tasks}} tasks complete</span>
                   <button mat-stroked-button>Continue</button>
                 </ng-container>
-                <ng-container *ngIf="workflowListItem.numCompleteTasks === 0">
-                  <span class="workflow-status {{statusText(workflowListItem).name}}">{{statusText(workflowListItem).label}}</span>
+                <ng-container *ngIf="workflowListItem.status === 'not_started'">
+                  <span class="workflow-status {{workflowListItem.state}}">{{workflowListItem.state}}</span>
                   <button mat-flat-button color="primary">Start</button>
                 </ng-container>
               </ng-container>

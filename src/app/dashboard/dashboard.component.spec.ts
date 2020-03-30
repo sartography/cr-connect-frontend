@@ -47,11 +47,8 @@ describe('DashboardComponent', () => {
     component.study = mockStudies[0];
     component.workflows = mockWorkflows;
     component.workflowSpecs = mockWorkflowSpecs;
+    component.workflowSpecCategories = mockWorkflowSpecCategories;
     fixture.detectChanges();
-
-    const catsReq = httpMock.expectOne(`apiRoot/workflow-specification-category`);
-    expect(catsReq.request.method).toEqual('GET');
-    catsReq.flush(mockWorkflowSpecCategories);
 
     mockWorkflows.forEach((wf, i) => {
       const statsReq = httpMock.expectOne(`apiRoot/workflow/${wf.id}/stats`);

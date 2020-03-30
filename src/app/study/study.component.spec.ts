@@ -5,7 +5,14 @@ import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ChartsModule} from 'ng2-charts';
 import {of} from 'rxjs';
-import {ApiService, MockEnvironment, mockStudy0, mockWorkflows, mockWorkflowSpecs} from 'sartography-workflow-lib';
+import {
+  ApiService,
+  MockEnvironment,
+  mockStudy0,
+  mockWorkflows,
+  mockWorkflowSpecCategories,
+  mockWorkflowSpecs
+} from 'sartography-workflow-lib';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 import {StudyComponent} from './study.component';
 
@@ -49,6 +56,12 @@ describe('StudyComponent', () => {
     sReq.flush(mockStudy0);
     expect(component.study).toBeTruthy();
     expect(component.study.id).toEqual(mockStudy0.id);
+
+    const catsReq = httpMock.expectOne('apiRoot/workflow-specification-category');
+    expect(catsReq.request.method).toEqual('GET');
+    catsReq.flush(mockWorkflowSpecCategories);
+    expect(component.workflowSpecCategories).toBeTruthy();
+    expect(component.workflowSpecCategories).toEqual(mockWorkflowSpecCategories);
 
     const wfsReq = httpMock.expectOne('apiRoot/workflow-specification');
     expect(wfsReq.request.method).toEqual('GET');

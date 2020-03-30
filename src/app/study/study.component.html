@@ -32,15 +32,10 @@
   </div>
 
   <app-dashboard
-    *ngIf="workflows.length > 0"
+    *ngIf="hasWorkflows()"
     [study]="study"
-    [workflows]="workflows"
-    [workflowSpecs]="workflowSpecs"
-    [workflowSpecCategories]="workflowSpecCategories"
   ></app-dashboard>
-  <div *ngIf="workflows.length === 0">
-    <button mat-flat-button color="primary" (click)="startWorkflow()" id="startWorkflow">
-      Start workflow
-    </button>
+  <div *ngIf="!hasWorkflows()">
+    No active workflows for this study.
   </div>
 </ng-container>
