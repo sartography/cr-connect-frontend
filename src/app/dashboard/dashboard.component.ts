@@ -37,42 +37,38 @@ export class DashboardComponent implements OnInit {
   @Input() study: Study;
   @Input() workflows: Workflow[];
   @Input() workflowSpecs: WorkflowSpec[];
+  @Input() workflowSpecCategories: WorkflowSpecCategory[];
   labels = ['Incomplete', 'Partially Complete', 'Complete'];
   categoryTabs: CategoryTab[] = [];
-  workflowSpecCategories: WorkflowSpecCategory[];
 
 
   constructor(private api: ApiService) {
   }
 
   ngOnInit() {
-    this.api.getWorkflowSpecCategoryList().subscribe(cats => {
-      this.workflowSpecCategories = cats;
+    this.categoryTabs = this.workflowSpecCategories.map(cat => {
+      const catTab = createClone()(cat);
+      catTab.workflowListItems = [];
 
-      this.categoryTabs = this.workflowSpecCategories.map(cat => {
-        const catTab = createClone()(cat);
-        catTab.workflowListItems = [];
+      this.workflows.forEach(w => {
+        const spec = this.getWorkflowSpecForWorkflow(w);
 
-        this.workflows.forEach(w => {
-          const spec = this.getWorkflowSpecForWorkflow(w);
-
-          if (spec.workflow_spec_category_id === cat.id) {
-            this.api.getWorkflowStats(w.id).subscribe(stats => {
-              catTab.workflowListItems.push({
-                workflowId: w.id,
-                title: spec.display_name,
-                labels: this.labels,
-                numIncompleteTasks: stats.num_tasks_incomplete,
-                numCompleteTasks: stats.num_tasks_complete,
-                numTotalTasks: stats.num_tasks_total,
-                isActive: w.is_active,
-              });
+        if (spec.workflow_spec_category_id === cat.id) {
+          this.api.getWorkflowStats(w.id).subscribe(stats => {
+            catTab.workflowListItems.push({
+              workflowId: w.id,
+              title: spec.display_name,
+              labels: this.labels,
+              numIncompleteTasks: stats.num_tasks_incomplete,
+              numCompleteTasks: stats.num_tasks_complete,
+              numTotalTasks: stats.num_tasks_total,
+              isActive: w.is_active,
             });
-          }
-        });
-
-        return catTab;
+          });
+        }
       });
+
+      return catTab;
     });
   }
 

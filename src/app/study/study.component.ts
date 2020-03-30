@@ -6,7 +6,7 @@ import {
   ProtocolBuilderStatusLabels,
   Study,
   Workflow,
-  WorkflowSpec
+  WorkflowSpec, WorkflowSpecCategory
 } from 'sartography-workflow-lib';
 
 @Component({
@@ -18,6 +18,7 @@ export class StudyComponent implements OnInit {
   study: Study;
   workflows: Workflow[] = [];
   workflowSpecs: WorkflowSpec[];
+  workflowSpecCategories: WorkflowSpecCategory[];
 
   constructor(
     private route: ActivatedRoute,
@@ -37,6 +38,10 @@ export class StudyComponent implements OnInit {
   }
 
   loadWorkflowSpecs() {
+    this.api.getWorkflowSpecCategoryList().subscribe(cats => {
+      this.workflowSpecCategories = cats;
+      console.log('cats', cats);
+    });
     this.api.getWorkflowSpecList().subscribe(wfs => this.workflowSpecs = wfs);
   }
 

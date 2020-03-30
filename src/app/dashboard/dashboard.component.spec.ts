@@ -2,13 +2,15 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
+import {MatListModule} from '@angular/material/list';
+import {MatTabsModule} from '@angular/material/tabs';
 import {RouterTestingModule} from '@angular/router/testing';
 import {
   ApiService,
   MockEnvironment,
   mockStudies,
   mockWorkflow0,
-  mockWorkflows,
+  mockWorkflows, mockWorkflowSpecCategories,
   mockWorkflowSpecs, mockWorkflowStats,
   mockWorkflowStats0
 } from 'sartography-workflow-lib';
@@ -26,6 +28,8 @@ describe('DashboardComponent', () => {
         HttpClientTestingModule,
         MatCardModule,
         MatIconModule,
+        MatListModule,
+        MatTabsModule,
         RouterTestingModule,
       ],
       providers: [
@@ -45,14 +49,18 @@ describe('DashboardComponent', () => {
     component.workflowSpecs = mockWorkflowSpecs;
     fixture.detectChanges();
 
+    const catsReq = httpMock.expectOne(`apiRoot/workflow-specification-category`);
+    expect(catsReq.request.method).toEqual('GET');
+    catsReq.flush(mockWorkflowSpecCategories);
+
     mockWorkflows.forEach((wf, i) => {
-      const sReq = httpMock.expectOne(`apiRoot/workflow/${wf.id}/stats`);
-      expect(sReq.request.method).toEqual('GET');
-      sReq.flush(mockWorkflowStats[i]);
+      const statsReq = httpMock.expectOne(`apiRoot/workflow/${wf.id}/stats`);
+      expect(statsReq.request.method).toEqual('GET');
+      statsReq.flush(mockWorkflowStats[i]);
     });
 
-    expect(component.cards).toBeTruthy();
-    expect(component.cards.length).toEqual(mockWorkflows.length);
+    expect(component.categoryTabs).toBeTruthy();
+    expect(component.categoryTabs.length).toEqual(mockWorkflows.length);
   });
 
   afterEach(() => {
