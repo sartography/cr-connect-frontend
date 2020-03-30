@@ -8,37 +8,35 @@ import {ApiService, Study, Workflow, WorkflowTaskState} from 'sartography-workfl
 })
 export class StudyProgressComponent implements OnInit {
   @Input() study: Study;
-  workflows: Workflow[];
-  numTasksComplete = 0;
-  numTasksTotal = 0;
-  percentComplete = 0;
+  numCompletedTasks: number;
+  numTotalTasks: number;
+  percentComplete: number;
 
   constructor(private api: ApiService) {
   }
 
   ngOnInit() {
-    this.api.getWorkflowListForStudy(this.study.id).subscribe(wfs => {
-      this.workflows = wfs;
-      this.calculatePercentComplete();
-    });
+    this.calculatePercentComplete();
   }
 
   calculatePercentComplete() {
-    this.numTasksTotal = 0;
-    this.numTasksComplete = 0;
+    this.numCompletedTasks = 0;
+    this.numTotalTasks = 0;
+    this.percentComplete = 0;
+    this.study.categories.forEach(cat => {
+      cat.workflows.forEach(wf => {
+        if (wf.completed_tasks > 0) {
+          this.numCompletedTasks += wf.completed_tasks;
+        }
 
-    const doneStates = [
-      WorkflowTaskState.COMPLETED,
-      WorkflowTaskState.CANCELLED,
-    ];
-
-    this.workflows.forEach(wf => {
-      this.numTasksTotal += wf.user_tasks.length;
-      this.numTasksComplete += wf.user_tasks.filter(t => doneStates.includes(t.state)).length;
+        if (wf.total_tasks > 0) {
+          this.numTotalTasks += wf.total_tasks;
+        }
+      });
     });
 
-    if (this.numTasksTotal > 0) {
-      this.percentComplete = Math.floor(this.numTasksComplete / this.numTasksTotal * 100);
+    if (this.numCompletedTasks > 0) {
+      this.percentComplete = Math.floor(this.numCompletedTasks / this.numTotalTasks * 100);
     }
   }
 

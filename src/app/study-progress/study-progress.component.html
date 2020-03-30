@@ -1,5 +1,5 @@
-<div *ngIf="numTasksTotal > 0; else loading" fxLayout="column" class="tasks-complete">
-  {{numTasksComplete}}/{{numTasksTotal}}
+<div *ngIf="numTotalTasks > 0; else loading" fxLayout="column" class="tasks-complete">
+  {{numCompletedTasks}}/{{numTotalTasks}}
   <div fxFlex="100">
     <div
       class="percent-complete"
