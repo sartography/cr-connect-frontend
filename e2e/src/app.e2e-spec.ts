@@ -74,7 +74,6 @@ describe('Clinical Research Coordinator App', () => {
       `requirements=44&` +
       `requirements=52&` +
       `requirements=53&` +
-      `HSRNUMBER=${Math.floor(Math.random() * 100000)}&` +
       `Q_COMPLETE=y`,
       {'Content-Type': 'application/x-www-form-urlencoded'}
     ).catch(error => {
@@ -99,13 +98,37 @@ describe('Clinical Research Coordinator App', () => {
     page.clickAndExpectRoute('.study-row', '/study/' + studyId);
   });
 
+  it('should display workflow spec categories in tabs', async () => {
+    expect(page.getElements('.mat-tab-label-content').count()).toBeGreaterThan(0);
+
+    page.clickElement('#mat-tab-label-0-0');
+    await page.waitFor(500);
+    expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
+
+    page.clickElement('#mat-tab-label-0-1');
+    await page.waitFor(500);
+    expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
+
+    page.clickElement('#mat-tab-label-0-2');
+    await page.waitFor(500);
+    expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
+
+    page.clickElement('#mat-tab-label-0-3');
+    await page.waitFor(500);
+    expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
+
+    page.clickElement('#mat-tab-label-0-4');
+    await page.waitFor(500);
+    expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
+  });
+
   it('should navigate to a workflow', async () => {
-    expect(page.getElements('.workflow-container').count()).toBeGreaterThan(0);
-    const workflow = page.getElement('.workflow-container');
+    expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
+    const workflow = page.getElement('.workflow-list-item');
     const studyId = await workflow.getAttribute('data-study-id');
     const workflowId = await workflow.getAttribute('data-workflow-id');
     const expectedRoute = `/study/${studyId}/workflow/${workflowId}`;
-    page.clickElement('.workflow-container');
+    page.clickElement('.workflow-list-item');
     expect(page.getRoute()).toContain(expectedRoute);
   });
 
