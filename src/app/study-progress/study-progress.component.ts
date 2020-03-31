@@ -12,7 +12,7 @@ export class StudyProgressComponent implements OnInit {
   numTotalTasks: number;
   percentComplete: number;
 
-  constructor(private api: ApiService) {
+  constructor() {
   }
 
   ngOnInit() {
