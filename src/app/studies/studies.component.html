@@ -60,7 +60,10 @@
 
           <ng-container matColumnDef="protocol_builder_status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
-            <td mat-cell *matCellDef="let study"> {{study.protocol_builder_status}} </td>
+            <td mat-cell *matCellDef="let study">
+              {{study.protocol_builder_status}}
+              <span class="new" *ngIf="isNewStudy(study.id)">NEW</span>
+            </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -68,7 +71,7 @@
             mat-row
             *matRowDef="let study; columns: displayedColumns;"
             [routerLink]="['/study', study.id]"
-            [ngClass]="'study-row'"
+            [ngClass]="{'study-row': true, 'new': isNewStudy(study.id)}"
             [attr.data-study-id]="study.id"
           ></tr>
         </table>

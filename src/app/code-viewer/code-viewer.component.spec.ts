@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {MatIcon, MatIconModule} from '@angular/material/icon';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {HighlightModule} from 'ngx-highlightjs';
 
 import { CodeViewerComponent } from './code-viewer.component';
 
@@ -8,7 +11,12 @@ describe('CodeViewerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CodeViewerComponent ]
+      declarations: [ CodeViewerComponent ],
+      imports: [
+        HighlightModule,
+        MatIconModule,
+        MatSnackBarModule
+      ],
     })
     .compileComponents();
   }));
@@ -21,5 +29,11 @@ describe('CodeViewerComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display a confirmation message', () => {
+    const snackBarSpy = spyOn((component as any).snackBar, 'open').and.stub();
+    component.confirmCopy();
+    expect(snackBarSpy).toHaveBeenCalled();
   });
 });

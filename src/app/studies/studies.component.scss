@@ -48,6 +48,19 @@ mat-panel-title.mat-h2 {
   &:hover {
     background-color: $brand-gray-light;
   }
+
+  &.new {
+    background-color: $brand-accent-light;
+  }
+
+  .new {
+    background-color: $brand-accent;
+    color: white;
+    font-weight: bold;
+    border-radius: 1rem;
+    padding: 0.25rem 0.5rem;
+    margin-left: 1rem;
+  }
 }
 
 .mat-table {

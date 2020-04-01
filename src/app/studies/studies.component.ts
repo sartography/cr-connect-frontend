@@ -47,7 +47,6 @@ export class StudiesComponent {
 
   loadStudies() {
     this.api.getStudies().subscribe(allStudies => {
-      console.log('allStudies.length', allStudies.length);
       const sorted = allStudies.sort((a, b) => {
         const aTime = new Date(a.last_updated).getTime();
         const bTime = new Date(b.last_updated).getTime();
@@ -76,20 +75,11 @@ export class StudiesComponent {
         };
       });
 
-      console.log('studiesByStatus', this.studiesByStatus);
       this.loading = false;
     });
   }
 
-  openProtocolBuilder() {
-    window.open(this.irbUrl, '_blank');
-  }
-
   isNewStudy(studyId: number) {
     return !this.beforeStudyIds.includes(studyId);
-  }
-
-  stepsProgress(study: Study) {
-
   }
 }

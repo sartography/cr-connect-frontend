@@ -4,14 +4,12 @@ import {MatIconModule} from '@angular/material/icon';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ChartsModule} from 'ng2-charts';
-import {of} from 'rxjs';
 import {
   ApiService,
   MockEnvironment,
   mockStudy0,
-  mockWorkflows,
-  mockWorkflowSpecCategories,
-  mockWorkflowSpecs
+  ProtocolBuilderStatus,
+  ProtocolBuilderStatusLabels
 } from 'sartography-workflow-lib';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 import {StudyComponent} from './study.component';
@@ -66,4 +64,14 @@ describe('StudyComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should get status label', () => {
+    expect(component.getStatusLabel(ProtocolBuilderStatus.IN_REVIEW))
+      .toEqual(ProtocolBuilderStatusLabels.IN_REVIEW);
+  });
+
+  it('should check for workflows', () => {
+    expect(component.hasWorkflows()).toBeTruthy();
+  });
+
 });

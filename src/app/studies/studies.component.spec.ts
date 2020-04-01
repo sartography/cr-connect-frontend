@@ -6,7 +6,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {RouterTestingModule} from '@angular/router/testing';
-import {ApiService, MockEnvironment, mockStudies} from 'sartography-workflow-lib';
+import {ApiService, MockEnvironment, mockStudies, mockStudy0} from 'sartography-workflow-lib';
 import {StudiesComponent} from './studies.component';
 
 describe('StudiesComponent', () => {
@@ -62,5 +62,10 @@ describe('StudiesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should check for new studies', () => {
+    expect(component.isNewStudy(mockStudy0.id)).toBeFalsy();
+    expect(component.isNewStudy(666)).toBeTruthy();
   });
 });
