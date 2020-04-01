@@ -8,3 +8,27 @@
 .documentation markdown ::ng-deep h1 {
   font-size: 24px;
 }
+
+#form-column, #data-display-column {
+  transition: all 200ms ease-in-out;
+}
+
+#form-column {
+  width: 100%;
+
+  &.collapsed {
+    width: 70%;
+  }
+}
+
+#data-display-column {
+  margin-left: 2rem;
+  width: 30%;
+  opacity: 1;
+
+  &.collapsed {
+    margin-left: 0;
+    width: 0;
+    opacity: 0;
+  }
+}

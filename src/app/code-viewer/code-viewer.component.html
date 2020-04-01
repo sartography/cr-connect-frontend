@@ -1,0 +1,12 @@
+<div class="code-viewer-container">
+  <div fxLayout="row" fxLayoutAlign="end start" class="code-viewer-actions">
+    <button
+      mat-button
+      [cdkCopyToClipboard]="data | json"
+      (click)="confirmCopy()"
+    ><mat-icon>filter_none</mat-icon> Copy</button>
+  </div>
+  <div class="code-viewer-code">
+    <pre><code id="jsonCode" [highlight]="data | json" [languages]="['json']"></code></pre>
+  </div>
+</div>

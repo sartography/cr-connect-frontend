@@ -1,5 +1,16 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {FormGroup} from '@angular/forms';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import createClone from 'rfdc';
 import {ApiService, Workflow, WorkflowTask} from 'sartography-workflow-lib';
 
@@ -14,10 +25,12 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   @Output() workflowUpdated: EventEmitter<Workflow> = new EventEmitter();
   form = new FormGroup({});
   model: any = {};
-  loading = true;
+  displayData = (localStorage.getItem('displayData') === 'true');
+
+  @ViewChild('#jsonCode') jsonCodeElement: ElementRef;
 
   constructor(
-    private api: ApiService,
+    private api: ApiService
   ) {
   }
 
@@ -89,5 +102,10 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
       parentElement = parentElement.parentElement;
     }
     return parentElement;
+  }
+
+  toggleDataDisplay() {
+    this.displayData = !this.displayData;
+    localStorage.setItem('displayData', (!!this.displayData).toString());
   }
 }

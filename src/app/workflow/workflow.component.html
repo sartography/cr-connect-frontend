@@ -36,9 +36,7 @@
         <h3>Status: {{currentTask.state}}</h3>
         <p>Please add documentation to this event to provide users with a custom message
         about their progress.</p>
-        <code>
-          {{currentTask.data | json}}
-        </code>
+        <app-code-viewer [data]="currentTask.data"></app-code-viewer>
       </div>
     </div>
     <div class="no-task" *ngIf="!currentTask">

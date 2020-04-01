@@ -1,3 +1,4 @@
+import {ClipboardModule} from '@angular/cdk/clipboard';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Injectable, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -18,6 +19,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatTabsModule} from '@angular/material/tabs';
@@ -61,6 +63,8 @@ import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
+import {HIGHLIGHT_OPTIONS, HighlightModule} from 'ngx-highlightjs';
+import { CodeViewerComponent } from './code-viewer/code-viewer.component';
 
 
 @Injectable()
@@ -92,15 +96,18 @@ export class ThisEnvironment implements AppEnvironment {
     WorkflowFormComponent,
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
+    CodeViewerComponent,
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     ChartsModule,
+    ClipboardModule,
     DeviceDetectorModule.forRoot(),
     FlexLayoutModule,
     FormlyModule,
     FormsModule,
+    HighlightModule,
     HttpClientModule,
     MarkdownModule.forRoot(),
     MatBadgeModule,
@@ -119,6 +126,7 @@ export class ThisEnvironment implements AppEnvironment {
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSidenavModule,
+    MatSnackBarModule,
     MatSortModule,
     MatTableModule,
     MatTabsModule,
@@ -143,6 +151,12 @@ export class ThisEnvironment implements AppEnvironment {
       useClass: AuthInterceptor,
       multi: true
     },
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        languages: {json: () => import('../../node_modules/highlight.js/lib/languages/json')}
+      }
+    }
   ],
   bootstrap: [AppComponent],
 })
