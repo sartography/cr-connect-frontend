@@ -65,4 +65,27 @@ mat-panel-title.mat-h2 {
 
 .mat-table {
   min-width: 75vw;
+
+  .mat-header-cell {
+    font-size: 1.1250rem;
+    font-family: $heading-font-family;
+    color: $brand-gray;
+  }
+}
+
+.mat-expansion-panel {
+  border-bottom: 1px solid $brand-gray-tint-2;
+  border-radius: 0;
+
+  .mat-expansion-panel-header {
+    padding: 1rem;
+
+    &.mat-expanded {
+      background-color: $brand-gray-light;
+    }
+  }
+
+  ::ng-deep .mat-expansion-indicator::after {
+    padding: 6px;
+  }
 }

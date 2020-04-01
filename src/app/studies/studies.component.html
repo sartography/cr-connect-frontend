@@ -32,7 +32,11 @@
   </div>
 
   <div *ngIf="!loading; else loadingMessage">
-    <mat-expansion-panel *ngFor="let studiesGroup of studiesByStatus; let i = index;" [expanded]="studiesGroup.studies.length > 0">
+    <mat-expansion-panel
+      *ngFor="let studiesGroup of studiesByStatus; let i = index;"
+      [expanded]="studiesGroup.studies.length > 0"
+      class="mat-elevation-z0"
+    >
       <mat-expansion-panel-header>
         <mat-panel-title class="mat-h2">
           {{studiesGroup.statusLabel}}
