@@ -100,4 +100,13 @@ describe('SignInComponent', () => {
     expect(getUserSpy).toHaveBeenCalled();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
   });
+
+  it('should display error if user verification fails', () => {
+    const getUserSpy = spyOn((component as any).api, 'getUser').and.throwError('login error');
+    (component as any).environment.production = true;
+    (component as any)._redirectOnProduction();
+    expect(getUserSpy).toThrowError('login error');
+    expect(component.error).toBeTruthy();
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
+  });
 });
