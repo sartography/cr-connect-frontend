@@ -10,7 +10,7 @@ services:
     environment:
       - POSTGRES_USER=crc_user
       - POSTGRES_PASSWORD=crc_pass
-      - POSTGRES_MULTIPLE_DATABASES=crc_test,crc_dev
+      - POSTGRES_MULTIPLE_DATABASES=crc_test,crc_dev,pb_test,pb
     healthcheck:
       test: ["CMD", "ping", "-h", "localhost"]
       timeout: 20s
