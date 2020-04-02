@@ -33,6 +33,8 @@ services:
   pb:
     container_name: pb
     image: sartography/protocol-builder-mock
+    volumes:
+      - ./flask-config/config_pb.py:/protocol-builder-mock/instance/config.py
     environment:
       - FLASK_APP=/protocol-builder-mock/app.py
     ports:
