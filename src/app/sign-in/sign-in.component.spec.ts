@@ -1,3 +1,4 @@
+import {HttpErrorResponse} from '@angular/common/http';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
@@ -8,11 +9,11 @@ import {ActivatedRoute, convertToParamMap, Router} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
-import {of} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {
   ApiService, MockEnvironment, mockUser,
   EmailValidator,
-  EmailValidatorMessage
+  EmailValidatorMessage, mockErrorResponse
 } from 'sartography-workflow-lib';
 import {SignInComponent} from './sign-in.component';
 
@@ -102,10 +103,15 @@ describe('SignInComponent', () => {
   });
 
   it('should display error if user verification fails', () => {
-    const getUserSpy = spyOn((component as any).api, 'getUser').and.throwError('login error');
+    localStorage.setItem('token', 'badtoken');
+    expect(!!localStorage.getItem('token')).toBeTruthy();
     (component as any).environment.production = true;
     (component as any)._redirectOnProduction();
-    expect(getUserSpy).toThrowError('login error');
+
+    const req = httpMock.expectOne(`apiRoot/user`);
+    expect(req.request.method).toEqual('GET');
+    req.error(mockErrorResponse, {status: 42, statusText: 'login error'});
+
     expect(component.error).toBeTruthy();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
   });
