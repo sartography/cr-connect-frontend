@@ -85,7 +85,12 @@ mat-panel-title.mat-h2 {
     }
   }
 
-  ::ng-deep .mat-expansion-indicator::after {
-    padding: 6px;
+  ::ng-deep .mat-expansion-indicator {
+    margin: 1rem;
+
+    &::after {
+      padding: 6px;
+      border-width: 0 4px 4px 0;
+    }
   }
 }
