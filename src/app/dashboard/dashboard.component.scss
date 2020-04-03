@@ -82,3 +82,8 @@ mat-card {
   color: $brand-accent;
   background-color: $brand-accent;
 }
+
+mat-card {
+  margin: 2rem 0;
+  padding: 0;
+}

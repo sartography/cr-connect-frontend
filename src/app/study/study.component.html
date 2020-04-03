@@ -1,41 +1,43 @@
-<button mat-flat-button routerLink="/" ngClass="back">
-  <mat-icon>chevron_left</mat-icon>
-  Back
-</button>
+<div class="study-container">
+  <button mat-flat-button routerLink="/" ngClass="back">
+    <mat-icon>chevron_left</mat-icon>
+    Back
+  </button>
 
-<ng-container *ngIf="study">
+  <ng-container *ngIf="study">
 
-  <div class="study-metadata">
-    <mat-list dense>
-      <mat-list-item>
-        <div class="list-item-label">Study Title:</div>
-        <div class="list-item-value">{{study.title}}</div>
-      </mat-list-item>
-      <mat-list-item>
-        <div class="list-item-label">Status:</div>
-        <div class="list-item-value">{{getStatusLabel(study.protocol_builder_status)}}</div>
-      </mat-list-item>
-      <mat-list-item>
-        <div class="list-item-label">Primary Investigator:</div>
-        <div class="list-item-value">{{study.primary_investigator_id}}</div>
-      </mat-list-item>
-      <mat-list-item>
-        <div class="list-item-label">Sub Investigator:</div>
-        <div class="list-item-value">...</div>
-      </mat-list-item>
-      <mat-list-item>
-        <div class="list-item-label">Department Contact:</div>
-        <div class="list-item-value">...</div>
-      </mat-list-item>
-    </mat-list>
-    <mat-divider></mat-divider>
-  </div>
+    <div class="study-metadata">
+      <mat-list dense>
+        <mat-list-item>
+          <div class="list-item-label">Study Title:</div>
+          <div class="list-item-value">{{study.title}}</div>
+        </mat-list-item>
+        <mat-list-item>
+          <div class="list-item-label">Status:</div>
+          <div class="list-item-value">{{getStatusLabel(study.protocol_builder_status)}}</div>
+        </mat-list-item>
+        <mat-list-item>
+          <div class="list-item-label">Primary Investigator:</div>
+          <div class="list-item-value">{{study.primary_investigator_id}}</div>
+        </mat-list-item>
+        <mat-list-item>
+          <div class="list-item-label">Sub Investigator:</div>
+          <div class="list-item-value">...</div>
+        </mat-list-item>
+        <mat-list-item>
+          <div class="list-item-label">Department Contact:</div>
+          <div class="list-item-value">...</div>
+        </mat-list-item>
+      </mat-list>
+      <mat-divider></mat-divider>
+    </div>
 
-  <app-dashboard
-    *ngIf="hasWorkflows()"
-    [study]="study"
-  ></app-dashboard>
-  <div *ngIf="!hasWorkflows()">
-    No active workflows for this study.
-  </div>
-</ng-container>
+    <app-dashboard
+      *ngIf="hasWorkflows()"
+      [study]="study"
+    ></app-dashboard>
+    <div *ngIf="!hasWorkflows()">
+      No active workflows for this study.
+    </div>
+  </ng-container>
+</div>
