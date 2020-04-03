@@ -53,6 +53,20 @@ mat-panel-title.mat-h2 {
     background-color: $brand-accent-light;
   }
 
+  td {
+    padding-left: 1rem;
+    border-bottom-color: transparent;
+    border-right: 1px solid $brand-gray-tint-1;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
   .new {
     background-color: $brand-accent;
     color: white;
@@ -64,12 +78,23 @@ mat-panel-title.mat-h2 {
 }
 
 .mat-table {
-  min-width: 75vw;
+  width: 100%;
 
   .mat-header-cell {
     font-size: 1.1250rem;
     font-family: $heading-font-family;
     color: $brand-gray;
+    padding-left: 1rem;
+    border-bottom-color: $brand-gray-tint-1;
+    border-right: 1px solid $brand-gray-tint-1;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      border-right: none;
+    }
   }
 }
 
@@ -91,6 +116,12 @@ mat-panel-title.mat-h2 {
     &::after {
       padding: 6px;
       border-width: 0 4px 4px 0;
+    }
+  }
+
+  ::ng-deep .mat-expansion-panel-content {
+    .mat-expansion-panel-body {
+      padding: 2rem 0 2rem 0;
     }
   }
 }
