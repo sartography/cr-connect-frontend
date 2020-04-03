@@ -5,8 +5,7 @@
       Back
     </button>
 
-    <h3>Available Tasks:</h3>
-    <em>The following tasks need your attention:</em>
+    <h3>Tasks</h3>
     <app-workflow-steps-menu-list *ngFor="let task of allTasks"
       [task]="task"
       [isCurrent] = "currentTask && task.id === currentTask.id"

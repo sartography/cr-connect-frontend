@@ -1,20 +1,20 @@
 @import "../../config";
 
 .task {
-  background-color: $brand-gray;
-  color: white;
+  font-size: 1rem;
+  cursor: pointer;
 }
 
 .task:hover {
-  background-color: $brand-gray-tint-1;
-  color: white;
+  background-color: $brand-gray-light;
 }
 
 .task.active {
-  background-color: $brand-accent;
+  color: $brand-accent;
+  font-weight: bold;
 }
 
 .task.disabled {
-  color: $brand-gray-tint-2;
+  color: $brand-gray-tint-1;
   pointer-events: none;
 }
