@@ -1,0 +1,66 @@
+<mat-expansion-panel
+  *ngFor="let studiesGroup of studiesByStatus; let i = index;"
+  [expanded]="studiesGroup.studies.length > 0"
+  class="mat-elevation-z0"
+>
+  <mat-expansion-panel-header>
+    <mat-panel-title class="mat-h2">
+      {{studiesGroup.statusLabel}}
+      <mat-chip-list>
+        <mat-chip [ngClass]="studiesGroup.status.toString().toLowerCase()"
+                  [selectable]="false">{{studiesGroup.studies.length}}</mat-chip>
+      </mat-chip-list>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="status-{{studiesGroup.status.toString().toLowerCase()}}" fxLayout="row wrap" fxLayoutGap="40px">
+    <table [dataSource]="studiesGroup.dataSource" class="mat-elevation-z0" mat-table matSort>
+      <ng-container matColumnDef="id">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Study ID</th>
+        <td *matCellDef="let study" mat-cell> {{study.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Study Title</th>
+        <td *matCellDef="let study" mat-cell> {{study.title}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="irb_hsr_status">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> IRB HSR Status</th>
+        <td *matCellDef="let study" mat-cell>
+          {{study.protocol_builder_status}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="protocol_builder_status">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> PB Status</th>
+        <td *matCellDef="let study" mat-cell>
+          {{study.protocol_builder_status}}
+          <span *ngIf="isNewStudy(study.id)" class="new">NEW</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="progress">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Progress</th>
+        <td *matCellDef="let study" mat-cell>
+          <app-study-progress [study]="study"></app-study-progress>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="committees_complete">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Internal Committees Complete</th>
+        <td *matCellDef="let study" mat-cell>
+          0/0
+        </td>
+      </ng-container>
+
+      <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+      <tr
+        *matRowDef="let study; columns: displayedColumns;"
+        [attr.data-study-id]="study.id"
+        [ngClass]="{'study-row': true, 'new': isNewStudy(study.id)}"
+        [routerLink]="['/study', study.id]"
+        mat-row
+      ></tr>
+    </table>
+  </div>
+</mat-expansion-panel>

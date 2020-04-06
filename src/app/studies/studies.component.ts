@@ -27,17 +27,8 @@ export class StudiesComponent {
   afterStudyIds: number[];
   studiesByStatus: StudiesByStatus[] = [];
   irbUrl: string;
-  newStudy: Study;
-  inactiveStudies: Study[];
   loading = true;
-  displayedColumns: string[] = [
-    'id',
-    'title',
-    'irb_hsr_status',
-    'protocol_builder_status',
-    'progress',
-    'committees_complete',
-  ];
+  view = 'dashboard';
 
   constructor(
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
@@ -79,9 +70,5 @@ export class StudiesComponent {
 
       this.loading = false;
     });
-  }
-
-  isNewStudy(studyId: number) {
-    return !this.beforeStudyIds.includes(studyId);
   }
 }

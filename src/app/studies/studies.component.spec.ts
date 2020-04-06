@@ -21,8 +21,6 @@ describe('StudiesComponent', () => {
       ],
       imports: [
         HttpClientTestingModule,
-        MatCardModule,
-        MatExpansionModule,
         MatIconModule,
         MatProgressBarModule,
         MatProgressSpinnerModule,
@@ -62,10 +60,5 @@ describe('StudiesComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should check for new studies', () => {
-    expect(component.isNewStudy(mockStudy0.id)).toBeFalsy();
-    expect(component.isNewStudy(666)).toBeTruthy();
   });
 });

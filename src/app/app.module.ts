@@ -32,6 +32,7 @@ import {NgProgressModule} from '@ngx-progressbar/core';
 import {ChartsModule} from 'ng2-charts';
 import {DeviceDetectorModule} from 'ngx-device-detector';
 import {NgxFileDropModule} from 'ngx-file-drop';
+import {HIGHLIGHT_OPTIONS, HighlightModule} from 'ngx-highlightjs';
 import {MarkdownModule} from 'ngx-markdown';
 import {NgxPageScrollModule} from 'ngx-page-scroll';
 import {NgxPageScrollCoreModule} from 'ngx-page-scroll-core';
@@ -39,12 +40,14 @@ import {
   ApiService,
   AppEnvironment,
   AuthInterceptor,
-  SartographyFormsModule, SartographyPipesModule,
+  SartographyFormsModule,
+  SartographyPipesModule,
   SartographyWorkflowLibModule
 } from 'sartography-workflow-lib';
 import {environment} from '../environments/environment';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import {CodeViewerComponent} from './code-viewer/code-viewer.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {FooterComponent} from './footer/footer.component';
 import {HelpComponent} from './help/help.component';
@@ -52,9 +55,12 @@ import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NotificationsComponent} from './notifications/notifications.component';
+import {ProcessViewerComponent} from './process-viewer/process-viewer.component';
 import {ProfileComponent} from './profile/profile.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
+import {StudiesDashboardComponent} from './studies-dashboard/studies-dashboard.component';
+import {StudiesProcessComponent} from './studies-process/studies-process.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudyProgressComponent} from './study-progress/study-progress.component';
 import {StudyComponent} from './study/study.component';
@@ -63,8 +69,6 @@ import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
-import {HIGHLIGHT_OPTIONS, HighlightModule} from 'ngx-highlightjs';
-import { CodeViewerComponent } from './code-viewer/code-viewer.component';
 
 
 @Injectable()
@@ -97,6 +101,9 @@ export class ThisEnvironment implements AppEnvironment {
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
     CodeViewerComponent,
+    ProcessViewerComponent,
+    StudiesDashboardComponent,
+    StudiesProcessComponent,
   ],
   imports: [
     BrowserAnimationsModule,

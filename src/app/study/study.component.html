@@ -7,10 +7,11 @@
   <ng-container *ngIf="study">
 
     <div class="study-metadata">
+      <h1>{{study.title}}</h1>
       <mat-list dense>
         <mat-list-item>
-          <div class="list-item-label">Study Title:</div>
-          <div class="list-item-value">{{study.title}}</div>
+          <div class="list-item-label">Study ID:</div>
+          <div class="list-item-value">{{study.id}}</div>
         </mat-list-item>
         <mat-list-item>
           <div class="list-item-label">Status:</div>
