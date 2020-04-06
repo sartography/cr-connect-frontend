@@ -31,10 +31,12 @@ export class StudiesComponent {
   inactiveStudies: Study[];
   loading = true;
   displayedColumns: string[] = [
-    'title',
     'id',
-    'progress',
+    'title',
+    'irb_hsr_status',
     'protocol_builder_status',
+    'progress',
+    'committees_complete',
   ];
 
   constructor(
