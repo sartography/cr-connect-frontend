@@ -10,6 +10,7 @@ import {
   ProtocolBuilderStatusLabels,
   Study
 } from 'sartography-workflow-lib';
+import {StudyProgressComponent} from '../study-progress/study-progress.component';
 
 import { StudiesDashboardComponent } from './studies-dashboard.component';
 
@@ -19,7 +20,10 @@ describe('StudiesDashboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StudiesDashboardComponent ],
+      declarations: [
+        StudyProgressComponent,
+        StudiesDashboardComponent,
+      ],
       imports: [
         BrowserAnimationsModule,
         MatChipsModule,

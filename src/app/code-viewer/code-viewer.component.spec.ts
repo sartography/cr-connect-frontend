@@ -1,3 +1,4 @@
+import {CdkCopyToClipboard} from '@angular/cdk/clipboard';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {MatIcon, MatIconModule} from '@angular/material/icon';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
@@ -11,7 +12,10 @@ describe('CodeViewerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CodeViewerComponent ],
+      declarations: [
+        CdkCopyToClipboard,
+        CodeViewerComponent,
+      ],
       imports: [
         HighlightModule,
         MatIconModule,
