@@ -1,3 +1,4 @@
+import {HttpHeaders} from '@angular/common/http';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
@@ -77,8 +78,11 @@ describe('WorkflowFilesComponent', () => {
     component.downloadFile(mockFileMeta0);
 
     const f1Req = httpMock.expectOne(`apiRoot/file/${mockFileMeta0.id}/data`);
+    const f1ReqHeaders = new HttpHeaders()
+      .append('last-modified', mockFileMeta0.file.lastModified.toString())
+      .append('content-type', mockFileMeta0.file.type);
+    f1Req.flush(new ArrayBuffer(8), {headers: f1ReqHeaders});
     expect(f1Req.request.method).toEqual('GET');
-    f1Req.flush(mockFileMeta0.file);
 
     // IE
     window.navigator.msSaveOrOpenBlob = () => true;
@@ -86,8 +90,11 @@ describe('WorkflowFilesComponent', () => {
     component.downloadFile(mockFileMeta1);
 
     const f2Req = httpMock.expectOne(`apiRoot/file/${mockFileMeta1.id}/data`);
+    const f2ReqHeaders = new HttpHeaders()
+      .append('last-modified', mockFileMeta1.file.lastModified.toString())
+      .append('content-type', mockFileMeta1.file.type);
+    f2Req.flush(new ArrayBuffer(8), {headers: f2ReqHeaders});
     expect(f2Req.request.method).toEqual('GET');
-    f2Req.flush(mockFileMeta1.file);
     expect(msSaveOrOpenBlobSpy).toHaveBeenCalled();
 
   });
