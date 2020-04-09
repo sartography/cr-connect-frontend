@@ -25,23 +25,32 @@ mat-card {
       }
 
       &:hover {
-        background-color: $brand-accent;
-        color: white;
+        background-color: $brand-gray-light;
 
-        * { color: white; }
+        &.workflow_state--disabled             { opacity: 0.5; pointer-events: none; background-color: white; }
+        &.workflow_state--hidden               { display: none; }
+        &.workflow_state--required,
+        &.workflow_state--optional {
+          background-color: $brand-gray-light;
+        }
       }
 
       .mat-list-item-content {
         padding: 1rem;
       }
 
-      &.not_started { color: black; }
-      &.user_input_required { color: black; }
-      &.waiting { color: black; }
-      &.complete { color: $brand-gray-tint-1; }
+      &.workflow_status--not_started         { color: $brand-gray; }
+      &.workflow_status--user_input_required { color: $brand-gray; }
+      &.workflow_status--waiting             { color: $brand-gray; }
+      &.workflow_status--complete            { color: $brand-gray; }
+
+      &.workflow_state--required             { background-color: $brand-accent-light; }
+      &.workflow_state--disabled             { opacity: 0.5; pointer-events: none; }
+      &.workflow_state--hidden               { display: none; }
+      &.workflow_state--optional             { background-color: white; }
     }
 
-    .workflow-status {
+    .workflow-label {
       font-size: 1rem;
       white-space: nowrap;
       margin-right: 1rem;

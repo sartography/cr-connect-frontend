@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Study, WorkflowSpecCategory, WorkflowState, WorkflowStatus,} from 'sartography-workflow-lib';
+import {WorkflowStats} from 'sartography-workflow-lib/lib/types/stats';
 
 
 @Component({
@@ -26,5 +27,46 @@ export class DashboardComponent implements OnInit {
         return cat;
       })
       .filter(cat => cat.workflows.length > 0);
+  }
+
+  workflowLabel(workflow) {
+    const stateLabel = this.getStateLabel(workflow);
+    const statusLabel = this.getStatusLabel(workflow);
+
+    if (workflow.state === WorkflowState.HIDDEN) {
+      return '';
+    }
+
+    if (workflow.state === WorkflowState.DISABLED) {
+      return 'Waiting...';
+    }
+
+    return `${statusLabel} (${stateLabel})`
+  }
+
+  getStatusLabel(workflow: WorkflowStats) {
+    switch (workflow.status) {
+      case WorkflowStatus.NOT_STARTED:
+        return 'Not started';
+      case WorkflowStatus.USER_INPUT_REQUIRED:
+        return `${workflow.completed_tasks} / ${workflow.total_tasks} tasks complete`;
+      case WorkflowStatus.COMPLETE:
+        return 'Complete!';
+      case WorkflowStatus.WAITING:
+        return 'Waiting...';
+    }
+  }
+
+  getStateLabel(workflow: WorkflowStats) {
+    switch (workflow.state) {
+      case WorkflowState.HIDDEN:
+        return '';
+      case WorkflowState.OPTIONAL:
+        return 'Optional';
+      case WorkflowState.REQUIRED:
+        return 'Required';
+      case WorkflowState.DISABLED:
+        return 'Waiting...';
+    }
   }
 }

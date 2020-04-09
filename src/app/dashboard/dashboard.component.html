@@ -14,27 +14,22 @@
               [routerLink]="['workflow', workflowListItem.id]"
               [attr.data-study-id]="study.id"
               [attr.data-workflow-id]="workflowListItem.id"
-              [ngClass]="'workflow-list-item ' + workflowListItem.state"
+              [ngClass]="
+                'workflow-list-item' +
+                ' workflow_state--' + workflowListItem.state +
+                ' workflow_status--' + workflowListItem.status
+              "
             >
-              <h1 mat-line>display_name: {{workflowListItem.display_name}}</h1>
-              <h4 mat-line>status: {{workflowListItem.status}}</h4>
-              <h4 mat-line>state: {{workflowListItem.state}}</h4>
-              <h4 mat-line>description: {{workflowListItem.description}}</h4>
-              <h4 mat-line>name: {{workflowListItem.name}}</h4>
-              <h4 mat-line>total_tasks: {{workflowListItem.total_tasks}}</h4>
-              <h4 mat-line>completed_tasks: {{workflowListItem.completed_tasks}}</h4>
+              <h1 mat-line>{{workflowListItem.display_name}}</h1>
+              <h4 mat-line>{{workflowListItem.description}}</h4>
               <span fxFlex></span>
-              <div *ngIf="workflowListItem.state === 'disabled'">
-                <span class="workflow-status {{workflowListItem.state}}">{{workflowListItem.state}}</span>
-              </div>
-              <ng-container *ngIf="workflowListItem.state !== 'disabled'">
-                <ng-container *ngIf="workflowListItem.total_tasks > 0">
-                  <span class="workflow-status {{workflowListItem.status}}">{{workflowListItem.completed_tasks}} / {{workflowListItem.total_tasks}} tasks complete</span>
-                  <button mat-stroked-button>Continue</button>
-                </ng-container>
-                <ng-container *ngIf="workflowListItem.status === 'not_started'">
-                  <span class="workflow-status {{workflowListItem.state}}">{{workflowListItem.state}}</span>
-                  <button mat-flat-button color="primary">Start</button>
+              <span class="workflow-label">{{workflowLabel(workflowListItem)}}</span>
+              <ng-container *ngIf="workflowListItem.state !== states.HIDDEN">
+                <ng-container *ngIf="workflowListItem.state !== states.DISABLED">
+                  <div class="workflow-action">
+                    <button *ngIf="workflowListItem.status === statuses.NOT_STARTED" mat-flat-button color="primary">Start</button>
+                    <button *ngIf="workflowListItem.status === statuses.USER_INPUT_REQUIRED" mat-stroked-button>Continue</button>
+                  </div>
                 </ng-container>
               </ng-container>
             </mat-list-item>
