@@ -99,37 +99,23 @@ describe('Clinical Research Coordinator App', () => {
   });
 
   it('should display workflow spec categories in tabs', async () => {
-    expect(page.getElements('.mat-tab-label-content').count()).toBeGreaterThan(0);
+    const numTabs = await page.getElements('.workflow-list-item').count();
+    expect(numTabs).toBeGreaterThan(0);
 
-    page.clickElement('#mat-tab-label-0-0');
-    await page.waitFor(500);
-    expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
-
-    page.clickElement('#mat-tab-label-0-1');
-    await page.waitFor(500);
-    expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
-
-    page.clickElement('#mat-tab-label-0-2');
-    await page.waitFor(500);
-    expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
-
-    page.clickElement('#mat-tab-label-0-3');
-    await page.waitFor(500);
-    expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
-
-    page.clickElement('#mat-tab-label-0-4');
-    await page.waitFor(500);
-    expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
+    for (let i=0; i < numTabs; i++) {
+      page.clickElement(`#mat-tab-label-0-${i}`);
+      await page.waitFor(500);
+      expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
+    }
   });
 
   it('should navigate to a workflow', async () => {
     expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
-    const workflow = page.getElement('.workflow-list-item');
+    const workflow = await page.getElement('.workflow-list-item .workflow-action');
     const studyId = await workflow.getAttribute('data-study-id');
     const workflowId = await workflow.getAttribute('data-workflow-id');
     const expectedRoute = `/study/${studyId}/workflow/${workflowId}`;
-    page.clickElement('.workflow-list-item');
-    expect(page.getRoute()).toContain(expectedRoute);
+    page.clickAndExpectRoute('.workflow-list-item .workflow-action button', expectedRoute);
   });
 
   it('should sign out', () => {

@@ -12,8 +12,6 @@
             <mat-list-item
               *ngFor="let workflowListItem of cat.workflows"
               [routerLink]="['workflow', workflowListItem.id]"
-              [attr.data-study-id]="study.id"
-              [attr.data-workflow-id]="workflowListItem.id"
               [ngClass]="
                 'workflow-list-item' +
                 ' workflow_state--' + workflowListItem.state +
@@ -26,7 +24,11 @@
               <span class="workflow-label">{{workflowLabel(workflowListItem)}}</span>
               <ng-container *ngIf="workflowListItem.state !== states.HIDDEN">
                 <ng-container *ngIf="workflowListItem.state !== states.DISABLED">
-                  <div class="workflow-action">
+                  <div
+                    class="workflow-action"
+                    [attr.data-study-id]="study.id"
+                    [attr.data-workflow-id]="workflowListItem.id"
+                  >
                     <button *ngIf="workflowListItem.status === statuses.NOT_STARTED" mat-flat-button color="primary">Start</button>
                     <button *ngIf="workflowListItem.status === statuses.USER_INPUT_REQUIRED" mat-stroked-button>Continue</button>
                   </div>
