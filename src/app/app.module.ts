@@ -44,7 +44,7 @@ import {
   SartographyPipesModule,
   SartographyWorkflowLibModule
 } from 'sartography-workflow-lib';
-import {environment} from '../environments/environment';
+import {environment} from '../environments/environment.runtime';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {CodeViewerComponent} from './code-viewer/code-viewer.component';
