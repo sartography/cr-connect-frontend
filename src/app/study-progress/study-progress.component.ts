@@ -20,7 +20,6 @@ export class StudyProgressComponent implements OnInit {
   }
 
   calculatePercentComplete() {
-    console.log('study', this.study);
     this.numCompletedTasks = 0;
     this.numTotalTasks = 0;
     this.percentComplete = 0;

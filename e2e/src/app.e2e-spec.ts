@@ -1,6 +1,5 @@
 import {browser, logging} from 'protractor';
 import {HttpClient} from 'protractor-http-client';
-import {environment} from '../../src/environments/environment';
 import {AppPage} from './app.po';
 
 describe('Clinical Research Coordinator App', () => {
@@ -9,7 +8,7 @@ describe('Clinical Research Coordinator App', () => {
 
   beforeEach(() => {
     page = new AppPage();
-    http = new HttpClient(environment.irbUrl);
+    http = new HttpClient('http://localhost:5001');
   });
 
   it('should display fake sign-in screen', () => {
