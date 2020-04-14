@@ -12,7 +12,7 @@ services:
       - POSTGRES_PASSWORD=crc_pass
       - POSTGRES_MULTIPLE_DATABASES=crc_test,crc_dev,pb_test,pb
     healthcheck:
-      test: ["CMD", "ping", "-h", "localhost"]
+      test: ["CMD", "pg_isready"]
       timeout: 20s
       retries: 10
 
