@@ -8,8 +8,9 @@ ADD package.json /crc-frontend/
 
 COPY . /crc-frontend/
 
+ARG build_config=staging
 RUN npm install && \
-    npm run build:${APP_ENVIRONMENT}
+    npm run build:$build_config
 
 ### STAGE 2: Run ###
 FROM nginx:alpine
