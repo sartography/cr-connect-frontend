@@ -9,7 +9,7 @@ ADD package.json /crc-frontend/
 COPY . /crc-frontend/
 
 RUN npm install && \
-    npm run build:$APP_ENVIRONMENT
+    npm run build:${APP_ENVIRONMENT}
 
 ### STAGE 2: Run ###
 FROM nginx:alpine
