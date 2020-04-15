@@ -1,10 +1,11 @@
 ### STAGE 1: Build ###
-FROM node:alpine AS builder
+FROM node AS builder
 
 RUN mkdir /crc-frontend
 WORKDIR /crc-frontend
 
 ADD package.json /crc-frontend/
+ADD package-lock.json /crc-frontend/
 
 COPY . /crc-frontend/
 
@@ -13,7 +14,7 @@ RUN npm install && \
     npm run build:$build_config
 
 ### STAGE 2: Run ###
-FROM nginx:alpine
+FROM nginx
 COPY --from=builder /crc-frontend/dist/* /usr/share/nginx/html/
 COPY --from=builder /crc-frontend/nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./docker/substitute-env-variables.sh ./entrypoint.sh
