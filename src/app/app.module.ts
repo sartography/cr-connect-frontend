@@ -75,7 +75,6 @@ import {WorkflowComponent} from './workflow/workflow.component';
 export class ThisEnvironment implements AppEnvironment {
   production = environment.production;
   api = environment.api;
-  googleAnalyticsKey = environment.googleAnalyticsKey;
   irbUrl = environment.irbUrl;
 }
 
