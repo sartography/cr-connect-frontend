@@ -35,6 +35,14 @@ export class WorkflowComponent {
     this.router.navigate(['study', this.studyId, 'workflow', this.workflow.id, 'task', task.id]);
   }
 
+  completeManualTask(task: WorkflowTask) {
+    this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, {}).subscribe(
+      updatedWorkflow => {
+        this.workflowUpdated(updatedWorkflow);
+      }
+    );
+  }
+
   logTaskData(task) {
     if (task) {
       const label = `Data for Workflow Task: '${task.name} (${task.id})'`;
