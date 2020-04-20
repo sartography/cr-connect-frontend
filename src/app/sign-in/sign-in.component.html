@@ -1,4 +1,4 @@
-<div class="full-height" fxLayout="column" fxLayoutAlign="center center">
+<div *ngIf="!isProduction" class="full-height" fxLayout="column" fxLayoutAlign="center center">
   <h1>Fake UVA NetBadge Sign In (for testing only)</h1>
   <formly-form [fields]="fields" [form]="form" [model]="model">
     <mat-error *ngIf="error">{{error}}</mat-error>
@@ -12,4 +12,14 @@
       Sign in
     </button>
   </formly-form>
+</div>
+<div>
+  <div class="full-height" fxLayout="column" fxLayoutAlign="center center">
+    <h1>You have been signed out. Please reload the page and log in with UVA NetBadge.</h1>
+    <button
+      (click)="reload()"
+      color="accent"
+      mat-flat-button>Reload
+    </button>
+  </div>
 </div>

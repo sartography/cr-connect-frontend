@@ -52,6 +52,7 @@ export class SignInComponent implements OnInit {
     },
   ];
   error: Error;
+  isProduction: boolean;
 
 
   constructor(
@@ -60,6 +61,7 @@ export class SignInComponent implements OnInit {
     private api: ApiService,
     private platformLocation: PlatformLocation
   ) {
+    this.isProduction = this.environment.production;
   }
 
   ngOnInit() {
@@ -81,6 +83,7 @@ export class SignInComponent implements OnInit {
 
   // If this is production, verify the user and redirect to home page.
   private _redirectOnProduction() {
+    console.log('*** _redirectOnProduction ***');
     if (this.environment.production) {
       this.api.getUser().subscribe((user: User) => {
         this.router.navigate(['/']);
@@ -92,5 +95,9 @@ export class SignInComponent implements OnInit {
     } else {
       localStorage.removeItem('token');
     }
+  }
+
+  reload() {
+    location.reload();
   }
 }
