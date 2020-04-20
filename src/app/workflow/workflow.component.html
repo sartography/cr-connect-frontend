@@ -29,6 +29,8 @@
       <div class="documentation" *ngIf="currentTask.documentation">
         <markdown [data]="currentTask.documentation"></markdown>
       </div>
+      <button *ngIf="currentTask.type == taskTypes.MANUAL_TASK" (click)="completeManualTask(currentTask)"
+              color="primary" mat-flat-button>Continue</button>
       <div *ngIf="!currentTask.documentation">
         <h1>{{currentTask.name}}</h1>
         <h2>Task type: {{currentTask.type}}</h2>
