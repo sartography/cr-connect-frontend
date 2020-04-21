@@ -64,7 +64,7 @@ export class DashboardComponent implements OnInit {
       case WorkflowStatus.USER_INPUT_REQUIRED:
         return `${workflow.completed_tasks} / ${workflow.total_tasks} tasks complete`;
       case WorkflowStatus.COMPLETE:
-        return 'Complete!';
+        return 'Complete';
       case WorkflowStatus.WAITING:
         return 'Waiting...';
     }
@@ -91,5 +91,13 @@ export class DashboardComponent implements OnInit {
     }).then(() => {
       this.selectedTab = this.categoryTabs.findIndex(c => c.id === catId);
     });
+  }
+
+  showWorkflowAction(workflowListItem: WorkflowStats) {
+    return (
+      (workflowListItem.status !== WorkflowStatus.COMPLETE) &&
+      (workflowListItem.state !== WorkflowState.DISABLED) &&
+      (workflowListItem.state !== WorkflowState.HIDDEN)
+    );
   }
 }

@@ -25,15 +25,15 @@
               <h4 mat-line>{{workflowListItem.description}}</h4>
               <span fxFlex></span>
               <span class="workflow-label">{{workflowLabel(workflowListItem)}}</span>
-              <ng-container *ngIf="workflowListItem.state !== states.HIDDEN">
+              <ng-container *ngIf="showWorkflowAction(workflowListItem)">
                 <ng-container *ngIf="workflowListItem.state !== states.DISABLED">
                   <div
                     class="workflow-action"
                     [attr.data-study-id]="study.id"
                     [attr.data-workflow-id]="workflowListItem.id"
                   >
-                    <button *ngIf="workflowListItem.status === statuses.NOT_STARTED" mat-flat-button color="primary">Start</button>
-                    <button *ngIf="workflowListItem.status === statuses.USER_INPUT_REQUIRED" mat-stroked-button>Continue</button>
+                    <button *ngIf="!workflowListItem.completed_tasks || workflowListItem.completed_tasks === 0" mat-flat-button color="primary">Start</button>
+                    <button *ngIf="workflowListItem.completed_tasks && workflowListItem.completed_tasks > 0" mat-stroked-button>Continue</button>
                   </div>
                 </ng-container>
               </ng-container>
