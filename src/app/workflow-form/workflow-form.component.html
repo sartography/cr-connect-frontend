@@ -9,12 +9,11 @@
         <mat-icon>chrome_reader_mode</mat-icon>
       </button>
     </div>
-    <h1>{{task.title}}</h1>
+    <h1>{{taskDisplayName()}}</h1>
     <div *ngIf="task.documentation" class="documentation">
       <markdown [data]="task.documentation"></markdown>
     </div>
     <div>
-      <h3>{{task.form.key}}</h3>
       <formly-form
         (keyup)="handleKeyUp($event)"
         [fields]="task.form.fields | toFormly"

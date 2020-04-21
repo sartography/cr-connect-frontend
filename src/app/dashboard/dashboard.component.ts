@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit {
     }
 
     if (workflow.state === WorkflowState.DISABLED) {
-      return 'Waiting...';
+      return 'Not available';
     }
 
     return `${statusLabel} (${stateLabel})`

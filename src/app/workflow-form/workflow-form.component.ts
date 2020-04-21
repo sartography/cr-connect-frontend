@@ -10,7 +10,6 @@ import {
   ViewChild
 } from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import createClone from 'rfdc';
 import {ApiService, Workflow, WorkflowTask} from 'sartography-workflow-lib';
 
@@ -65,6 +64,11 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
   }
 
+  toggleDataDisplay() {
+    this.displayData = !this.displayData;
+    localStorage.setItem('displayData', (!!this.displayData).toString());
+  }
+
   private _loadModel(task: WorkflowTask) {
     this.form = new FormGroup({});
     if (task && task.data) {
@@ -104,8 +108,16 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     return parentElement;
   }
 
-  toggleDataDisplay() {
-    this.displayData = !this.displayData;
-    localStorage.setItem('displayData', (!!this.displayData).toString());
+  taskDisplayName() {
+    if (this.task) {
+      if (this.task.properties) {
+        const displayNameProp = this.task.properties.find(p => p.id === 'display_name');
+        if (displayNameProp) {
+          return displayNameProp.value;
+        }
+      }
+
+      return this.task.title || this.task.name;
+    }
   }
 }
