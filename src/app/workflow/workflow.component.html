@@ -1,6 +1,11 @@
 <mat-sidenav-container>
-  <mat-sidenav mode="side" opened  [fixedInViewport]="true" [fixedTopGap]="64">
-    <button mat-button routerLink="/study/{{studyId}}" [ngClass]="'back'">
+  <mat-sidenav opened mode="side" position="start" [fixedInViewport]="true" [fixedTopGap]="64">
+    <button
+      mat-button
+      [routerLink]="['/study', studyId]"
+      [queryParams]="{category: workflowSpec && workflowSpec.category_id}"
+      [ngClass]="'back'"
+    >
       <mat-icon>chevron_left</mat-icon>
       Back
     </button>
@@ -11,16 +16,46 @@
       [isCurrent] = "currentTask && task.id === currentTask.id"
       (taskSelected)="setCurrentTask($event)"
     ></app-workflow-steps-menu-list>
-    <h3>Workflow Files:</h3>
-    <app-workflow-files *ngIf="workflow" [workflow]="workflow"></app-workflow-files>
   </mat-sidenav>
   <mat-sidenav-content>
+    <div fxLayout="row" fxLayoutAlign="end">
+      <button
+        mat-icon-button
+        title="Files for this task"
+        (click)="toggleFilesDisplay()"
+        color="accent"
+      >
+        <mat-icon>view_list</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        title="Display collected task data"
+        (click)="toggleDataDisplay()"
+      >
+        <mat-icon>chrome_reader_mode</mat-icon>
+      </button>
+    </div>
     <app-workflow-form *ngIf="hasIncompleteUserTask(); else noTask"
       [task]="currentTask"
       [workflow]="workflow"
       (workflowUpdated)="workflowUpdated($event)"
     ></app-workflow-form>
   </mat-sidenav-content>
+  <mat-sidenav
+    [opened]="displayData || displayFiles"
+    mode="side"
+    position="end"
+    [fixedInViewport]="true"
+    [fixedTopGap]="64"
+    [ngClass]="{'files-display': displayFiles, 'data-display': displayData}"
+  >
+    <div *ngIf="!displayData && displayFiles" id="files-display-column">
+      <app-workflow-files *ngIf="workflow" [workflow]="workflow"></app-workflow-files>
+    </div>
+    <div *ngIf="!displayFiles && displayData" id="data-display-column">
+      <app-code-viewer *ngIf="workflow" [data]="currentTask.data"></app-code-viewer>
+    </div>
+  </mat-sidenav>
 </mat-sidenav-container>
 
 <ng-template #noTask>

@@ -1,6 +1,13 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ApiService, Workflow, WorkflowTask, WorkflowTaskState, WorkflowTaskType} from 'sartography-workflow-lib';
+import {
+  ApiService,
+  Workflow,
+  WorkflowSpec,
+  WorkflowTask,
+  WorkflowTaskState,
+  WorkflowTaskType
+} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow',
@@ -9,6 +16,7 @@ import {ApiService, Workflow, WorkflowTask, WorkflowTaskState, WorkflowTaskType}
 })
 export class WorkflowComponent {
   workflow: Workflow;
+  workflowSpec: WorkflowSpec;
   readyTasks: WorkflowTask[];
   allTasks: WorkflowTask[];
   currentTask: WorkflowTask;
@@ -16,6 +24,8 @@ export class WorkflowComponent {
   workflowId: number;
   taskId: string;
   taskTypes = WorkflowTaskType;
+  displayData = (localStorage.getItem('displayData') === 'true');
+  displayFiles = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -68,6 +78,7 @@ export class WorkflowComponent {
   private updateTaskList(workflowId: number, forceTaskId?: string) {
     this.api.getWorkflow(workflowId).subscribe(wf => {
       this.workflow = wf;
+      this.api.getWorkflowSpecification(wf.workflow_spec_id).subscribe(s => this.workflowSpec = s);
 
       // De-dupe tasks, in case of parallel joins
       this.allTasks = this.dedupeTasks(wf.user_tasks || []);
@@ -112,6 +123,22 @@ export class WorkflowComponent {
         (incompleteTasks.length > 0);
     } else {
       return false;
+    }
+  }
+
+  toggleDataDisplay(show?: boolean) {
+    this.displayData = show !== undefined ? show : !this.displayData;
+    localStorage.setItem('displayData', (!!this.displayData).toString());
+    if (this.displayData && show === undefined) {
+      this.toggleFilesDisplay(!this.displayData);
+    }
+  }
+
+  toggleFilesDisplay(show?: boolean) {
+    this.displayFiles = show !== undefined ? show : !this.displayFiles;
+
+    if (this.displayFiles && show === undefined) {
+      this.toggleDataDisplay(!this.displayFiles);
     }
   }
 }

@@ -68,8 +68,8 @@ describe('StudyComponent', () => {
   });
 
   it('should get status label', () => {
-    expect(component.getStatusLabel(ProtocolBuilderStatus.IN_REVIEW))
-      .toEqual(ProtocolBuilderStatusLabels.IN_REVIEW);
+    expect(component.getStatusLabel(ProtocolBuilderStatus.ACTIVE))
+      .toEqual(ProtocolBuilderStatusLabels.ACTIVE);
   });
 
   it('should check for workflows', () => {

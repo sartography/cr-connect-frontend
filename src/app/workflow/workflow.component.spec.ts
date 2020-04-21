@@ -23,7 +23,7 @@ import {
   mockWorkflowTasks,
   WorkflowTaskState,
   WorkflowTaskType,
-  ToFormlyPipe
+  ToFormlyPipe, mockWorkflowSpec0
 } from 'sartography-workflow-lib';
 import {WorkflowFilesComponent} from '../workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
@@ -85,6 +85,11 @@ describe('WorkflowComponent', () => {
     expect(wf1Req.request.method).toEqual('GET');
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
+
+    const specReq = httpMock.expectOne('apiRoot/workflow-specification/' + mockWorkflowSpec0.id);
+    expect(specReq.request.method).toEqual('GET');
+    specReq.flush(mockWorkflowSpec0);
+    expect(component.workflowSpec).toEqual(mockWorkflowSpec0);
   });
 
   afterEach(() => {
@@ -124,6 +129,10 @@ describe('WorkflowComponent', () => {
     expect(tReq.request.method).toEqual('GET');
     tReq.flush(mockWorkflow0);
 
+    const s1Req = httpMock.expectOne('apiRoot/workflow-specification/' + mockWorkflowSpec0.id);
+    expect(s1Req.request.method).toEqual('GET');
+    s1Req.flush(mockWorkflowSpec0);
+
     // Should select a task
     expect(component.currentTask).toBeTruthy();
 
@@ -136,6 +145,10 @@ describe('WorkflowComponent', () => {
     const t2Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
     expect(t2Req.request.method).toEqual('GET');
     t2Req.flush(mockWorkflow0);
+
+    const s2Req = httpMock.expectOne('apiRoot/workflow-specification/' + mockWorkflowSpec0.id);
+    expect(s2Req.request.method).toEqual('GET');
+    s2Req.flush(mockWorkflowSpec0);
 
     // Should be no task to select.
     expect(component.currentTask).toBeUndefined();
