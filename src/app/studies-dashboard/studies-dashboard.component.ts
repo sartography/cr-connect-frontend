@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ProtocolBuilderStatus, Study} from 'sartography-workflow-lib';
+import {Study} from 'sartography-workflow-lib';
 import {StudiesByStatus} from '../studies/studies.component';
 
 enum IrbHsrStatus {

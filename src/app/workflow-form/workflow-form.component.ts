@@ -24,7 +24,6 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   @Output() workflowUpdated: EventEmitter<Workflow> = new EventEmitter();
   form = new FormGroup({});
   model: any = {};
-  displayData = (localStorage.getItem('displayData') === 'true');
 
   @ViewChild('#jsonCode') jsonCodeElement: ElementRef;
 
@@ -62,11 +61,6 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     ) {
       this._focusNextPrevCheckbox(thisEl, $event.key);
     }
-  }
-
-  toggleDataDisplay() {
-    this.displayData = !this.displayData;
-    localStorage.setItem('displayData', (!!this.displayData).toString());
   }
 
   private _loadModel(task: WorkflowTask) {

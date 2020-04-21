@@ -24,6 +24,8 @@ export class WorkflowComponent {
   workflowId: number;
   taskId: string;
   taskTypes = WorkflowTaskType;
+  displayData = (localStorage.getItem('displayData') === 'true');
+  displayFiles = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -121,6 +123,22 @@ export class WorkflowComponent {
         (incompleteTasks.length > 0);
     } else {
       return false;
+    }
+  }
+
+  toggleDataDisplay(show?: boolean) {
+    this.displayData = show !== undefined ? show : !this.displayData;
+    localStorage.setItem('displayData', (!!this.displayData).toString());
+    if (this.displayData && show === undefined) {
+      this.toggleFilesDisplay(!this.displayData);
+    }
+  }
+
+  toggleFilesDisplay(show?: boolean) {
+    this.displayFiles = show !== undefined ? show : !this.displayFiles;
+
+    if (this.displayFiles && show === undefined) {
+      this.toggleDataDisplay(!this.displayFiles);
     }
   }
 }

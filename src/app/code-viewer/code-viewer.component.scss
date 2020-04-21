@@ -1,5 +1,7 @@
+@import "../../config";
+
 .code-viewer-container {
-  background-color: #23241f;
+  background-color: transparent;
 }
 
 .code-viewer-actions {
@@ -9,4 +11,8 @@
 
 .code-viewer-code {
   padding: 0 2rem 2rem 2rem;
+
+  code.hljs {
+    background-color: transparent;
+  }
 }

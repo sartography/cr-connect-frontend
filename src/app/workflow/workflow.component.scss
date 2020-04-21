@@ -32,6 +32,15 @@ mat-list-item.disabled {
   min-height: 70vh;
 }
 
-app-workflow-files {
-  padding-top: 20px;
+.files-display, .data-display {
+  transition: background-color 0.5s ease-in-out;
+}
+
+.files-display {
+  padding: 6rem 2rem 2rem 2rem;
+}
+
+.data-display {
+  background-color: $brand-gray-shade-3;
+  padding: 2rem 0;
 }

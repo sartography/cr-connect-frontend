@@ -20,16 +20,3 @@
     width: 70%;
   }
 }
-
-#data-display-column {
-  margin-left: 2rem;
-  width: 30%;
-  opacity: 1;
-
-  &.collapsed {
-    margin-left: 0;
-    width: 0;
-    opacity: 0;
-    pointer-events: none;
-  }
-}

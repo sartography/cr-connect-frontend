@@ -1,14 +1,5 @@
 <div *ngIf="task && workflow; else loadingMessage" fxLayout="row">
   <div [ngClass]="{'collapsed': displayData}" id="form-column">
-    <div fxLayout="row" fxLayoutAlign="end">
-      <button
-        mat-icon-button
-        title="Display collected task data"
-        (click)="toggleDataDisplay()"
-      >
-        <mat-icon>chrome_reader_mode</mat-icon>
-      </button>
-    </div>
     <h1>{{taskDisplayName()}}</h1>
     <div *ngIf="task.documentation" class="documentation">
       <markdown [data]="task.documentation"></markdown>
@@ -22,9 +13,6 @@
       ></formly-form>
       <button (click)="saveTaskData(task)" [disabled]="form.invalid" color="primary" mat-flat-button>Save</button>
     </div>
-  </div>
-  <div [ngClass]="{'collapsed': !displayData}" id="data-display-column">
-    <app-code-viewer [data]="task.data"></app-code-viewer>
   </div>
 </div>
 
