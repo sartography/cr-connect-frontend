@@ -1,10 +1,13 @@
-<mat-tab-group>
+<mat-tab-group
+  [selectedIndex]="selectedTab"
+>
   <ng-container
     *ngFor="let cat of categoryTabs"
   >
     <mat-tab
       *ngIf="cat.workflows && cat.workflows.length > 0"
       label="{{cat.display_name}}"
+      (click)="selectCategory(cat.id)"
     >
       <mat-card class="mat-elevation-z0">
         <mat-card-content>

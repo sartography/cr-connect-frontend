@@ -1,6 +1,13 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ApiService, Workflow, WorkflowTask, WorkflowTaskState, WorkflowTaskType} from 'sartography-workflow-lib';
+import {
+  ApiService,
+  Workflow,
+  WorkflowSpec,
+  WorkflowTask,
+  WorkflowTaskState,
+  WorkflowTaskType
+} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow',
@@ -9,6 +16,7 @@ import {ApiService, Workflow, WorkflowTask, WorkflowTaskState, WorkflowTaskType}
 })
 export class WorkflowComponent {
   workflow: Workflow;
+  workflowSpec: WorkflowSpec;
   readyTasks: WorkflowTask[];
   allTasks: WorkflowTask[];
   currentTask: WorkflowTask;
@@ -68,6 +76,7 @@ export class WorkflowComponent {
   private updateTaskList(workflowId: number, forceTaskId?: string) {
     this.api.getWorkflow(workflowId).subscribe(wf => {
       this.workflow = wf;
+      this.api.getWorkflowSpecification(wf.workflow_spec_id).subscribe(s => this.workflowSpec = s);
 
       // De-dupe tasks, in case of parallel joins
       this.allTasks = this.dedupeTasks(wf.user_tasks || []);

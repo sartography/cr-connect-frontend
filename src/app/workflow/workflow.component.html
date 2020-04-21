@@ -1,6 +1,11 @@
 <mat-sidenav-container>
   <mat-sidenav mode="side" opened  [fixedInViewport]="true" [fixedTopGap]="64">
-    <button mat-button routerLink="/study/{{studyId}}" [ngClass]="'back'">
+    <button
+      mat-button
+      [routerLink]="['/study', studyId]"
+      [queryParams]="{category: workflowSpec && workflowSpec.category_id}"
+      [ngClass]="'back'"
+    >
       <mat-icon>chevron_left</mat-icon>
       Back
     </button>

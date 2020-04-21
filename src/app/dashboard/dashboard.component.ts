@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Study, WorkflowSpecCategory, WorkflowState, WorkflowStatus,} from 'sartography-workflow-lib';
 import {WorkflowStats} from 'sartography-workflow-lib/lib/types/stats';
 
@@ -13,8 +14,20 @@ export class DashboardComponent implements OnInit {
   categoryTabs: WorkflowSpecCategory[];
   statuses = WorkflowStatus;
   states = WorkflowState;
+  selectedCategoryId: number;
+  selectedTab: number;
 
-  constructor() {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    route.queryParamMap.subscribe(qParams => {
+      const catIdStr = qParams.get('category');
+
+      if (catIdStr) {
+        this.selectCategory(parseInt(catIdStr, 10));
+      }
+    });
   }
 
   ngOnInit() {
@@ -68,5 +81,15 @@ export class DashboardComponent implements OnInit {
       case WorkflowState.DISABLED:
         return 'Waiting...';
     }
+  }
+
+  selectCategory(catId: number) {
+    this.selectedCategoryId = catId;
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {category: catId},
+    }).then(() => {
+      this.selectedTab = this.categoryTabs.findIndex(c => c.id === catId);
+    });
   }
 }

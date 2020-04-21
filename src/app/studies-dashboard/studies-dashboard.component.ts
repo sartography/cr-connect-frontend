@@ -1,5 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ProtocolBuilderStatus, Study} from 'sartography-workflow-lib';
 import {StudiesByStatus} from '../studies/studies.component';
+
+enum IrbHsrStatus {
+  NOT_SUBMITTED = 'Not Submitted',
+  SUBMITTED = 'Submitted',
+  IN_PRE_REVIEW = 'In Pre-Review',
+  ON_AGENDA = 'On Agenda',
+  APPROVED = 'Approved',
+}
 
 @Component({
   selector: 'app-studies-dashboard',
@@ -13,18 +22,27 @@ export class StudiesDashboardComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'title',
-    'irb_hsr_status',
     'protocol_builder_status',
-    'progress',
     'committees_complete',
+    'irb_hsr_status',
+    'progress',
   ];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
 
   isNewStudy(studyId: number) {
     return !this.beforeStudyIds.includes(studyId);
+  }
+
+  getIrbHsrStatus(study: Study) {
+    return IrbHsrStatus.NOT_SUBMITTED;
+  }
+
+  getProtocolBuilderStatus(study: Study) {
+    return study.protocol_builder_status;
   }
 }
