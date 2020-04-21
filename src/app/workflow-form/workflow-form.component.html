@@ -1,5 +1,5 @@
 <div *ngIf="task && workflow; else loadingMessage" fxLayout="row">
-  <div [ngClass]="{'collapsed': displayData}" id="form-column">
+  <div id="form-column">
     <h1>{{taskDisplayName()}}</h1>
     <div *ngIf="task.documentation" class="documentation">
       <markdown [data]="task.documentation"></markdown>
