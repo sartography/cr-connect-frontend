@@ -67,6 +67,8 @@ export class DashboardComponent implements OnInit {
         return 'Complete';
       case WorkflowStatus.WAITING:
         return 'Waiting...';
+      default:
+        return;
     }
   }
 
@@ -80,6 +82,8 @@ export class DashboardComponent implements OnInit {
         return 'Required';
       case WorkflowState.DISABLED:
         return 'Waiting...';
+      default:
+        return;
     }
   }
 

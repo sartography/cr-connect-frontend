@@ -1,18 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {
-  mockStudies,
-  mockStudy0,
-  ProtocolBuilderStatus,
-  ProtocolBuilderStatusLabels,
-  Study
-} from 'sartography-workflow-lib';
+import {RouterTestingModule} from '@angular/router/testing';
+import {mockStudies, mockStudy0, ProtocolBuilderStatus, ProtocolBuilderStatusLabels} from 'sartography-workflow-lib';
 import {StudyProgressComponent} from '../study-progress/study-progress.component';
-
-import { StudiesDashboardComponent } from './studies-dashboard.component';
+import {StudiesDashboardComponent} from './studies-dashboard.component';
 
 describe('StudiesDashboardComponent', () => {
   let component: StudiesDashboardComponent;
@@ -30,9 +24,10 @@ describe('StudiesDashboardComponent', () => {
         MatExpansionModule,
         MatTableModule,
         NoopAnimationsModule,
+        RouterTestingModule
       ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

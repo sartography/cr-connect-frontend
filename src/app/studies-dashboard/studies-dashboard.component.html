@@ -1,10 +1,10 @@
 <mat-expansion-panel
-  *ngFor="let studiesGroup of studiesByStatus; let i = index;"
+  *ngFor="let studiesGroup of studiesByStatus; let i = index"
   [expanded]="studiesGroup.studies.length > 0"
   class="mat-elevation-z0"
 >
   <mat-expansion-panel-header>
-    <mat-panel-title class="mat-h2">
+    <mat-panel-title class="mat-h2" [id]="studiesGroupId(studiesGroup)">
       {{studiesGroup.statusLabel}}
       <mat-chip-list>
         <mat-chip [ngClass]="studiesGroup.status.toString().toLowerCase()"
@@ -13,19 +13,25 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
   <div class="status-{{studiesGroup.status.toString().toLowerCase()}}" fxLayout="row wrap" fxLayoutGap="40px">
-    <table [dataSource]="studiesGroup.dataSource" class="mat-elevation-z0" mat-table matSort>
+    <table
+      [dataSource]="studiesGroup.dataSource"
+      class="mat-elevation-z0"
+      mat-table
+      matSort
+      [attr.aria-describedby]="studiesGroupId(studiesGroup)"
+    >
       <ng-container matColumnDef="id">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> Study ID</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_id"> Study ID</th>
         <td *matCellDef="let study" mat-cell> {{study.id}} </td>
       </ng-container>
 
       <ng-container matColumnDef="title">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> Study Title</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_title"> Study Title</th>
         <td *matCellDef="let study" mat-cell> {{study.title}} </td>
       </ng-container>
 
       <ng-container matColumnDef="protocol_builder_status">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> Protocol Builder Status</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_pb_status"> Protocol Builder Status</th>
         <td *matCellDef="let study" mat-cell>
           {{getProtocolBuilderStatus(study)}}
           <span *ngIf="isNewStudy(study.id)" class="new">NEW</span>
@@ -33,21 +39,21 @@
       </ng-container>
 
       <ng-container matColumnDef="committees_complete">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> Internal Committees Complete</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_committees_complete"> Internal Committees Complete</th>
         <td *matCellDef="let study" mat-cell>
           0/0
         </td>
       </ng-container>
 
       <ng-container matColumnDef="irb_hsr_status">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> IRB-HSR Status</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_irb_hsr_status"> IRB-HSR Status</th>
         <td *matCellDef="let study" mat-cell>
           {{getIrbHsrStatus(study)}}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="progress">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> Progress</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_progress"> Progress</th>
         <td *matCellDef="let study" mat-cell>
           <app-study-progress [study]="study"></app-study-progress>
         </td>

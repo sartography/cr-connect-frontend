@@ -13,7 +13,7 @@
     </button>
   </formly-form>
 </div>
-<div>
+<div *ngIf="isProduction">
   <div class="full-height" fxLayout="column" fxLayoutAlign="center center">
     <h1>You have been signed out. Please reload the page and log in with UVA NetBadge.</h1>
     <button

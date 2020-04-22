@@ -183,6 +183,17 @@ describe('WorkflowComponent', () => {
     expect(consoleLogSpy).not.toHaveBeenCalled();
   });
 
+  it('should complete manual task', () => {
+    const updateSpy = spyOn(component, 'workflowUpdated').and.stub();
+    component.completeManualTask(mockWorkflowTask0);
+
+    const tReq = httpMock.expectOne(`apiRoot/workflow/${mockWorkflow0.id}/task/${mockWorkflowTask0.id}/data`);
+    expect(tReq.request.method).toEqual('PUT');
+    tReq.flush(mockWorkflow0);
+
+    expect(updateSpy).toHaveBeenCalledWith(mockWorkflow0);
+  });
+
   it('should determine whether there are incomplete tasks', () => {
     component.allTasks = [];
     expect(component.hasIncompleteUserTask()).toBeFalsy();
@@ -192,5 +203,43 @@ describe('WorkflowComponent', () => {
     component.currentTask.type = WorkflowTaskType.USER_TASK;
     component.currentTask.state = WorkflowTaskState.READY;
     expect(component.hasIncompleteUserTask()).toBeTruthy();
+  });
+
+  it('should toggle task data display', () => {
+    const toggleFilesDisplaySpy = spyOn(component, 'toggleFilesDisplay').and.stub();
+    component.toggleDataDisplay(true);
+    expect(component.displayData).toBeTrue();
+    expect(toggleFilesDisplaySpy).not.toHaveBeenCalled();
+
+    toggleFilesDisplaySpy.calls.reset();
+    component.displayData = true;
+    component.toggleDataDisplay();
+    expect(component.displayData).toBeFalse();
+    expect(toggleFilesDisplaySpy).not.toHaveBeenCalled();
+
+    toggleFilesDisplaySpy.calls.reset();
+    component.displayData = false;
+    component.toggleDataDisplay();
+    expect(component.displayData).toBeTrue();
+    expect(toggleFilesDisplaySpy).toHaveBeenCalled();
+  });
+
+  it('should toggle task files display', () => {
+    const toggleDataDisplaySpy = spyOn(component, 'toggleDataDisplay').and.stub();
+    component.toggleFilesDisplay(true);
+    expect(component.displayFiles).toBeTrue();
+    expect(toggleDataDisplaySpy).not.toHaveBeenCalled();
+
+    toggleDataDisplaySpy.calls.reset();
+    component.displayFiles = true;
+    component.toggleFilesDisplay();
+    expect(component.displayFiles).toBeFalse();
+    expect(toggleDataDisplaySpy).not.toHaveBeenCalled();
+
+    toggleDataDisplaySpy.calls.reset();
+    component.displayFiles = false;
+    component.toggleFilesDisplay();
+    expect(component.displayFiles).toBeTrue();
+    expect(toggleDataDisplaySpy).toHaveBeenCalled();
   });
 });

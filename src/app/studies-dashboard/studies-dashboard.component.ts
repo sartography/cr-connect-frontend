@@ -45,4 +45,8 @@ export class StudiesDashboardComponent implements OnInit {
   getProtocolBuilderStatus(study: Study) {
     return study.protocol_builder_status;
   }
+
+  studiesGroupId(studiesGroup: StudiesByStatus) {
+    return 'studies_title_' + studiesGroup.status.toString().toLowerCase();
+  }
 }

@@ -83,7 +83,6 @@ export class SignInComponent implements OnInit {
 
   // If this is production, verify the user and redirect to home page.
   private _redirectOnProduction() {
-    console.log('*** _redirectOnProduction ***');
     if (this.environment.production) {
       this.api.getUser().subscribe((user: User) => {
         this.router.navigate(['/']);

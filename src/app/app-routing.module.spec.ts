@@ -1,7 +1,7 @@
 import {Location} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
@@ -20,6 +20,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
 import {ChartsModule} from 'ng2-charts';
+import {MarkdownModule} from 'ngx-markdown';
 import {SessionRedirectComponent, ToFormlyPipe} from 'sartography-workflow-lib';
 import {routes} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -39,7 +40,6 @@ import {WorkflowFilesComponent} from './workflow-files/workflow-files.component'
 import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
-import {MarkdownModule} from 'ngx-markdown';
 
 
 describe('Router: App', () => {
@@ -74,10 +74,11 @@ describe('Router: App', () => {
       imports: [
         BrowserAnimationsModule,
         ChartsModule,
-        FormsModule,
         FormlyMaterialModule,
         FormlyModule,
+        FormsModule,
         HttpClientTestingModule,
+        MarkdownModule,
         MatButtonModule,
         MatCardModule,
         MatFormFieldModule,
@@ -85,13 +86,12 @@ describe('Router: App', () => {
         MatListModule,
         MatMenuModule,
         MatProgressBarModule,
+        MatProgressSpinnerModule,
         MatSelectModule,
         MatSidenavModule,
-        MatProgressSpinnerModule,
         MatToolbarModule,
         NoopAnimationsModule,
         RouterTestingModule.withRoutes(routes),
-        MarkdownModule
       ],
       providers: [
         HttpClient,
@@ -100,24 +100,13 @@ describe('Router: App', () => {
 
     router = TestBed.inject(Router);
     location = TestBed.inject(Location);
-
     fixture = TestBed.createComponent(AppComponent);
-    router.initialNavigation();
+    fixture.ngZone.run(() => router.initialNavigation());
   });
 
-  it('fakeAsync works', fakeAsync(() => {
-    const promise = new Promise(resolve => {
-      setTimeout(resolve, 10);
-    });
-    let done = false;
-    promise.then(() => (done = true));
-    tick(50);
-    expect(done).toBeTruthy();
-  }));
-
-  it('navigate to "" redirects you to /', fakeAsync(() => {
-    router.navigate(['']).then(() => {
-      expect(location.path()).toBe('/');
-    });
-  }));
+  it('navigate to "" redirects you to /', async () => {
+    const success = await fixture.ngZone.run(() => router.navigate(['']));
+    expect(success).toBeTruthy();
+    expect(location.path()).toBe('/');
+  });
 });

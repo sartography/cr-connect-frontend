@@ -190,4 +190,13 @@ describe('WorkflowFormComponent', () => {
     expect(grandParentEl.classList.contains('cdk-focused')).toEqual(true);
     expect(grandParentEl.classList.contains('cdk-keyboard-focused')).toEqual(true);
   });
+
+  it('should get task display name', () => {
+    const name = 'Professor Filius Flitwick';
+    component.task = mockWorkflowTask0;
+    expect(component.taskDisplayName()).toEqual(mockWorkflowTask0.title);
+
+    component.task.properties = [{id: 'display_name', value: name}];
+    expect(component.taskDisplayName()).toEqual(name);
+  })
 });
