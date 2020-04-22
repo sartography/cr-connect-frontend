@@ -67,12 +67,14 @@
       <button *ngIf="currentTask.type == taskTypes.MANUAL_TASK" (click)="completeManualTask(currentTask)"
               color="primary" mat-flat-button>Continue</button>
       <div *ngIf="!currentTask.documentation">
-        <h1>{{currentTask.name}}</h1>
+        <h1>{{currentTask.display_name()}}</h1>
         <h2>Task type: {{currentTask.type}}</h2>
         <h3>Status: {{currentTask.state}}</h3>
         <p>Please add documentation to this event to provide users with a custom message
         about their progress.</p>
-        <app-code-viewer [data]="currentTask.data"></app-code-viewer>
+        <div class="task-data">
+          <app-code-viewer [data]="currentTask.data"></app-code-viewer>
+        </div>
       </div>
     </div>
     <div class="no-task" *ngIf="!currentTask">

@@ -101,17 +101,4 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
     return parentElement;
   }
-
-  taskDisplayName() {
-    if (this.task) {
-      if (this.task.properties) {
-        const displayNameProp = this.task.properties.find(p => p.id === 'display_name');
-        if (displayNameProp) {
-          return displayNameProp.value;
-        }
-      }
-
-      return this.task.title || this.task.name;
-    }
-  }
 }

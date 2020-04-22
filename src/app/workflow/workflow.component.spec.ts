@@ -23,7 +23,7 @@ import {
   mockWorkflowTasks,
   WorkflowTaskState,
   WorkflowTaskType,
-  ToFormlyPipe, mockWorkflowSpec0
+  ToFormlyPipe, mockWorkflowSpec0, WorkflowTask
 } from 'sartography-workflow-lib';
 import {WorkflowFilesComponent} from '../workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
@@ -102,10 +102,11 @@ describe('WorkflowComponent', () => {
   });
 
   it('should change selected task', () => {
-    component.setCurrentTask(mockWorkflowTask0);
-    expect(component.currentTask).toEqual(mockWorkflowTask0);
+    const mockTask = Object.assign(new WorkflowTask(), mockWorkflowTask0);
+    component.setCurrentTask(mockTask);
+    expect(component.currentTask).toEqual(mockTask);
     expect(mockRouter.navigate).toHaveBeenCalledWith([
-      'study', mockStudy0.id, 'workflow', mockWorkflow0.id, 'task', mockWorkflowTask0.id
+      'study', mockStudy0.id, 'workflow', mockWorkflow0.id, 'task', mockTask.id
     ]);
   });
 

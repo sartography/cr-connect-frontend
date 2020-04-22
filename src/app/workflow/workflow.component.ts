@@ -40,7 +40,8 @@ export class WorkflowComponent {
   }
 
   setCurrentTask(task: WorkflowTask) {
-    this.currentTask = task;
+    this.currentTask = this._initTask(task);
+
     // TODO: Change the URL without hitting the router??
     this.router.navigate(['study', this.studyId, 'workflow', this.workflow.id, 'task', task.id]);
   }
@@ -91,10 +92,10 @@ export class WorkflowComponent {
       if (forceTaskId) {
         this.currentTask = this.allTasks.filter(t => t.id === forceTaskId)[0];
       } else {
-        this.currentTask = wf.next_task;
+        this.currentTask = this._initTask(wf.next_task);
       }
-      this.logTaskData(this.currentTask);
 
+      this.logTaskData(this.currentTask);
     });
   }
 
@@ -105,7 +106,7 @@ export class WorkflowComponent {
         delete deduped[t.name];
       }
 
-      deduped[t.name] = t;
+      deduped[t.name] = this._initTask(t);
     });
     return Object.values(deduped);
   }
@@ -140,5 +141,11 @@ export class WorkflowComponent {
     if (this.displayFiles && show === undefined) {
       this.toggleDataDisplay(!this.displayFiles);
     }
+  }
+
+  // Initializes incoming task from API as proper WorkflowTask class instance.
+  // Returns undefined if task is falsy.
+  private _initTask(task: WorkflowTask) {
+    return task ? Object.assign(new WorkflowTask(), task) : undefined;
   }
 }

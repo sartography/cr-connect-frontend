@@ -4,7 +4,7 @@
       pageScroll
       (click)="selectTask()"
     >
-      {{ task.title }}
+      {{ task.display_name() }}
       <span fxFlex></span>
       <mat-icon *ngIf="task.state === taskStates.COMPLETED">check</mat-icon>
       <mat-icon *ngIf="task.state === taskStates.WAITING">more_horiz</mat-icon>
