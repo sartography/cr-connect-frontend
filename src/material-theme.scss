@@ -278,4 +278,35 @@
     position: static;
   }
 
+  markdown {
+    h1 {
+      font-size: 24px;
+    }
+
+    table {
+      border-collapse: collapse;
+
+      thead {
+        border-bottom: 1px solid $brand-gray;
+      }
+
+      td, th {
+        border-right: 1px solid $brand-gray;
+        padding: 0.5rem;
+        font-size: 1rem;
+
+        &:last-child {
+          border-right: none;
+        }
+      }
+
+      a {
+        color: $brand-accent;
+
+        &:hover {
+          color: $brand-accent-shade-5;
+        }
+      }
+    }
+  }
 }

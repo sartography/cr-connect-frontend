@@ -1,6 +1,6 @@
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {Injectable, NgModule} from '@angular/core';
+import {Injectable, NgModule, Provider} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatBadgeModule} from '@angular/material/badge';
@@ -33,7 +33,7 @@ import {ChartsModule} from 'ng2-charts';
 import {DeviceDetectorModule} from 'ngx-device-detector';
 import {NgxFileDropModule} from 'ngx-file-drop';
 import {HIGHLIGHT_OPTIONS, HighlightModule} from 'ngx-highlightjs';
-import {MarkdownModule} from 'ngx-markdown';
+import {MarkdownModule, MarkedOptions, MarkedRenderer} from 'ngx-markdown';
 import {NgxPageScrollModule} from 'ngx-page-scroll';
 import {NgxPageScrollCoreModule} from 'ngx-page-scroll-core';
 import {
@@ -78,6 +78,20 @@ export class ThisEnvironment implements AppEnvironment {
   irbUrl = environment.irbUrl;
 }
 
+export function markedOptionsFactory(): MarkedOptions {
+  const renderer = new MarkedRenderer();
+  const linkRenderer = renderer.link;
+
+  renderer.link = (href, title, text) => {
+    const html = linkRenderer.call(renderer, href, title, text);
+    return html.replace(/^<a /, '<a role="link" tabindex="0" target="_blank" rel="nofollow" noopener noreferrer" ');
+  };
+
+  return {
+    renderer,
+  };
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -115,7 +129,12 @@ export class ThisEnvironment implements AppEnvironment {
     FormsModule,
     HighlightModule,
     HttpClientModule,
-    MarkdownModule.forRoot(),
+    MarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useFactory: markedOptionsFactory,
+      },
+    }),
     MatBadgeModule,
     MatButtonModule,
     MatCardModule,
