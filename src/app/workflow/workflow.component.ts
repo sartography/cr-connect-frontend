@@ -41,9 +41,13 @@ export class WorkflowComponent {
 
   setCurrentTask(task: WorkflowTask) {
     this.currentTask = this._initTask(task);
+    this.updateUrl();
+  }
 
-    // TODO: Change the URL without hitting the router??
-    this.router.navigate(['study', this.studyId, 'workflow', this.workflow.id, 'task', task.id]);
+  updateUrl() {
+    if (this.currentTask) {
+      this.router.navigate(['study', this.studyId, 'workflow', this.workflow.id, 'task', this.currentTask.id]);
+    }
   }
 
   completeManualTask(task: WorkflowTask) {
@@ -96,6 +100,7 @@ export class WorkflowComponent {
       }
 
       this.logTaskData(this.currentTask);
+      this.updateUrl();
     });
   }
 
