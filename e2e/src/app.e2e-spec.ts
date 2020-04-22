@@ -113,8 +113,10 @@ describe('Clinical Research Coordinator App', () => {
     const workflow = await page.getElement('.workflow-list-item .workflow-action');
     const studyId = await workflow.getAttribute('data-study-id');
     const workflowId = await workflow.getAttribute('data-workflow-id');
-    const expectedRoute = `/study/${studyId}/workflow/${workflowId}`;
-    page.clickAndExpectRoute('.workflow-list-item .workflow-action button', expectedRoute);
+    const expectedRoute = `/study/${studyId}/workflow/${workflowId}/task/`;
+    await page.clickElement('.workflow-list-item .workflow-action button');
+    const newRoute = await page.getRoute();
+    expect(newRoute.slice(0, expectedRoute.length)).toEqual(expectedRoute);
   });
 
   it('should sign out', () => {
