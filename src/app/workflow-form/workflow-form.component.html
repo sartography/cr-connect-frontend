@@ -7,7 +7,7 @@
     <div>
       <formly-form
         (keyup)="handleKeyUp($event)"
-        [fields]="task.form.fields | toFormly"
+        [fields]="task.form.fields | toFormly:fileParams"
         [form]="form"
         [model]="model"
       ></formly-form>

@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import createClone from 'rfdc';
-import {ApiService, Workflow, WorkflowTask} from 'sartography-workflow-lib';
+import {ApiService, FileParams, Workflow, WorkflowTask} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow-form',
@@ -26,6 +26,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   model: any = {};
 
   @ViewChild('#jsonCode') jsonCodeElement: ElementRef;
+  fileParams: FileParams;
 
   constructor(
     private api: ApiService
@@ -67,6 +68,10 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     this.form = new FormGroup({});
     if (task && task.data) {
       this.model = createClone()(task.data);
+      this.fileParams = {
+        workflow_id: this.workflow.id,
+        task_id: task.id,
+      };
     }
   }
 
