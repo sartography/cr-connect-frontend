@@ -53,7 +53,10 @@
       <app-workflow-files *ngIf="workflow" [workflow]="workflow"></app-workflow-files>
     </div>
     <div *ngIf="!displayFiles && displayData" id="data-display-column">
-      <app-code-viewer *ngIf="workflow" [data]="currentTask.data"></app-code-viewer>
+      <app-code-viewer
+        *ngIf="workflow && currentTask && currentTask.data"
+        [data]="currentTask.data"
+      ></app-code-viewer>
     </div>
   </mat-sidenav>
 </mat-sidenav-container>
