@@ -279,12 +279,32 @@
   }
 
   markdown {
+    a {
+      color: $brand-accent;
+
+      &:hover {
+        color: $brand-accent-shade-5;
+      }
+    }
+
     h1 {
       font-size: 24px;
     }
 
+    blockquote {
+      border: 1px solid $brand-gray-tint-2;
+      border-radius: 4px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      margin-left: 0;
+    }
+
     table {
       border-collapse: collapse;
+
+      tr:hover {
+        background-color: rgba($brand-gray, 0.1);
+      }
 
       thead {
         border-bottom: 1px solid $brand-gray;
@@ -297,14 +317,6 @@
 
         &:last-child {
           border-right: none;
-        }
-      }
-
-      a {
-        color: $brand-accent;
-
-        &:hover {
-          color: $brand-accent-shade-5;
         }
       }
     }

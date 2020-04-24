@@ -1,7 +1,6 @@
-form {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
+::ng-deep mat-form-field.mat-form-field,
+::ng-deep mat-form-field.mat-form-field-should-float label {
+  margin-bottom: 0;
 }
 
 .full-width {

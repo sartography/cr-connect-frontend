@@ -89,6 +89,8 @@ export function markedOptionsFactory(): MarkedOptions {
 
   return {
     renderer,
+    gfm: true,
+    breaks: true,
   };
 }
 
