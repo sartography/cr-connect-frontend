@@ -69,6 +69,7 @@ import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
+import { WorkflowResetDialogComponent } from './workflow-reset-dialog/workflow-reset-dialog.component';
 
 
 @Injectable()
@@ -119,6 +120,7 @@ export function markedOptionsFactory(): MarkedOptions {
     ProcessViewerComponent,
     StudiesDashboardComponent,
     StudiesProcessComponent,
+    WorkflowResetDialogComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -186,6 +188,9 @@ export function markedOptionsFactory(): MarkedOptions {
     }
   ],
   bootstrap: [AppComponent],
+  entryComponents: [
+    WorkflowResetDialogComponent
+  ]
 })
 export class AppModule {
 }

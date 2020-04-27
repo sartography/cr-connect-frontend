@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   ApiService,
@@ -8,6 +10,10 @@ import {
   WorkflowTaskState,
   WorkflowTaskType
 } from 'sartography-workflow-lib';
+import {
+  WorkflowResetDialogComponent,
+  WorkflowResetDialogData
+} from '../workflow-reset-dialog/workflow-reset-dialog.component';
 
 @Component({
   selector: 'app-workflow',
@@ -31,6 +37,8 @@ export class WorkflowComponent {
     private route: ActivatedRoute,
     private router: Router,
     private api: ApiService,
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
@@ -152,5 +160,26 @@ export class WorkflowComponent {
   // Returns undefined if task is falsy.
   private _initTask(task: WorkflowTask) {
     return task ? Object.assign(new WorkflowTask(), task) : undefined;
+  }
+
+  resetWorkflow() {
+    this.api.getWorkflow(this.workflowId, {hard_reset: true}).subscribe(() => {
+      this.snackBar.open(`${this.workflowSpec.display_name} workflow has been reset successfully.`, 'Ok', {duration: 3000});
+      this.updateTaskList(this.workflowId);
+    });
+  }
+
+  confirmResetWorkflow() {
+    const data: WorkflowResetDialogData = {
+      workflowId: this.workflowId,
+      name: this.workflowSpec.display_name,
+    };
+    const dialogRef = this.dialog.open(WorkflowResetDialogComponent, {data});
+
+    dialogRef.afterClosed().subscribe((dialogData: WorkflowResetDialogData) => {
+      if (dialogData && dialogData.confirm) {
+        this.resetWorkflow();
+      }
+    });
   }
 }

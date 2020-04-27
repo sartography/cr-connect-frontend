@@ -1,0 +1,19 @@
+<div mat-dialog-title *ngIf="data && data.name">
+  Restart <strong>{{data.name}}</strong> tasks?
+  <button mat-icon-button mat-dialog-close=""><mat-icon>close</mat-icon></button>
+</div>
+<div mat-dialog-content>
+  <div class="mat-typography">
+    <p>Clicking "Yes" below will start the <strong>{{data.name}}</strong> workflow over from the beginning. However, we'll attempt to save the data you've already entered. Just be aware that you may need to re-enter some items.</p>
+  </div>
+  <div class="select-mode" fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="20px">
+    <button (click)="onSubmit()" color="warn" mat-flat-button>
+      <mat-icon>check</mat-icon>
+      Yes
+    </button>
+    <button (click)="onNoClick()" color="primary" mat-flat-button>
+      <mat-icon>close</mat-icon>
+      No
+    </button>
+  </div>
+</div>
