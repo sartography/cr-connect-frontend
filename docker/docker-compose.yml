@@ -26,6 +26,7 @@ services:
     environment:
       - FLASK_APP=./crc/__init__.py
       - RESET_DB=true
+      - LDAP_URL=ldap
     ports:
       - "5000:5000"
     command: ./wait-for-it.sh db:5432 -t 0 -- ./docker_run.sh
@@ -40,4 +41,11 @@ services:
     ports:
       - "5001:5001"
     command: ./wait-for-it.sh db:5432 -t 0 -- ./docker_run.sh
+
+  ldap:
+    container_name: ldap
+    image: tuxmonteiro/ldap-mock
+    ports:
+      - "3890"
+
 
