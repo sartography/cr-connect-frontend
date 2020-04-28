@@ -25,7 +25,7 @@ import {
   mockWorkflowTasks,
   WorkflowTaskState,
   WorkflowTaskType,
-  ToFormlyPipe, mockWorkflowSpec0, WorkflowTask
+  ToFormlyPipe, mockWorkflowSpec0, WorkflowTask, mockFileMetas
 } from 'sartography-workflow-lib';
 import {WorkflowFilesComponent} from '../workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
@@ -85,6 +85,11 @@ describe('WorkflowComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
+    const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
+    expect(fReq.request.method).toEqual('GET');
+    fReq.flush(mockFileMetas);
+    expect(component.fileMetas).toEqual(mockFileMetas);
+
     const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
     expect(wf1Req.request.method).toEqual('GET');
     wf1Req.flush(mockWorkflow0);
@@ -130,6 +135,11 @@ describe('WorkflowComponent', () => {
 
     (component as any).updateTaskList(mockWorkflow1.id);
 
+    const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow1.id);
+    expect(fReq.request.method).toEqual('GET');
+    fReq.flush(mockFileMetas);
+    expect(component.fileMetas).toEqual(mockFileMetas);
+
     const tReq = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow1.id);
     expect(tReq.request.method).toEqual('GET');
     tReq.flush(mockWorkflow0);
@@ -146,6 +156,11 @@ describe('WorkflowComponent', () => {
     mockWorkflow0.next_task = undefined;
     mockWorkflow0.user_tasks = [];
     (component as any).updateTaskList(mockWorkflow0.id);
+
+    const f2Req = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
+    expect(f2Req.request.method).toEqual('GET');
+    f2Req.flush(mockFileMetas);
+    expect(component.fileMetas).toEqual(mockFileMetas);
 
     const t2Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
     expect(t2Req.request.method).toEqual('GET');

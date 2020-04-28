@@ -1,6 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ApiService, ProtocolBuilderStatus, ProtocolBuilderStatusLabels, Study} from 'sartography-workflow-lib';
+import {
+  ApiService,
+  FileMeta,
+  ProtocolBuilderStatus,
+  ProtocolBuilderStatusLabels,
+  Study, Workflow
+} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-study',
@@ -9,6 +15,9 @@ import {ApiService, ProtocolBuilderStatus, ProtocolBuilderStatusLabels, Study} f
 })
 export class StudyComponent implements OnInit {
   study: Study;
+  displayFiles: boolean;
+  fileMetas: FileMeta[];
+  allWorkflows: Workflow[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -19,6 +28,14 @@ export class StudyComponent implements OnInit {
     const studyId = parseInt(paramMap.get('study_id'), 10);
     this.api.getStudy(studyId).subscribe(s => {
       this.study = s;
+      this.allWorkflows = this.study.categories.reduce((accumulator, cat) => {
+        return accumulator.concat(cat.workflows);
+      }, []);
+
+      this.api.getFileMetas({study_id: studyId}).subscribe(fms => {
+        this.fileMetas = fms;
+        this.toggleFilesDisplay(fms.length > 0);
+      });
     });
   }
 
@@ -29,10 +46,7 @@ export class StudyComponent implements OnInit {
     return ProtocolBuilderStatusLabels[status.toUpperCase()];
   }
 
-  hasWorkflows() {
-    const numWorkflows = this.study.categories.reduce((accumulator, cat) => {
-      return accumulator + cat.workflows.length;
-    }, 0);
-    return numWorkflows > 0;
+  toggleFilesDisplay(show?: boolean) {
+    this.displayFiles = show !== undefined ? show : !this.displayFiles;
   }
 }

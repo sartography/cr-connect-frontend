@@ -2,12 +2,14 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ChartsModule} from 'ng2-charts';
 import {
   ApiService,
-  MockEnvironment,
+  MockEnvironment, mockFileMetas,
   mockStudy0,
   ProtocolBuilderStatus,
   ProtocolBuilderStatusLabels
@@ -27,10 +29,13 @@ describe('StudyComponent', () => {
         StudyComponent,
       ],
       imports: [
+        BrowserAnimationsModule,
         ChartsModule,
         HttpClientTestingModule,
         MatDividerModule,
         MatIconModule,
+        MatSidenavModule,
+        NoopAnimationsModule,
         RouterTestingModule,
       ],
       providers: [
@@ -56,6 +61,11 @@ describe('StudyComponent', () => {
     sReq.flush(mockStudy0);
     expect(component.study).toBeTruthy();
     expect(component.study.id).toEqual(mockStudy0.id);
+
+    const fReq = httpMock.expectOne('apiRoot/file?study_id=' + mockStudy0.id);
+    expect(fReq.request.method).toEqual('GET');
+    fReq.flush(mockFileMetas);
+    expect(component.fileMetas).toEqual(mockFileMetas);
   });
 
   afterEach(() => {
@@ -73,7 +83,7 @@ describe('StudyComponent', () => {
   });
 
   it('should check for workflows', () => {
-    expect(component.hasWorkflows()).toBeTruthy();
+    expect(component.allWorkflows.length).toBeGreaterThan(0);
   });
 
 });

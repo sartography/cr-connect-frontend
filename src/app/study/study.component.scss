@@ -1,15 +1,23 @@
+@import "../../config";
+
 .study-container {
   padding: 40px;
 }
 
-.study-metadata {
-  padding: 16px;
-
-  h1 {
-    padding-left: 12px;
-  }
+.back {
+  margin-left: -20px;
 }
 
+.study-metadata {
+  padding: 0;
+  margin: 2rem 0rem;
+
+  h1,
+  ::ng-deep .mat-list-base[dense] .mat-list-item .mat-list-item-content,
+  ::ng-deep .mat-list-base[dense] .mat-list-option .mat-list-item-content {
+    padding-left: 0;
+  }
+}
 
 .list-item-label {
   min-width: 20%;
@@ -19,3 +27,17 @@
 .list-item-value {
   min-width: 70%;
 }
+
+.selected {
+  background-color: $brand-accent;
+  color: white;
+}
+
+.files-display, .data-display {
+  transition: background-color 0.5s ease-in-out;
+}
+
+.files-display {
+  padding: 6rem 2rem 2rem 2rem;
+}
+

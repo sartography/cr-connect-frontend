@@ -1,25 +1,22 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {ApiService, FileMeta, Workflow} from 'sartography-workflow-lib';
+import {ApiService, FileMeta, getFileIcon, Study, Workflow} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow-files',
   templateUrl: './workflow-files.component.html',
   styleUrls: ['./workflow-files.component.scss']
 })
-export class WorkflowFilesComponent implements OnInit, OnChanges {
-
-  @Input() workflow: Workflow;
-  fileMetas: FileMeta[];
+export class WorkflowFilesComponent implements OnInit{
+  @Input() workflow?: Workflow;
+  @Input() study?: Study;
+  @Input() fileMetas: FileMeta[];
+  typeLabel: string;
 
   constructor(private api: ApiService) {
   }
 
-  ngOnInit() {
-    this.updateFileList();
-  }
-
-  ngOnChanges() {
-    this.updateFileList();
+  ngOnInit(): void {
+    this.typeLabel = this.workflow ? 'workflow' : (this.study ? 'study' : 'context');
   }
 
   public downloadFile(fileMeta: FileMeta): void {
@@ -52,12 +49,9 @@ export class WorkflowFilesComponent implements OnInit, OnChanges {
     });
   }
 
-  private updateFileList() {
-    if (this.workflow) {
-      this.api.listWorkflowFiles(this.workflow.id).subscribe(fms => {
-        this.fileMetas = fms;
-      });
-    }
+  getFileIconUrl(fm: FileMeta) {
+    const iconUrl = getFileIcon(fm);
+    console.log('iconUrl', iconUrl);
+    return iconUrl;
   }
-
 }

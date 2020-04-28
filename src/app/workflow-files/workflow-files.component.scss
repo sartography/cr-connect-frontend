@@ -1,11 +1,28 @@
 @import "../../config";
 
-.file {
-  background-color:  $brand-accent;
-  color: white;
+::ng-deep app-workflow-files {
+  .mat-list-base .mat-list-item .mat-list-item-content,
+  .mat-list-base .mat-list-option .mat-list-item-content {
+    cursor: pointer;
+    padding-left: 0;
+    padding-right: 0;
+
+    &:hover {
+      background-color: $brand-accent-light;
+
+      .name mat-icon {
+        opacity: 1;
+        color: $brand-gray;
+      }
+    }
+
+    .name {
+      color: $brand-accent;
+      text-decoration: underline;
+
+      mat-icon { opacity: 0; }
+    }
+
+  }
 }
 
-.file:hover {
-  background-color: $brand-gray-tint-1;
-  color: white;
-}

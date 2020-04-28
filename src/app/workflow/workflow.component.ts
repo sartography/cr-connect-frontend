@@ -10,6 +10,7 @@ import {
   WorkflowTaskState,
   WorkflowTaskType
 } from 'sartography-workflow-lib';
+import {FileMeta} from 'sartography-workflow-lib/lib/types/file';
 import {
   WorkflowResetDialogComponent,
   WorkflowResetDialogData
@@ -32,6 +33,7 @@ export class WorkflowComponent {
   taskTypes = WorkflowTaskType;
   displayData = (localStorage.getItem('displayData') === 'true');
   displayFiles = false;
+  fileMetas: FileMeta[];
 
   constructor(
     private route: ActivatedRoute,
@@ -89,6 +91,10 @@ export class WorkflowComponent {
   }
 
   private updateTaskList(workflowId: number, forceTaskId?: string) {
+    this.api.listWorkflowFiles(workflowId).subscribe(fms => {
+      this.fileMetas = fms;
+      this.toggleFilesDisplay(fms.length > 0);
+    });
     this.api.getWorkflow(workflowId).subscribe(wf => {
       this.workflow = wf;
       this.api.getWorkflowSpecification(wf.workflow_spec_id).subscribe(s => this.workflowSpec = s);

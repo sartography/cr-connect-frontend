@@ -1,6 +1,8 @@
 import {HttpClient} from '@angular/common/http';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {async, TestBed} from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
+import {FakeMatIconRegistry} from '@angular/material/icon/testing';
 import {MatMenuModule} from '@angular/material/menu';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AppComponent} from './app.component';
@@ -11,6 +13,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         MatIconModule,
         MatMenuModule,
         RouterTestingModule,
@@ -21,7 +24,8 @@ describe('AppComponent', () => {
         NavbarComponent,
       ],
       providers: [
-        HttpClient
+        HttpClient,
+        FakeMatIconRegistry,
       ]
     }).compileComponents();
   }));

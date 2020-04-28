@@ -51,11 +51,8 @@ describe('WorkflowFilesComponent', () => {
     fixture = TestBed.createComponent(WorkflowFilesComponent);
     component = fixture.componentInstance;
     component.workflow = mockWorkflow0;
+    component.fileMetas = mockFileMetas;
     fixture.detectChanges();
-
-    const sReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
-    expect(sReq.request.method).toEqual('GET');
-    sReq.flush(mockFileMetas);
     expect(component.fileMetas).toEqual(mockFileMetas);
   });
 
@@ -64,11 +61,7 @@ describe('WorkflowFilesComponent', () => {
   });
 
   it('should update file list on change', () => {
-    component.ngOnChanges();
-
-    const sReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
-    expect(sReq.request.method).toEqual('GET');
-    sReq.flush(mockFileMetas);
+    component.fileMetas = mockFileMetas;
     expect(component.fileMetas).toEqual(mockFileMetas);
   });
 

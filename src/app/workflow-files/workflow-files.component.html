@@ -1,12 +1,15 @@
-<h3>Workflow Files</h3>
-<mat-list *ngIf="workflow && fileMetas; else loadingMessage">
-  <em *ngIf="fileMetas.length > 0">The following files were created or uploaded as a part of this workflow.</em>
-  <em *ngIf="fileMetas.length == 0">No files are currently associated with this workflow.</em>
+<mat-list *ngIf="fileMetas; else loadingMessage">
+  <h3>Files for this {{typeLabel}}</h3>
+  <em *ngIf="fileMetas.length > 0">The following files were created or uploaded as a part of this {{typeLabel}}.</em>
+  <em *ngIf="fileMetas.length == 0">No files are currently associated with this {{typeLabel}}.</em>
 
-  <mat-list-item class="file" *ngFor="let file of fileMetas" (click)="downloadFile(file)">
-    {{ file.name }}
-    <span fxFlex></span>
-    <mat-icon>file</mat-icon>
+  <mat-list-item class="file" *ngFor="let fileMeta of fileMetas" (click)="downloadFile(fileMeta)">
+    <mat-icon mat-list-icon [svgIcon]="'crc:' + fileMeta.type"></mat-icon>
+    <div mat-line class="name">
+      {{ fileMeta.name }}
+      <span fxFlex></span>
+      <mat-icon>save_alt</mat-icon>
+    </div>
   </mat-list-item>
 </mat-list>
 

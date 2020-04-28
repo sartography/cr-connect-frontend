@@ -49,3 +49,8 @@ mat-list-item.disabled {
   background-color: $brand-gray-shade-3;
   padding: 0;
 }
+
+.selected {
+  background-color: $brand-accent;
+  color: white;
+}

@@ -12,11 +12,12 @@
 
     <h3>
       Tasks
+      <span fxFlex></span>
       <button
         mat-button
         (click)="confirmResetWorkflow()"
       >
-        <mat-icon>refresh</mat-icon>
+        <mat-icon>undo</mat-icon>
         Start over
       </button>
     </h3>
@@ -33,14 +34,16 @@
         mat-icon-button
         title="Files for this task"
         (click)="toggleFilesDisplay()"
-        color="accent"
+        [ngClass]="{'selected': displayFiles}"
+        *ngIf="fileMetas && fileMetas.length > 0"
       >
-        <mat-icon>view_list</mat-icon>
+        <mat-icon>attachment</mat-icon>
       </button>
       <button
         mat-icon-button
         title="Display collected task data"
         (click)="toggleDataDisplay()"
+        [ngClass]="{'selected': displayData}"
       >
         <mat-icon>chrome_reader_mode</mat-icon>
       </button>
@@ -60,7 +63,7 @@
     [ngClass]="{'files-display': displayFiles, 'data-display': displayData}"
   >
     <div *ngIf="!displayData && displayFiles" id="files-display-column">
-      <app-workflow-files *ngIf="workflow" [workflow]="workflow"></app-workflow-files>
+      <app-workflow-files *ngIf="workflow" [workflow]="workflow" [fileMetas]="fileMetas"></app-workflow-files>
     </div>
     <div *ngIf="!displayFiles && displayData" id="data-display-column">
       <app-code-viewer
