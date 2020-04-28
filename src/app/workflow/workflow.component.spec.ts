@@ -1,10 +1,12 @@
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatListModule} from '@angular/material/list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {ActivatedRoute, convertToParamMap, Router} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -50,10 +52,12 @@ describe('WorkflowComponent', () => {
         FormlyMaterialModule,
         FormlyModule.forRoot(),
         HttpClientTestingModule,
+        MatDialogModule,
         MatIconModule,
         MatInputModule,
         MatListModule,
         MatSidenavModule,
+        MatSnackBarModule,
         MatProgressSpinnerModule,
         NoopAnimationsModule,
         RouterTestingModule,
