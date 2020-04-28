@@ -27,7 +27,7 @@
     ></app-workflow-steps-menu-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <h1>{{workflowSpec.display_name}}</h1>
+    <h4 class="mat-card-subtitle">{{workflowSpec && workflowSpec.display_name}}</h4>
     <div fxLayout="row" fxLayoutAlign="end">
       <button
         mat-icon-button
