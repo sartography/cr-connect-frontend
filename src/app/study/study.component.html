@@ -7,13 +7,16 @@
       </button>
       <span fxFlex></span>
       <button
-        (click)="toggleFilesDisplay()"
-        *ngIf="fileMetas && fileMetas.length > 0"
-        [ngClass]="{'selected': displayFiles}"
-        mat-icon-button
+        mat-mini-fab
         title="Files for this study"
+        (click)="toggleFilesDisplay()"
+        [ngClass]="{'selected': displayFiles, 'mat-elevation-z0': true}"
+        color="accent"
+        [matBadge]="numFiles"
+        matBadgeColor="primary"
+        [matBadgeHidden]="numFiles <= 0"
       >
-        <mat-icon>attachment</mat-icon>
+        <mat-icon>insert_drive_file</mat-icon>
       </button>
     </div>
 
@@ -58,6 +61,10 @@
     [fixedTopGap]="64"
     [ngClass]="{'files-display': displayFiles}"
   >
+    <div fxLayout="row" class="close-pane">
+      <span fxFlex></span>
+      <button mat-icon-button (click)="toggleFilesDisplay(false)"><mat-icon>close</mat-icon></button>
+    </div>
     <div *ngIf="displayFiles" id="files-display-column">
       <app-workflow-files [study]="study" [fileMetas]="fileMetas"></app-workflow-files>
     </div>

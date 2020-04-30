@@ -70,6 +70,7 @@ import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 import { WorkflowResetDialogComponent } from './workflow-reset-dialog/workflow-reset-dialog.component';
+import { PreviousTaskButtonComponent } from './previous-task-button/previous-task-button.component';
 
 
 @Injectable()
@@ -121,6 +122,7 @@ export function markedOptionsFactory(): MarkedOptions {
     StudiesDashboardComponent,
     StudiesProcessComponent,
     WorkflowResetDialogComponent,
+    PreviousTaskButtonComponent,
   ],
   imports: [
     BrowserAnimationsModule,

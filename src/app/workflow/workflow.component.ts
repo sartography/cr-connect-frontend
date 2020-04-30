@@ -34,6 +34,7 @@ export class WorkflowComponent {
   displayData = (localStorage.getItem('displayData') === 'true');
   displayFiles = false;
   fileMetas: FileMeta[];
+  groupedTasks: WorkflowTask[][];
 
   constructor(
     private route: ActivatedRoute,
@@ -48,6 +49,10 @@ export class WorkflowComponent {
       this.updateTaskList(this.workflowId, paramMap.get('task_id'));
     });
   }
+
+  get numFiles(): number {
+    return this.fileMetas ? this.fileMetas.length : 0;
+  };
 
   setCurrentTask(task: WorkflowTask) {
     this.currentTask = this._initTask(task);
@@ -90,46 +95,6 @@ export class WorkflowComponent {
     this.updateTaskList(wf.id);
   }
 
-  private updateTaskList(workflowId: number, forceTaskId?: string) {
-    this.api.listWorkflowFiles(workflowId).subscribe(fms => {
-      this.fileMetas = fms;
-      this.toggleFilesDisplay(fms.length > 0);
-    });
-    this.api.getWorkflow(workflowId).subscribe(wf => {
-      this.workflow = wf;
-      this.api.getWorkflowSpecification(wf.workflow_spec_id).subscribe(s => this.workflowSpec = s);
-
-      // De-dupe tasks, in case of parallel joins
-      this.allTasks = this.dedupeTasks(wf.user_tasks || []);
-
-      if (this.allTasks && (this.allTasks.length > 0)) {
-        this.readyTasks = this.allTasks.filter(t => t.state === WorkflowTaskState.READY);
-      }
-
-      // The current task will be set by the backend, unless specifically forced.
-      if (forceTaskId) {
-        this.currentTask = this.allTasks.filter(t => t.id === forceTaskId)[0];
-      } else {
-        this.currentTask = this._initTask(wf.next_task);
-      }
-
-      this.logTaskData(this.currentTask);
-      this.updateUrl();
-    });
-  }
-
-  private dedupeTasks(workflowTasks: WorkflowTask[]): WorkflowTask[] {
-    const deduped: { [key: string]: WorkflowTask; } = {};
-    workflowTasks.forEach(t => {
-      if (deduped.hasOwnProperty(t.name)) {
-        delete deduped[t.name];
-      }
-
-      deduped[t.name] = this._initTask(t);
-    });
-    return Object.values(deduped);
-  }
-
   hasIncompleteUserTask() {
     if (this.allTasks && (this.allTasks.length > 0)) {
       const incompleteStates = [
@@ -162,12 +127,6 @@ export class WorkflowComponent {
     }
   }
 
-  // Initializes incoming task from API as proper WorkflowTask class instance.
-  // Returns undefined if task is falsy.
-  private _initTask(task: WorkflowTask) {
-    return task ? Object.assign(new WorkflowTask(), task) : undefined;
-  }
-
   resetWorkflow() {
     this.api.getWorkflow(this.workflowId, {hard_reset: true}).subscribe(() => {
       this.snackBar.open(`${this.workflowSpec.display_name} workflow has been reset successfully.`, 'Ok', {duration: 3000});
@@ -187,5 +146,73 @@ export class WorkflowComponent {
         this.resetWorkflow();
       }
     });
+  }
+
+  private updateTaskList(workflowId: number, forceTaskId?: string) {
+    this.api.listWorkflowFiles(workflowId).subscribe(fms => {
+      this.fileMetas = fms;
+    });
+    this.api.getWorkflow(workflowId).subscribe(wf => {
+      console.log('wf', wf);
+      this.workflow = wf;
+      this.api.getWorkflowSpecification(wf.workflow_spec_id).subscribe(s => this.workflowSpec = s);
+
+      // De-dupe tasks, in case of parallel joins
+      this.allTasks = this.dedupeTasks(wf.user_tasks || []);
+      this.groupedTasks = this.groupTasks(this.allTasks);
+
+      if (this.allTasks && (this.allTasks.length > 0)) {
+        this.readyTasks = this.allTasks.filter(t => t.state === WorkflowTaskState.READY);
+      }
+
+      // The current task will be set by the backend, unless specifically forced.
+      if (forceTaskId) {
+        this.currentTask = this.allTasks.filter(t => t.id === forceTaskId)[0];
+      } else {
+        this.currentTask = this._initTask(wf.next_task);
+      }
+
+      this.logTaskData(this.currentTask);
+      this.updateUrl();
+    });
+  }
+
+  private dedupeTasks(workflowTasks: WorkflowTask[]): WorkflowTask[] {
+    const deduped: { [key: string]: WorkflowTask; } = {};
+    workflowTasks.forEach(t => {
+      if (deduped.hasOwnProperty(t.name)) {
+        delete deduped[t.name];
+      }
+
+      deduped[t.name] = this._initTask(t);
+    });
+    return Object.values(deduped);
+  }
+
+  private groupTasks(workflowTasks: WorkflowTask[]): WorkflowTask[][] {
+    const grouped: { [key: string]: WorkflowTask[]; } = {};
+    workflowTasks.forEach(t => {
+      if (t.process_name) {
+        if (grouped.hasOwnProperty(t.process_name)) {
+          grouped[t.process_name].push(this._initTask(t));
+        } else {
+          grouped[t.process_name] = [this._initTask(t)];
+        }
+      } else {
+        grouped[t.id] = [this._initTask(t)];
+      }
+    });
+
+    console.log('grouped tasks', grouped);
+    return Object.values(grouped);
+  }
+
+
+  /**
+   * Initializes incoming task from API as proper WorkflowTask class instance.
+   * Returns undefined if task is falsy.
+   */
+  private _initTask(task: WorkflowTask) {
+    return task ? Object.assign(new WorkflowTask(), task) : undefined;
   }
 }
