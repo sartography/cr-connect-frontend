@@ -15,10 +15,12 @@ export class PreviousTaskButtonComponent implements OnInit {
   }
 
   get hasPreviousTask(): boolean {
-    return this.workflow.last_task &&
+    return !!(
+      this.workflow.last_task &&
       this.workflow.last_task.id !== this.currentTask.id &&
       this.workflow.last_task.type !== WorkflowTaskType.NONE_TASK &&
-      this.workflow.last_task.type !== WorkflowTaskType.START_TASK;
+      this.workflow.last_task.type !== WorkflowTaskType.START_TASK
+    );
   }
 
   ngOnInit(): void {
