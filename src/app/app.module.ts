@@ -34,8 +34,6 @@ import {DeviceDetectorModule} from 'ngx-device-detector';
 import {NgxFileDropModule} from 'ngx-file-drop';
 import {HIGHLIGHT_OPTIONS, HighlightModule} from 'ngx-highlightjs';
 import {MarkdownModule, MarkedOptions, MarkedRenderer} from 'ngx-markdown';
-import {NgxPageScrollModule} from 'ngx-page-scroll';
-import {NgxPageScrollCoreModule} from 'ngx-page-scroll-core';
 import {
   ApiService,
   AppEnvironment,
@@ -165,8 +163,6 @@ export function markedOptionsFactory(): MarkedOptions {
     MatTooltipModule,
     NgProgressModule,
     NgxFileDropModule,
-    NgxPageScrollCoreModule.forRoot({duration: 500, scrollOffset: 84}),
-    NgxPageScrollModule,
     ReactiveFormsModule,
     SartographyFormsModule,
     SartographyPipesModule,
