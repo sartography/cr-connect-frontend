@@ -1,7 +1,6 @@
 <mat-list *ngIf="task">
     <mat-list-item
       [ngClass]="{'task': true, 'active': isCurrent, 'disabled': task.state === taskStates.FUTURE}"
-      pageScroll
       (click)="selectTask()"
     >
       {{ task.display_name() }}

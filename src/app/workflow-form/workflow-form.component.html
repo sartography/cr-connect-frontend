@@ -11,6 +11,12 @@
         [form]="form"
         [model]="model"
       ></formly-form>
+
+      <app-previous-task-button
+        [workflow]="workflow"
+        [currentTask]="task"
+        (workflowUpdated)="workflowUpdated.emit($event)"
+      ></app-previous-task-button>
       <button (click)="saveTaskData(task)" [disabled]="form.invalid" color="primary" mat-flat-button>Save</button>
     </div>
   </div>

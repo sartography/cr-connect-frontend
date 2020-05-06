@@ -31,19 +31,23 @@
     <h4 class="mat-card-subtitle">{{workflowSpec && workflowSpec.display_name}}</h4>
     <div fxLayout="row" fxLayoutAlign="end">
       <button
-        mat-icon-button
+        mat-mini-fab
         title="Files for this task"
         (click)="toggleFilesDisplay()"
-        [ngClass]="{'selected': displayFiles}"
-        *ngIf="fileMetas && fileMetas.length > 0"
+        [ngClass]="{'selected': displayFiles, 'mat-elevation-z0': true}"
+        color="accent"
+        [matBadge]="numFiles"
+        matBadgeColor="primary"
+        [matBadgeHidden]="numFiles <= 0"
       >
-        <mat-icon>attachment</mat-icon>
+        <mat-icon>insert_drive_file</mat-icon>
       </button>
       <button
-        mat-icon-button
+        mat-mini-fab
         title="Display collected task data"
         (click)="toggleDataDisplay()"
-        [ngClass]="{'selected': displayData}"
+        [ngClass]="{'selected': displayData, 'mat-elevation-z0': true}"
+        color="primary"
       >
         <mat-icon>chrome_reader_mode</mat-icon>
       </button>
@@ -62,6 +66,10 @@
     [fixedTopGap]="64"
     [ngClass]="{'files-display': displayFiles, 'data-display': displayData}"
   >
+    <div fxLayout="row" class="close-pane">
+      <span fxFlex></span>
+      <button mat-icon-button (click)="toggleFilesDisplay(false); toggleDataDisplay(false)"><mat-icon>close</mat-icon></button>
+    </div>
     <div *ngIf="!displayData && displayFiles" id="files-display-column">
       <app-workflow-files *ngIf="workflow" [workflow]="workflow" [fileMetas]="fileMetas"></app-workflow-files>
     </div>
@@ -80,8 +88,17 @@
       <div class="documentation" *ngIf="currentTask.documentation">
         <markdown [data]="currentTask.documentation"></markdown>
       </div>
-      <button *ngIf="currentTask.type == taskTypes.MANUAL_TASK" (click)="completeManualTask(currentTask)"
-              color="primary" mat-flat-button>Continue</button>
+      <app-previous-task-button
+        [workflow]="workflow"
+        [currentTask]="currentTask"
+        (workflowUpdated)="workflowUpdated($event)"
+      ></app-previous-task-button>
+      <button
+        *ngIf="currentTask.type == taskTypes.MANUAL_TASK"
+        (click)="completeManualTask(currentTask)"
+        color="primary"
+        mat-flat-button
+      >Continue</button>
       <div *ngIf="!currentTask.documentation">
         <h1>{{currentTask.display_name()}}</h1>
         <h2>Task type: {{currentTask.type}}</h2>

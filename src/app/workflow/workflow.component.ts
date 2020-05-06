@@ -24,12 +24,10 @@ import {
 export class WorkflowComponent {
   workflow: Workflow;
   workflowSpec: WorkflowSpec;
-  readyTasks: WorkflowTask[];
   allTasks: WorkflowTask[];
   currentTask: WorkflowTask;
   studyId: number;
   workflowId: number;
-  taskId: string;
   taskTypes = WorkflowTaskType;
   displayData = (localStorage.getItem('displayData') === 'true');
   displayFiles = false;
@@ -49,15 +47,26 @@ export class WorkflowComponent {
     });
   }
 
+  get numFiles(): number {
+    return this.fileMetas ? this.fileMetas.length : 0;
+  };
+
   setCurrentTask(task: WorkflowTask) {
+    console.log('setCurrentTask', task);
     this.currentTask = this._initTask(task);
     this.updateUrl();
   }
 
   updateUrl() {
+    console.log('updateUrl', this.currentTask)
     if (this.currentTask) {
-      this.router.navigate(['study', this.studyId, 'workflow', this.workflow.id, 'task', this.currentTask.id]);
+      window.history.replaceState({}, '',
+        `study/${this.studyId}/workflow/${this.workflowId}/task/${this.currentTask.id}`);
     }
+
+    // if (this.currentTask) {
+    //   this.router.navigate(['study', this.studyId, 'workflow', this.workflow.id, 'task', this.currentTask.id]);
+    // }
   }
 
   completeManualTask(task: WorkflowTask) {
@@ -85,49 +94,8 @@ export class WorkflowComponent {
 
   workflowUpdated(wf: Workflow) {
     this.workflow = wf;
-    this.taskId = undefined;
     this.currentTask = undefined;
     this.updateTaskList(wf.id);
-  }
-
-  private updateTaskList(workflowId: number, forceTaskId?: string) {
-    this.api.listWorkflowFiles(workflowId).subscribe(fms => {
-      this.fileMetas = fms;
-      this.toggleFilesDisplay(fms.length > 0);
-    });
-    this.api.getWorkflow(workflowId).subscribe(wf => {
-      this.workflow = wf;
-      this.api.getWorkflowSpecification(wf.workflow_spec_id).subscribe(s => this.workflowSpec = s);
-
-      // De-dupe tasks, in case of parallel joins
-      this.allTasks = this.dedupeTasks(wf.user_tasks || []);
-
-      if (this.allTasks && (this.allTasks.length > 0)) {
-        this.readyTasks = this.allTasks.filter(t => t.state === WorkflowTaskState.READY);
-      }
-
-      // The current task will be set by the backend, unless specifically forced.
-      if (forceTaskId) {
-        this.currentTask = this.allTasks.filter(t => t.id === forceTaskId)[0];
-      } else {
-        this.currentTask = this._initTask(wf.next_task);
-      }
-
-      this.logTaskData(this.currentTask);
-      this.updateUrl();
-    });
-  }
-
-  private dedupeTasks(workflowTasks: WorkflowTask[]): WorkflowTask[] {
-    const deduped: { [key: string]: WorkflowTask; } = {};
-    workflowTasks.forEach(t => {
-      if (deduped.hasOwnProperty(t.name)) {
-        delete deduped[t.name];
-      }
-
-      deduped[t.name] = this._initTask(t);
-    });
-    return Object.values(deduped);
   }
 
   hasIncompleteUserTask() {
@@ -162,18 +130,14 @@ export class WorkflowComponent {
     }
   }
 
-  // Initializes incoming task from API as proper WorkflowTask class instance.
-  // Returns undefined if task is falsy.
-  private _initTask(task: WorkflowTask) {
-    return task ? Object.assign(new WorkflowTask(), task) : undefined;
-  }
-
   resetWorkflow() {
     this.api.getWorkflow(this.workflowId, {hard_reset: true}).subscribe(() => {
       this.snackBar.open(`${this.workflowSpec.display_name} workflow has been reset successfully.`, 'Ok', {duration: 3000});
       this.updateTaskList(this.workflowId);
     });
   }
+
+  // Initializes incoming task from API as proper WorkflowTask class instance.
 
   confirmResetWorkflow() {
     const data: WorkflowResetDialogData = {
@@ -187,5 +151,41 @@ export class WorkflowComponent {
         this.resetWorkflow();
       }
     });
+  }
+
+  private updateTaskList(workflowId: number, forceTaskId?: string) {
+    this.api.listWorkflowFiles(workflowId).subscribe(fms => {
+      this.fileMetas = fms;
+      this.toggleFilesDisplay(fms.length > 0);
+    });
+    this.api.getWorkflow(workflowId).subscribe(wf => {
+      this.workflow = wf;
+      this.api.getWorkflowSpecification(wf.workflow_spec_id).subscribe(s => this.workflowSpec = s);
+
+      this.allTasks = wf.user_tasks.map(this._initTask);
+
+      console.log('All Tasks', this.allTasks);
+
+      // The current task will be set by the backend, unless specifically forced.
+      if (forceTaskId) {
+        this.currentTask = this.allTasks.filter(t => t.id === forceTaskId)[0];
+      } else {
+        this.currentTask = this._initTask(wf.next_task);
+      }
+
+      this.logTaskData(this.currentTask);
+      console.log('forceTaskId', forceTaskId);
+      console.log('wf.next_task', wf.next_task);
+      console.log('Update URL, at end of task_list', this.currentTask);
+      this.updateUrl()
+    });
+  }
+
+  /**
+   * Initializes incoming task from API as proper WorkflowTask class instance.
+   * Returns undefined if task is falsy.
+   */
+  private _initTask(task: WorkflowTask) {
+    return task ? Object.assign(new WorkflowTask(), task) : undefined;
   }
 }

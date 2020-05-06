@@ -5,7 +5,8 @@ import {
   FileMeta,
   ProtocolBuilderStatus,
   ProtocolBuilderStatusLabels,
-  Study, Workflow
+  Study,
+  Workflow
 } from 'sartography-workflow-lib';
 
 @Component({
@@ -34,9 +35,12 @@ export class StudyComponent implements OnInit {
 
       this.api.getFileMetas({study_id: studyId}).subscribe(fms => {
         this.fileMetas = fms;
-        this.toggleFilesDisplay(fms.length > 0);
       });
     });
+  }
+
+  get numFiles(): number {
+    return this.fileMetas ? this.fileMetas.length : 0;
   }
 
   ngOnInit() {

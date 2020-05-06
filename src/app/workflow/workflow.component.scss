@@ -36,13 +36,17 @@ mat-list-item.disabled {
   transition: background-color 0.5s ease-in-out;
 }
 
-.files-display {
-  padding: 6rem 2rem 2rem 2rem;
+.files-display, {
+  padding: 3rem 2rem;
 }
 
 .data-display {
   background-color: $brand-gray-shade-3;
   padding: 2rem 0;
+
+  .close-pane {
+    color: white;
+  }
 }
 
 .task-data {
@@ -51,6 +55,16 @@ mat-list-item.disabled {
 }
 
 .selected {
-  background-color: $brand-accent;
+  background-color: $brand-gray;
   color: white;
+}
+
+.close-pane {
+  position: absolute;
+  top: 2.5rem;
+  right: 1rem;
+}
+
+.mat-mini-fab {
+  margin-left: 1rem;
 }

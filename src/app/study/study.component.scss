@@ -29,15 +29,17 @@
 }
 
 .selected {
-  background-color: $brand-accent;
+  background-color: $brand-gray;
   color: white;
 }
 
-.files-display, .data-display {
-  transition: background-color 0.5s ease-in-out;
-}
-
 .files-display {
-  padding: 6rem 2rem 2rem 2rem;
-}
+  transition: background-color 0.5s ease-in-out;
+  padding: 3rem 2rem;
 
+  .close-pane {
+    position: absolute;
+    top: 2.5rem;
+    right: 1rem;
+  }
+}

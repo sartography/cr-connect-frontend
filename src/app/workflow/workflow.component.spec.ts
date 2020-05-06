@@ -111,12 +111,11 @@ describe('WorkflowComponent', () => {
   });
 
   it('should change selected task', () => {
+    const historySpy = spyOn(window.history, 'replaceState').and.stub();
     const mockTask = Object.assign(new WorkflowTask(), mockWorkflowTask0);
     component.setCurrentTask(mockTask);
     expect(component.currentTask).toEqual(mockTask);
-    expect(mockRouter.navigate).toHaveBeenCalledWith([
-      'study', mockStudy0.id, 'workflow', mockWorkflow0.id, 'task', mockTask.id
-    ]);
+    expect(historySpy).toHaveBeenCalledWith({}, '', `study/${mockStudy0.id}/workflow/${mockWorkflow0.id}/task/${mockTask.id}`);
   });
 
   it('should update workflow', () => {
