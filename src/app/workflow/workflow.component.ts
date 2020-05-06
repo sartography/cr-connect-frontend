@@ -32,7 +32,6 @@ export class WorkflowComponent {
   displayData = (localStorage.getItem('displayData') === 'true');
   displayFiles = false;
   fileMetas: FileMeta[];
-  groupedTasks: WorkflowTask[][];
 
   constructor(
     private route: ActivatedRoute,
@@ -65,9 +64,9 @@ export class WorkflowComponent {
         `study/${this.studyId}/workflow/${this.workflowId}/task/${this.currentTask.id}`);
     }
 
-    if (this.currentTask) {
-      this.router.navigate(['study', this.studyId, 'workflow', this.workflow.id, 'task', this.currentTask.id]);
-    }
+    // if (this.currentTask) {
+    //   this.router.navigate(['study', this.studyId, 'workflow', this.workflow.id, 'task', this.currentTask.id]);
+    // }
   }
 
   completeManualTask(task: WorkflowTask) {
