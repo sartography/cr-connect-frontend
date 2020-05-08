@@ -6,7 +6,7 @@ export PATH=$PATH:$HOME/.local/bin;
 
 # Build and push Docker image to Docker Hub
 echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin || exit 1
-REPO="sartography/cr-connect-bpmn"
+REPO="sartography/cr-connect-frontend"
 TAG=$(if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo "$TRAVIS_BRANCH" ; fi)
 COMMIT=${TRAVIS_COMMIT::8}
 
@@ -23,4 +23,4 @@ sleep 30
 echo "Refreshing DC/OS..."
 STAGE=$(if [ "$TRAVIS_BRANCH" == "master" ]; then echo "production"; else echo "$TRAVIS_BRANCH" ; fi)
 echo "STAGE = $STAGE"
-aws sqs send-message --region "$AWS_DEFAULT_REGION" --queue-url "$AWS_SQS_URL" --message-body "crconnect/$STAGE/bpmn" || exit 1
+aws sqs send-message --region "$AWS_DEFAULT_REGION" --queue-url "$AWS_SQS_URL" --message-body "crconnect/$STAGE/frontend" || exit 1
