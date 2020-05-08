@@ -14,11 +14,16 @@ services:
   - docker
   - xvfb
 
+before_install:
+  - if [[ $TRAVIS_BRANCH == "testing" || $TRAVIS_BRANCH == "testing" ]]
+    then
+      export E2E_TAG="$TRAVIS_BRANCH"
+    else
+      export E2E_TAG="latest"
+    fi
+
 install:
   - npm install
-
-env:
-  - E2E_TAG=$((("$TRAVIS_BRANCH" == "testing" || "$TRAVIS_BRANCH" == "testing") && echo "$TRAVIS_BRANCH") || echo "latest")
 
 addons:
   chrome: stable
