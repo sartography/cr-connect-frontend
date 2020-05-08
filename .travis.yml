@@ -15,8 +15,8 @@ services:
   - xvfb
 
 before_install:
-  - if [[ $TRAVIS_BRANCH == "testing" || $TRAVIS_BRANCH == "testing" ]]
-    then
+  - |
+    if [[ $TRAVIS_BRANCH == "development" || $TRAVIS_BRANCH == "testing" || $TRAVIS_BRANCH == "staging" ]]; then
       export E2E_TAG="$TRAVIS_BRANCH"
     else
       export E2E_TAG="latest"
