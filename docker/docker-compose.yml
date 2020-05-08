@@ -20,7 +20,7 @@ services:
     container_name: backend
     depends_on:
        - db
-    image: sartography/cr-connect-workflow
+    image: sartography/cr-connect-workflow:$E2E_TAG
     volumes:
       - ./flask-config/config.py:/crc-workflow/instance/config.py
     environment:
@@ -33,7 +33,7 @@ services:
 
   pb:
     container_name: pb
-    image: sartography/protocol-builder-mock
+    image: sartography/protocol-builder-mock:$E2E_TAG
     volumes:
       - ./flask-config/config_pb.py:/protocol-builder-mock/instance/config.py
     environment:
