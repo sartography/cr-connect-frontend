@@ -17,6 +17,9 @@ services:
 install:
   - npm install
 
+env:
+  - E2E_TAG=$((("$TRAVIS_BRANCH" == "testing" || "$TRAVIS_BRANCH" == "testing") && echo "$TRAVIS_BRANCH") || echo "latest")
+
 addons:
   chrome: stable
 
