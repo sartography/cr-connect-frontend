@@ -27,6 +27,10 @@ export class NavbarComponent implements OnInit {
     this._loadUser();
   }
 
+  get isSignedIn(): boolean {
+    return this.api.isSignedIn();
+  }
+
   ngOnInit() {
   }
 
@@ -34,12 +38,8 @@ export class NavbarComponent implements OnInit {
     return path === this.router.url;
   }
 
-  isSignedIn(): boolean {
-    return this.api.isSignedIn();
-  }
-
   private _loadUser() {
-    if (this.isSignedIn()) {
+    if (this.isSignedIn) {
       this.api.getUser().subscribe(u => {
         this.user = u;
         this._loadNavLinks();
