@@ -25,6 +25,7 @@ export class AppComponent {
   }
 
   get isSignedIn(): boolean {
+    console.log('isSignedIn', this.apiService.isSignedIn());
     return this.apiService.isSignedIn();
   }
 }

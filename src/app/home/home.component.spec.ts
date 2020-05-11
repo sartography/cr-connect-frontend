@@ -1,5 +1,8 @@
+import {HttpClient} from '@angular/common/http';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {Component} from '@angular/core';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ApiService, MockEnvironment} from 'sartography-workflow-lib';
 import {HomeComponent} from './home.component';
 
 
@@ -28,6 +31,14 @@ describe('HomeComponent', () => {
         MockSignInComponent,
         MockStudiesComponent
       ],
+      imports: [
+        HttpClientTestingModule
+      ],
+      providers: [
+        HttpClient,
+        ApiService,
+        {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+      ]
     })
       .compileComponents();
   }));
@@ -42,7 +53,7 @@ describe('HomeComponent', () => {
   });
 
   it('should check signed-in state', () => {
-    const result = component.isSignedIn();
+    const result = component.isSignedIn;
     expect(result).toBeDefined();
     expect(typeof result).toEqual('boolean');
   });
