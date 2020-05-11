@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {ApiService, isSignedIn, User} from 'sartography-workflow-lib';
+import {ApiService, User} from 'sartography-workflow-lib';
 
 interface NavItem {
   path?: string;
@@ -19,13 +19,16 @@ interface NavItem {
 export class NavbarComponent implements OnInit {
   navLinks: NavItem[];
   user: User;
-  isSignedIn = isSignedIn;
 
   constructor(
     private router: Router,
     private api: ApiService,
   ) {
     this._loadUser();
+  }
+
+  get isSignedIn(): boolean {
+    return this.api.isSignedIn();
   }
 
   ngOnInit() {
@@ -36,7 +39,7 @@ export class NavbarComponent implements OnInit {
   }
 
   private _loadUser() {
-    if (isSignedIn()) {
+    if (this.isSignedIn) {
       this.api.getUser().subscribe(u => {
         this.user = u;
         this._loadNavLinks();
