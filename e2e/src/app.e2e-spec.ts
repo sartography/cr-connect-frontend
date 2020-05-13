@@ -17,7 +17,7 @@ describe('Clinical Research Coordinator App', () => {
   });
 
   it('should click sign-in and navigate to home screen', () => {
-    page.clickAndExpectRoute('#sign_in', '/');
+    page.clickAndExpectRoute('#sign_in', '/home');
     expect(page.getElements('#cta_protocol_builder').count()).toBeGreaterThan(0);
   });
 
@@ -38,7 +38,7 @@ describe('Clinical Research Coordinator App', () => {
   it('should navigate back to home screen', () => {
     page.setLocalStorageVar('numstudy', '1');
     expect(page.getLocalStorageVar('numstudy')).toEqual('1');
-    page.clickAndExpectRoute('#nav_home', '/');
+    page.clickAndExpectRoute('#nav_home', '/home');
     expect(page.getElements('#cta_protocol_builder').count()).toBeGreaterThan(0);
   });
 

@@ -73,6 +73,7 @@ import { PreviousTaskButtonComponent } from './previous-task-button/previous-tas
 
 @Injectable()
 export class ThisEnvironment implements AppEnvironment {
+  homeRoute = environment.homeRoute;
   production = environment.production;
   api = environment.api;
   irbUrl = environment.irbUrl;

@@ -46,6 +46,7 @@ describe('Router: App', () => {
   let location: Location;
   let router: Router;
   let fixture;
+  const mockEnvironment = new MockEnvironment();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -96,7 +97,7 @@ describe('Router: App', () => {
       providers: [
         HttpClient,
         ApiService,
-        {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+        {provide: 'APP_ENVIRONMENT', useValue: mockEnvironment},
       ]
     });
 
@@ -107,8 +108,9 @@ describe('Router: App', () => {
   });
 
   it('navigate to "" redirects you to /', async () => {
+    console.log('mockEnvironment', mockEnvironment);
     const success = await fixture.ngZone.run(() => router.navigate(['']));
     expect(success).toBeTruthy();
-    expect(location.path()).toBe('/');
+    expect(location.path()).toBe('/home');
   });
 });
