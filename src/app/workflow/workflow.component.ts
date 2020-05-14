@@ -51,10 +51,10 @@ export class WorkflowComponent {
     return this.fileMetas ? this.fileMetas.length : 0;
   };
 
-  setCurrentTask(task: WorkflowTask) {
-    console.log('setCurrentTask', task);
-    this.currentTask = this._initTask(task);
-    this.updateUrl();
+  setCurrentTask(taskId: string) {
+    console.log('setCurrentTask', taskId);
+//    this.currentTask = this._initTask(task);
+//    this.updateUrl();
   }
 
   updateUrl() {

@@ -21,9 +21,8 @@
         Start over
       </button>
     </h3>
-    <app-workflow-steps-menu-list *ngFor="let task of allTasks"
-      [task]="task"
-      [isCurrent] = "currentTask && task.id === currentTask.id"
+    <app-workflow-steps-menu-list *ngIf="workflow"
+      [navList]="workflow.navigation"
       (taskSelected)="setCurrentTask($event)"
     ></app-workflow-steps-menu-list>
   </mat-sidenav>

@@ -18,3 +18,15 @@
   color: $brand-gray-tint-1;
   pointer-events: none;
 }
+
+.task.indent_1 {
+  margin-right: 10px;
+}
+
+.task.indent_2 {
+  margin-right: 20px;
+}
+
+.task.indent_3 {
+  margin-right: 30px;
+}
