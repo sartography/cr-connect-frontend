@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnChanges, SimpleChanges} from '@angular/core';
 import {Router} from '@angular/router';
 import {ApiService, User} from 'sartography-workflow-lib';
 
@@ -16,7 +16,7 @@ interface NavItem {
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   navLinks: NavItem[];
   user: User;
 
@@ -24,10 +24,6 @@ export class NavbarComponent implements OnInit {
     private router: Router,
     private api: ApiService,
   ) {
-    this._loadUser();
-  }
-
-  ngOnInit() {
     this._loadUser();
   }
 
