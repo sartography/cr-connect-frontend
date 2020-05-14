@@ -5,6 +5,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {FakeMatIconRegistry} from '@angular/material/icon/testing';
 import {MatMenuModule} from '@angular/material/menu';
 import {RouterTestingModule} from '@angular/router/testing';
+import {ApiService, MockEnvironment} from 'sartography-workflow-lib';
 import {AppComponent} from './app.component';
 import {FooterComponent} from './footer/footer.component';
 import {NavbarComponent} from './navbar/navbar.component';
@@ -12,20 +13,22 @@ import {NavbarComponent} from './navbar/navbar.component';
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      declarations: [
+        AppComponent,
+        FooterComponent,
+        NavbarComponent,
+      ],
       imports: [
         HttpClientTestingModule,
         MatIconModule,
         MatMenuModule,
         RouterTestingModule,
       ],
-      declarations: [
-        AppComponent,
-        FooterComponent,
-        NavbarComponent,
-      ],
       providers: [
         HttpClient,
         FakeMatIconRegistry,
+        ApiService,
+        {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
       ]
     }).compileComponents();
   }));

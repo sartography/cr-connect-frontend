@@ -47,5 +47,3 @@ services:
     image: tuxmonteiro/ldap-mock
     ports:
       - "3890"
-
-

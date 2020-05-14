@@ -3,7 +3,7 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {Component} from '@angular/core';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {ApiService, MockEnvironment} from 'sartography-workflow-lib';
-import {HomeComponent} from './home.component';
+import {ResearchComponent} from './research.component';
 
 
 @Component({
@@ -20,14 +20,14 @@ class MockSignInComponent {
 class MockStudiesComponent {
 }
 
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('ResearchComponent', () => {
+  let component: ResearchComponent;
+  let fixture: ComponentFixture<ResearchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        HomeComponent,
+        ResearchComponent,
         MockSignInComponent,
         MockStudiesComponent
       ],
@@ -44,7 +44,7 @@ describe('HomeComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(ResearchComponent);
     component = fixture.componentInstance;
   });
 
