@@ -79,6 +79,10 @@ export class SignInComponent implements OnInit {
     }
   }
 
+  reload() {
+    location.reload();
+  }
+
   // If this is production, verify the user and redirect to home page.
   private _redirectOnProduction() {
     if (this.environment.production) {
@@ -92,9 +96,5 @@ export class SignInComponent implements OnInit {
     } else {
       localStorage.removeItem('token');
     }
-  }
-
-  reload() {
-    location.reload();
   }
 }

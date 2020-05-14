@@ -7,6 +7,7 @@ import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProfileComponent} from './profile/profile.component';
+import {ResearchComponent} from './research/research.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudyComponent} from './study/study.component';
@@ -26,6 +27,10 @@ export const routes: Routes = [
     path: '',
     pathMatch: 'full',
     redirectTo: environment.homeRoute,
+  },
+  {
+    path: 'research',
+    component: ResearchComponent
   },
   {
     path: 'home',
