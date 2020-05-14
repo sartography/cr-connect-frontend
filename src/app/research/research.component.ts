@@ -14,7 +14,6 @@ export class ResearchComponent {
   ) {
     if (!this.environment.production) {
       const token = localStorage.getItem('token');
-      console.log('ResearchComponent constructor token', token)
       this.isSignedIn = !!token;
     } else {
       this.isSignedIn = true;
