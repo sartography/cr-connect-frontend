@@ -24,7 +24,6 @@ import {
 export class WorkflowComponent {
   workflow: Workflow;
   workflowSpec: WorkflowSpec;
-  allTasks: WorkflowTask[];
   currentTask: WorkflowTask;
   studyId: number;
   workflowId: number;
@@ -32,6 +31,7 @@ export class WorkflowComponent {
   displayData = (localStorage.getItem('displayData') === 'true');
   displayFiles = false;
   fileMetas: FileMeta[];
+  loading: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +40,7 @@ export class WorkflowComponent {
     private snackBar: MatSnackBar,
     public dialog: MatDialog
   ) {
+    this.loading = true;
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
@@ -51,22 +52,19 @@ export class WorkflowComponent {
     return this.fileMetas ? this.fileMetas.length : 0;
   };
 
-  setCurrentTask(task: WorkflowTask) {
-    console.log('setCurrentTask', task);
-    this.currentTask = this._initTask(task);
-    this.updateUrl();
+  setCurrentTask(taskId: string) {
+    this.api.setCurrentTaskForWorkflow(this.workflowId, taskId).subscribe(wf => {
+      this.workflow = wf;
+      this.currentTask = wf.next_task;
+      this.updateUrl();
+    });
   }
 
   updateUrl() {
-    console.log('updateUrl', this.currentTask)
     if (this.currentTask) {
       window.history.replaceState({}, '',
         `study/${this.studyId}/workflow/${this.workflowId}/task/${this.currentTask.id}`);
     }
-
-    // if (this.currentTask) {
-    //   this.router.navigate(['study', this.studyId, 'workflow', this.workflow.id, 'task', this.currentTask.id]);
-    // }
   }
 
   completeManualTask(task: WorkflowTask) {
@@ -99,13 +97,13 @@ export class WorkflowComponent {
   }
 
   hasIncompleteUserTask() {
-    if (this.allTasks && (this.allTasks.length > 0)) {
+    if (this.workflow.navigation && (this.workflow.navigation.length > 0)) {
       const incompleteStates = [
         WorkflowTaskState.READY,
         WorkflowTaskState.FUTURE,
         WorkflowTaskState.WAITING,
       ];
-      const incompleteTasks = this.allTasks.filter(t => incompleteStates.includes(t.state));
+      const incompleteTasks = this.workflow.navigation.filter(t => incompleteStates.includes(t.state));
       return this.currentTask &&
         (this.currentTask.type === WorkflowTaskType.USER_TASK) &&
         (incompleteTasks.length > 0);
@@ -137,8 +135,6 @@ export class WorkflowComponent {
     });
   }
 
-  // Initializes incoming task from API as proper WorkflowTask class instance.
-
   confirmResetWorkflow() {
     const data: WorkflowResetDialogData = {
       workflowId: this.workflowId,
@@ -160,17 +156,20 @@ export class WorkflowComponent {
     });
     this.api.getWorkflow(workflowId).subscribe(wf => {
       this.workflow = wf;
-      this.api.getWorkflowSpecification(wf.workflow_spec_id).subscribe(s => this.workflowSpec = s);
+      this.api.getWorkflowSpecification(wf.workflow_spec_id).subscribe(s => {
+        this.workflowSpec = s;
+        this.loading = false;
+      });
 
-      this.allTasks = wf.user_tasks.map(this._initTask);
-
-      console.log('All Tasks', this.allTasks);
 
       // The current task will be set by the backend, unless specifically forced.
       if (forceTaskId) {
-        this.currentTask = this.allTasks.filter(t => t.id === forceTaskId)[0];
+        const navItem = this.workflow.navigation.filter(t => t.task_id === forceTaskId)[0];
+        if (navItem && navItem.task) {
+          this.currentTask = navItem.task;
+        }
       } else {
-        this.currentTask = this._initTask(wf.next_task);
+        this.currentTask = wf.next_task;
       }
 
       this.logTaskData(this.currentTask);
@@ -179,13 +178,5 @@ export class WorkflowComponent {
       console.log('Update URL, at end of task_list', this.currentTask);
       this.updateUrl()
     });
-  }
-
-  /**
-   * Initializes incoming task from API as proper WorkflowTask class instance.
-   * Returns undefined if task is falsy.
-   */
-  private _initTask(task: WorkflowTask) {
-    return task ? Object.assign(new WorkflowTask(), task) : undefined;
   }
 }

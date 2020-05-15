@@ -1,4 +1,4 @@
-<div *ngIf="numTotalTasks > 0; else loading" fxLayout="column" class="tasks-complete">
+<div *ngIf="numTotalTasks > 0; else loadingMessage" fxLayout="column" class="tasks-complete">
   {{numCompletedTasks}}/{{numTotalTasks}}
   <div fxFlex="100">
     <div
@@ -8,4 +8,4 @@
   </div>
 </div>
 
-<ng-template #loading>...</ng-template>
+<ng-template #loadingMessage><app-loading [showSpinner]="false"></app-loading></ng-template>

@@ -53,7 +53,6 @@ import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NotificationsComponent} from './notifications/notifications.component';
-import {PreviousTaskButtonComponent} from './previous-task-button/previous-task-button.component';
 import {ProcessViewerComponent} from './process-viewer/process-viewer.component';
 import {ProfileComponent} from './profile/profile.component';
 import {ResearchRequestsComponent} from './research-requests/research-requests.component';
@@ -71,6 +70,7 @@ import {WorkflowResetDialogComponent} from './workflow-reset-dialog/workflow-res
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
+import { LoadingComponent } from './loading/loading.component';
 
 
 @Injectable()
@@ -123,9 +123,9 @@ export function markedOptionsFactory(): MarkedOptions {
     StudiesDashboardComponent,
     StudiesProcessComponent,
     WorkflowResetDialogComponent,
-    PreviousTaskButtonComponent,
     ResearchComponent,
     ResearchRequestsComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserAnimationsModule,
