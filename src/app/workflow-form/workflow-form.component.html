@@ -1,6 +1,6 @@
 <div *ngIf="task && workflow; else loadingMessage" fxLayout="row">
   <div id="form-column">
-    <h1>{{task.display_name()}}</h1>
+    <h1>{{task.title}}</h1>
     <div *ngIf="task.documentation" class="documentation">
       <markdown [data]="task.documentation"></markdown>
     </div>
@@ -11,19 +11,11 @@
         [form]="form"
         [model]="model"
       ></formly-form>
-
-      <app-previous-task-button
-        [workflow]="workflow"
-        [currentTask]="task"
-        (workflowUpdated)="workflowUpdated.emit($event)"
-      ></app-previous-task-button>
       <button (click)="saveTaskData(task)" [disabled]="form.invalid" color="primary" mat-flat-button>Save</button>
     </div>
   </div>
 </div>
 
 <ng-template #loadingMessage>
-  <div class="loading" fxLayoutAlign="center center">
-    <mat-spinner></mat-spinner>
-  </div>
+  <app-loading></app-loading>
 </ng-template>

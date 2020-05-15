@@ -1,9 +1,9 @@
 <mat-list *ngIf="navList">
   <ng-container *ngFor="let navItem of navList">
     <mat-list-item
-      (click)="selectTask(navItem.taskid)"
+      (click)="selectTask(navItem.task_id)"
       [ngClass]="{'task': true, 'active': false, 'disabled': navItem.state === taskStates.FUTURE}"
-    ><span class="indent_{{navItem.indent}}">{{ navItem.description }}</span>
+    ><span class="indent_{{navItem.indent}}">{{ navItem.title }}</span>
       <span fxFlex></span>
       <mat-icon *ngIf="navItem.state === taskStates.COMPLETED">check</mat-icon>
       <mat-icon *ngIf="navItem.state === taskStates.WAITING">more_horiz</mat-icon>
