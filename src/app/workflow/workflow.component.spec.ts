@@ -18,14 +18,15 @@ import {of} from 'rxjs';
 import {
   ApiService,
   MockEnvironment,
-  mockStudy0,
+  mockFileMetas,
   mockWorkflow0,
   mockWorkflow1,
+  mockWorkflowSpec0,
   mockWorkflowTask0,
-  mockWorkflowTasks,
+  ToFormlyPipe,
+  WorkflowNavItem,
   WorkflowTaskState,
-  WorkflowTaskType,
-  ToFormlyPipe, mockWorkflowSpec0, WorkflowTask, mockFileMetas
+  WorkflowTaskType
 } from 'sartography-workflow-lib';
 import {WorkflowFilesComponent} from '../workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
@@ -155,9 +156,7 @@ describe('WorkflowComponent', () => {
     expect(component.currentTask).toBeTruthy();
 
     // Delete all tasks from workflow
-    mockWorkflow0.last_task = undefined;
     mockWorkflow0.next_task = undefined;
-    mockWorkflow0.user_tasks = [];
     (component as any).updateTaskList(mockWorkflow0.id);
 
     const f2Req = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
@@ -218,10 +217,14 @@ describe('WorkflowComponent', () => {
   });
 
   it('should determine whether there are incomplete tasks', () => {
-    component.allTasks = [];
+    const workflowAllComplete = createClone({circles: true})(mockWorkflow0);
+    workflowAllComplete.navigation.forEach((n: WorkflowNavItem) => n.state = WorkflowTaskState.COMPLETED);
+    component.workflow = workflowAllComplete;
     expect(component.hasIncompleteUserTask()).toBeFalsy();
 
-    component.allTasks = mockWorkflowTasks;
+    const workflowNoneComplete = createClone({circles: true})(mockWorkflow0);
+    workflowNoneComplete.navigation.forEach((n: WorkflowNavItem) => n.state = WorkflowTaskState.FUTURE);
+    component.workflow = workflowNoneComplete;
     component.currentTask = mockWorkflowTask0;
     component.currentTask.type = WorkflowTaskType.USER_TASK;
     component.currentTask.state = WorkflowTaskState.READY;

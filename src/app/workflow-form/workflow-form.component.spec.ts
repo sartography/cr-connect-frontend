@@ -52,7 +52,6 @@ describe('WorkflowFormComponent', () => {
     fixture = TestBed.createComponent(WorkflowFormComponent);
     component = fixture.componentInstance;
     const wf = mockWorkflow0;
-    wf.user_tasks = mockWorkflowTasks;
     wf.workflow_spec = mockWorkflowSpec0;
 
     component.workflow = wf;
