@@ -31,8 +31,7 @@ describe('WorkflowStepsMenuListComponent', () => {
 
   it('should emit task when selected', () => {
     const emitSpy = spyOn(component.taskSelected, 'emit').and.stub();
-    component.task = mockWorkflowTask0;
-    component.selectTask();
-    expect(emitSpy).toHaveBeenCalledWith(mockWorkflowTask0);
+    component.selectTask(mockWorkflowTask0.id);
+    expect(emitSpy).toHaveBeenCalledWith(mockWorkflowTask0.id);
   });
 });
