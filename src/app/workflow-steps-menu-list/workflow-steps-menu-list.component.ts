@@ -8,14 +8,14 @@ import {WorkflowNavItem, WorkflowTask, WorkflowTaskState} from 'sartography-work
 })
 
 export class WorkflowStepsMenuListComponent implements OnInit {
-  @Input() navList: WorkflowNavItem;
+  @Input() navList: WorkflowNavItem[];
   @Output() taskSelected: EventEmitter<string> = new EventEmitter();
   taskStates = WorkflowTaskState;
+
   constructor() {
   }
 
   ngOnInit(): void {
-    console.log('WorkflowStepsMenuListComponent ngOnInit task');
   }
 
   selectTask(taskId: string) {

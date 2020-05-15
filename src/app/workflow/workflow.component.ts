@@ -52,21 +52,18 @@ export class WorkflowComponent {
   };
 
   setCurrentTask(taskId: string) {
-    console.log('setCurrentTask', taskId);
-//    this.currentTask = this._initTask(task);
-//    this.updateUrl();
+    this.api.setCurrentTaskForWorkflow(this.workflowId, taskId).subscribe(wf => {
+      this.workflow = wf;
+      this.currentTask = wf.next_task;
+      this.updateUrl();
+    });
   }
 
   updateUrl() {
-    console.log('updateUrl', this.currentTask)
     if (this.currentTask) {
       window.history.replaceState({}, '',
         `study/${this.studyId}/workflow/${this.workflowId}/task/${this.currentTask.id}`);
     }
-
-    // if (this.currentTask) {
-    //   this.router.navigate(['study', this.studyId, 'workflow', this.workflow.id, 'task', this.currentTask.id]);
-    // }
   }
 
   completeManualTask(task: WorkflowTask) {

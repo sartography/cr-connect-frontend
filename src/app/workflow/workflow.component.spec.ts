@@ -111,11 +111,15 @@ describe('WorkflowComponent', () => {
   });
 
   it('should change selected task', () => {
-    const historySpy = spyOn(window.history, 'replaceState').and.stub();
-    const mockTask = Object.assign(new WorkflowTask(), mockWorkflowTask0);
-    component.setCurrentTask(mockTask);
-    expect(component.currentTask).toEqual(mockTask);
-    expect(historySpy).toHaveBeenCalledWith({}, '', `study/${mockStudy0.id}/workflow/${mockWorkflow0.id}/task/${mockTask.id}`);
+    const updateUrlSpy = spyOn(component, 'updateUrl').and.stub();
+    component.setCurrentTask(mockWorkflowTask0.id);
+
+    const specReq = httpMock.expectOne(`apiRoot/workflow/${mockWorkflow0.id}/task/${mockWorkflowTask0.id}/set_token`);
+    expect(specReq.request.method).toEqual('PUT');
+    specReq.flush(mockWorkflow0);
+    expect(component.workflow).toEqual(mockWorkflow0);
+    expect(component.currentTask).toEqual(mockWorkflow0.next_task);
+    expect(updateUrlSpy).toHaveBeenCalled();
   });
 
   it('should update workflow', () => {

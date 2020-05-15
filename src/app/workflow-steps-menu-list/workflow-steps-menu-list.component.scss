@@ -19,14 +19,16 @@
   pointer-events: none;
 }
 
-.task.indent_1 {
-  margin-right: 10px;
+$indent: 2rem;
+
+.task .indent_1 {
+  text-indent: $indent * 1;
 }
 
-.task.indent_2 {
-  margin-right: 20px;
+.task .indent_2 {
+  text-indent: $indent * 2;
 }
 
-.task.indent_3 {
-  margin-right: 30px;
+.task .indent_3 {
+  text-indent: $indent * 3;
 }
