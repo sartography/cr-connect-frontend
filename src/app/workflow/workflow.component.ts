@@ -102,6 +102,7 @@ export class WorkflowComponent {
         WorkflowTaskState.READY,
         WorkflowTaskState.FUTURE,
         WorkflowTaskState.WAITING,
+        WorkflowTaskState.LIKELY,
       ];
       const incompleteTasks = this.workflow.navigation.filter(t => incompleteStates.includes(t.state));
       return this.currentTask &&
