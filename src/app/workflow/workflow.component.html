@@ -21,9 +21,8 @@
         Start over
       </button>
     </h3>
-    <app-workflow-steps-menu-list *ngFor="let task of allTasks"
-      [task]="task"
-      [isCurrent] = "currentTask && task.id === currentTask.id"
+    <app-workflow-steps-menu-list *ngIf="workflow"
+      [navList]="workflow.navigation"
       (taskSelected)="setCurrentTask($event)"
     ></app-workflow-steps-menu-list>
   </mat-sidenav>
@@ -52,11 +51,13 @@
         <mat-icon>chrome_reader_mode</mat-icon>
       </button>
     </div>
-    <app-workflow-form *ngIf="hasIncompleteUserTask(); else noTask"
-      [task]="currentTask"
-      [workflow]="workflow"
-      (workflowUpdated)="workflowUpdated($event)"
-    ></app-workflow-form>
+    <ng-container *ngIf="!loading; else loadingMessage">
+      <app-workflow-form *ngIf="hasIncompleteUserTask(); else noTask"
+        [task]="currentTask"
+        [workflow]="workflow"
+        (workflowUpdated)="workflowUpdated($event)"
+      ></app-workflow-form>
+    </ng-container>
   </mat-sidenav-content>
   <mat-sidenav
     [opened]="displayData || displayFiles"
@@ -88,11 +89,6 @@
       <div class="documentation" *ngIf="currentTask.documentation">
         <markdown [data]="currentTask.documentation"></markdown>
       </div>
-      <app-previous-task-button
-        [workflow]="workflow"
-        [currentTask]="currentTask"
-        (workflowUpdated)="workflowUpdated($event)"
-      ></app-previous-task-button>
       <button
         *ngIf="currentTask.type == taskTypes.MANUAL_TASK"
         (click)="completeManualTask(currentTask)"
@@ -100,7 +96,7 @@
         mat-flat-button
       >Continue</button>
       <div *ngIf="!currentTask.documentation">
-        <h1>{{currentTask.display_name()}}</h1>
+        <h1>{{currentTask.title}}</h1>
         <h2>Task type: {{currentTask.type}}</h2>
         <h3>Status: {{currentTask.state}}</h3>
         <p>Please add documentation to this event to provide users with a custom message
@@ -115,4 +111,8 @@
       <p>This workflow does not have any tasks in it.</p>
     </div>
   </div>
+</ng-template>
+
+<ng-template #loadingMessage>
+  <app-loading></app-loading>
 </ng-template>
