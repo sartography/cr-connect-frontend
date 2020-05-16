@@ -16,6 +16,7 @@ export class WorkflowStepsMenuListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('navList', this.navList);
   }
 
   selectTask(taskId: string) {
