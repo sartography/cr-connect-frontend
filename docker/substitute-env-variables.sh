@@ -9,19 +9,21 @@ if [[ -z $1 ]]; then
 fi
 
 env_list='\$PRODUCTION \$API_URL \$IRB_URL \$HOME_ROUTE \$PORT0'
-for i in $(echo $1 | sed "s/,/ /g")
+for file_path in $(echo $1 | sed "s/,/ /g")
 do
-  echo "replacing $env_list in $i"
+  echo "replacing $env_list in $file_path"
 
   # Replace strings in the given file(s) in env_list
-  envsubst "$env_list" < "$i" > "$i".tmp && mv "$i".tmp "$i"
+  envsubst '\$PRODUCTION \$API_URL \$IRB_URL \$HOME_ROUTE \$PORT0' < "$file_path" > "$file_path".tmp && mv "$file_path".tmp "$file_path"
 
-  echo "..."
+  echo '...'
 
   # Set DEBUG=true in order to log the replaced file
   if [ "$DEBUG" = true ] ; then
-    exec cat $i
+    exec cat $file_path
   fi
+
+  echo '***'
 done
 
 echo 'Finished substituting environment variables.'
