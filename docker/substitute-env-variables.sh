@@ -14,16 +14,9 @@ do
   echo "replacing $env_list in $file_path"
 
   # Replace strings in the given file(s) in env_list
-  envsubst '\$PRODUCTION \$API_URL \$IRB_URL \$HOME_ROUTE \$PORT0' < "$file_path" > "$file_path".tmp && mv "$file_path".tmp "$file_path"
+  envsubst "$env_list" < "$file_path" > "$file_path".tmp && mv "$file_path".tmp "$file_path"
 
   echo '...'
-
-  # Set DEBUG=true in order to log the replaced file
-  if [ "$DEBUG" = true ] ; then
-    exec cat $file_path
-  fi
-
-  echo '***'
 done
 
 echo 'Finished substituting environment variables.'
