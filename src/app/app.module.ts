@@ -1,6 +1,6 @@
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {Injectable, NgModule, Provider} from '@angular/core';
+import {Injectable, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatBadgeModule} from '@angular/material/badge';
@@ -55,6 +55,8 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProcessViewerComponent} from './process-viewer/process-viewer.component';
 import {ProfileComponent} from './profile/profile.component';
+import {ResearchRequestsComponent} from './research-requests/research-requests.component';
+import {ResearchComponent} from './research/research.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesDashboardComponent} from './studies-dashboard/studies-dashboard.component';
@@ -64,15 +66,16 @@ import {StudyProgressComponent} from './study-progress/study-progress.component'
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
+import {WorkflowResetDialogComponent} from './workflow-reset-dialog/workflow-reset-dialog.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
-import { WorkflowResetDialogComponent } from './workflow-reset-dialog/workflow-reset-dialog.component';
-import { PreviousTaskButtonComponent } from './previous-task-button/previous-task-button.component';
+import { LoadingComponent } from './loading/loading.component';
 
 
 @Injectable()
 export class ThisEnvironment implements AppEnvironment {
+  homeRoute = environment.homeRoute;
   production = environment.production;
   api = environment.api;
   irbUrl = environment.irbUrl;
@@ -120,7 +123,9 @@ export function markedOptionsFactory(): MarkedOptions {
     StudiesDashboardComponent,
     StudiesProcessComponent,
     WorkflowResetDialogComponent,
-    PreviousTaskButtonComponent,
+    ResearchComponent,
+    ResearchRequestsComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserAnimationsModule,

@@ -18,3 +18,17 @@
   color: $brand-gray-tint-1;
   pointer-events: none;
 }
+
+$indent: 2rem;
+
+.task .indent_1 {
+  text-indent: $indent * 1;
+}
+
+.task .indent_2 {
+  text-indent: $indent * 2;
+}
+
+.task .indent_3 {
+  text-indent: $indent * 3;
+}

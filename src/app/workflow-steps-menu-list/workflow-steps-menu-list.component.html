@@ -1,13 +1,16 @@
-<mat-list *ngIf="task">
+<mat-list *ngIf="navList">
+  <ng-container *ngFor="let navItem of navList">
     <mat-list-item
-      [ngClass]="{'task': true, 'active': isCurrent, 'disabled': task.state === taskStates.FUTURE}"
-      (click)="selectTask()"
-    >
-      {{ task.display_name() }}
+      (click)="selectTask(navItem.task_id)"
+      [ngClass]="{'task': true, 'active': false, 'disabled': navItem.state === taskStates.LIKELY || navItem.state === taskStates.FUTURE || !navItem.task_id}"
+    ><span class="indent_{{navItem.indent}}">{{ navItem.title }}</span>
       <span fxFlex></span>
-      <mat-icon *ngIf="task.state === taskStates.COMPLETED">check</mat-icon>
-      <mat-icon *ngIf="task.state === taskStates.WAITING">more_horiz</mat-icon>
-      <mat-icon *ngIf="task.state === taskStates.FUTURE">access_time</mat-icon>
-      <mat-icon *ngIf="task.state === taskStates.READY">create</mat-icon>
+      <mat-icon *ngIf="navItem.state === taskStates.COMPLETED">check</mat-icon>
+      <mat-icon *ngIf="navItem.state === taskStates.WAITING">more_horiz</mat-icon>
+      <mat-icon *ngIf="navItem.state === taskStates.FUTURE">access_time</mat-icon>
+      <mat-icon *ngIf="navItem.state === taskStates.LIKELY">access_time</mat-icon>
+      <mat-icon *ngIf="navItem.state === taskStates.READY">create</mat-icon>
+      <mat-icon *ngIf="navItem.state === 'None'">access_time</mat-icon>
     </mat-list-item>
+  </ng-container>
 </mat-list>

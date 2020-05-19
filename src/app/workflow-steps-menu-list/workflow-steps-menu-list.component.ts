@@ -1,25 +1,25 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {WorkflowTask, WorkflowTaskState} from 'sartography-workflow-lib';
+import {WorkflowNavItem, WorkflowTask, WorkflowTaskState} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow-steps-menu-list',
   templateUrl: './workflow-steps-menu-list.component.html',
   styleUrls: ['./workflow-steps-menu-list.component.scss']
 })
+
 export class WorkflowStepsMenuListComponent implements OnInit {
-  @Input() task: WorkflowTask;
-  @Input() isCurrent: boolean;
-  @Output() taskSelected: EventEmitter<WorkflowTask> = new EventEmitter();
+  @Input() navList: WorkflowNavItem[];
+  @Output() taskSelected: EventEmitter<string> = new EventEmitter();
   taskStates = WorkflowTaskState;
 
   constructor() {
   }
 
   ngOnInit(): void {
-    console.log('WorkflowStepsMenuListComponent ngOnInit task', this.task);
+    console.log('navList', this.navList);
   }
 
-  selectTask() {
-    this.taskSelected.emit(this.task);
+  selectTask(taskId: string) {
+    this.taskSelected.emit(taskId);
   }
 }

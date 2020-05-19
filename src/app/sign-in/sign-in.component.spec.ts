@@ -1,4 +1,3 @@
-import {HttpErrorResponse} from '@angular/common/http';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule} from '@angular/forms';
@@ -9,11 +8,14 @@ import {ActivatedRoute, convertToParamMap, Router} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
-import {Observable, of, throwError} from 'rxjs';
+import {of} from 'rxjs';
 import {
-  ApiService, MockEnvironment, mockUser,
+  ApiService,
   EmailValidator,
-  EmailValidatorMessage, mockErrorResponse
+  EmailValidatorMessage,
+  MockEnvironment,
+  mockErrorResponse,
+  mockUser
 } from 'sartography-workflow-lib';
 import {SignInComponent} from './sign-in.component';
 

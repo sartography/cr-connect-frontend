@@ -45,9 +45,11 @@
     "ngx-file-drop": "^8.0.8",
     "ngx-highlightjs": "^4.1.0-beta",
     "ngx-markdown": "^9.0.0",
+    "ngx-page-scroll": "^7.0.0",
+    "ngx-page-scroll-core": "^7.0.0",
     "rfdc": "^1.1.4",
     "rxjs": "~6.5.4",
-    "sartography-workflow-lib": "0.0.147",
+    "sartography-workflow-lib": "0.0.170",
     "ts-md5": "^1.2.7",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

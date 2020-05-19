@@ -1,20 +1,39 @@
-import {NgModule} from '@angular/core';
+import {Injectable, NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SessionRedirectComponent} from 'sartography-workflow-lib';
+import {AppEnvironment, SessionRedirectComponent} from 'sartography-workflow-lib';
+import {environment} from '../environments/environment.runtime';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProfileComponent} from './profile/profile.component';
+import {ResearchComponent} from './research/research.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 
+console.log('environment', environment);
+@Injectable()
+export class ThisEnvironment implements AppEnvironment {
+  homeRoute = environment.homeRoute;
+  production = environment.production;
+  api = environment.api;
+  irbUrl = environment.irbUrl;
+}
 
 export const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
+    redirectTo: environment.homeRoute,
+  },
+  {
+    path: 'research',
+    component: ResearchComponent
+  },
+  {
+    path: 'home',
     component: HomeComponent
   },
   {
@@ -68,7 +87,10 @@ export const routes: Routes = [
       scrollOffset: [0, 84],
     })
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [
+    {provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment},
+  ]
 })
 export class AppRoutingModule {
 }

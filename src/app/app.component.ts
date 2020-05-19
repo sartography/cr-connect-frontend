@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
-import {FileType, isSignedIn, User} from 'sartography-workflow-lib';
+import {ApiService, FileType, User} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-root',
@@ -11,9 +11,9 @@ import {FileType, isSignedIn, User} from 'sartography-workflow-lib';
 export class AppComponent {
   title = 'CR Connect';
   user: User;
-  isSignedIn = isSignedIn;
 
   constructor(
+    private apiService: ApiService,
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer
   ) {
@@ -22,5 +22,9 @@ export class AppComponent {
       const url = this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/icons/file_types/${t}.svg`)
       this.matIconRegistry.addSvgIconInNamespace('crc', t, url);
     })
+  }
+
+  get isSignedIn(): boolean {
+    return this.apiService.isSignedIn();
   }
 }
