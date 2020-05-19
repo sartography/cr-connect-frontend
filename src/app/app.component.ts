@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
-import {ApiService, FileType, isSignedIn, User} from 'sartography-workflow-lib';
+import {ApiService, FileType, User} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-root',
