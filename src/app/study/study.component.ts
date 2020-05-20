@@ -16,7 +16,7 @@ import {
 })
 export class StudyComponent implements OnInit {
   study: Study;
-  displayFiles: boolean;
+  displayFiles = false;
   fileMetas: FileMeta[];
   allWorkflows: Workflow[] = [];
 

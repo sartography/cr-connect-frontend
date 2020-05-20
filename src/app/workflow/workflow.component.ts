@@ -29,7 +29,7 @@ export class WorkflowComponent {
   workflowId: number;
   taskTypes = WorkflowTaskType;
   displayData = (localStorage.getItem('displayData') === 'true');
-  displayFiles = false;
+  displayFiles = (localStorage.getItem('displayFiles') === 'true');
   fileMetas: FileMeta[];
   loading: boolean;
 
@@ -116,6 +116,7 @@ export class WorkflowComponent {
   toggleDataDisplay(show?: boolean) {
     this.displayData = show !== undefined ? show : !this.displayData;
     localStorage.setItem('displayData', (!!this.displayData).toString());
+
     if (this.displayData && show === undefined) {
       this.toggleFilesDisplay(!this.displayData);
     }
@@ -123,6 +124,7 @@ export class WorkflowComponent {
 
   toggleFilesDisplay(show?: boolean) {
     this.displayFiles = show !== undefined ? show : !this.displayFiles;
+    localStorage.setItem('displayFiles', (!!this.displayFiles).toString());
 
     if (this.displayFiles && show === undefined) {
       this.toggleDataDisplay(!this.displayFiles);
@@ -153,7 +155,6 @@ export class WorkflowComponent {
   private updateTaskList(workflowId: number, forceTaskId?: string) {
     this.api.listWorkflowFiles(workflowId).subscribe(fms => {
       this.fileMetas = fms;
-      this.toggleFilesDisplay(fms.length > 0);
     });
     this.api.getWorkflow(workflowId).subscribe(wf => {
       this.workflow = wf;
@@ -179,5 +180,10 @@ export class WorkflowComponent {
       console.log('Update URL, at end of task_list', this.currentTask);
       this.updateUrl()
     });
+  }
+
+  closePane() {
+    this.toggleFilesDisplay(false);
+    this.toggleDataDisplay(false);
   }
 }
