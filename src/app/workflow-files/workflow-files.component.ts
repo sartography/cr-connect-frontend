@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ApiService, FileMeta, getFileIcon, Study, Workflow} from 'sartography-workflow-lib';
 
 @Component({
@@ -6,7 +6,7 @@ import {ApiService, FileMeta, getFileIcon, Study, Workflow} from 'sartography-wo
   templateUrl: './workflow-files.component.html',
   styleUrls: ['./workflow-files.component.scss']
 })
-export class WorkflowFilesComponent implements OnInit{
+export class WorkflowFilesComponent implements OnInit {
   @Input() workflow?: Workflow;
   @Input() study?: Study;
   @Input() fileMetas: FileMeta[];
