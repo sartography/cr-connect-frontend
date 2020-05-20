@@ -69,9 +69,9 @@
   >
     <div fxLayout="row" class="close-pane">
       <span fxFlex></span>
-      <button mat-icon-button (click)="toggleFilesDisplay(false); toggleDataDisplay(false)"><mat-icon>close</mat-icon></button>
+      <button mat-icon-button (click)="closePane()"><mat-icon>close</mat-icon></button>
     </div>
-    <div *ngIf="!displayData && displayFiles" id="files-display-column">
+    <div *ngIf="displayFiles && !displayData" id="files-display-column">
       <app-workflow-files *ngIf="workflow" [workflow]="workflow" [fileMetas]="fileMetas"></app-workflow-files>
     </div>
     <div *ngIf="!displayFiles && displayData" id="data-display-column">
