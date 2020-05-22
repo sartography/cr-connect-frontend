@@ -4,6 +4,7 @@ import {AppEnvironment, SessionRedirectComponent} from 'sartography-workflow-lib
 import {environment} from '../environments/environment.runtime';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
+import {StudiesRrpComponent} from './studies-rrp/studies-rrp.component';
 import {InboxComponent} from './inbox/inbox.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProfileComponent} from './profile/profile.component';
@@ -47,6 +48,10 @@ export const routes: Routes = [
   {
     path: 'study/:study_id/workflow/:workflow_id/task/:task_id',
     component: WorkflowComponent
+  },
+  {
+    path: 'rrp',
+    component: StudiesRrpComponent
   },
   {
     path: 'help',

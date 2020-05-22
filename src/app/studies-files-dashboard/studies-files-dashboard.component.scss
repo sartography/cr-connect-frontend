@@ -1,0 +1,99 @@
+@import "../../config";
+
+mat-panel-title.mat-h2 {
+  padding-top: 16px;
+
+  mat-chip {
+    margin-left: 1em;
+
+    &.draft { background-color: $brand-primary; color: white; }
+    &.in_process { background-color: $brand-primary-tint-1; color: white; }
+    &.in_review { background-color: $brand-primary-tint-2; color: white; }
+    &.review_complete { background-color: $brand-primary-tint-3; }
+    &.inactive { background-color: $brand-gray-light; }
+  }
+}
+
+.study-row {
+  cursor: pointer;
+
+  &:hover {
+    background-color: $brand-gray-light;
+  }
+
+  &.new {
+    background-color: $brand-accent-light;
+  }
+
+  td {
+    padding-left: 1rem;
+    border-bottom-color: transparent;
+    border-right: 1px solid $brand-gray-tint-1;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+
+  .new {
+    background-color: $brand-accent;
+    color: white;
+    font-weight: bold;
+    border-radius: 1rem;
+    padding: 0.25rem 0.5rem;
+    margin-left: 1rem;
+  }
+}
+
+.mat-table {
+  width: 100%;
+
+  .mat-header-cell {
+    font-size: 1.1250rem;
+    font-family: $heading-font-family;
+    color: $brand-gray;
+    padding-left: 1rem;
+    border-bottom-color: $brand-gray-tint-1;
+    border-right: 1px solid $brand-gray-tint-1;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      border-right: none;
+    }
+  }
+}
+
+.mat-expansion-panel {
+  border-bottom: 1px solid $brand-gray-tint-2;
+  border-radius: 0;
+
+  .mat-expansion-panel-header {
+    padding: 2rem;
+
+    &.mat-expanded {
+      background-color: $brand-gray-light;
+    }
+  }
+
+  ::ng-deep .mat-expansion-indicator {
+    margin: 1rem;
+
+    &::after {
+      padding: 6px;
+      border-width: 0 4px 4px 0;
+    }
+  }
+
+  ::ng-deep .mat-expansion-panel-content {
+    .mat-expansion-panel-body {
+      padding: 1rem;
+    }
+  }
+}
