@@ -4,7 +4,8 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {ActivatedRoute, convertToParamMap} from '@angular/router';
+import {ActivatedRoute, convertToParamMap, Router} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
 import {of} from 'rxjs';
 import {
   ApiService,
@@ -21,6 +22,7 @@ describe('WorkflowFilesComponent', () => {
   let component: WorkflowFilesComponent;
   let fixture: ComponentFixture<WorkflowFilesComponent>;
   let httpMock: HttpTestingController;
+  const mockRouter = {navigate: jasmine.createSpy('navigate')};
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,6 +31,7 @@ describe('WorkflowFilesComponent', () => {
         MatIconModule,
         MatListModule,
         MatProgressSpinnerModule,
+        RouterTestingModule,
       ],
       declarations: [
         WorkflowFilesComponent,
@@ -40,6 +43,7 @@ describe('WorkflowFilesComponent', () => {
           useValue: {paramMap: of(convertToParamMap({study_id: '0', workflow_id: '0', task_id: '0'}))}
         },
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+        {provide: Router, useValue: mockRouter},
       ]
 
     })
