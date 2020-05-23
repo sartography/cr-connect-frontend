@@ -1,3 +1,4 @@
+import {APP_BASE_HREF} from '@angular/common';
 import {Injectable, NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AppEnvironment, SessionRedirectComponent} from 'sartography-workflow-lib';
@@ -13,13 +14,13 @@ import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 
-console.log('environment', environment);
 @Injectable()
 export class ThisEnvironment implements AppEnvironment {
   homeRoute = environment.homeRoute;
   production = environment.production;
   api = environment.api;
   irbUrl = environment.irbUrl;
+  baseHref = environment.baseHref;
 }
 
 export const routes: Routes = [
@@ -90,6 +91,7 @@ export const routes: Routes = [
   exports: [RouterModule],
   providers: [
     {provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment},
+    {provide: APP_BASE_HREF, useValue: environment.baseHref},
   ]
 })
 export class AppRoutingModule {
