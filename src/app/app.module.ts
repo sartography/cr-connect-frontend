@@ -39,6 +39,7 @@ import {
   ApiService,
   AppEnvironment,
   AuthInterceptor,
+  ErrorInterceptor,
   SartographyFormsModule,
   SartographyPipesModule,
   SartographyWorkflowLibModule
@@ -52,6 +53,7 @@ import {FooterComponent} from './footer/footer.component';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
+import {LoadingComponent} from './loading/loading.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProcessViewerComponent} from './process-viewer/process-viewer.component';
@@ -71,7 +73,6 @@ import {WorkflowResetDialogComponent} from './workflow-reset-dialog/workflow-res
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
-import { LoadingComponent } from './loading/loading.component';
 
 
 @Injectable()
@@ -182,6 +183,7 @@ export function markedOptionsFactory(): MarkedOptions {
     {provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment},
     {provide: APP_BASE_HREF, useValue: environment.baseHref},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     {
       provide: HIGHLIGHT_OPTIONS,
       useValue: {
