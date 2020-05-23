@@ -1,6 +1,6 @@
-import {Component, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Inject, OnChanges, SimpleChanges} from '@angular/core';
 import {Router} from '@angular/router';
-import {ApiService, User} from 'sartography-workflow-lib';
+import {ApiService, AppEnvironment, User, UserParams} from 'sartography-workflow-lib';
 
 interface NavItem {
   path?: string;
@@ -23,6 +23,7 @@ export class NavbarComponent {
   constructor(
     private router: Router,
     private api: ApiService,
+    @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
   ) {
     this._loadUser();
   }
@@ -37,6 +38,14 @@ export class NavbarComponent {
       this._loadNavLinks();
     }, error => {
       localStorage.removeItem('token');
+
+      if (this.environment.production) {
+        localStorage.setItem('prev_url', location.href);
+        const emptyUserParams: UserParams = { uid: null };
+        this.api.redirectToLogin(location.origin + '/session', emptyUserParams);
+      } else {
+        this.api.openUrl('/');
+      }
     });
   }
 
