@@ -58,21 +58,21 @@ services:
       - "5000:5000"
     command: ./wait-for-it.sh pb:5001 -t 0 -- ./docker_run.sh
 
-  # Uncomment for debugging
-  frontend:
-    container_name: frontend
-    depends_on:
-       - db
-       - pb
-       - ldap
-       - backend
-    image: sartography/cr-connect-frontend:$E2E_TAG
-    environment:
-      - API_URL=http://localhost:5000/v1.0
-      - BASE_HREF=/app
-      - HOME_ROUTE=home
-      - IRB_URL=http://localhost:5001
-      - PORT0=4200
-      - PRODUCTION=false
-    ports:
-      - "4200:4200"
+#  # Uncomment for debugging
+#  frontend:
+#    container_name: frontend
+#    depends_on:
+#       - db
+#       - pb
+#       - ldap
+#       - backend
+#    image: sartography/cr-connect-frontend:$E2E_TAG
+#    environment:
+#      - API_URL=http://localhost:5000/v1.0
+#      - BASE_HREF=/app
+#      - HOME_ROUTE=home
+#      - IRB_URL=http://localhost:5001
+#      - PORT0=4200
+#      - PRODUCTION=false
+#    ports:
+#      - "4200:4200"
