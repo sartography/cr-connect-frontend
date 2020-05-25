@@ -58,7 +58,6 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProcessViewerComponent} from './process-viewer/process-viewer.component';
 import {ProfileComponent} from './profile/profile.component';
-import {ResearchRequestsComponent} from './research-requests/research-requests.component';
 import {ResearchComponent} from './research/research.component';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
@@ -127,7 +126,6 @@ export function markedOptionsFactory(): MarkedOptions {
     StudiesProcessComponent,
     WorkflowResetDialogComponent,
     ResearchComponent,
-    ResearchRequestsComponent,
     LoadingComponent,
   ],
   imports: [

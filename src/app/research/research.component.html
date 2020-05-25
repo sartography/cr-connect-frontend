@@ -1,2 +1,31 @@
 <app-sign-in *ngIf="isSignedIn === false"></app-sign-in>
-<app-research-requests *ngIf="isSignedIn === true"></app-research-requests>
+<div class="intro" *ngIf="isSignedIn && user">
+<h1>Research Ramp-Up Toolkit</h1>
+<p>{{user.display_name}},</p>
+<p>Welcome to the Research Ramp-Up system.  From here you can create new
+requests to open up labs for a Principle Investigator. You can also see the status of pending approvals and you will have the ability to revise and resubmit requests when required.</p>
+
+  <div *ngIf="studies.length > 0">
+    <p >Please see below for information about your current request(s).</p>
+    <div *ngFor="let study of studies">
+      <h2>Research Request: <a [routerLink]="['/study', study.id, 'workflow', getWorkflow(study)]">{{study.title}}</a></h2>
+      <p>Status: {{study.protocol_builder_status}}</p>
+      <p>Progress: <app-study-progress [study]="study"></app-study-progress></p>
+    </div>
+
+    <div>
+      <p>You can create another request, if there you are submitting this on behalf of
+      multiple Principle Investigators.  But please submit only one request per PI.</p>
+      <button (click)="addStudy()">Start a new Request</button>
+    </div>
+
+  </div>
+
+  <div *ngIf="studies.length == 0">
+    To get started, you will need to complete a series of forms. Press the button below to
+    start the Workflow Process.
+    <button (click)="addStudy()">Start a new Request</button>
+  </div>
+
+
+</div>
