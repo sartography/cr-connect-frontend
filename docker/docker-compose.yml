@@ -48,8 +48,8 @@ services:
     environment:
       - UPGRADE_DB=true
       - RESET_DB=true
-      - LDAP_URL=ldap
-      - PB_BASE_URL=http://localhost:5001/v2.0/
+      - LDAP_URL=ldap:3890
+      - PB_BASE_URL=http://pb:5001/v2.0/
       - DB_HOST=db
       - DB_PORT=5432
       - DB_PASSWORD=crc_pass
@@ -61,6 +61,7 @@ services:
     ports:
       - "5000:5000"
     command: ./wait-for-it.sh pb:5001 -t 0 -- ./docker_run.sh
+
 
 #  # Uncomment for debugging
 #  frontend:
