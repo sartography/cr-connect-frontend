@@ -71,7 +71,7 @@ services:
 #    image: sartography/cr-connect-frontend:$E2E_TAG
 #    environment:
 #      - API_URL=http://localhost:5000/v1.0
-#      - BASE_HREF=/
+#      - BASE_HREF=/app
 #      - HOME_ROUTE=home
 #      - IRB_URL=http://localhost:5001
 #      - PORT0=4200
