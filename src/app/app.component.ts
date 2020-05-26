@@ -24,7 +24,4 @@ export class AppComponent {
     })
   }
 
-  get isSignedIn(): boolean {
-    return this.apiService.isSignedIn();
-  }
 }
