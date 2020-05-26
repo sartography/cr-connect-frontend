@@ -16,7 +16,7 @@ export class SignInComponent implements OnInit {
     {
       key: 'uid',
       type: 'input',
-      defaultValue: 'czn1z',
+      defaultValue: 'dhf8r',
       templateOptions: {
         required: true,
         label: 'UVA Computing ID',
@@ -25,7 +25,7 @@ export class SignInComponent implements OnInit {
     {
       key: 'email_address',
       type: 'input',
-      defaultValue: 'czn1z@virginia.edu',
+      defaultValue: 'dhf8r@virginia.edu',
       templateOptions: {
         required: true,
         type: 'email',
@@ -36,7 +36,7 @@ export class SignInComponent implements OnInit {
     {
       key: 'first_name',
       type: 'input',
-      defaultValue: 'Cordi',
+      defaultValue: 'Dan',
       templateOptions: {
         label: 'First Name',
       },
@@ -44,7 +44,7 @@ export class SignInComponent implements OnInit {
     {
       key: 'last_name',
       type: 'input',
-      defaultValue: 'Nator',
+      defaultValue: 'Funk',
       templateOptions: {
         label: 'Last Name',
       },

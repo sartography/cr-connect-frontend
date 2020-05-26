@@ -89,7 +89,7 @@ describe('Clinical Research Coordinator App', () => {
     expect(numStudiesAfter).toBeGreaterThan(numStudiesBefore);
   });
 
-  it('should navigate to a study', async () => {
+  xit('should navigate to a study', async () => {
     const studyRow = page.getElement('.study-row');
     const studyId = await studyRow.getAttribute('data-study-id');
     await expect(studyId).not.toBeUndefined();
