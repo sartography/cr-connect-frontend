@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Study} from 'sartography-workflow-lib';
-import {StudiesByStatus} from '../studies/studies.component';
+import {ApprovalsByStatus} from '../studies-rrp/studies-rrp.component';
 
 enum IrbHsrStatus {
   NOT_SUBMITTED = 'Not Submitted',
@@ -15,10 +15,8 @@ enum IrbHsrStatus {
   templateUrl: './studies-files-dashboard.component.html',
   styleUrls: ['./studies-files-dashboard.component.scss']
 })
-export class StudiesFilesDashboardComponent implements OnInit {
-  @Input() studiesByStatus: StudiesByStatus[];
-  @Input() beforeStudyIds: number[];
-  @Input() afterStudyIds: number[];
+export class ApprovalsFilesDashboardComponent implements OnInit {
+  @Input() approvalsByStatus: ApprovalsByStatus[];
   displayedColumns: string[] = [
     'id',
     'comments',
@@ -40,7 +38,7 @@ export class StudiesFilesDashboardComponent implements OnInit {
   //   return IrbHsrStatus.NOT_SUBMITTED;
   // }
 
-  studiesGroupId(studiesGroup: StudiesByStatus) {
-    return 'studies_title_' + studiesGroup.status.toString().toLowerCase();
+  approvalsGroupId(approvalsGroup: ApprovalsByStatus) {
+    return 'approvals_title_' + approvalsGroup.status.toString().toLowerCase();
   }
 }

@@ -1,1 +1,64 @@
-<h4>Simple Component</h4>
+<mat-expansion-panel
+  *ngFor="let approvalsGroup of approvalsByStatus; let i = index"
+  [expanded]="approvalsGroup.approvals.length > 0"
+  class="mat-elevation-z0"
+>
+  <mat-expansion-panel-header>
+    <mat-panel-title class="mat-h2" [id]="approvalsGroupId(approvalsGroup)">
+      {{approvalsGroup.statusLabel}}
+      <mat-chip-list>
+        <mat-chip [ngClass]="approvalsGroup.status.toString().toLowerCase()"
+                  [selectable]="false">{{approvalsGroup.approvals.length}}</mat-chip>
+      </mat-chip-list>
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="status-{{approvalsGroup.status.toString().toLowerCase()}}" fxLayout="row wrap" fxLayoutGap="40px">
+    <table
+      [dataSource]="approvalsGroup.dataSource"
+      class="mat-elevation-z0"
+      mat-table
+      matSort
+      [attr.aria-describedby]="approvalsGroupId(approvalsGroup)"
+    >
+      <ng-container matColumnDef="id">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_id"> PI (ID) School Dept</th>
+        <td *matCellDef="let approval" mat-cell>
+          {{approval.approver.display_name}}<br />
+          {{approval.approver.department}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="comments">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_comments"> Comments</th>
+        <td *matCellDef="let approval" mat-cell>{{approval.message}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="docs">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_docs"> Docs</th>
+        <td *matCellDef="let approval" mat-cell>
+          <ul>
+            <li *ngFor="let doc of approval.associated_files">
+              {{ doc.name }} ({{ doc.content_type }})
+            </li>
+          </ul>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="current_status">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_status"> Current Status</th>
+        <td *matCellDef="let approval" mat-cell>
+          {{approval.status}}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let approval; columns: displayedColumns;"
+        [attr.data-approval-id]="approval.id"
+        [ngClass]="{'study-row': true}"
+        [routerLink]="['/approval', approval.id]"
+      ></tr>
+    </table>
+  </div>
+</mat-expansion-panel>

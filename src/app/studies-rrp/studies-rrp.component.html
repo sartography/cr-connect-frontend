@@ -2,9 +2,7 @@
 
   <div *ngIf="!loading; else loadingMessage">
     <app-studies-files-dashboard
-      [studiesByStatus]="studiesByStatus"
-      [beforeStudyIds]="beforeStudyIds"
-      [afterStudyIds]="afterStudyIds"
+      [approvalsByStatus]="approvalsByStatus"
     ></app-studies-files-dashboard>
   </div>
 </div>
