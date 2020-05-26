@@ -1,4 +1,4 @@
-import {Location} from '@angular/common';
+import {APP_BASE_HREF, Location} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
@@ -94,6 +94,7 @@ describe('Router: App', () => {
         HttpClient,
         ApiService,
         {provide: 'APP_ENVIRONMENT', useValue: mockEnvironment},
+        {provide: APP_BASE_HREF, useValue: ''},
       ]
     });
 
