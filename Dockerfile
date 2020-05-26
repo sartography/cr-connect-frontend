@@ -24,12 +24,14 @@ COPY --from=builder /crc-frontend/nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./docker/substitute-env-variables.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
-# Substitute environment variables in nginx configuration and index.html
+# The entrypoint.sh script will run after the container finishes starting.
+# Substitutes environment variables in nginx configuration and index.html,
+# then reloads nginx.
 ENTRYPOINT ["./entrypoint.sh", \
             "/etc/nginx/html/index.html,/etc/nginx/conf.d/default.conf", \
             "PRODUCTION,API_URL,IRB_URL,HOME_ROUTE,BASE_HREF,PORT0", \
-            "/etc/nginx/html"]
+            "/etc/nginx/html", \
+            "true"]
 
 ### STAGE 3: Profit! ###
 CMD ["nginx", "-g", "daemon off;"]
-# CMD ["nginx", "-s", "reload"]
