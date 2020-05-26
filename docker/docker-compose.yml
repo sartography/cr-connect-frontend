@@ -32,23 +32,16 @@ services:
       - "5001:5001"
     command: ./wait-for-it.sh db:5432 -t 0 -- ./docker_run.sh
 
-  ldap:
-    container_name: ldap
-    image: tuxmonteiro/ldap-mock
-    ports:
-      - "3890"
-
   backend:
     container_name: backend
     depends_on:
        - db
        - pb
-       - ldap
     image: sartography/cr-connect-workflow:$E2E_TAG
     environment:
+      - TESTING=true
       - UPGRADE_DB=true
       - RESET_DB=true
-      - LDAP_URL=ldap:3890
       - PB_BASE_URL=http://pb:5001/v2.0/
       - DB_HOST=db
       - DB_PORT=5432
@@ -70,7 +63,6 @@ services:
 #    depends_on:
 #       - db
 #       - pb
-#       - ldap
 #       - backend
 #    image: sartography/cr-connect-frontend:$E2E_TAG
 #    environment:
