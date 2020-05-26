@@ -1,11 +1,12 @@
+import {APP_BASE_HREF} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {Component} from '@angular/core';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {ApiService, MockEnvironment} from 'sartography-workflow-lib';
-import {ResearchComponent} from './research.component';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
+import {ApiService, MockEnvironment} from 'sartography-workflow-lib';
+import {ResearchComponent} from './research.component';
 
 
 @Component({
@@ -42,7 +43,8 @@ describe('ResearchComponent', () => {
           useValue: {snapshot: {paramMap: convertToParamMap({study_id: '0'})}},
         },
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
-        ]
+        {provide: APP_BASE_HREF, useValue: ''},
+      ]
     })
       .compileComponents();
   }));

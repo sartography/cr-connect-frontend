@@ -1,3 +1,4 @@
+import {APP_BASE_HREF} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {async, TestBed} from '@angular/core/testing';
@@ -29,6 +30,7 @@ describe('AppComponent', () => {
         FakeMatIconRegistry,
         ApiService,
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+        {provide: APP_BASE_HREF, useValue: ''},
       ]
     }).compileComponents();
   }));

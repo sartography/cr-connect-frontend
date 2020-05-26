@@ -1,3 +1,4 @@
+import {APP_BASE_HREF} from '@angular/common';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {SimpleChanges} from '@angular/core';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
@@ -16,7 +17,6 @@ import {
   mockWorkflowSpec0,
   mockWorkflowTask0,
   mockWorkflowTask1,
-  mockWorkflowTasks,
   ToFormlyPipe
 } from 'sartography-workflow-lib';
 import {WorkflowFormComponent} from './workflow-form.component';
@@ -46,6 +46,7 @@ describe('WorkflowFormComponent', () => {
       providers: [
         ApiService,
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+        {provide: APP_BASE_HREF, useValue: ''},
         {provide: Router, useValue: mockRouter},
       ]
     })
