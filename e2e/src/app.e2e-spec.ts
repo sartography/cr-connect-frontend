@@ -42,7 +42,7 @@ describe('Clinical Research Coordinator App', () => {
     expect(page.getElements('#cta_protocol_builder').count()).toBeGreaterThan(0);
   });
 
-  it('should open Protocol Builder in new window', async () => {
+  xit('should open Protocol Builder in new window', async () => {
     expect(page.getElements('#cta_protocol_builder').count()).toEqual(1);
     expect(page.getElements('#cta_reload_studies').count()).toEqual(1);
 
@@ -58,7 +58,7 @@ describe('Clinical Research Coordinator App', () => {
     await page.switchFocusToTab(0);
   });
 
-  it('should load new study from Protocol Builder', async () => {
+  xit('should load new study from Protocol Builder', async () => {
     const numStudiesBefore = await page.getElements('.study-row').count();
 
     // Add a new study to Protocol Builder.
@@ -89,7 +89,7 @@ describe('Clinical Research Coordinator App', () => {
     expect(numStudiesAfter).toBeGreaterThan(numStudiesBefore);
   });
 
-  it('should navigate to a study', async () => {
+  xit('should navigate to a study', async () => {
     const studyRow = page.getElement('.study-row');
     const studyId = await studyRow.getAttribute('data-study-id');
     await expect(studyId).not.toBeUndefined();
@@ -97,7 +97,7 @@ describe('Clinical Research Coordinator App', () => {
     page.clickAndExpectRoute('.study-row', '/study/' + studyId);
   });
 
-  it('should display workflow spec categories in tabs', async () => {
+  xit('should display workflow spec categories in tabs', async () => {
     const numTabs = await page.getElements('.workflow-list-item').count();
     expect(numTabs).toBeGreaterThan(0);
 
@@ -108,7 +108,7 @@ describe('Clinical Research Coordinator App', () => {
     }
   });
 
-  it('should navigate to a workflow', async () => {
+  xit('should navigate to a workflow', async () => {
     expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
     const workflow = await page.getElement('.workflow-list-item .workflow-action');
     const studyId = await workflow.getAttribute('data-study-id');
@@ -119,7 +119,7 @@ describe('Clinical Research Coordinator App', () => {
     expect(newRoute.slice(0, expectedRoute.length)).toEqual(expectedRoute);
   });
 
-  it('should sign out', () => {
+  xit('should sign out', () => {
     page.clickElement('#nav_account');
     page.clickAndExpectRoute('#nav_sign_out', '/sign-out');
   });
