@@ -9,8 +9,6 @@ import {InboxComponent} from './inbox/inbox.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProfileComponent} from './profile/profile.component';
 import {ResearchComponent} from './research/research.component';
-import {SignInComponent} from './sign-in/sign-in.component';
-import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 
@@ -20,7 +18,6 @@ export class ThisEnvironment implements AppEnvironment {
   production = environment.production;
   api = environment.api;
   irbUrl = environment.irbUrl;
-  baseHref = environment.baseHref;
 }
 
 export const routes: Routes = [
@@ -66,14 +63,6 @@ export const routes: Routes = [
     component: ProfileComponent
   },
   {
-    path: 'sign-in',
-    component: SignInComponent
-  },
-  {
-    path: 'sign-out',
-    component: SignOutComponent
-  },
-  {
     path: 'session/:token',
     component: SessionRedirectComponent
   }
@@ -91,7 +80,6 @@ export const routes: Routes = [
   exports: [RouterModule],
   providers: [
     {provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment},
-    // {provide: APP_BASE_HREF, useValue: environment.baseHref},
   ]
 })
 export class AppRoutingModule {

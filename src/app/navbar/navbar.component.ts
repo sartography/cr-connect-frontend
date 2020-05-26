@@ -53,7 +53,6 @@ export class NavbarComponent {
           links: [
             {path: '/profile', id: 'nav_profile', label: 'Profile', icon: 'person'},
             {path: '/notifications', id: 'nav_notifications', label: 'Notifications', icon: 'notifications'},
-            {path: '/sign-out', id: 'nav_sign_out', label: 'Sign out', icon: 'exit_to_app'},
           ]
         }
       ];

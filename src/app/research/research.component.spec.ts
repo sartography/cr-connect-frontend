@@ -12,8 +12,6 @@ import {RouterTestingModule} from '@angular/router/testing';
   selector: 'app-sign-in',
   template: ''
 })
-class MockSignInComponent {
-}
 
 @Component({
   selector: 'app-studies',
@@ -30,7 +28,6 @@ describe('ResearchComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         ResearchComponent,
-        MockSignInComponent,
         MockStudiesComponent
       ],
       imports: [
@@ -58,11 +55,4 @@ describe('ResearchComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should check signed-in state', () => {
-    const result = component.isSignedIn;
-    expect(result).toBeDefined();
-    expect(typeof result).toEqual('boolean');
-  });
-
 });
