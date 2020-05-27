@@ -55,10 +55,12 @@ export class WorkflowComponent {
   };
 
   setCurrentTask(taskId: string) {
+    this.loading = true;
     this.api.setCurrentTaskForWorkflow(this.workflowId, taskId).subscribe(wf => {
       this.workflow = wf;
       this.currentTask = wf.next_task;
       this.updateUrl();
+      this.loading = false;
     });
   }
 
@@ -155,6 +157,7 @@ export class WorkflowComponent {
   }
 
   private updateTaskList(workflowId: number, forceTaskId?: string) {
+    this.loading = true;
     this.api.listWorkflowFiles(workflowId).subscribe(fms => {
       this.fileMetas = fms;
     });
@@ -165,21 +168,24 @@ export class WorkflowComponent {
         this.loading = false;
       });
 
-
       // The current task will be set by the backend, unless specifically forced.
       if (forceTaskId) {
         const navItem = this.workflow.navigation.filter(t => t.task_id === forceTaskId)[0];
-        if (navItem && navItem.task) {
-          this.currentTask = navItem.task;
+
+        // If it's a valid task and not the current workflow task,
+        // reset the token to the selected task.
+        if (navItem && navItem.task && (forceTaskId !== wf.next_task.id)) {
+          this.setCurrentTask(forceTaskId);
+        } else {
+          // The given task ID is no longer part of this workflow.
+          // Just set the current task to the workflow's next task.
+          this.currentTask = wf.next_task;
         }
       } else {
         this.currentTask = wf.next_task;
       }
 
       this.logTaskData(this.currentTask);
-      console.log('forceTaskId', forceTaskId);
-      console.log('wf.next_task', wf.next_task);
-      console.log('Update URL, at end of task_list', this.currentTask);
       this.updateUrl()
     });
   }
