@@ -11,7 +11,7 @@ import {
   Study
 } from 'sartography-workflow-lib';
 
-enum ApprovalStatus {
+export enum ApprovalStatus {
     WAITING = "WAITING",
     APPROVED = "APPROVED",
     DECLINED = "DECLINED",
@@ -41,6 +41,7 @@ export interface Approval {
     id: number;
     study_id: number;
     workflow_id: number;
+    message: string;
     status: ApprovalStatus;
     version: number;
     title: string;
@@ -73,10 +74,10 @@ export class StudiesRrpComponent {
   }
 
   getApprovals = function () {
-        var url = 'http://localhost:5000/v1.0/approval';
-        return this.httpClient
-            .get(url)
-            .pipe(catchError(this._handleError));
+    var url = 'http://localhost:5000/v1.0/approval';
+    return this.httpClient
+        .get(url)
+        .pipe(catchError(this._handleError));
   };
 
   loadApprovals() {

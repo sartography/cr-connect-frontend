@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
 import {Study} from 'sartography-workflow-lib';
 import {ApprovalsByStatus} from '../studies-rrp/studies-rrp.component';
+import {DialogContentExampleDialog} from './studies-files-modal';
+
 
 enum IrbHsrStatus {
   NOT_SUBMITTED = 'Not Submitted',
@@ -24,7 +27,7 @@ export class ApprovalsFilesDashboardComponent implements OnInit {
     'current_status',
   ];
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -40,5 +43,14 @@ export class ApprovalsFilesDashboardComponent implements OnInit {
 
   approvalsGroupId(approvalsGroup: ApprovalsByStatus) {
     return 'approvals_title_' + approvalsGroup.status.toString().toLowerCase();
+  }
+
+  editApproval(approval) {
+    const dialogRef = this.dialog.open(DialogContentExampleDialog, {
+      width: '400px',
+      data: {
+        approval: approval
+      }
+    });
   }
 }

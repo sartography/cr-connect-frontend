@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Edit Approval</h2>
+<mat-dialog-content class="mat-typography">
+  <h3>Please provide with a message for the PI</h3>
+  <textarea #approvalMessage></textarea>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close style="margin-right:90px">Cancel</button>
+  <button mat-button (click)='approve(approvalMessage.value)' [mat-dialog-close]="true" cdkFocusInitial>Approve</button>
+  <button mat-button (click)='reject(approvalMessage.value)' [mat-dialog-close]="true">Reject</button>
+</mat-dialog-actions>

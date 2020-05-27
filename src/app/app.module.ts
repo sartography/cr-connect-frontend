@@ -61,6 +61,7 @@ import {SignInComponent} from './sign-in/sign-in.component';
 import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesDashboardComponent} from './studies-dashboard/studies-dashboard.component';
 import {ApprovalsFilesDashboardComponent} from './studies-files-dashboard/studies-files-dashboard.component';
+import {DialogContentExampleDialog} from './studies-files-dashboard/studies-files-modal';
 import {StudiesProcessComponent} from './studies-process/studies-process.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudiesRrpComponent} from './studies-rrp/studies-rrp.component';
@@ -125,6 +126,7 @@ export function markedOptionsFactory(): MarkedOptions {
     ProcessViewerComponent,
     StudiesDashboardComponent,
     ApprovalsFilesDashboardComponent,
+    DialogContentExampleDialog,
     StudiesProcessComponent,
     WorkflowResetDialogComponent,
     ResearchComponent,
