@@ -5,19 +5,12 @@
 requests to open up labs for a Principle Investigator. You can also see the status of pending approvals and you will have the ability to revise and resubmit requests when required.</p>
 
   <div *ngIf="studies.length > 0">
-    <p >Please see below for information about your current request(s).</p>
+    <p >You have a request underway ... </p>
     <div *ngFor="let study of studies">
       <h2>Research Request: <a [routerLink]="['/study', study.id, 'workflow', getWorkflow(study)]">{{study.title}}</a></h2>
       <p>Status: {{study.protocol_builder_status}}</p>
       <p>Progress: <app-study-progress [study]="study"></app-study-progress></p>
     </div>
-
-    <div>
-      <p>You can create another request, if there you are submitting this on behalf of
-      multiple Principle Investigators.  But please submit only one request per PI.</p>
-      <button (click)="addStudy()">Start a new Request</button>
-    </div>
-
   </div>
 
   <div *ngIf="studies.length == 0">

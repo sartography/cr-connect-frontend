@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
+import { Location } from '@angular/common';
 import {
   ApiService,
   Workflow,
@@ -38,7 +39,8 @@ export class WorkflowComponent {
     private router: Router,
     private api: ApiService,
     private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private location: Location
   ) {
     this.loading = true;
     this.route.paramMap.subscribe(paramMap => {
@@ -185,5 +187,9 @@ export class WorkflowComponent {
   closePane() {
     this.toggleFilesDisplay(false);
     this.toggleDataDisplay(false);
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
