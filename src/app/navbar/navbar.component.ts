@@ -1,6 +1,6 @@
-import {Component, Inject, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {Router} from '@angular/router';
-import {ApiService, AppEnvironment, User, UserParams} from 'sartography-workflow-lib';
+import {ApiService, AppEnvironment, User} from 'sartography-workflow-lib';
 
 interface NavItem {
   path?: string;
@@ -20,6 +20,7 @@ export class NavbarComponent {
   navLinks: NavItem[];
   user: User;
   title: string;
+  showLabels: boolean;
 
   constructor(
     private router: Router,
@@ -28,6 +29,7 @@ export class NavbarComponent {
   ) {
     this._loadUser();
     this.title = environment.title;
+    this.showLabels = environment.homeRoute !== 'home';
   }
 
   isLinkActive(path: string) {
@@ -46,18 +48,25 @@ export class NavbarComponent {
   private _loadNavLinks() {
     if (this.user) {
       const displayName = this.user.display_name || this.user.first_name || this.user.last_name;
-      this.navLinks = [
-        {path: '/help', id: 'nav_help', label: 'Help & User Guide', icon: 'help'},
-        {path: '/inbox', id: 'nav_inbox', label: 'Inbox & Notifications', icon: 'notifications'},
-        {
-          id: 'nav_account', label: `${displayName} (${this.user.email_address})`,
-          icon: 'account_circle',
-          links: [
-            {path: '/profile', id: 'nav_profile', label: 'Profile', icon: 'person'},
-            {path: '/notifications', id: 'nav_notifications', label: 'Notifications', icon: 'notifications'},
-          ]
-        }
-      ];
+
+      if (this.environment.homeRoute === 'research') {
+        this.navLinks = [
+          {path: '/research', id: 'nav_research', label: 'Your Research Requests', icon: 'all_inbox'},
+        ];
+      } else {
+        this.navLinks = [
+          {path: '/help', id: 'nav_help', label: 'Help & User Guide', icon: 'help'},
+          {path: '/inbox', id: 'nav_inbox', label: 'Inbox & Notifications', icon: 'notifications'},
+          {
+            id: 'nav_account', label: `${displayName} (${this.user.email_address})`,
+            icon: 'account_circle',
+            links: [
+              {path: '/profile', id: 'nav_profile', label: 'Profile', icon: 'person'},
+              {path: '/notifications', id: 'nav_notifications', label: 'Notifications', icon: 'notifications'},
+            ]
+          }
+        ];
+      }
     }
   }
 }

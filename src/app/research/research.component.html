@@ -1,58 +1,63 @@
-<div class="intro" *ngIf="user">
-<h1>Research Ramp-Up Toolkit</h1>
-<p>{{user.display_name}},</p>
-<p>Welcome to the Research Ramp-Up system.  From here you can create new
-requests to open up labs for a Principle Investigator. You can also see the status of pending approvals and you will have the ability to revise and resubmit requests when required.</p>
+<div *ngIf="user" class="container" fxLayout="column" fxLayoutAlign="center start">
+  <div class="intro">
+    <h1 class="mat-display-4">Research Ramp-Up Toolkit</h1>
+    <p>{{user.display_name}},</p>
+    <p>Welcome to the Research Ramp-Up system. From here you can create new
+      requests to open up labs for a Principle Investigator. You can also see the status of pending approvals and you
+      will
+      have the ability to revise and resubmit requests when required.</p>
 
-  <div *ngIf="studies.length > 0">
-    <p *ngIf="studies.length === 1">You have a request underway... </p>
-    <p *ngIf="studies.length > 1">You have {{studies.length}} requests underway... </p>
-    <mat-card
-      [ngClass]="'dashboard'"
-    >
-      <mat-card-content>
-        <mat-list>
-          <mat-list-item
-            *ngFor="let study of studies"
-            [routerLink]="['/study', study.id, 'workflow', getWorkflow(study)]"
-            [ngClass]="
-              'workflow-list-item' +
-              ' workflow_state--' + study.protocol_builder_status
-            "
-          >
-            <h1 mat-line>Research Request</h1>
-            <h4 mat-line>{{study.title}}</h4>
-            <span fxFlex></span>
-            <span class="workflow-label">Status: {{study.protocol_builder_status}}</span>
-            <div
-              class="workflow-action"
-              [attr.data-study-id]="study.id"
-            >
-              <button
-                *ngIf="study.protocol_builder_status === status.ACTIVE.valueOf().toUpperCase()"
-                mat-flat-button
-                color="primary"
-              >Continue</button>
-            </div>
-            <div mat-line class="progress"><app-study-progress [study]="study"></app-study-progress></div>
-          </mat-list-item>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <div *ngIf="studies.length == 0">
-    <p>
-      To get started, you will need to complete a series of forms. Press the button below to start the Workflow Process.
-    </p>
-    <div fxLayout="row" fxLayoutAlign="center center">
-      <button
-        mat-flat-button
-        color="primary"
-        (click)="addStudy()"
-      >Start a new Request</button>
+    <div *ngIf="!studies || studies.length == 0">
+      <p>
+        To get started, you will need to complete a series of forms. Press the button below to start the Workflow
+        Process.
+      </p>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <button
+          (click)="addStudy()"
+          color="primary"
+          mat-flat-button
+        >Start a new Request
+        </button>
+      </div>
     </div>
   </div>
 
-
+  <h2 *ngIf="studies">Active requests</h2>
+  <mat-card
+    *ngIf="studies && studies.length > 0"
+    [ngClass]="'dashboard'"
+  >
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item
+          *ngFor="let study of studies"
+          [ngClass]="
+            'workflow-list-item' +
+            ' workflow_state--' + study.protocol_builder_status
+          "
+          [routerLink]="['/study', study.id, 'workflow', getWorkflow(study)]"
+        >
+          <h3 mat-line>{{study.title}}</h3>
+          <h4 mat-line>Research Request</h4>
+          <span fxFlex></span>
+          <span class="workflow-label">Status: {{study.protocol_builder_status}}</span>
+          <div
+            [attr.data-study-id]="study.id"
+            class="workflow-action"
+          >
+            <button
+              *ngIf="study.protocol_builder_status === status.ACTIVE.valueOf().toUpperCase()"
+              color="primary"
+              mat-flat-button
+            >Continue
+            </button>
+          </div>
+          <div class="progress" mat-line>
+            <app-study-progress [study]="study"></app-study-progress>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
 </div>

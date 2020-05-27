@@ -16,6 +16,11 @@
     padding-top: $header-height;
   }
 
+  .mat-display-4 {
+    color: $brand-primary;
+    border-bottom: 1px solid $brand-gray-light;
+  }
+
   mat-radio-button, .mat-checkbox {
     padding-right: 16px;
   }
