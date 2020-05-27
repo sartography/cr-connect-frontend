@@ -32,7 +32,7 @@ export class WorkflowComponent {
   displayData = (localStorage.getItem('displayData') === 'true');
   displayFiles = (localStorage.getItem('displayFiles') === 'true');
   fileMetas: FileMeta[];
-  loading: boolean;
+  loading = true;
 
   constructor(
     private route: ActivatedRoute,
