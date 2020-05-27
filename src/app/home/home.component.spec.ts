@@ -7,13 +7,6 @@ import {HomeComponent} from './home.component';
 
 
 @Component({
-  selector: 'app-sign-in',
-  template: ''
-})
-class MockSignInComponent {
-}
-
-@Component({
   selector: 'app-studies',
   template: ''
 })
@@ -28,7 +21,6 @@ describe('HomeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         HomeComponent,
-        MockSignInComponent,
         MockStudiesComponent
       ],
       imports: [
@@ -52,10 +44,5 @@ describe('HomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should check signed-in state', () => {
-    const result = component.isSignedIn;
-    expect(result).toBeDefined();
-    expect(typeof result).toEqual('boolean');
-  });
 
 });

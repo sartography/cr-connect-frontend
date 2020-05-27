@@ -1,8 +1,11 @@
+import {APP_BASE_HREF} from '@angular/common';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {SimpleChanges} from '@angular/core';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {Router} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
 import {MarkdownModule} from 'ngx-markdown';
@@ -14,7 +17,6 @@ import {
   mockWorkflowSpec0,
   mockWorkflowTask0,
   mockWorkflowTask1,
-  mockWorkflowTasks,
   ToFormlyPipe
 } from 'sartography-workflow-lib';
 import {WorkflowFormComponent} from './workflow-form.component';
@@ -23,6 +25,7 @@ describe('WorkflowFormComponent', () => {
   let httpMock: HttpTestingController;
   let component: WorkflowFormComponent;
   let fixture: ComponentFixture<WorkflowFormComponent>;
+  const mockRouter = {navigate: jasmine.createSpy('navigate')};
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -35,13 +38,16 @@ describe('WorkflowFormComponent', () => {
         FormlyMaterialModule,
         FormlyModule.forRoot(),
         HttpClientTestingModule,
+        MarkdownModule,
         MatProgressSpinnerModule,
         NoopAnimationsModule,
-        MarkdownModule
+        RouterTestingModule,
       ],
       providers: [
         ApiService,
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+        {provide: APP_BASE_HREF, useValue: ''},
+        {provide: Router, useValue: mockRouter},
       ]
     })
       .compileComponents();

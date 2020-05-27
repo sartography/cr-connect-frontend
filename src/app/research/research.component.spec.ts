@@ -1,7 +1,10 @@
+import {APP_BASE_HREF} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {Component} from '@angular/core';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ActivatedRoute, convertToParamMap} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
 import {ApiService, MockEnvironment} from 'sartography-workflow-lib';
 import {ResearchComponent} from './research.component';
 
@@ -10,8 +13,6 @@ import {ResearchComponent} from './research.component';
   selector: 'app-sign-in',
   template: ''
 })
-class MockSignInComponent {
-}
 
 @Component({
   selector: 'app-studies',
@@ -28,16 +29,21 @@ describe('ResearchComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         ResearchComponent,
-        MockSignInComponent,
         MockStudiesComponent
       ],
       imports: [
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        RouterTestingModule,
       ],
       providers: [
         HttpClient,
         ApiService,
+        {
+          provide: ActivatedRoute,
+          useValue: {snapshot: {paramMap: convertToParamMap({study_id: '0'})}},
+        },
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+        {provide: APP_BASE_HREF, useValue: ''},
       ]
     })
       .compileComponents();
@@ -51,11 +57,4 @@ describe('ResearchComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should check signed-in state', () => {
-    const result = component.isSignedIn;
-    expect(result).toBeDefined();
-    expect(typeof result).toEqual('boolean');
-  });
-
 });
