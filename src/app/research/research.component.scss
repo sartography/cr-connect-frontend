@@ -6,3 +6,11 @@
   padding: 50px;
 }
 
+mat-card {
+  cursor: pointer;
+
+  ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content,
+  ::ng-deep .mat-list-base .mat-list-option .mat-list-item-content {
+    padding: 2rem;
+  }
+}

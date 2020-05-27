@@ -5,12 +5,40 @@
 requests to open up labs for a Principle Investigator. You can also see the status of pending approvals and you will have the ability to revise and resubmit requests when required.</p>
 
   <div *ngIf="studies.length > 0">
-    <p >You have a request underway ... </p>
-    <div *ngFor="let study of studies">
-      <h2>Research Request: <a [routerLink]="['/study', study.id, 'workflow', getWorkflow(study)]">{{study.title}}</a></h2>
-      <p>Status: {{study.protocol_builder_status}}</p>
-      <p>Progress: <app-study-progress [study]="study"></app-study-progress></p>
-    </div>
+    <p *ngIf="studies.length === 1">You have a request underway... </p>
+    <p *ngIf="studies.length > 1">You have {{studies.length}} requests underway... </p>
+    <mat-card
+      [ngClass]="'dashboard'"
+    >
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item
+            *ngFor="let study of studies"
+            [routerLink]="['/study', study.id, 'workflow', getWorkflow(study)]"
+            [ngClass]="
+              'workflow-list-item' +
+              ' workflow_state--' + study.protocol_builder_status
+            "
+          >
+            <h1 mat-line>Research Request</h1>
+            <h4 mat-line>{{study.title}}</h4>
+            <span fxFlex></span>
+            <span class="workflow-label">Status: {{study.protocol_builder_status}}</span>
+            <div
+              class="workflow-action"
+              [attr.data-study-id]="study.id"
+            >
+              <button
+                *ngIf="study.protocol_builder_status === status.ACTIVE.valueOf().toUpperCase()"
+                mat-flat-button
+                color="primary"
+              >Continue</button>
+            </div>
+            <div mat-line class="progress"><app-study-progress [study]="study"></app-study-progress></div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
   </div>
 
   <div *ngIf="studies.length == 0">
