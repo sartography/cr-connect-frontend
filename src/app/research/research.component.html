@@ -1,4 +1,4 @@
-<div class="intro">
+<div class="intro" *ngIf="user">
 <h1>Research Ramp-Up Toolkit</h1>
 <p>{{user.display_name}},</p>
 <p>Welcome to the Research Ramp-Up system.  From here you can create new
@@ -14,9 +14,16 @@ requests to open up labs for a Principle Investigator. You can also see the stat
   </div>
 
   <div *ngIf="studies.length == 0">
-    To get started, you will need to complete a series of forms. Press the button below to
-    start the Workflow Process.
-    <button (click)="addStudy()">Start a new Request</button>
+    <p>
+      To get started, you will need to complete a series of forms. Press the button below to start the Workflow Process.
+    </p>
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="addStudy()"
+      >Start a new Request</button>
+    </div>
   </div>
 
 
