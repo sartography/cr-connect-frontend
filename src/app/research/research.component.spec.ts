@@ -3,6 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {Component} from '@angular/core';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {MatCardModule} from '@angular/material/card';
+import {MatListModule} from '@angular/material/list';
 import {ActivatedRoute, convertToParamMap} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ApiService, MockEnvironment} from 'sartography-workflow-lib';
@@ -33,6 +35,8 @@ describe('ResearchComponent', () => {
       ],
       imports: [
         HttpClientTestingModule,
+        MatCardModule,
+        MatListModule,
         RouterTestingModule,
       ],
       providers: [
