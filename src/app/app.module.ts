@@ -78,6 +78,7 @@ export class ThisEnvironment implements AppEnvironment {
   production = environment.production;
   api = environment.api;
   irbUrl = environment.irbUrl;
+  title = environment.title;
 }
 
 /**

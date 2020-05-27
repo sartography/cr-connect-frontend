@@ -2,8 +2,7 @@
   <mat-sidenav opened mode="side" position="start" [fixedInViewport]="true" [fixedTopGap]="64">
     <button
       mat-button
-      [routerLink]="['/study', studyId]"
-      [queryParams]="{category: workflowSpec && workflowSpec.category_id}"
+      (click)="goBack()"
       [ngClass]="'back'"
     >
       <mat-icon>chevron_left</mat-icon>
