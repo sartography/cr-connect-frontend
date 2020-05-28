@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {ApiService} from 'sartography-workflow-lib';
 import {ApprovalsByStatus, ApprovalFile} from '../studies-rrp/studies-rrp.component';
-import {DialogContentExampleDialog} from './studies-files-modal';
+import {ApprovalFilesDialogComponent} from './studies-files-modal';
 
 enum IrbHsrStatus {
   NOT_SUBMITTED = 'Not Submitted',
@@ -38,10 +38,10 @@ export class ApprovalsFilesDashboardComponent implements OnInit {
   }
 
   editApproval(approval) {
-    const dialogRef = this.dialog.open(DialogContentExampleDialog, {
+    const dialogRef = this.dialog.open(ApprovalFilesDialogComponent, {
       width: '400px',
       data: {
-        approval: approval
+        approval
       }
     });
   }

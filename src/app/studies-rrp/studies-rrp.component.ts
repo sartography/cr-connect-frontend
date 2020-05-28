@@ -12,16 +12,16 @@ import {
 } from 'sartography-workflow-lib';
 
 export enum ApprovalStatus {
-    WAITING = "WAITING",
-    APPROVED = "APPROVED",
-    DECLINED = "DECLINED",
-    CANCELED = "CANCELED"
+    WAITING = 'WAITING',
+    APPROVED = 'APPROVED',
+    DECLINED = 'DECLINED',
+    CANCELED = 'CANCELED'
 }
 enum ApprovalStatusLabels {
-    WAITING = "Waiting",
-    APPROVED = "Approved",
-    DECLINED = "Declined",
-    CANCELED = "Canceled"
+    WAITING = 'Waiting',
+    APPROVED = 'Approved',
+    DECLINED = 'Declined',
+    CANCELED = 'Canceled'
 }
 
 export interface ApprovalFile {
@@ -74,7 +74,7 @@ export class StudiesRrpComponent {
   }
 
   getApprovals = function () {
-    var url = this.environment.api + '/approval';
+    const url = this.environment.api + '/approval';
     return this.httpClient
         .get(url)
         .pipe(catchError(this._handleError));
