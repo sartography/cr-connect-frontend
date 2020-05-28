@@ -37,7 +37,7 @@
         <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_docs"> Docs</th>
         <td *matCellDef="let approval" mat-cell>
           <ul>
-            <li *ngFor="let doc of approval.associated_files">
+            <li *ngFor="let doc of approval.associated_files" (click)="downloadFile(doc)">
               {{ doc.name }} ({{ doc.content_type }})
             </li>
           </ul>
