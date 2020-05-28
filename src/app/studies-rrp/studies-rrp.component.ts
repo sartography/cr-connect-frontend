@@ -74,7 +74,7 @@ export class StudiesRrpComponent {
   }
 
   getApprovals = function () {
-    var url = 'http://localhost:5000/v1.0/approval';
+    var url = this.environment.api + '/approval';
     return this.httpClient
         .get(url)
         .pipe(catchError(this._handleError));

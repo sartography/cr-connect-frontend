@@ -13,10 +13,10 @@ export interface DialogData {
   approval: Approval;
 }
 
-
 @Component({
   selector: 'dialog-content-example-dialog',
-  templateUrl: 'dialog-content-example-dialog.html'
+  templateUrl: 'dialog-content-example-dialog.html',
+  styleUrls: ['./dialog-content-example-dialog.scss']
 })
 export class DialogContentExampleDialog {
   constructor(
@@ -25,10 +25,15 @@ export class DialogContentExampleDialog {
     private api: ApiService,
     private httpClient: HttpClient) {}
 
-  approve(message: string = 'Empty message') {
+  ngOnInit() {
+    let matFix = document.getElementsByClassName('mat-form-field-infix')[0] as HTMLElement;
+    matFix.style.paddingBottom = '2px';
+  }
+
+  approve(message: string) {
     let approval = this.data.approval;
-    var url = 'http://localhost:5000/v1.0/approval/' + approval.id;
-    approval.message = message;
+    const url = this.environment.api + `/approval/${approval.id}`;
+    approval.message = message ? message : 'Empty message';
     approval.status = ApprovalStatus['APPROVED'];
     return this.httpClient
         .put(url, approval)
@@ -46,10 +51,10 @@ export class DialogContentExampleDialog {
     );
   }
 
-  reject(message: string = 'Empty message') {
+  reject(message: string) {
     let approval = this.data.approval;
-    var url = 'http://localhost:5000/v1.0/approval/' + approval.id;
-    approval.message = message;
+    const url = this.environment.api + `/approval/${approval.id}`;
+    approval.message = message ? message : 'Empty message';
     approval.status = ApprovalStatus['DECLINED'];
     return this.httpClient
         .put(url, approval)
