@@ -1,6 +1,6 @@
-import {Component, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Inject, OnChanges, SimpleChanges} from '@angular/core';
 import {Router} from '@angular/router';
-import {ApiService, User} from 'sartography-workflow-lib';
+import {ApiService, AppEnvironment, User, UserParams} from 'sartography-workflow-lib';
 
 interface NavItem {
   path?: string;
@@ -19,12 +19,15 @@ interface NavItem {
 export class NavbarComponent {
   navLinks: NavItem[];
   user: User;
+  title: string;
 
   constructor(
     private router: Router,
     private api: ApiService,
+    @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
   ) {
     this._loadUser();
+    this.title = environment.title;
   }
 
   isLinkActive(path: string) {
@@ -52,7 +55,6 @@ export class NavbarComponent {
           links: [
             {path: '/profile', id: 'nav_profile', label: 'Profile', icon: 'person'},
             {path: '/notifications', id: 'nav_notifications', label: 'Notifications', icon: 'notifications'},
-            {path: '/sign-out', id: 'nav_sign_out', label: 'Sign out', icon: 'exit_to_app'},
           ]
         }
       ];

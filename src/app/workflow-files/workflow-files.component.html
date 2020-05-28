@@ -6,7 +6,7 @@
   <mat-list-item class="file" *ngFor="let fileMeta of fileMetas" (click)="downloadFile(fileMeta)">
     <mat-icon mat-list-icon [svgIcon]="'crc:' + fileMeta.type"></mat-icon>
     <div mat-line class="name">
-      {{ fileMeta.name }}
+      {{ fileMeta.name }} ({{fileMeta.id}})
       <span fxFlex></span>
       <mat-icon>save_alt</mat-icon>
     </div>

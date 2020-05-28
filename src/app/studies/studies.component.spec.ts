@@ -1,13 +1,12 @@
+import {APP_BASE_HREF} from '@angular/common';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
-import {MatExpansionModule} from '@angular/material/expansion';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {RouterTestingModule} from '@angular/router/testing';
-import {ApiService, MockEnvironment, mockStudies, mockStudy0} from 'sartography-workflow-lib';
+import {ApiService, MockEnvironment, mockStudies} from 'sartography-workflow-lib';
 import {StudiesComponent} from './studies.component';
 
 describe('StudiesComponent', () => {
@@ -31,6 +30,7 @@ describe('StudiesComponent', () => {
       providers: [
         ApiService,
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+        {provide: APP_BASE_HREF, useValue: ''},
       ]
     })
       .compileComponents();
