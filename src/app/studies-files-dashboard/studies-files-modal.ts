@@ -1,8 +1,8 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { catchError } from 'rxjs/operators';
-import {Approval, ApprovalStatus} from '../studies-rrp/studies-rrp.component';
+import {Approval, ApprovalStatus} from 'sartography-workflow-lib';
 
 import {
   ApiService,
@@ -13,56 +13,61 @@ export interface DialogData {
   approval: Approval;
 }
 
-
 @Component({
-  selector: 'dialog-content-example-dialog',
-  templateUrl: 'dialog-content-example-dialog.html'
+  selector: 'app-approval-files-dialog',
+  templateUrl: 'app-approval-files-dialog.html',
+  styleUrls: ['./app-approval-files-dialog.scss']
 })
-export class DialogContentExampleDialog {
+export class ApprovalFilesDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private api: ApiService,
     private httpClient: HttpClient) {}
 
-  approve(message: string = 'Empty message') {
-    let approval = this.data.approval;
-    var url = 'http://localhost:5000/v1.0/approval/' + approval.id;
-    approval.message = message;
-    approval.status = ApprovalStatus['APPROVED'];
+  ngOnInit() {
+    const matFix = document.getElementsByClassName('mat-form-field-infix')[0] as HTMLElement;
+    matFix.style.paddingBottom = '2px';
+  }
+
+  approve(message: string) {
+    const approval = this.data.approval;
+    const url = this.environment.api + `/approval/${approval.id}`;
+    approval.message = message ? message : 'Empty message';
+    approval.status = ApprovalStatus.APPROVED;
     return this.httpClient
         .put(url, approval)
         .subscribe(
         val => {
-          console.log("PUT call successful value returned in body",
+          console.log('PUT call successful value returned in body',
                       val);
         },
         response => {
-            console.log("PUT call in error", response);
+            console.log('PUT call in error', response);
         },
         () => {
-            console.log("The PUT observable is now completed.");
+            console.log('The PUT observable is now completed.');
         }
     );
   }
 
-  reject(message: string = 'Empty message') {
-    let approval = this.data.approval;
-    var url = 'http://localhost:5000/v1.0/approval/' + approval.id;
-    approval.message = message;
-    approval.status = ApprovalStatus['DECLINED'];
+  reject(message: string) {
+    const approval = this.data.approval;
+    const url = this.environment.api + `/approval/${approval.id}`;
+    approval.message = message ? message : 'Empty message';
+    approval.status = ApprovalStatus.DECLINED;
     return this.httpClient
         .put(url, approval)
         .subscribe(
         val => {
-          console.log("PUT call successful value returned in body",
+          console.log('PUT call successful value returned in body',
                       val);
         },
         response => {
-            console.log("PUT call in error", response);
+            console.log('PUT call in error', response);
         },
         () => {
-            console.log("The PUT observable is now completed.");
+            console.log('The PUT observable is now completed.');
         }
     );
   }

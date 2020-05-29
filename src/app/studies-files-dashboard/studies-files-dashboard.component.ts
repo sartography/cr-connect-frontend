@@ -1,9 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {Study} from 'sartography-workflow-lib';
+import {ApiService, ApprovalFile} from 'sartography-workflow-lib';
 import {ApprovalsByStatus} from '../studies-rrp/studies-rrp.component';
-import {DialogContentExampleDialog} from './studies-files-modal';
-
+import {ApprovalFilesDialogComponent} from './studies-files-modal';
 
 enum IrbHsrStatus {
   NOT_SUBMITTED = 'Not Submitted',
@@ -27,30 +26,53 @@ export class ApprovalsFilesDashboardComponent implements OnInit {
     'current_status',
   ];
 
-  constructor(public dialog: MatDialog) {
+  constructor(public dialog: MatDialog,
+    private api: ApiService) {
   }
 
   ngOnInit(): void {
   }
-
-  // isNewStudy(studyId: number) {
-  //   return !this.beforeStudyIds.includes(studyId);
-  // }
-
-  // getIrbHsrStatus(study: Study) {
-  //   return IrbHsrStatus.NOT_SUBMITTED;
-  // }
 
   approvalsGroupId(approvalsGroup: ApprovalsByStatus) {
     return 'approvals_title_' + approvalsGroup.status.toString().toLowerCase();
   }
 
   editApproval(approval) {
-    const dialogRef = this.dialog.open(DialogContentExampleDialog, {
+    const dialogRef = this.dialog.open(ApprovalFilesDialogComponent, {
       width: '400px',
       data: {
-        approval: approval
+        approval
       }
+    });
+  }
+
+  downloadFile(fileMeta: ApprovalFile): void {
+    this.api.getFileData(fileMeta.id).subscribe(response => {
+      // It is necessary to create a new response object with mime-type explicitly set
+      // otherwise only Chrome works like it should
+      const newBlob = new Blob([response.body], {type: fileMeta.content_type});
+
+      // IE doesn't allow using a blob object directly as link href
+      // instead it is necessary to use msSaveOrOpenBlob
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(newBlob);
+        return;
+      }
+
+      // For other browsers:
+      // Create a link pointing to the ObjectURL containing the blob.
+      const data = window.URL.createObjectURL(newBlob);
+      const link = document.createElement('a');
+      link.href = data;
+      link.download = fileMeta.name;
+      // this is necessary as link.click() does not work on the latest firefox
+      link.dispatchEvent(new MouseEvent('click', {bubbles: true, cancelable: true, view: window}));
+
+      setTimeout(() => {
+        // For Firefox it is necessary to delay revoking the ObjectURL
+        window.URL.revokeObjectURL(data);
+        link.remove();
+      }, 100);
     });
   }
 }
