@@ -60,8 +60,11 @@ import {ProcessViewerComponent} from './process-viewer/process-viewer.component'
 import {ProfileComponent} from './profile/profile.component';
 import {ResearchComponent} from './research/research.component';
 import {StudiesDashboardComponent} from './studies-dashboard/studies-dashboard.component';
+import {ApprovalsFilesDashboardComponent} from './studies-files-dashboard/studies-files-dashboard.component';
+import {ApprovalFilesDialogComponent} from './studies-files-dashboard/studies-files-modal';
 import {StudiesProcessComponent} from './studies-process/studies-process.component';
 import {StudiesComponent} from './studies/studies.component';
+import {StudiesRrpComponent} from './studies-rrp/studies-rrp.component';
 import {StudyProgressComponent} from './study-progress/study-progress.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
@@ -124,6 +127,7 @@ export function markedOptionsFactory(): MarkedOptions {
     NotificationsComponent,
     ProfileComponent,
     StudiesComponent,
+    StudiesRrpComponent,
     StudyComponent,
     StudyProgressComponent,
     WorkflowComponent,
@@ -134,6 +138,8 @@ export function markedOptionsFactory(): MarkedOptions {
     CodeViewerComponent,
     ProcessViewerComponent,
     StudiesDashboardComponent,
+    ApprovalsFilesDashboardComponent,
+    ApprovalFilesDialogComponent,
     StudiesProcessComponent,
     WorkflowResetDialogComponent,
     ResearchComponent,
