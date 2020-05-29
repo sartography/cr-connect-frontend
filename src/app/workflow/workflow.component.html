@@ -20,8 +20,10 @@
         Start over
       </button>
     </h3>
-    <app-workflow-steps-menu-list *ngIf="workflow"
+    <app-workflow-steps-menu-list
+      *ngIf="workflow"
       [navList]="workflow.navigation"
+      [currentTask]="currentTask"
       (taskSelected)="setCurrentTask($event)"
     ></app-workflow-steps-menu-list>
   </mat-sidenav>
