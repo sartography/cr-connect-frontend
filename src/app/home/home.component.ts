@@ -7,18 +7,8 @@ import {AppEnvironment} from 'sartography-workflow-lib';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  isSignedIn: boolean;
 
   constructor(
-    @Inject('APP_ENVIRONMENT') private environment: AppEnvironment
-  ) {
-    if (!this.environment.production) {
-      const token = localStorage.getItem('token');
-      console.log('HomeComponent constructor token', token)
-      this.isSignedIn = !!token;
-    } else {
-      this.isSignedIn = true;
-    }
-  }
+    @Inject('APP_ENVIRONMENT') private environment: AppEnvironment) {}
 
 }

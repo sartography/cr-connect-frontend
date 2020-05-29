@@ -9,6 +9,7 @@ import {WorkflowNavItem, WorkflowTask, WorkflowTaskState} from 'sartography-work
 
 export class WorkflowStepsMenuListComponent implements OnInit {
   @Input() navList: WorkflowNavItem[];
+  @Input() currentTask: WorkflowTask;
   @Output() taskSelected: EventEmitter<string> = new EventEmitter();
   taskStates = WorkflowTaskState;
 
@@ -17,6 +18,7 @@ export class WorkflowStepsMenuListComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('navList', this.navList);
+    console.log('currentTask', this.currentTask);
   }
 
   selectTask(taskId: string) {

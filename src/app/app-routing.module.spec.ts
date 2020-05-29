@@ -1,4 +1,4 @@
-import {Location} from '@angular/common';
+import {APP_BASE_HREF, Location} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {TestBed} from '@angular/core/testing';
@@ -32,8 +32,6 @@ import {InboxComponent} from './inbox/inbox.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProfileComponent} from './profile/profile.component';
-import {SignInComponent} from './sign-in/sign-in.component';
-import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
@@ -62,8 +60,6 @@ describe('Router: App', () => {
         NotificationsComponent,
         ProfileComponent,
         SessionRedirectComponent,
-        SignInComponent,
-        SignOutComponent,
         StudiesComponent,
         StudyComponent,
         ToFormlyPipe,
@@ -98,6 +94,7 @@ describe('Router: App', () => {
         HttpClient,
         ApiService,
         {provide: 'APP_ENVIRONMENT', useValue: mockEnvironment},
+        {provide: APP_BASE_HREF, useValue: ''},
       ]
     });
 

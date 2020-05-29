@@ -1,0 +1,35 @@
+@import '../../config';
+
+.container {
+  padding: 6em 8em;
+}
+
+.intro, .requests {
+  width: 100%;
+}
+
+h2 { margin-top: 2rem; }
+
+mat-card.dashboard {
+  cursor: pointer;
+  margin: 0px;
+  width: 100%;
+
+  .mat-card-content {
+    padding: 0;
+  }
+
+  ::ng-deep .mat-list-base .mat-list-item.mat-3-line,
+  ::ng-deep .mat-list-base .mat-list-option.mat-3-line {
+    height: 128px;
+  }
+
+  ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content,
+  ::ng-deep .mat-list-base .mat-list-option .mat-list-item-content {
+    padding: 2rem 2em;
+  }
+
+  .progress {
+    margin-top: 1rem;
+  }
+}

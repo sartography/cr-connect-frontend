@@ -2,7 +2,11 @@
   <ng-container *ngFor="let navItem of navList">
     <mat-list-item
       (click)="selectTask(navItem.task_id)"
-      [ngClass]="{'task': true, 'active': false, 'disabled': navItem.state === taskStates.LIKELY || navItem.state === taskStates.FUTURE || !navItem.task_id}"
+      [ngClass]="{
+        'task': true,
+        'active': currentTask && currentTask.id === navItem.task_id,
+        'disabled': navItem.state === taskStates.LIKELY || navItem.state === taskStates.FUTURE || !navItem.task_id
+      }"
     ><span class="indent_{{navItem.indent}}">{{ navItem.title }}</span>
       <span fxFlex></span>
       <mat-icon *ngIf="navItem.state === taskStates.COMPLETED">check</mat-icon>
