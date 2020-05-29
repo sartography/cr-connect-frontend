@@ -51,7 +51,7 @@
     "ngx-page-scroll-core": "^7.0.0",
     "rfdc": "^1.1.4",
     "rxjs": "~6.5.4",
-    "sartography-workflow-lib": "0.0.207",
+    "sartography-workflow-lib": "0.0.208",
     "ts-md5": "^1.2.7",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
