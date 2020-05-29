@@ -49,7 +49,7 @@ export const routes: Routes = [
     component: WorkflowComponent
   },
   {
-    path: 'rrp',
+    path: 'approvals',
     component: StudiesRrpComponent
   },
   {
