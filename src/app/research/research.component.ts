@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ApiService, AppEnvironment, User, Workflow} from 'sartography-workflow-lib';
+import {ApiService, AppEnvironment, ProtocolBuilderStatus, User, Workflow} from 'sartography-workflow-lib';
 import {Study} from 'sartography-workflow-lib/lib/types/study';
 import {Router} from '@angular/router';
 
@@ -12,6 +12,7 @@ export class ResearchComponent implements OnInit  {
   isSignedIn: boolean;
   user: User;
   studies: Study[] = [];
+  status = ProtocolBuilderStatus;
 
   constructor(
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,

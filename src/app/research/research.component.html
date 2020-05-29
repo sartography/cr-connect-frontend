@@ -1,23 +1,71 @@
-<div class="intro">
-<h1>Research Ramp-Up Toolkit</h1>
-<p>{{user.display_name}},</p>
-<p>Welcome to the Research Ramp-Up system.  From here you can create new
-requests to open up labs for a Principle Investigator. You can also see the status of pending approvals and you will have the ability to revise and resubmit requests when required.</p>
+<div *ngIf="user" class="container" fxLayout="column" fxLayoutAlign="center start">
+  <div class="intro">
+    <h1 class="mat-display-4">Research Ramp-Up Toolkit</h1>
+    <p>{{user.display_name}},</p>
 
-  <div *ngIf="studies.length > 0">
-    <p >You have a request underway ... </p>
-    <div *ngFor="let study of studies">
-      <h2>Research Request: <a [routerLink]="['/study', study.id, 'workflow', getWorkflow(study)]">{{study.title}}</a></h2>
-      <p>Status: {{study.protocol_builder_status}}</p>
-      <p>Progress: <app-study-progress [study]="study"></app-study-progress></p>
+
+    <p>Welcome to the Research Ramp-Up Plan workflow process where each Principle Investigator can:</p>
+    <ul>
+      <li>create a Research Ramp-up Plan outlining how each lab and/or office space will comply with Phase I [Research
+        Ramp-up Guidance](https://research.virginia.edu/research-ramp-guidance)
+      </li>
+      <li>submit a request for approval based on the Research Ramp-up Plan and supporting documents</li>
+      <li>check on the status of pending requests and revise and resubmit requests, if required.</li>
+      <li>upon receiving request approval, notify the Area Monitor(s) assigned to the space(s) in the request that all
+        compliance requirements have been met and reopening will proceed.
+      </li>
+    </ul>
+    <div *ngIf="!studies || studies.length == 0">
+      <p>To get started, you will need to complete a series of forms. Press the button below to start the workflow
+        process.</p>
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <button
+          (click)="addStudy()"
+          color="primary"
+          mat-flat-button
+        >Start Request
+        </button>
+      </div>
     </div>
   </div>
 
-  <div *ngIf="studies.length == 0">
-    To get started, you will need to complete a series of forms. Press the button below to
-    start the Workflow Process.
-    <button (click)="addStudy()">Start a new Request</button>
-  </div>
-
-
+  <ng-container *ngIf="studies && studies.length > 0">
+    <h2>Request</h2>
+    <mat-card
+      *ngIf="studies && studies.length > 0"
+      [ngClass]="'dashboard'"
+    >
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item
+            *ngFor="let study of studies"
+            [ngClass]="
+            'workflow-list-item' +
+            ' workflow_state--' + study.protocol_builder_status
+          "
+            [routerLink]="['/study', study.id, 'workflow', getWorkflow(study)]"
+          >
+            <h3 mat-line>{{study.title}}</h3>
+            <h4 mat-line>Research Request</h4>
+            <span fxFlex></span>
+            <span class="workflow-label">Status: {{study.protocol_builder_status}}</span>
+            <div
+              [attr.data-study-id]="study.id"
+              class="workflow-action"
+            >
+              <button
+                *ngIf="study.protocol_builder_status === status.ACTIVE.valueOf().toUpperCase()"
+                color="primary"
+                mat-flat-button
+              >Continue
+              </button>
+            </div>
+            <div class="progress" mat-line>
+              <app-study-progress [study]="study"></app-study-progress>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
 </div>
