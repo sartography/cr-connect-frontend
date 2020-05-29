@@ -1,5 +1,4 @@
-import {Component, Inject, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {
   ApiService,
@@ -22,7 +21,7 @@ export interface StudiesByStatus {
   templateUrl: './studies.component.html',
   styleUrls: ['./studies.component.scss']
 })
-export class StudiesComponent {
+export class StudiesComponent implements OnInit {
   beforeStudyIds: number[];
   afterStudyIds: number[];
   studiesByStatus: StudiesByStatus[] = [];
@@ -35,6 +34,10 @@ export class StudiesComponent {
     private api: ApiService,
   ) {
     this.irbUrl = environment.irbUrl;
+  }
+
+
+  ngOnInit(): void {
     this.loadStudies();
   }
 
@@ -71,4 +74,5 @@ export class StudiesComponent {
       this.loading = false;
     });
   }
+
 }

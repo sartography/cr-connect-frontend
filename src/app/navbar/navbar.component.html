@@ -5,8 +5,8 @@
     id="nav_home"
     mat-button
   >
-    <img class="logo" src="/assets/logo/uva_rotunda.svg" alt="University of Virginia">
-    CR Connect
+    <img class="logo" src="assets/logo/uva_rotunda.svg" alt="University of Virginia">
+    {{title}}
   </a>
   <div class="flex-spacer"></div>
   <ng-container *ngFor="let link of navLinks">
@@ -17,7 +17,8 @@
        mat-button
        [matTooltip]="link.label"
     >
-      <mat-icon>{{link.icon}}</mat-icon>
+      <mat-icon [ngClass]="{'with-label': showLabels}">{{link.icon}}</mat-icon>
+      <ng-container *ngIf="showLabels">{{link.label}}</ng-container>
     </a>
 
     <ng-container *ngIf="link.links">
@@ -44,4 +45,9 @@
       </mat-menu>
     </ng-container>
   </ng-container>
+
+  <span class="user-info">
+    {{user.display_name}}
+    ({{user.uid}})
+  </span>
 </nav>

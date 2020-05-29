@@ -4,7 +4,7 @@
 // Define a custom typography config that overrides the font-family
 $custom-typography: mat-typography-config(
   $font-family:   $body-font-family,
-  $display-4:     mat-typography-level(2.8032rem, 1.0925, 700, $body-font-family),
+  $display-4:     mat-typography-level(3.75rem, 1.0925, 700, $body-font-family),
   $display-3:     mat-typography-level(2.4917rem, 1.1037, 700, $body-font-family),
   $display-2:     mat-typography-level(2.2148rem, 1.1287, 700, $body-font-family),
   $display-1:     mat-typography-level(1.9688rem, 1.1429, 700, $body-font-family),
