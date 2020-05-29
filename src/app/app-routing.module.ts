@@ -64,7 +64,7 @@ export const routes: Routes = [
     component: ProfileComponent
   },
   {
-    path: 'session/:token',
+    path: 'session',
     component: SessionRedirectComponent
   }
 
