@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {ApiService} from 'sartography-workflow-lib';
-import {ApprovalsByStatus, ApprovalFile} from '../studies-rrp/studies-rrp.component';
+import {ApiService, ApprovalFile} from 'sartography-workflow-lib';
+import {ApprovalsByStatus} from '../studies-rrp/studies-rrp.component';
 import {ApprovalFilesDialogComponent} from './studies-files-modal';
 
 enum IrbHsrStatus {

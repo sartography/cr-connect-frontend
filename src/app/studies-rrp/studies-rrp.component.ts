@@ -6,48 +6,48 @@ import { catchError } from 'rxjs/operators';
 import {
   ApiService,
   AppEnvironment,
-  ProtocolBuilderStatus,
-  ProtocolBuilderStatusLabels,
-  Study
+  Approval,
+  ApprovalStatus,
+  ApprovalStatusLabels
 } from 'sartography-workflow-lib';
 
-export enum ApprovalStatus {
-    WAITING = 'WAITING',
-    APPROVED = 'APPROVED',
-    DECLINED = 'DECLINED',
-    CANCELED = 'CANCELED'
-}
-enum ApprovalStatusLabels {
-    WAITING = 'Waiting',
-    APPROVED = 'Approved',
-    DECLINED = 'Declined',
-    CANCELED = 'Canceled'
-}
+// export enum ApprovalStatus {
+//     WAITING = 'WAITING',
+//     APPROVED = 'APPROVED',
+//     DECLINED = 'DECLINED',
+//     CANCELED = 'CANCELED'
+// }
+// enum ApprovalStatusLabels {
+//     WAITING = 'Waiting',
+//     APPROVED = 'Approved',
+//     DECLINED = 'Declined',
+//     CANCELED = 'Canceled'
+// }
 
-export interface ApprovalFile {
-    id: number;
-    name: string;
-    content_type: string
-}
+// export interface ApprovalFile {
+//     id: number;
+//     name: string;
+//     content_type: string
+// }
 
-export interface Approver {
-    uid: string;
-    display_name: string;
-    title: string;
-    department: string;
-}
+// export interface Approver {
+//     uid: string;
+//     display_name: string;
+//     title: string;
+//     department: string;
+// }
 
-export interface Approval {
-    id: number;
-    study_id: number;
-    workflow_id: number;
-    message: string;
-    status: ApprovalStatus;
-    version: number;
-    title: string;
-    associated_files: ApprovalFile[];
-    approver: Approver;
-}
+// export interface Approval {
+//     id: number;
+//     study_id: number;
+//     workflow_id: number;
+//     message: string;
+//     status: ApprovalStatus;
+//     version: number;
+//     title: string;
+//     associated_files: ApprovalFile[];
+//     approver: Approver;
+// }
 
 export interface ApprovalsByStatus {
   status: ApprovalStatus;
@@ -73,15 +73,8 @@ export class StudiesRrpComponent {
     this.loadApprovals();
   }
 
-  getApprovals = function () {
-    const url = this.environment.api + '/approval';
-    return this.httpClient
-        .get(url)
-        .pipe(catchError(this._handleError));
-  };
-
   loadApprovals() {
-    this.getApprovals().subscribe(allApprovals => {
+    this.api.getApprovals().subscribe(allApprovals => {
       // const sorted = allStudies.sort((a, b) => {
       //   const aTime = new Date(a.last_updated).getTime();
       //   const bTime = new Date(b.last_updated).getTime();

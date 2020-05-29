@@ -35,18 +35,20 @@
 
       <ng-container matColumnDef="docs">
         <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_docs"> Docs</th>
-        <td *matCellDef="let approval" mat-cell>
-          <ul>
-            <li *ngFor="let doc of approval.associated_files" (click)="downloadFile(doc)">
-              {{ doc.name }} ({{ doc.content_type }})
-            </li>
-          </ul>
+        <td *matCellDef="let approval" [ngClass]="'docs-cell'" mat-cell>
+          <mat-nav-list>
+            <mat-list-item *ngFor="let doc of approval.associated_files" (click)="downloadFile(doc)">
+              <span>{{ doc.name }}</span>
+              <span fxFlex></span>
+              <mat-icon>save_alt</mat-icon>
+            </mat-list-item>
+          </mat-nav-list>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="current_status">
         <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_status"> </th>
-        <td *matCellDef="let approval" mat-cell>
+        <td *matCellDef="let approval" mat-cell align="center">
           <a mat-button mat-raised-button (click)="editApproval(approval)" >Edit Approval</a>
         </td>
       </ng-container>

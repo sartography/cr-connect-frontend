@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { catchError } from 'rxjs/operators';
-import {Approval, ApprovalStatus} from '../studies-rrp/studies-rrp.component';
+import {Approval, ApprovalStatus} from 'sartography-workflow-lib';
 
 import {
   ApiService,
