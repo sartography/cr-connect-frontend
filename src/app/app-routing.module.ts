@@ -5,12 +5,11 @@ import {AppEnvironment, SessionRedirectComponent} from 'sartography-workflow-lib
 import {environment} from '../environments/environment.runtime';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
+import {StudiesRrpComponent} from './studies-rrp/studies-rrp.component';
 import {InboxComponent} from './inbox/inbox.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProfileComponent} from './profile/profile.component';
 import {ResearchComponent} from './research/research.component';
-import {SignInComponent} from './sign-in/sign-in.component';
-import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 
@@ -20,7 +19,7 @@ export class ThisEnvironment implements AppEnvironment {
   production = environment.production;
   api = environment.api;
   irbUrl = environment.irbUrl;
-  baseHref = environment.baseHref;
+  title = environment.title;
 }
 
 export const routes: Routes = [
@@ -50,6 +49,10 @@ export const routes: Routes = [
     component: WorkflowComponent
   },
   {
+    path: 'rrp',
+    component: StudiesRrpComponent
+  },
+  {
     path: 'help',
     component: HelpComponent
   },
@@ -66,15 +69,7 @@ export const routes: Routes = [
     component: ProfileComponent
   },
   {
-    path: 'sign-in',
-    component: SignInComponent
-  },
-  {
-    path: 'sign-out',
-    component: SignOutComponent
-  },
-  {
-    path: 'session/:token',
+    path: 'session',
     component: SessionRedirectComponent
   }
 
@@ -91,7 +86,6 @@ export const routes: Routes = [
   exports: [RouterModule],
   providers: [
     {provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment},
-    {provide: APP_BASE_HREF, useValue: environment.baseHref},
   ]
 })
 export class AppRoutingModule {

@@ -9,7 +9,7 @@
       label="{{cat.display_name}}"
       (click)="selectCategory(cat.id)"
     >
-      <mat-card class="mat-elevation-z0">
+      <mat-card [ngClass]="'dashboard'">
         <mat-card-content>
           <mat-list>
             <mat-list-item

@@ -1,5 +1,5 @@
 import {ClipboardModule} from '@angular/cdk/clipboard';
-import {APP_BASE_HREF} from '@angular/common';
+import {APP_BASE_HREF, PlatformLocation} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Injectable, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -58,13 +58,13 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProcessViewerComponent} from './process-viewer/process-viewer.component';
 import {ProfileComponent} from './profile/profile.component';
-import {ResearchRequestsComponent} from './research-requests/research-requests.component';
 import {ResearchComponent} from './research/research.component';
-import {SignInComponent} from './sign-in/sign-in.component';
-import {SignOutComponent} from './sign-out/sign-out.component';
 import {StudiesDashboardComponent} from './studies-dashboard/studies-dashboard.component';
+import {ApprovalsFilesDashboardComponent} from './studies-files-dashboard/studies-files-dashboard.component';
+import {ApprovalFilesDialogComponent} from './studies-files-dashboard/studies-files-modal';
 import {StudiesProcessComponent} from './studies-process/studies-process.component';
 import {StudiesComponent} from './studies/studies.component';
+import {StudiesRrpComponent} from './studies-rrp/studies-rrp.component';
 import {StudyProgressComponent} from './study-progress/study-progress.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
@@ -81,7 +81,22 @@ export class ThisEnvironment implements AppEnvironment {
   production = environment.production;
   api = environment.api;
   irbUrl = environment.irbUrl;
-  baseHref = environment.baseHref;
+  title = environment.title;
+}
+
+/**
+ * This function is used internal to get a string instance of the `<base href="" />` value from `index.html`.
+ * This is an exported function, instead of a private function or inline lambda, to prevent this error:
+ *
+ * `Error encountered resolving symbol values statically.`
+ * `Function calls are not supported.`
+ * `Consider replacing the function or lambda with a reference to an exported function.`
+ *
+ * @param platformLocation an Angular service used to interact with a browser's URL
+ * @return a string instance of the `<base href="" />` value from `index.html`
+ */
+export function getBaseHref(platformLocation: PlatformLocation): string {
+  return platformLocation.getBaseHrefFromDOM();
 }
 
 export function markedOptionsFactory(): MarkedOptions {
@@ -111,9 +126,8 @@ export function markedOptionsFactory(): MarkedOptions {
     NavbarComponent,
     NotificationsComponent,
     ProfileComponent,
-    SignInComponent,
-    SignOutComponent,
     StudiesComponent,
+    StudiesRrpComponent,
     StudyComponent,
     StudyProgressComponent,
     WorkflowComponent,
@@ -124,10 +138,11 @@ export function markedOptionsFactory(): MarkedOptions {
     CodeViewerComponent,
     ProcessViewerComponent,
     StudiesDashboardComponent,
+    ApprovalsFilesDashboardComponent,
+    ApprovalFilesDialogComponent,
     StudiesProcessComponent,
     WorkflowResetDialogComponent,
     ResearchComponent,
-    ResearchRequestsComponent,
     LoadingComponent,
   ],
   imports: [
@@ -181,9 +196,9 @@ export function markedOptionsFactory(): MarkedOptions {
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
     ApiService,
     {provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment},
-    {provide: APP_BASE_HREF, useValue: environment.baseHref},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    {provide: APP_BASE_HREF, useFactory: getBaseHref, deps: [PlatformLocation]},
     {
       provide: HIGHLIGHT_OPTIONS,
       useValue: {

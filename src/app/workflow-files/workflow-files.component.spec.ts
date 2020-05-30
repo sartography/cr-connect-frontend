@@ -1,3 +1,4 @@
+import {APP_BASE_HREF} from '@angular/common';
 import {HttpHeaders} from '@angular/common/http';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
@@ -43,6 +44,7 @@ describe('WorkflowFilesComponent', () => {
           useValue: {paramMap: of(convertToParamMap({study_id: '0', workflow_id: '0', task_id: '0'}))}
         },
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+        {provide: APP_BASE_HREF, useValue: ''},
         {provide: Router, useValue: mockRouter},
       ]
 
