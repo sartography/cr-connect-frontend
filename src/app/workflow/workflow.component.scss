@@ -44,7 +44,13 @@ mat-list-item.disabled {
   background-color: $brand-gray-shade-3;
   padding: 2rem 0;
 
-  .close-pane {
+  p {
+    margin: 2em;
+    color: white;
+    font-style: italic;
+  }
+
+  .close-pane, p {
     color: white;
   }
 }
