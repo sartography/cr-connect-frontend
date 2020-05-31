@@ -79,6 +79,8 @@
       <app-workflow-files *ngIf="workflow" [workflow]="workflow" [fileMetas]="fileMetas"></app-workflow-files>
     </div>
     <div *ngIf="!displayFiles && displayData" id="data-display-column">
+      <p>This feature shows the information that you've entered that will be used to generate the Research Ramp-up Plan.
+        Please ignore unless asked to make a copy of the data for troubleshooting purposes.</p>
       <app-code-viewer
         *ngIf="workflow && currentTask && currentTask.data"
         [data]="currentTask.data"
