@@ -58,6 +58,7 @@
           [task]="currentTask"
           [workflow]="workflow"
           (workflowUpdated)="workflowUpdated($event)"
+          (apiError)="handleError($event)"
         ></app-workflow-form>
       </ng-container>
     </ng-container>
@@ -78,6 +79,8 @@
       <app-workflow-files *ngIf="workflow" [workflow]="workflow" [fileMetas]="fileMetas"></app-workflow-files>
     </div>
     <div *ngIf="!displayFiles && displayData" id="data-display-column">
+      <p>This feature shows the information that you've entered that will be used to generate the Research Ramp-up Plan.
+        Please ignore unless asked to make a copy of the data for troubleshooting purposes.</p>
       <app-code-viewer
         *ngIf="workflow && currentTask && currentTask.data"
         [data]="currentTask.data"
@@ -117,5 +120,18 @@
 </ng-template>
 
 <ng-template #loadingMessage>
-  <app-loading></app-loading>
+  <app-loading *ngIf="!error"></app-loading>
+  <div class="api_error" *ngIf="error">
+    <p>
+    We experienced an unexpected error loading your workflow.  The workflow process
+    may have changed since your last visit.</p>
+    <p>As a first step, please try restarting the workflow.  You should not lose any of your information,
+      but you may have to step through previously completed tasks to get back to where you were.</p>
+    <p>If this does not resolve your issue, please send screenshot to askresearch@virginia.edu and
+      someone will be in touch shortly.</p>
+
+    <button mat-button mat-raised-button color="primary" (click)="resetWorkflow()">Restart Workflow</button>
+
+  </div>
+
 </ng-template>
