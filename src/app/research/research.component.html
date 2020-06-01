@@ -66,10 +66,10 @@
                 <ng-container *ngIf="study.approvals && study.approvals.length > 0">
                   <h4>Approval Status</h4>
                   <div *ngFor="let approval of study.approvals" class="approval {{approval.status}}">
-                    <ng-container *ngIf="approval.approver">
+                    <ng-container *ngIf="approval.status !== approvalStatus.CANCELED && approval.approver">
                       {{ approval.approver.display_name }}<br>
-                      <ng-container *ngIf="approval.approver.title">{{ approval.approver.title.split(':').slice(1).join(':') }},</ng-container>
-                      {{ approval.approver.department.split(' ').slice(1).join(' ') }}<br>
+                      <ng-container *ngIf="approval.approver.title">{{ itemsFromLdap(approval.approver.title).join(', ') }},</ng-container>
+                      {{ itemsFromLdap(approval.approver.department).join(', ') }}<br>
                       <strong>{{ approvalStatusLabels[approval.status.valueOf()] }}</strong><br>
                       <ng-container *ngIf="approval.message"><em>{{ approval.message }}</em><br></ng-container>
                     </ng-container>
