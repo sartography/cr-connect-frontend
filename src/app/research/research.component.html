@@ -1,4 +1,4 @@
-<div *ngIf="user" class="container" fxLayout="column" fxLayoutAlign="center start">
+<div *ngIf="user && !loading; else loadingMessage" class="container" fxLayout="column" fxLayoutAlign="center start">
   <div class="intro">
     <h1 class="mat-display-4">Research Ramp-Up Toolkit</h1>
     <p>{{user.display_name}},</p>
@@ -15,6 +15,7 @@
         compliance requirements have been met and reopening will proceed.
       </li>
     </ul>
+
     <div *ngIf="!studies || studies.length == 0">
       <p>To get started, you will need to complete a series of forms. Press the button below to start the workflow
         process.</p>
@@ -80,3 +81,8 @@
     </mat-card>
   </ng-container>
 </div>
+
+
+<ng-template #loadingMessage>
+  <app-loading></app-loading>
+</ng-template>

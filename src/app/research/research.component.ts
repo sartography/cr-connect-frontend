@@ -13,12 +13,14 @@ export class ResearchComponent implements OnInit  {
   user: User;
   studies: Study[] = [];
   status = ProtocolBuilderStatus;
+  loading = true;
 
   constructor(
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private api: ApiService,
     private router: Router
   ) {
+    this.loading = true;
     if (!this.environment.production) {
       const token = localStorage.getItem('token');
       this.isSignedIn = !!token;
@@ -33,7 +35,7 @@ export class ResearchComponent implements OnInit  {
     });
     this.api.getStudies().subscribe( studies => {
       this.studies = studies;
-      console.log('studies', studies);
+      this.loading = false;
     });
   }
 
