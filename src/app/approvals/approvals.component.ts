@@ -57,11 +57,11 @@ export interface ApprovalsByStatus {
 }
 
 @Component({
-  selector: 'app-studies-rrp',
-  templateUrl: './studies-rrp.component.html',
-  styleUrls: ['./studies-rrp.component.scss']
+  selector: 'app-approvals',
+  templateUrl: './approvals.component.html',
+  styleUrls: ['./approvals.component.scss']
 })
-export class StudiesRrpComponent {
+export class ApprovalsComponent {
   approvalsByStatus: ApprovalsByStatus[] = [];
   loading = true;
 

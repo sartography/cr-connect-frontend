@@ -7,18 +7,27 @@
     padding-left: 0;
     padding-right: 0;
 
+    .mat-list-text {
+      padding-left: 0.25rem !important;
+    }
+
     &:hover {
       background-color: $brand-accent-light;
 
-      .name mat-icon {
+      .file mat-icon {
         opacity: 1;
         color: $brand-gray;
       }
     }
 
-    .name {
-      color: $brand-accent;
-      text-decoration: underline;
+    .file {
+      .name {
+        color: $brand-accent;
+        font-size: 1rem;
+        text-decoration: underline;
+        padding-left: 0;
+        padding-top: 4px;
+      }
 
       mat-icon { opacity: 0; }
     }
