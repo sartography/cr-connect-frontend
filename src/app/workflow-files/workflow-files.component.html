@@ -3,10 +3,10 @@
   <em *ngIf="fileMetas.length > 0">The following files were created or uploaded as a part of this {{typeLabel}}.</em>
   <em *ngIf="fileMetas.length == 0">No files are currently associated with this {{typeLabel}}.</em>
 
-  <mat-list-item class="file" *ngFor="let fileMeta of fileMetas" (click)="downloadFile(fileMeta)">
+  <mat-list-item class="file-list" *ngFor="let fileMeta of fileMetas" (click)="downloadFile(fileMeta)">
     <mat-icon mat-list-icon [svgIcon]="'crc:' + fileMeta.type"></mat-icon>
-    <div mat-line class="name">
-      {{ fileMeta.name }} ({{fileMeta.id}})
+    <div mat-line class="file">
+      <span class="name">{{ fileMeta.name }} ({{fileMeta.id}})</span>
       <span fxFlex></span>
       <mat-icon>save_alt</mat-icon>
     </div>

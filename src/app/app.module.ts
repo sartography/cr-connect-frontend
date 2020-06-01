@@ -47,6 +47,7 @@ import {
 import {environment} from '../environments/environment.runtime';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import {ApprovalsComponent} from './approvals/approvals.component';
 import {CodeViewerComponent} from './code-viewer/code-viewer.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {FooterComponent} from './footer/footer.component';
@@ -64,7 +65,6 @@ import {ApprovalsFilesDashboardComponent} from './studies-files-dashboard/studie
 import {ApprovalFilesDialogComponent} from './studies-files-dashboard/studies-files-modal';
 import {StudiesProcessComponent} from './studies-process/studies-process.component';
 import {StudiesComponent} from './studies/studies.component';
-import {StudiesRrpComponent} from './studies-rrp/studies-rrp.component';
 import {StudyProgressComponent} from './study-progress/study-progress.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
@@ -127,7 +127,7 @@ export function markedOptionsFactory(): MarkedOptions {
     NotificationsComponent,
     ProfileComponent,
     StudiesComponent,
-    StudiesRrpComponent,
+    ApprovalsComponent,
     StudyComponent,
     StudyProgressComponent,
     WorkflowComponent,

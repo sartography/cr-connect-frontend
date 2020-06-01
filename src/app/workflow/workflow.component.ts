@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -6,7 +6,6 @@ import { Location } from '@angular/common';
 import {
   ApiService,
   Workflow,
-  WorkflowSpec,
   WorkflowTask,
   WorkflowTaskState,
   WorkflowTaskType
@@ -22,9 +21,8 @@ import {
   templateUrl: './workflow.component.html',
   styleUrls: ['./workflow.component.scss']
 })
-export class WorkflowComponent {
+export class WorkflowComponent implements OnInit {
   workflow: Workflow;
-  workflowSpec: WorkflowSpec;
   currentTask: WorkflowTask;
   studyId: number;
   workflowId: number;
@@ -33,6 +31,7 @@ export class WorkflowComponent {
   displayFiles = (localStorage.getItem('displayFiles') === 'true');
   fileMetas: FileMeta[];
   loading = true;
+  error: object;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,8 +45,28 @@ export class WorkflowComponent {
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
-      this.updateTaskList(this.workflowId, paramMap.get('task_id'));
     });
+  }
+
+  ngOnInit(): void {
+    this.api.getWorkflow(this.workflowId).
+    subscribe(
+      wf => {
+        this.workflow = wf;
+      },
+      error => {
+        this.handleError(error)
+      },
+      () => {
+        this.updateTaskList(this.workflow);
+      }
+    );
+  }
+
+  handleError(error): void {
+    this.error = error;
+    this.currentTask = null;
+    console.log('Encountered an error:' + error);
   }
 
   get numFiles(): number {
@@ -97,7 +116,7 @@ export class WorkflowComponent {
   workflowUpdated(wf: Workflow) {
     this.workflow = wf;
     this.currentTask = undefined;
-    this.updateTaskList(wf.id);
+    this.updateTaskList(this.workflow);
   }
 
   hasIncompleteUserTask() {
@@ -136,16 +155,17 @@ export class WorkflowComponent {
   }
 
   resetWorkflow() {
-    this.api.getWorkflow(this.workflowId, {hard_reset: true}).subscribe(() => {
-      this.snackBar.open(`${this.workflowSpec.display_name} workflow has been reset successfully.`, 'Ok', {duration: 3000});
-      this.updateTaskList(this.workflowId);
+    this.api.getWorkflow(this.workflowId, {hard_reset: true}).subscribe((workflow) => {
+      this.snackBar.open(`Your workflow has been reset successfully.`, 'Ok', {duration: 3000});
+      this.workflow = workflow;
+      this.updateTaskList(workflow);
     });
   }
 
   confirmResetWorkflow() {
     const data: WorkflowResetDialogData = {
       workflowId: this.workflowId,
-      name: this.workflowSpec.display_name,
+      name: this.workflow.title,
     };
     const dialogRef = this.dialog.open(WorkflowResetDialogComponent, {data});
 
@@ -156,38 +176,32 @@ export class WorkflowComponent {
     });
   }
 
-  private updateTaskList(workflowId: number, forceTaskId?: string) {
+  private updateTaskList(wf: Workflow, forceTaskId?: string) {
     this.loading = true;
-    this.api.listWorkflowFiles(workflowId).subscribe(fms => {
+    this.api.listWorkflowFiles(wf.id).subscribe(fms => {
       this.fileMetas = fms;
     });
-    this.api.getWorkflow(workflowId).subscribe(wf => {
-      this.workflow = wf;
-      this.api.getWorkflowSpecification(wf.workflow_spec_id).subscribe(s => {
-        this.workflowSpec = s;
-        this.loading = false;
-      });
 
-      // The current task will be set by the backend, unless specifically forced.
-      if (forceTaskId) {
-        const navItem = this.workflow.navigation.filter(t => t.task_id === forceTaskId)[0];
+    // The current task will be set by the backend, unless specifically forced.
+    if (forceTaskId) {
+      const navItem = this.workflow.navigation.filter(t => t.task_id === forceTaskId)[0];
 
-        // If it's a valid task and not the current workflow task,
-        // reset the token to the selected task.
-        if (navItem && navItem.task && (forceTaskId !== wf.next_task.id)) {
-          this.setCurrentTask(forceTaskId);
-        } else {
-          // The given task ID is no longer part of this workflow.
-          // Just set the current task to the workflow's next task.
-          this.currentTask = wf.next_task;
-        }
+      // If it's a valid task and not the current workflow task,
+      // reset the token to the selected task.
+      if (navItem && navItem.task && (forceTaskId !== wf.next_task.id)) {
+        this.setCurrentTask(forceTaskId);
       } else {
+        // The given task ID is no longer part of this workflow.
+        // Just set the current task to the workflow's next task.
         this.currentTask = wf.next_task;
       }
-
-      this.logTaskData(this.currentTask);
-      this.updateUrl()
-    });
+    } else {
+      this.currentTask = wf.next_task;
+    }
+    console.log('Udate Task Executed', this.currentTask);
+    this.logTaskData(this.currentTask);
+    this.updateUrl();
+    this.loading = false;
   }
 
   closePane() {
