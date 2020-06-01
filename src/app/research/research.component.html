@@ -54,14 +54,25 @@
               class="workflow-action"
             >
               <button
-                *ngIf="study.protocol_builder_status === status.ACTIVE.valueOf().toUpperCase()"
+                *ngIf="isActiveStudy(study)"
                 color="primary"
                 mat-flat-button
               >Continue
               </button>
             </div>
             <div class="progress" mat-line>
-              <app-study-progress [study]="study"></app-study-progress>
+              <app-study-progress *ngIf="isActiveStudy(study)" [study]="study"></app-study-progress>
+              <div *ngIf="!isActiveStudy(study)">
+                <ng-container *ngIf="study.approvals && study.approvals.length > 0">
+                  <h4>Approval Status</h4>
+                  <div *ngFor="let approval of study.approvals">
+                    {{ approval.approver ? approval.approver.display_name : approval.message }}: {{ approval.status }}
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="!study.approvals || study.approvals.length === 0">
+                  Study Status: {{ study.protocol_builder_status }}
+                </ng-container>
+              </div>
             </div>
           </mat-list-item>
         </mat-list>
