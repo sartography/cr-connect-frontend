@@ -23,6 +23,7 @@ export class ApprovalsFilesDashboardComponent implements OnInit {
     'id',
     'comments',
     'docs',
+    'creation_date',
     'current_status',
   ];
 
