@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {WorkflowNavItem, WorkflowTask, WorkflowTaskState} from 'sartography-workflow-lib';
+import {WorkflowNavItem, WorkflowTask, WorkflowTaskState, WorkflowTaskType} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow-steps-menu-list',
@@ -23,5 +23,19 @@ export class WorkflowStepsMenuListComponent implements OnInit {
 
   selectTask(taskId: string) {
     this.taskSelected.emit(taskId);
+  }
+
+  shouldDisplayNavItem(navItem: WorkflowNavItem): boolean {
+    const hideTypes = [
+      WorkflowTaskType.SCRIPT_TASK,
+      WorkflowTaskType.BUSINESS_RULE_TASK,
+      WorkflowTaskType.NONE_TASK,
+    ];
+    return (
+      navItem &&
+      navItem.task &&
+      navItem.task.type &&
+      !hideTypes.includes(navItem.task.type)
+    );
   }
 }
