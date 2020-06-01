@@ -31,15 +31,18 @@ mat-card.dashboard {
 
   .progress {
     margin-top: 1rem;
+
+    .approval {
+      margin-bottom: 1em;
+      padding-left: 1em;
+      text-wrap: normal;
+      white-space: normal;
+
+      &.CANCELED { border-left: 4px solid $brand-gray-tint-2; color: $brand-gray-tint-1; }
+      &.PENDING { border-left: 4px solid $brand-accent; }
+      &.DECLINED { border-left: 4px solid $brand-warning; color: $brand-warning; }
+      &.APPROVED { border-left: 4px solid $brand-green; }
+    }
   }
 }
 
-.approval {
-  margin-bottom: 1em;
-  padding-left: 1em;
-
-  &.CANCELED { border-left: 4px solid $brand-gray-tint-2; color: $brand-gray-tint-1; }
-  &.PENDING { border-left: 4px solid $brand-accent; }
-  &.DECLINED { border-left: 4px solid $brand-warning; color: $brand-warning; }
-  &.APPROVED { border-left: 4px solid $brand-green; }
-}
