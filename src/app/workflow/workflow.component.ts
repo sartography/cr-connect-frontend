@@ -6,7 +6,6 @@ import { Location } from '@angular/common';
 import {
   ApiService,
   Workflow,
-  WorkflowSpec,
   WorkflowTask,
   WorkflowTaskState,
   WorkflowTaskType
@@ -24,7 +23,6 @@ import {
 })
 export class WorkflowComponent implements OnInit {
   workflow: Workflow;
-  workflowSpec: WorkflowSpec;
   currentTask: WorkflowTask;
   studyId: number;
   workflowId: number;
@@ -167,7 +165,7 @@ export class WorkflowComponent implements OnInit {
   confirmResetWorkflow() {
     const data: WorkflowResetDialogData = {
       workflowId: this.workflowId,
-      name: this.workflowSpec.display_name,
+      name: this.workflow.title,
     };
     const dialogRef = this.dialog.open(WorkflowResetDialogComponent, {data});
 
