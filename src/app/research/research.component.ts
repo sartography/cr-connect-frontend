@@ -1,5 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ApiService, AppEnvironment, Approval, ProtocolBuilderStatus, User, Workflow} from 'sartography-workflow-lib';
+import {
+  ApiService,
+  AppEnvironment,
+  Approval,
+  ApprovalStatusLabels,
+  ProtocolBuilderStatus,
+  User,
+  Workflow
+} from 'sartography-workflow-lib';
 import {Study} from 'sartography-workflow-lib/lib/types/study';
 import {Router} from '@angular/router';
 
@@ -13,6 +21,7 @@ export class ResearchComponent implements OnInit  {
   user: User;
   studies: Study[] = [];
   status = ProtocolBuilderStatus;
+  approvalStatusLabels = ApprovalStatusLabels;
   loading = true;
 
   constructor(
