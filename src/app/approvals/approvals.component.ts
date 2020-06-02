@@ -36,7 +36,7 @@ export class ApprovalsComponent {
     this.loadApprovals();
   }
 
-  organized_approvals(approvals: Approval[], all: boolean) {
+  organized_approvals(approvals: Approval[]) {
     const statusKeys = Object.keys(ApprovalStatus);
     const organizedApprovals = statusKeys.map((statusKey, i) => {
       const filtered = approvals.filter(s => s.status.toLowerCase() === statusKey.toLowerCase());
@@ -52,11 +52,11 @@ export class ApprovalsComponent {
 
   loadApprovals() {
     this.api.getApprovals(false).subscribe(approvals => {
-      this.myApprovalsByStatus = this.organized_approvals(approvals, false);
+      this.myApprovalsByStatus = this.organized_approvals(approvals);
       this.loading = false;
     });
-    this.api.getApprovals(false).subscribe(approvals => {
-      this.allApprovalsByStatus = this.organized_approvals(approvals, true);
+    this.api.getApprovals(true).subscribe(approvals => {
+      this.allApprovalsByStatus = this.organized_approvals(approvals);
       this.loading = false;
     });
 
