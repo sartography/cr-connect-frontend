@@ -40,7 +40,11 @@ export class NavbarComponent {
   private _loadUser() {
     this.api.getUser().subscribe(u => {
       this.user = u;
-      this.googleAnalyticsService.setUser(this.user.uid);
+
+      if (this.user && this.user.uid) {
+        this.googleAnalyticsService.setUser(this.user.uid);
+      }
+
       this._loadNavLinks();
     }, error => {
       localStorage.removeItem('token');
