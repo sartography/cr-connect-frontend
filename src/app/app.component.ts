@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
-import {ApiService, FileType, User} from 'sartography-workflow-lib';
+import {ApiService, FileType, GoogleAnalyticsService} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-root',
@@ -10,13 +10,14 @@ import {ApiService, FileType, User} from 'sartography-workflow-lib';
 })
 export class AppComponent {
   title = 'CR Connect';
-  user: User;
 
   constructor(
     private apiService: ApiService,
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private googleAnalyticsService: GoogleAnalyticsService,
   ) {
+    this.googleAnalyticsService.init();
     const fileTypes = Object.values(FileType);
     fileTypes.forEach(t => {
       const url = this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/icons/file_types/${t}.svg`)
