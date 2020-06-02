@@ -24,7 +24,8 @@ export interface ApprovalsByStatus {
   styleUrls: ['./approvals.component.scss']
 })
 export class ApprovalsComponent {
-  approvalsByStatus: ApprovalsByStatus[] = [];
+  myApprovalsByStatus: ApprovalsByStatus[] = [];
+  allApprovalsByStatus: ApprovalsByStatus[] = [];
   loading = true;
 
   constructor(
@@ -35,27 +36,29 @@ export class ApprovalsComponent {
     this.loadApprovals();
   }
 
+  organized_approvals(approvals: Approval[], all: boolean) {
+    const statusKeys = Object.keys(ApprovalStatus);
+    const organizedApprovals = statusKeys.map((statusKey, i) => {
+      const filtered = approvals.filter(s => s.status.toLowerCase() === statusKey.toLowerCase());
+      return {
+        status: ApprovalStatus[statusKey],
+        statusLabel: ApprovalStatusLabels[statusKey],
+        approvals: filtered,
+        dataSource: new MatTableDataSource(filtered),
+      };
+    });
+    return organizedApprovals;
+  }
+
   loadApprovals() {
-    this.api.getApprovals().subscribe(allApprovals => {
-      // const sorted = allStudies.sort((a, b) => {
-      //   const aTime = new Date(a.last_updated).getTime();
-      //   const bTime = new Date(b.last_updated).getTime();
-      //   return bTime - aTime;
-      // });
-
-
-      const statusKeys = Object.keys(ApprovalStatus);
-      this.approvalsByStatus = statusKeys.map((statusKey, i) => {
-        const filtered = allApprovals.filter(s => s.status.toLowerCase() === statusKey.toLowerCase());
-        return {
-          status: ApprovalStatus[statusKey],
-          statusLabel: ApprovalStatusLabels[statusKey],
-          approvals: filtered,
-          dataSource: new MatTableDataSource(filtered),
-        };
-      });
-
+    this.api.getApprovals(false).subscribe(approvals => {
+      this.myApprovalsByStatus = this.organized_approvals(approvals, false);
       this.loading = false;
     });
+    this.api.getApprovals(false).subscribe(approvals => {
+      this.allApprovalsByStatus = this.organized_approvals(approvals, true);
+      this.loading = false;
+    });
+
   }
 }

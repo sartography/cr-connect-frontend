@@ -19,6 +19,7 @@ enum IrbHsrStatus {
 })
 export class ApprovalsFilesDashboardComponent implements OnInit {
   @Input() approvalsByStatus: ApprovalsByStatus[];
+  @Input() approveButtons: boolean;
   displayedColumns: string[] = [
     'id',
     'comments',

@@ -56,9 +56,9 @@
 
       <ng-container matColumnDef="current_status">
         <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_status"> </th>
-        <td *matCellDef="let approval" mat-cell align="center">
-          <a mat-button mat-raised-button (click)="editApproval(approval)" >Approve/Reject</a>
-        </td>
+        <td *matCellDef="let approval" mat-cell align="center" >
+          <a *ngIf="approveButtons" mat-button mat-raised-button (click)="editApproval(approval)" >Approve/Reject</a>
+        </td>1
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
