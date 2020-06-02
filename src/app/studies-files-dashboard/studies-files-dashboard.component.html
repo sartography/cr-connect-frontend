@@ -23,14 +23,15 @@
       <ng-container matColumnDef="id">
         <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_id"> PI (ID) School Dept</th>
         <td *matCellDef="let approval" mat-cell>
-          {{approval.approver.display_name}}<br />
-          {{approval.approver.department}}
+          {{ approval.primary_investigator.display_name }}<br />
+          {{ itemsFromLdap(approval.primary_investigator.department).join(', ') }}<br />
+          <span class="smaller">Approver: {{ approval.approver.display_name }}</span>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="comments">
         <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_comments"> Comments</th>
-        <td *matCellDef="let approval" mat-cell>{{approval.message}}</td>
+        <td *matCellDef="let approval" mat-cell>{{ approval.message }}</td>
       </ng-container>
 
       <ng-container matColumnDef="docs">
@@ -46,11 +47,18 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="creation_date">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_creation_date"> Creation Date</th>
+        <td *matCellDef="let approval" mat-cell>
+          {{ approval.date_created | date:'short' }}
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="current_status">
         <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_status"> </th>
-        <td *matCellDef="let approval" mat-cell align="center">
-          <a mat-button mat-raised-button (click)="editApproval(approval)" >Approve/Reject</a>
-        </td>
+        <td *matCellDef="let approval" mat-cell align="center" >
+          <a *ngIf="approveButtons" mat-button mat-raised-button (click)="editApproval(approval)" >Approve/Reject</a>
+        </td>1
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

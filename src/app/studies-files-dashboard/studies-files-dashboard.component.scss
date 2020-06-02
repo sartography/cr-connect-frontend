@@ -1,5 +1,9 @@
 @import "../../config";
 
+.smaller {
+  font-size: 0.875rem;
+}
+
 mat-panel-title.mat-h2 {
   padding-top: 16px;
 
@@ -67,6 +71,10 @@ mat-panel-title.mat-h2 {
     &:last-child {
       border-right: none;
     }
+  }
+
+  .mat-column-docs {
+    width: 32%;
   }
 }
 
