@@ -1,13 +1,13 @@
 <div class="studies-container" fxLayout="column">
 
   <div *ngIf="!loading; else loadingMessage">
-    <h2>Your Approvals</h2>
+    <h1 class="mat-display-4">Yours Approvals</h1>
     <app-studies-files-dashboard
       [approvalsByStatus]="myApprovalsByStatus"
       [approveButtons]="true"
     ></app-studies-files-dashboard>
 
-    <h2>All Approvals</h2>
+    <h1 class="mat-display-4">All Approvals</h1>
     <app-studies-files-dashboard
       [approvalsByStatus]="allApprovalsByStatus"
       [approveButtons]="false"

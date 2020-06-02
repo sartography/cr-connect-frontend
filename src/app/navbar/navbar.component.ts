@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {Router} from '@angular/router';
-import {ApiService, AppEnvironment, User} from 'sartography-workflow-lib';
+import {ApiService, AppEnvironment, GoogleAnalyticsService, User} from 'sartography-workflow-lib';
 
 interface NavItem {
   path?: string;
@@ -26,6 +26,7 @@ export class NavbarComponent {
     private router: Router,
     private api: ApiService,
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
+    private googleAnalyticsService: GoogleAnalyticsService,
   ) {
     this._loadUser();
     this.title = environment.title;
@@ -39,6 +40,11 @@ export class NavbarComponent {
   private _loadUser() {
     this.api.getUser().subscribe(u => {
       this.user = u;
+
+      if (this.user && this.user.uid) {
+        this.googleAnalyticsService.setUser(this.user.uid);
+      }
+
       this._loadNavLinks();
     }, error => {
       localStorage.removeItem('token');
