@@ -19,10 +19,12 @@ enum IrbHsrStatus {
 })
 export class ApprovalsFilesDashboardComponent implements OnInit {
   @Input() approvalsByStatus: ApprovalsByStatus[];
+  @Input() approveButtons: boolean;
   displayedColumns: string[] = [
     'id',
     'comments',
     'docs',
+    'creation_date',
     'current_status',
   ];
 
@@ -74,5 +76,24 @@ export class ApprovalsFilesDashboardComponent implements OnInit {
         link.remove();
       }, 100);
     });
+  }
+
+  itemsFromLdap(department: string): string[] {
+    const ldapRe = new RegExp(/^([A-Z][0-9]+):([A-Z]+[\-|\s])+(.*)$|^([A-Z][0-9]+):([A-Za-z&]+\s)+(.*)$|^([A-Z][0-9]+):([\w]+)$/);
+    const ldapItems = department.split(', ');
+    const items = new Set<string>();
+
+    for (const item of ldapItems) {
+      if (ldapRe.test(item)) {
+        const s = item.replace(ldapRe, (_, p1, p2, p3, p4, p5, p6, p7, p8) => {
+          return p3 || p5 + p6 || p8;
+        });
+        items.add(s);
+      } else {
+        items.add(item)
+      }
+    }
+
+    return Array.from<string>(items);
   }
 }
