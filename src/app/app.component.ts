@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer} from '@angular/platform-browser';
-import {ApiService, FileType, User} from 'sartography-workflow-lib';
-import {GoogleAnalyticsService} from 'sartography-workflow-lib/lib/services/google-analytics.service';
+import {ApiService, FileType, GoogleAnalyticsService} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-root',
