@@ -26,6 +26,14 @@
           {{ approval.primary_investigator.display_name }}<br />
           {{ itemsFromLdap(approval.primary_investigator.department).join(', ') }}<br />
           <span class="smaller">Approver: {{ approval.approver.display_name }}</span>
+
+          <div class="other_approver" *ngIf="approval.related_approvals">
+            <b>Also approving:</b><br />
+              <div class="status {{related.status}}" *ngFor="let related of approval.related_approvals">
+                {{related.approver.display_name }} <br />
+                <b>{{related.status}}</b>
+              </div>
+          </div>
         </td>
       </ng-container>
 
@@ -56,8 +64,21 @@
 
       <ng-container matColumnDef="current_status">
         <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_status"> </th>
-        <td *matCellDef="let approval" mat-cell align="center" >
-          <a *ngIf="approveButtons" mat-button mat-raised-button (click)="editApproval(approval)" >Approve/Reject</a>
+        <td *matCellDef="let approval" mat-cell >
+          <div class="status {{approval.status}}">{{approval.status}}</div>
+          <div *ngIf="approval.status ==='CANCELED'">This approval request was cancelled.</div>
+          <div *ngIf="approval.status ==='PENDING'" class="status {{approval.status}}">
+            <a *ngIf="approveButtons" mat-button mat-raised-button
+               (click)="editApproval(approval)">Approve/Reject</a>
+          </div>
+          <div *ngIf="approval.status ==='APPROVED'" class="status {{approval.status}}">
+            <a *ngIf="approveButtons" mat-button mat-raised-button
+               (click)="editApproval(approval)">Modify Approval</a>
+          </div>
+          <div *ngIf="approval.status ==='DECLINED'" class="status {{approval.status}}">
+            <a *ngIf="approveButtons" mat-button mat-raised-button
+               (click)="editApproval(approval)">Modify Approval</a>
+          </div>
         </td>1
       </ng-container>
 

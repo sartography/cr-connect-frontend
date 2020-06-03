@@ -5,6 +5,7 @@ import {Injectable, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
@@ -164,6 +165,7 @@ export function markedOptionsFactory(): MarkedOptions {
       },
     }),
     MatBadgeModule,
+    MatBottomSheetModule,
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
