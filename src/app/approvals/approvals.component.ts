@@ -55,5 +55,8 @@ export class ApprovalsComponent {
       this.myApprovalsByStatus = this.organized_approvals(approvals);
       this.loading = false;
     });
+    this.api.getApprovals(true).subscribe(approvals => {
+      this.allApprovalsByStatus = this.organized_approvals(approvals);
+    });
   }
 }
