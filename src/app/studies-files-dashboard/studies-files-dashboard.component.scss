@@ -4,6 +4,20 @@
   font-size: 0.875rem;
 }
 
+.other_approver {
+  margin: 10px 0 0 20px;
+  font-size: 0.875rem;
+}
+
+div.status {
+     padding-left: 10px;
+     &.CANCELED { border-left: 4px solid $brand-gray-tint-2; color: $brand-gray-tint-1; }
+     &.PENDING { border-left: 4px solid $brand-accent; }
+     &.DECLINED { border-left: 4px solid $brand-warning; color: $brand-warning; }
+     &.APPROVED { border-left: 4px solid $brand-green; }
+   }
+
+
 mat-panel-title.mat-h2 {
   padding-top: 16px;
 
