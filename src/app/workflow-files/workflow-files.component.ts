@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ApiService, FileMeta, getFileIcon, Study, Workflow} from 'sartography-workflow-lib';
+import {ApiService, FileMeta, Study, Workflow} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow-files',
@@ -47,11 +47,5 @@ export class WorkflowFilesComponent implements OnInit {
         link.remove();
       }, 100);
     });
-  }
-
-  getFileIconUrl(fm: FileMeta) {
-    const iconUrl = getFileIcon(fm);
-    console.log('iconUrl', iconUrl);
-    return iconUrl;
   }
 }
