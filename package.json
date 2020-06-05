@@ -21,7 +21,7 @@
     "e2e-wf:db-setup": "docker exec -it backend pipenv run flask load-example-data",
     "e2e-wf:pb-setup": "docker exec -it pb pipenv run flask db upgrade",
     "e2e-wf": "npm run e2e-wf:stop && npm run e2e-wf:clean && npm run e2e-wf:build && npm run e2e-wf:start && npm run e2e-wf:db-upgrade && npm run e2e-wf:db-setup && npm run e2e-wf:pb-setup",
-    "env": "chmod +x ./docker/substitute-env-variables.sh && ./docker/substitute-env-variables.sh src/index.html PRODUCTION,API_URL,IRB_URL,HOME_ROUTE,BASE_HREF,PORT0,GOOGLE_ANALYTICS_KEY",
+    "env": "chmod +x ./docker/substitute-env-variables.sh && ./docker/substitute-env-variables.sh src/index.html PRODUCTION,API_URL,IRB_URL,HOME_ROUTE,BASE_HREF,PORT0,GOOGLE_ANALYTICS_KEY,SENTRY_KEY",
     "ci": "npm run lint && npm run test:coverage && sonar-scanner"
   },
   "private": true,
@@ -40,6 +40,7 @@
     "@ngx-formly/core": "^5.5.13",
     "@ngx-formly/material": "^5.5.13",
     "@ngx-progressbar/core": "^5.3.2",
+    "@sentry/browser": "^5.16.1",
     "@yellowspot/ng-truncate": "^1.5.1",
     "chart.js": "^2.9.3",
     "ng2-charts": "^2.3.0",
@@ -51,7 +52,7 @@
     "ngx-page-scroll-core": "^7.0.0",
     "rfdc": "^1.1.4",
     "rxjs": "~6.5.4",
-    "sartography-workflow-lib": "0.0.249",
+    "sartography-workflow-lib": "0.0.258",
     "ts-md5": "^1.2.7",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

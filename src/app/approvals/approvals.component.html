@@ -1,12 +1,11 @@
-<div class="studies-container" fxLayout="column">
-
-  <div *ngIf="!loading; else loadingMessage">
-    <h1 class="mat-display-4">Your Approvals</h1>
-    <app-studies-files-dashboard
-      [approvalsByStatus]="myApprovalsByStatus"
-      [approveButtons]="true"
-    ></app-studies-files-dashboard>
-  </div>
+<div *ngIf="!loading; else loadingMessage" class="studies-container" fxLayout="column">
+  <h1 *ngIf="asUser">Displaying Approvals as seen by {{this.asUser}}</h1>
+  <h1 class="mat-display-4">Your Approvals</h1>
+  <app-studies-files-dashboard
+    [approvalsByStatus]="approvalsByStatus"
+    [approveButtons]="true"
+    (approvalStatusChanged)="loadApprovals(this.asUser)"
+  ></app-studies-files-dashboard>
 </div>
 
 <ng-template #loadingMessage>

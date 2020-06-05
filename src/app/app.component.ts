@@ -21,7 +21,7 @@ export class AppComponent {
     this.googleAnalyticsService.init(this.environment.googleAnalyticsKey);
     const fileTypes = Object.values(FileType);
     fileTypes.forEach(t => {
-      const url = this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/icons/file_types/${t}.svg`)
+      const url = this.domSanitizer.bypassSecurityTrustResourceUrl(`assets/icons/file_types/${t}.svg`)
       this.matIconRegistry.addSvgIconInNamespace('crc', t, url);
     })
   }

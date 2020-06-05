@@ -21,10 +21,10 @@
       [attr.aria-describedby]="approvalsGroupId(approvalsGroup)"
     >
       <ng-container matColumnDef="id">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_id"> PI (ID) School Dept</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_id">PI (ID) School Dept</th>
         <td *matCellDef="let approval" mat-cell>
           {{ approval.primary_investigator.display_name }}<br />
-          {{ itemsFromLdap(approval.primary_investigator.department).join(', ') }}<br />
+          {{ approval.primary_investigator.department | cleanUpLdapProperties }}<br />
           <span class="smaller">Approver: {{ approval.approver.display_name }}</span>
 
           <div class="other_approver" *ngIf="approval.related_approvals">
@@ -38,7 +38,7 @@
       </ng-container>
 
       <ng-container matColumnDef="comments">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_comments"> Comments</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_comments">Comments</th>
         <td *matCellDef="let approval" mat-cell>{{ approval.message }}</td>
       </ng-container>
 
@@ -56,14 +56,26 @@
       </ng-container>
 
       <ng-container matColumnDef="creation_date">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_creation_date"> Creation Date</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_creation_date">Creation Date</th>
         <td *matCellDef="let approval" mat-cell>
           {{ approval.date_created | date:'short' }}
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="approval_date">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_date">Approval Date</th>
+        <td *matCellDef="let approval" mat-cell>
+          <ng-container *ngIf="approval.date_approved">
+            {{ approval.date_approved | date:'short' }}
+          </ng-container>
+          <ng-container *ngIf="!approval.date_approved">
+            -
+          </ng-container>
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="current_status">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_status"> </th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_status">Status</th>
         <td *matCellDef="let approval" mat-cell >
           <div class="status {{approval.status}}">{{approval.status}}</div>
           <div *ngIf="approval.status ==='CANCELED'">This approval request was cancelled.</div>
