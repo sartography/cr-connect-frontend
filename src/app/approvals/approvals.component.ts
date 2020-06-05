@@ -27,7 +27,6 @@ export class ApprovalsComponent {
 
   groupApprovalsByStatus(approvals: Approval[]) {
     const statusKeys = Object.keys(ApprovalStatus).filter(k => k !== ApprovalStatus.CANCELED.toString());
-    console.log('statusKeys', statusKeys);
     return statusKeys.map((statusKey, i) => {
       const filtered = approvals.filter(s => s.status.toLowerCase() === statusKey.toLowerCase());
       return {

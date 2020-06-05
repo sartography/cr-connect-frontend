@@ -1,5 +1,6 @@
 <div mat-dialog-title>
   Edit Approval
+  <span fxFlex></span>
   <button mat-dialog-close="" mat-icon-button>
     <mat-icon>close</mat-icon>
   </button>
@@ -19,11 +20,7 @@
   </form>
 </div>
 
-<div fxLayoutAlign="end" mat-dialog-actions>
-    <button
-      (click)="onNoClick()"
-      mat-flat-button
-    ><mat-icon>cancel</mat-icon> Cancel</button>
+<div mat-dialog-actions>
     <button
       (click)="onSubmit(true, approvalMessage.value)"
       color="primary"
@@ -34,4 +31,8 @@
       color="warn"
       mat-flat-button
     ><mat-icon>report_problem</mat-icon> Reject</button>
+    <button
+      (click)="onNoClick()"
+      mat-flat-button
+    ><mat-icon>cancel</mat-icon> Cancel</button>
 </div>
