@@ -1,7 +1,7 @@
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {APP_BASE_HREF, PlatformLocation} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {ErrorHandler, Injectable, NgModule} from '@angular/core';
+import {Injectable, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatBadgeModule} from '@angular/material/badge';
@@ -74,7 +74,6 @@ import {WorkflowResetDialogComponent} from './workflow-reset-dialog/workflow-res
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
-import {SentryErrorHandler} from './error-handling/error-handler';
 
 
 @Injectable()
@@ -85,6 +84,7 @@ export class ThisEnvironment implements AppEnvironment {
   irbUrl = environment.irbUrl;
   title = environment.title;
   googleAnalyticsKey = environment.googleAnalyticsKey;
+  sentryKey = environment.sentryKey;
 }
 
 /**
@@ -209,7 +209,6 @@ export function markedOptionsFactory(): MarkedOptions {
         languages: {json: () => import('../../node_modules/highlight.js/lib/languages/json')}
       }
     },
-    environment.production ? {provide: ErrorHandler, useClass: SentryErrorHandler} : []
   ],
   bootstrap: [AppComponent],
   entryComponents: [
