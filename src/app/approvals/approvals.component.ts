@@ -1,15 +1,6 @@
-import {Component, Inject, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
+import {Component, Inject} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import {
-  ApiService,
-  AppEnvironment,
-  Approval,
-  ApprovalStatus,
-  ApprovalStatusLabels
-} from 'sartography-workflow-lib';
+import {ApiService, AppEnvironment, Approval, ApprovalStatus, ApprovalStatusLabels} from 'sartography-workflow-lib';
 
 export interface ApprovalsByStatus {
   status: ApprovalStatus;
@@ -24,21 +15,20 @@ export interface ApprovalsByStatus {
   styleUrls: ['./approvals.component.scss']
 })
 export class ApprovalsComponent {
-  myApprovalsByStatus: ApprovalsByStatus[] = [];
-  allApprovalsByStatus: ApprovalsByStatus[] = [];
+  approvalsByStatus: ApprovalsByStatus[] = [];
   loading = true;
 
   constructor(
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private api: ApiService,
-    private httpClient: HttpClient
   ) {
     this.loadApprovals();
   }
 
-  organized_approvals(approvals: Approval[]) {
-    const statusKeys = Object.keys(ApprovalStatus);
-    const organizedApprovals = statusKeys.map((statusKey, i) => {
+  groupApprovalsByStatus(approvals: Approval[]) {
+    const statusKeys = Object.keys(ApprovalStatus).filter(k => k !== ApprovalStatus.CANCELED.toString());
+    console.log('statusKeys', statusKeys);
+    return statusKeys.map((statusKey, i) => {
       const filtered = approvals.filter(s => s.status.toLowerCase() === statusKey.toLowerCase());
       return {
         status: ApprovalStatus[statusKey],
@@ -47,12 +37,12 @@ export class ApprovalsComponent {
         dataSource: new MatTableDataSource(filtered),
       };
     });
-    return organizedApprovals;
   }
 
   loadApprovals() {
+    this.loading = true;
     this.api.getApprovals(false).subscribe(approvals => {
-      this.myApprovalsByStatus = this.organized_approvals(approvals);
+      this.approvalsByStatus = this.groupApprovalsByStatus(approvals);
       this.loading = false;
     });
   }

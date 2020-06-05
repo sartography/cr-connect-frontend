@@ -1,0 +1,37 @@
+<div mat-dialog-title>
+  Edit Approval
+  <button mat-dialog-close="" mat-icon-button>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<div mat-dialog-content>
+  <form>
+    <mat-form-field appearance="standard" class="mat-form-dialog">
+      <mat-label>Leave a comment</mat-label>
+      <textarea
+        #approvalMessage
+        autocomplete="off"
+        matInput
+        placeholder="Your documents have been approved"
+        rows="4"
+      ></textarea>
+    </mat-form-field>
+  </form>
+</div>
+
+<div fxLayoutAlign="end" mat-dialog-actions>
+    <button
+      (click)="onNoClick()"
+      mat-flat-button
+    ><mat-icon>cancel</mat-icon> Cancel</button>
+    <button
+      (click)="onSubmit(true, approvalMessage.value)"
+      color="primary"
+      mat-flat-button
+    ><mat-icon>check</mat-icon> Approve</button>
+    <button
+      (click)="onSubmit(false, approvalMessage.value)"
+      color="warn"
+      mat-flat-button
+    ><mat-icon>report_problem</mat-icon> Reject</button>
+</div>

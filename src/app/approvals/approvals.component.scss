@@ -1,22 +1,11 @@
 @import "../../config";
 
-h2 {
-  margin-top: 2rem;
-
-  &.disabled {
-    color: $brand-gray-tint-1;
-  }
-}
-
 .studies-container {
   padding: 0;
   margin: 0;
 
-  nav {
-    padding: 2rem;
+  & > h1 {
+    padding-top: 2rem;
+    padding-left: 2rem;
   }
-}
-
-.active {
-  font-weight: bold;
 }
