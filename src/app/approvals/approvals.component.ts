@@ -1,6 +1,16 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {ApiService, AppEnvironment, Approval, ApprovalStatus, ApprovalStatusLabels} from 'sartography-workflow-lib';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import {
+  ApiService,
+  AppEnvironment,
+  Approval,
+  ApprovalStatus,
+  ApprovalStatusLabels
+} from 'sartography-workflow-lib';
+import {ActivatedRoute} from '@angular/router';
 
 export interface ApprovalsByStatus {
   status: ApprovalStatus;
@@ -14,15 +24,24 @@ export interface ApprovalsByStatus {
   templateUrl: './approvals.component.html',
   styleUrls: ['./approvals.component.scss']
 })
-export class ApprovalsComponent {
+export class ApprovalsComponent implements OnInit {
   approvalsByStatus: ApprovalsByStatus[] = [];
   loading = true;
+  asUser = null;
+  USER_ARG = 'as_user';
 
   constructor(
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private api: ApiService,
-  ) {
-    this.loadApprovals();
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit() {
+    this.route.queryParamMap.subscribe(params => {
+      this.asUser = params.get(this.USER_ARG);
+      console.log('as user', params);
+      this.loadApprovals(this.asUser);
+    })
   }
 
   groupApprovalsByStatus(approvals: Approval[]) {
@@ -38,9 +57,8 @@ export class ApprovalsComponent {
     });
   }
 
-  loadApprovals() {
-    this.loading = true;
-    this.api.getApprovals(false).subscribe(approvals => {
+  loadApprovals(asUser: string) {
+    this.api.getApprovals(false, asUser).subscribe(approvals => {
       this.approvalsByStatus = this.groupApprovalsByStatus(approvals);
       this.loading = false;
     });

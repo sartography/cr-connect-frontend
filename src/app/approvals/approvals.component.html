@@ -1,9 +1,10 @@
 <div *ngIf="!loading; else loadingMessage" class="studies-container" fxLayout="column">
+  <h1 *ngIf="asUser">Displaying Approvals as seen by {{this.asUser}}</h1>
   <h1 class="mat-display-4">Your Approvals</h1>
   <app-studies-files-dashboard
     [approvalsByStatus]="approvalsByStatus"
     [approveButtons]="true"
-    (approvalStatusChanged)="loadApprovals()"
+    (approvalStatusChanged)="loadApprovals(this.asUser)"
   ></app-studies-files-dashboard>
 </div>
 
