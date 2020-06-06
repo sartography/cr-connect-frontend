@@ -17,21 +17,6 @@ div.status {
      &.APPROVED { border-left: 4px solid $brand-green; }
    }
 
-
-mat-panel-title.mat-h2 {
-  padding-top: 16px;
-
-  mat-chip {
-    margin-left: 1em;
-
-    &.draft { background-color: $brand-primary; color: white; }
-    &.in_process { background-color: $brand-primary-tint-1; color: white; }
-    &.in_review { background-color: $brand-primary-tint-2; color: white; }
-    &.review_complete { background-color: $brand-primary-tint-3; }
-    &.inactive { background-color: $brand-gray-light; }
-  }
-}
-
 .study-row {
   cursor: pointer;
 
@@ -89,34 +74,6 @@ mat-panel-title.mat-h2 {
 
   .mat-column-docs {
     width: 32%;
-  }
-}
-
-.mat-expansion-panel {
-  border-bottom: 1px solid $brand-gray-tint-2;
-  border-radius: 0;
-
-  .mat-expansion-panel-header {
-    padding: 2rem;
-
-    &.mat-expanded {
-      background-color: $brand-gray-light;
-    }
-  }
-
-  ::ng-deep .mat-expansion-indicator {
-    margin: 1rem;
-
-    &::after {
-      padding: 6px;
-      border-width: 0 4px 4px 0;
-    }
-  }
-
-  ::ng-deep .mat-expansion-panel-content {
-    .mat-expansion-panel-body {
-      padding: 1rem;
-    }
   }
 }
 

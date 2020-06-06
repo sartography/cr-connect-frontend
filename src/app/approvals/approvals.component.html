@@ -1,12 +1,34 @@
-<div *ngIf="!loading; else loadingMessage" class="studies-container" fxLayout="column">
+<div *ngIf="!countsLoading; else countsLoadingMessage" class="studies-container" fxLayout="column">
   <h1 *ngIf="asUser">Displaying Approvals as seen by {{this.asUser}}</h1>
   <h1 class="mat-display-4">Your Approvals</h1>
-  <app-studies-files-dashboard
-    [approvalsByStatus]="approvalsByStatus"
-    [approveButtons]="true"
-    (approvalStatusChanged)="loadApprovals(this.asUser)"
-  ></app-studies-files-dashboard>
+  <mat-accordion class="mat-elevation-z0">
+    <mat-expansion-panel
+      *ngFor="let statusKey of statusKeys; let i = index"
+      [expanded]="statuses[statusKey] === selectedStatus"
+      (opened)="onOpen(statusKey)"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title [id]="statusKey" class="mat-h2">
+          {{statusLabels[statusKey]}}
+          <mat-chip-list>
+            <mat-chip [ngClass]="statusKey.toLowerCase()"
+                      [selectable]="false">{{statusCounts[statusKey]}}</mat-chip>
+          </mat-chip-list>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-studies-files-dashboard
+        *ngIf="approvalsByStatus.status === selectedStatus && !loading; else loadingMessage"
+        (approvalStatusChanged)="loadApprovals(this.asUser)"
+        [approvalsByStatus]="approvalsByStatus"
+        [approveButtons]="true"
+      ></app-studies-files-dashboard>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
+
+<ng-template #countsLoadingMessage>
+  ...
+</ng-template>
 
 <ng-template #loadingMessage>
   <app-loading></app-loading>
