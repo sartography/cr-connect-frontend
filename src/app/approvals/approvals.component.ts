@@ -1,16 +1,14 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
 import {
   ApiService,
   AppEnvironment,
   Approval,
+  ApprovalCounts,
   ApprovalStatus,
   ApprovalStatusLabels
 } from 'sartography-workflow-lib';
-import {ActivatedRoute} from '@angular/router';
 
 export interface ApprovalsByStatus {
   status: ApprovalStatus;
@@ -25,16 +23,23 @@ export interface ApprovalsByStatus {
   styleUrls: ['./approvals.component.scss']
 })
 export class ApprovalsComponent implements OnInit {
-  approvalsByStatus: ApprovalsByStatus[] = [];
+  approvalsByStatus: ApprovalsByStatus;
+  selectedStatus = ApprovalStatus.PENDING;
+  countsLoading = true;
   loading = true;
   asUser = null;
   USER_ARG = 'as_user';
+  statuses = ApprovalStatus;
+  statusLabels = ApprovalStatusLabels;
+  statusKeys = Object.keys(ApprovalStatus).filter(k => k !== ApprovalStatus.CANCELED.toString());
+  statusCounts: ApprovalCounts;
 
   constructor(
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private api: ApiService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
@@ -44,23 +49,29 @@ export class ApprovalsComponent implements OnInit {
     })
   }
 
-  groupApprovalsByStatus(approvals: Approval[]) {
-    const statusKeys = Object.keys(ApprovalStatus).filter(k => k !== ApprovalStatus.CANCELED.toString());
-    return statusKeys.map((statusKey, i) => {
-      const filtered = approvals.filter(s => s.status.toLowerCase() === statusKey.toLowerCase());
-      return {
-        status: ApprovalStatus[statusKey],
-        statusLabel: ApprovalStatusLabels[statusKey],
-        approvals: filtered,
-        dataSource: new MatTableDataSource(filtered),
-      };
+  loadApprovals(asUser: string) {
+    this.loading = true;
+
+    this.api.getApprovalCounts(this.asUser).subscribe(sc => {
+      this.countsLoading = false;
+      this.statusCounts = sc;
+    });
+
+    this.api.getApprovals(this.selectedStatus, asUser).subscribe(approvalByStatus => {
+      this.approvalsByStatus = {
+        status: this.selectedStatus,
+        statusLabel: ApprovalStatusLabels[this.selectedStatus.toString()],
+        approvals: approvalByStatus,
+        dataSource: new MatTableDataSource(approvalByStatus),
+      }
+      this.loading = false;
     });
   }
 
-  loadApprovals(asUser: string) {
-    this.api.getApprovals(false, asUser).subscribe(approvals => {
-      this.approvalsByStatus = this.groupApprovalsByStatus(approvals);
-      this.loading = false;
-    });
+  onOpen(statusKey: string) {
+    if (statusKey !== this.selectedStatus.toString()) {
+      this.selectedStatus = this.statuses[statusKey];
+      this.loadApprovals(this.asUser);
+    }
   }
 }

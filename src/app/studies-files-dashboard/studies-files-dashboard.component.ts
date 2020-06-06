@@ -18,7 +18,7 @@ enum IrbHsrStatus {
   styleUrls: ['./studies-files-dashboard.component.scss']
 })
 export class ApprovalsFilesDashboardComponent implements OnInit {
-  @Input() approvalsByStatus: ApprovalsByStatus[];
+  @Input() approvalsByStatus: ApprovalsByStatus;
   @Input() approveButtons: boolean;
   @Output() approvalStatusChanged = new EventEmitter<Approval>();
   displayedColumns: string[] = [
