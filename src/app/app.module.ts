@@ -63,7 +63,7 @@ import {ProfileComponent} from './profile/profile.component';
 import {ResearchComponent} from './research/research.component';
 import {StudiesDashboardComponent} from './studies-dashboard/studies-dashboard.component';
 import {ApprovalsFilesDashboardComponent} from './studies-files-dashboard/studies-files-dashboard.component';
-import {ApprovalFilesDialogComponent} from './studies-files-dashboard/studies-files-modal';
+import {ApprovalDialogComponent} from './approval-dialog/approval-dialog.component';
 import {StudiesProcessComponent} from './studies-process/studies-process.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudyProgressComponent} from './study-progress/study-progress.component';
@@ -84,6 +84,7 @@ export class ThisEnvironment implements AppEnvironment {
   irbUrl = environment.irbUrl;
   title = environment.title;
   googleAnalyticsKey = environment.googleAnalyticsKey;
+  sentryKey = environment.sentryKey;
 }
 
 /**
@@ -141,7 +142,7 @@ export function markedOptionsFactory(): MarkedOptions {
     ProcessViewerComponent,
     StudiesDashboardComponent,
     ApprovalsFilesDashboardComponent,
-    ApprovalFilesDialogComponent,
+    ApprovalDialogComponent,
     StudiesProcessComponent,
     WorkflowResetDialogComponent,
     ResearchComponent,
@@ -207,7 +208,7 @@ export function markedOptionsFactory(): MarkedOptions {
       useValue: {
         languages: {json: () => import('../../node_modules/highlight.js/lib/languages/json')}
       }
-    }
+    },
   ],
   bootstrap: [AppComponent],
   entryComponents: [
