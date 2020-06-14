@@ -1,4 +1,3 @@
-import {browser, logging} from 'protractor';
 import {HttpClient} from 'protractor-http-client';
 import {AppPage} from './app.po';
 
@@ -11,13 +10,9 @@ describe('Clinical Research Coordinator App', () => {
     http = new HttpClient('http://localhost:5001');
   });
 
-  it('should display fake sign-in screen', () => {
+  it('should automatically sign-in and redirect to home screen', () => {
     page.navigateTo();
-    expect(page.getText('h1')).toEqual('Fake UVA NetBadge Sign In (for testing only)');
-  });
-
-  it('should click sign-in and navigate to home screen', () => {
-    page.clickAndExpectRoute('#sign_in', '/home');
+    expect(page.getRoute()).toEqual('/home');
     expect(page.getElements('#cta_protocol_builder').count()).toBeGreaterThan(0);
   });
 
@@ -42,7 +37,7 @@ describe('Clinical Research Coordinator App', () => {
     expect(page.getElements('#cta_protocol_builder').count()).toBeGreaterThan(0);
   });
 
-  xit('should open Protocol Builder in new window', async () => {
+  it('should open Protocol Builder in new window', async () => {
     expect(page.getElements('#cta_protocol_builder').count()).toEqual(1);
     expect(page.getElements('#cta_reload_studies').count()).toEqual(1);
 
@@ -58,14 +53,14 @@ describe('Clinical Research Coordinator App', () => {
     await page.switchFocusToTab(0);
   });
 
-  xit('should load new study from Protocol Builder', async () => {
+  it('should load new study from Protocol Builder', async () => {
     const numStudiesBefore = await page.getElements('.study-row').count();
 
     // Add a new study to Protocol Builder.
     http.post('/new_study', '' +
       `STUDYID=${Math.floor(Math.random() * 100000)}&` +
       `TITLE=${encodeURIComponent('New study title')}&` +
-      `NETBADGEID=czn1z&` +
+      `NETBADGEID=dhf8r&` +
       `DATE_MODIFIED=${encodeURIComponent(new Date().toISOString())}&` +
       `requirements=9&` +
       `requirements=21&` +
@@ -89,7 +84,7 @@ describe('Clinical Research Coordinator App', () => {
     expect(numStudiesAfter).toBeGreaterThan(numStudiesBefore);
   });
 
-  xit('should navigate to a study', async () => {
+  it('should navigate to a study', async () => {
     const studyRow = page.getElement('.study-row');
     const studyId = await studyRow.getAttribute('data-study-id');
     await expect(studyId).not.toBeUndefined();
@@ -97,18 +92,18 @@ describe('Clinical Research Coordinator App', () => {
     page.clickAndExpectRoute('.study-row', '/study/' + studyId);
   });
 
-  xit('should display workflow spec categories in tabs', async () => {
+  it('should display workflow spec categories in tabs', async () => {
     const numTabs = await page.getElements('.workflow-list-item').count();
     expect(numTabs).toBeGreaterThan(0);
 
-    for (let i=0; i < numTabs; i++) {
+    for (let i = 0; i < numTabs; i++) {
       page.clickElement(`#mat-tab-label-0-${i}`);
       await page.waitFor(500);
       expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
     }
   });
 
-  xit('should navigate to a workflow', async () => {
+  it('should navigate to a workflow', async () => {
     expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
     const workflow = await page.getElement('.workflow-list-item .workflow-action');
     const studyId = await workflow.getAttribute('data-study-id');
@@ -119,16 +114,12 @@ describe('Clinical Research Coordinator App', () => {
     expect(newRoute.slice(0, expectedRoute.length)).toEqual(expectedRoute);
   });
 
-  xit('should sign out', () => {
-    page.clickElement('#nav_account');
-    page.clickAndExpectRoute('#nav_sign_out', '/sign-out');
-  });
-
-  afterEach(async () => {
-    // Assert that there are no errors emitted from the browser
-    const logs = await browser.manage().logs().get(logging.Type.BROWSER);
-    expect(logs).not.toContain(jasmine.objectContaining({
-      level: logging.Level.SEVERE,
-    } as logging.Entry));
-  });
+  // TODO: CATCH 401/403 ERRORS AND VERIFY THAT THEY REDIRECT TO LOGIN
+  // afterEach(async () => {
+  //   // Assert that there are no errors emitted from the browser
+  //   const logs = await browser.manage().logs().get(logging.Type.BROWSER);
+  //   expect(logs).not.toContain(jasmine.objectContaining({
+  //     level: logging.Level.SEVERE,
+  //   } as logging.Entry));
+  // });
 });
