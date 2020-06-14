@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MatIconRegistry} from '@angular/material/icon';
-import {DomSanitizer} from '@angular/platform-browser';
-import {ApiService, AppEnvironment, FileType, GoogleAnalyticsService} from 'sartography-workflow-lib';
+import {DomSanitizer, Title} from '@angular/platform-browser';
+import {AppEnvironment, FileType, GoogleAnalyticsService} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-root',
@@ -9,11 +9,9 @@ import {ApiService, AppEnvironment, FileType, GoogleAnalyticsService} from 'sart
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'CR Connect';
-
   constructor(
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
-    private apiService: ApiService,
+    private titleService: Title,
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private googleAnalyticsService: GoogleAnalyticsService,
@@ -23,7 +21,7 @@ export class AppComponent {
     fileTypes.forEach(t => {
       const url = this.domSanitizer.bypassSecurityTrustResourceUrl(`assets/icons/file_types/${t}.svg`)
       this.matIconRegistry.addSvgIconInNamespace('crc', t, url);
-    })
+    });
+    this.titleService.setTitle(this.environment.title);
   }
-
 }
