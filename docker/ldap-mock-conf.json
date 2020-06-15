@@ -1,0 +1,6 @@
+{
+  "port": 3890,
+  "userLoginAttribute": "uid",
+  "searchBase": "ou=People,o=University of Virginia,c=US",
+  "searchFilter": "(&(objectclass=person)(uid={{username}}))"
+}

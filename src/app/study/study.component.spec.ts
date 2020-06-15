@@ -64,11 +64,6 @@ describe('StudyComponent', () => {
     sReq.flush(mockStudy0);
     expect(component.study).toBeTruthy();
     expect(component.study.id).toEqual(mockStudy0.id);
-
-    const fReq = httpMock.expectOne('apiRoot/file?study_id=' + mockStudy0.id);
-    expect(fReq.request.method).toEqual('GET');
-    fReq.flush(mockFileMetas);
-    expect(component.fileMetas).toEqual(mockFileMetas);
   });
 
   afterEach(() => {
