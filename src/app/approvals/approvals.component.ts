@@ -1,53 +1,14 @@
-import {Component, Inject, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
+import {Component, Inject, OnInit} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import { HttpClient } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
 import {
   ApiService,
   AppEnvironment,
   Approval,
+  ApprovalCounts,
   ApprovalStatus,
   ApprovalStatusLabels
 } from 'sartography-workflow-lib';
-
-// export enum ApprovalStatus {
-//     WAITING = 'WAITING',
-//     APPROVED = 'APPROVED',
-//     DECLINED = 'DECLINED',
-//     CANCELED = 'CANCELED'
-// }
-// enum ApprovalStatusLabels {
-//     WAITING = 'Waiting',
-//     APPROVED = 'Approved',
-//     DECLINED = 'Declined',
-//     CANCELED = 'Canceled'
-// }
-
-// export interface ApprovalFile {
-//     id: number;
-//     name: string;
-//     content_type: string
-// }
-
-// export interface Approver {
-//     uid: string;
-//     display_name: string;
-//     title: string;
-//     department: string;
-// }
-
-// export interface Approval {
-//     id: number;
-//     study_id: number;
-//     workflow_id: number;
-//     message: string;
-//     status: ApprovalStatus;
-//     version: number;
-//     title: string;
-//     associated_files: ApprovalFile[];
-//     approver: Approver;
-// }
 
 export interface ApprovalsByStatus {
   status: ApprovalStatus;
@@ -61,39 +22,56 @@ export interface ApprovalsByStatus {
   templateUrl: './approvals.component.html',
   styleUrls: ['./approvals.component.scss']
 })
-export class ApprovalsComponent {
-  approvalsByStatus: ApprovalsByStatus[] = [];
+export class ApprovalsComponent implements OnInit {
+  approvalsByStatus: ApprovalsByStatus;
+  selectedStatus = ApprovalStatus.PENDING;
+  countsLoading = true;
   loading = true;
+  asUser = null;
+  USER_ARG = 'as_user';
+  statuses = ApprovalStatus;
+  statusLabels = ApprovalStatusLabels;
+  statusKeys = Object.keys(ApprovalStatus).filter(k => k !== ApprovalStatus.CANCELED.toString());
+  statusCounts: ApprovalCounts;
 
   constructor(
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private api: ApiService,
-    private httpClient: HttpClient
+    private route: ActivatedRoute
   ) {
-    this.loadApprovals();
   }
 
-  loadApprovals() {
-    this.api.getApprovals().subscribe(allApprovals => {
-      // const sorted = allStudies.sort((a, b) => {
-      //   const aTime = new Date(a.last_updated).getTime();
-      //   const bTime = new Date(b.last_updated).getTime();
-      //   return bTime - aTime;
-      // });
+  ngOnInit() {
+    this.route.queryParamMap.subscribe(params => {
+      this.asUser = params.get(this.USER_ARG);
+      console.log('as user', params);
+      this.loadApprovals(this.asUser);
+    })
+  }
 
+  loadApprovals(asUser: string) {
+    this.loading = true;
 
-      const statusKeys = Object.keys(ApprovalStatus);
-      this.approvalsByStatus = statusKeys.map((statusKey, i) => {
-        const filtered = allApprovals.filter(s => s.status.toLowerCase() === statusKey.toLowerCase());
-        return {
-          status: ApprovalStatus[statusKey],
-          statusLabel: ApprovalStatusLabels[statusKey],
-          approvals: filtered,
-          dataSource: new MatTableDataSource(filtered),
-        };
-      });
+    this.api.getApprovalCounts(this.asUser).subscribe(sc => {
+      this.countsLoading = false;
+      this.statusCounts = sc;
+    });
 
+    this.api.getApprovals(this.selectedStatus, asUser).subscribe(approvalByStatus => {
+      this.approvalsByStatus = {
+        status: this.selectedStatus,
+        statusLabel: ApprovalStatusLabels[this.selectedStatus.toString()],
+        approvals: approvalByStatus,
+        dataSource: new MatTableDataSource(approvalByStatus),
+      }
       this.loading = false;
     });
+  }
+
+  onOpen(statusKey: string) {
+    if (statusKey !== this.selectedStatus.toString()) {
+      this.selectedStatus = this.statuses[statusKey];
+      this.loadApprovals(this.asUser);
+    }
   }
 }
