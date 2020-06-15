@@ -5,6 +5,9 @@ services:
     image: tuxmonteiro/ldap-mock
     ports:
       - "3890:3890"
+    volumes:
+      - ./ldap-mock-users.json:/usr/src/app/users/users.json
+      - ./ldap-mock-conf.json:/usr/src/app/conf/ldap-server-mock-conf.json
 
   db:
     container_name: db
@@ -20,33 +23,10 @@ services:
       timeout: 20s
       retries: 10
 
-  backend:
-    container_name: backend
-    depends_on:
-       - db
-    image: sartography/cr-connect-workflow:$E2E_TAG
-    environment:
-      - APPLICATION_ROOT=/
-      - CORS_ALLOW_ORIGINS=localhost:5002,bpmn:5002,localhost:4200,frontend:4200
-      - DB_HOST=db
-      - DB_NAME=crc_test
-      - DB_PASSWORD=crc_pass
-      - DB_PORT=5432
-      - DB_USER=crc_user
-      - LDAP_URL=ldap
-      - PB_ENABLED=true
-      - PB_BASE_URL=http://pb:5001/v2.0/
-      - PORT0=5000
-      - RESET_DB=true
-      - UPGRADE_DB=true
-      - TESTING=true
-    ports:
-      - "5000:5000"
-    command: ./wait-for-it.sh db:5432 -t 0 -- ./docker_run.sh
-
   pb:
     container_name: pb
     depends_on:
+       - ldap
        - db
     image: sartography/protocol-builder-mock:$E2E_TAG
     environment:
@@ -61,7 +41,41 @@ services:
       - UPGRADE_DB=true
     ports:
       - "5001:5001"
-    command: ./wait-for-it.sh db:5432 -t 0 -- ./docker_run.sh
+    healthcheck:
+      test: ["CMD", "./wait-for-it.sh", "$DB_HOST:$DB_PORT", "-t", "0", "--", "./docker_run.sh"]
+      timeout: 20s
+      retries: 10
+
+  backend:
+    container_name: backend
+    depends_on:
+       - ldap
+       - db
+       - pb
+    image: sartography/cr-connect-workflow:$E2E_TAG
+    environment:
+      - APPLICATION_ROOT=/
+      - CORS_ALLOW_ORIGINS=localhost:5002,bpmn:5002,localhost:4200,frontend:4200
+      - DB_HOST=db
+      - DB_NAME=crc_test
+      - DB_PASSWORD=crc_pass
+      - DB_PORT=5432
+      - DB_USER=crc_user
+      - DEVELOPMENT=true
+      - LDAP_URL=ldap:3890
+      - PB_BASE_URL=http://pb:5001/v2.0/
+      - PB_ENABLED=true
+      - PORT0=5000
+      - PRODUCTION=false
+      - RESET_DB=true
+      - TESTING=false
+      - UPGRADE_DB=true
+    ports:
+      - "5000:5000"
+    healthcheck:
+      test: ["CMD", "./wait-for-it.sh", "$PB_BASE_URL", "-t", "0", "--", "./docker_run.sh"]
+      timeout: 20s
+      retries: 10
 
 #  bpmn:
 #    container_name: bpmn
