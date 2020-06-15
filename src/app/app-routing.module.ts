@@ -1,11 +1,10 @@
-import {APP_BASE_HREF} from '@angular/common';
 import {Injectable, NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AppEnvironment, SessionRedirectComponent} from 'sartography-workflow-lib';
 import {environment} from '../environments/environment.runtime';
+import {ApprovalsComponent} from './approvals/approvals.component';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
-import {StudiesRrpComponent} from './studies-rrp/studies-rrp.component';
 import {InboxComponent} from './inbox/inbox.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProfileComponent} from './profile/profile.component';
@@ -20,6 +19,8 @@ export class ThisEnvironment implements AppEnvironment {
   api = environment.api;
   irbUrl = environment.irbUrl;
   title = environment.title;
+  googleAnalyticsKey = environment.googleAnalyticsKey;
+  sentryKey = environment.sentryKey;
 }
 
 export const routes: Routes = [
@@ -49,8 +50,8 @@ export const routes: Routes = [
     component: WorkflowComponent
   },
   {
-    path: 'rrp',
-    component: StudiesRrpComponent
+    path: 'approvals',
+    component: ApprovalsComponent
   },
   {
     path: 'help',

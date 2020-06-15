@@ -1,18 +1,21 @@
 @import "../../config";
 
-mat-panel-title.mat-h2 {
-  padding-top: 16px;
-
-  mat-chip {
-    margin-left: 1em;
-
-    &.draft { background-color: $brand-primary; color: white; }
-    &.in_process { background-color: $brand-primary-tint-1; color: white; }
-    &.in_review { background-color: $brand-primary-tint-2; color: white; }
-    &.review_complete { background-color: $brand-primary-tint-3; }
-    &.inactive { background-color: $brand-gray-light; }
-  }
+.smaller {
+  font-size: 0.875rem;
 }
+
+.other_approver {
+  margin: 10px 0 0 20px;
+  font-size: 0.875rem;
+}
+
+div.status {
+     padding-left: 10px;
+     &.CANCELED { border-left: 4px solid $brand-gray-tint-2; color: $brand-gray-tint-1; }
+     &.PENDING { border-left: 4px solid $brand-accent; }
+     &.DECLINED { border-left: 4px solid $brand-warning; color: $brand-warning; }
+     &.APPROVED { border-left: 4px solid $brand-green; }
+   }
 
 .study-row {
   cursor: pointer;
@@ -68,33 +71,9 @@ mat-panel-title.mat-h2 {
       border-right: none;
     }
   }
-}
 
-.mat-expansion-panel {
-  border-bottom: 1px solid $brand-gray-tint-2;
-  border-radius: 0;
-
-  .mat-expansion-panel-header {
-    padding: 2rem;
-
-    &.mat-expanded {
-      background-color: $brand-gray-light;
-    }
-  }
-
-  ::ng-deep .mat-expansion-indicator {
-    margin: 1rem;
-
-    &::after {
-      padding: 6px;
-      border-width: 0 4px 4px 0;
-    }
-  }
-
-  ::ng-deep .mat-expansion-panel-content {
-    .mat-expansion-panel-body {
-      padding: 1rem;
-    }
+  .mat-column-docs {
+    width: 32%;
   }
 }
 

@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {ApiService, ApprovalFile} from 'sartography-workflow-lib';
-import {ApprovalsByStatus} from '../studies-rrp/studies-rrp.component';
-import {ApprovalFilesDialogComponent} from './studies-files-modal';
+import {ApiService, Approval, ApprovalFile} from 'sartography-workflow-lib';
+import {ApprovalsByStatus} from '../approvals/approvals.component';
+import {ApprovalDialogComponent} from '../approval-dialog/approval-dialog.component';
 
 enum IrbHsrStatus {
   NOT_SUBMITTED = 'Not Submitted',
@@ -18,11 +18,15 @@ enum IrbHsrStatus {
   styleUrls: ['./studies-files-dashboard.component.scss']
 })
 export class ApprovalsFilesDashboardComponent implements OnInit {
-  @Input() approvalsByStatus: ApprovalsByStatus[];
+  @Input() approvalsByStatus: ApprovalsByStatus;
+  @Input() approveButtons: boolean;
+  @Output() approvalStatusChanged = new EventEmitter<Approval>();
   displayedColumns: string[] = [
     'id',
     'comments',
     'docs',
+    'creation_date',
+    'approval_date',
     'current_status',
   ];
 
@@ -38,11 +42,15 @@ export class ApprovalsFilesDashboardComponent implements OnInit {
   }
 
   editApproval(approval) {
-    const dialogRef = this.dialog.open(ApprovalFilesDialogComponent, {
+    const dialogRef = this.dialog.open(ApprovalDialogComponent, {
       width: '400px',
       data: {
         approval
       }
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      this.api.updateApproval(data.approval).subscribe(a => this.approvalStatusChanged.emit(a));
     });
   }
 
