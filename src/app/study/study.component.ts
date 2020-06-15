@@ -17,8 +17,8 @@ import {
 export class StudyComponent implements OnInit {
   study: Study;
   displayFiles = false;
-  fileMetas: FileMeta[];
   allWorkflows: Workflow[] = [];
+  loading = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,15 +32,12 @@ export class StudyComponent implements OnInit {
       this.allWorkflows = this.study.categories.reduce((accumulator, cat) => {
         return accumulator.concat(cat.workflows);
       }, []);
-
-      this.api.getFileMetas({study_id: studyId}).subscribe(fms => {
-        this.fileMetas = fms;
-      });
+      this.loading = false;
     });
   }
 
   get numFiles(): number {
-    return this.fileMetas ? this.fileMetas.length : 0;
+    return this.study && this.study.files ? this.study.files.length : 0;
   }
 
   ngOnInit() {
