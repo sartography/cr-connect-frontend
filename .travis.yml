@@ -7,9 +7,6 @@ language: node_js
 node_js:
   - 12
 
-python:
-  - "3.7"
-
 services:
   - docker
   - xvfb
@@ -43,7 +40,7 @@ script:
 
 deploy:
   provider: script
-  script: bash ./deploy.sh
+  script: bash ./deploy.sh sartography/cr-connect-frontend
   on:
     all_branches: true
     condition: $TRAVIS_BRANCH =~ ^(dev|testing|demo|training|staging|master|rrt\/.*)$
