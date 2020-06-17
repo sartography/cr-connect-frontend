@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {ApiService, Approval, ApprovalFile} from 'sartography-workflow-lib';
+import {ApiService, Approval, ApprovalFile, ApprovalStatusLabels} from 'sartography-workflow-lib';
 import {ApprovalsByStatus} from '../approvals/approvals.component';
 import {ApprovalDialogComponent} from '../approval-dialog/approval-dialog.component';
 
@@ -29,6 +29,7 @@ export class ApprovalsFilesDashboardComponent implements OnInit {
     'approval_date',
     'current_status',
   ];
+  approvalStatusLabels = ApprovalStatusLabels;
 
   constructor(public dialog: MatDialog,
     private api: ApiService) {
