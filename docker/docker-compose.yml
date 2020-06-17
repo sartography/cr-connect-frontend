@@ -1,14 +1,5 @@
 version: "3.3"
 services:
-  ldap:
-    container_name: ldap
-    image: tuxmonteiro/ldap-mock
-    ports:
-      - "3890:3890"
-    volumes:
-      - ./ldap-mock-users.json:/usr/src/app/users/users.json
-      - ./ldap-mock-conf.json:/usr/src/app/conf/ldap-server-mock-conf.json
-
   db:
     container_name: db
     image: sartography/cr-connect-db:$E2E_TAG
@@ -20,13 +11,13 @@ services:
       - POSTGRES_MULTIPLE_DATABASES=crc_test,pb_test
     healthcheck:
       test: ["CMD", "pg_isready"]
-      timeout: 20s
+      interval: 10s
+      timeout: 5s
       retries: 10
 
   pb:
     container_name: pb
     depends_on:
-       - ldap
        - db
     image: sartography/protocol-builder-mock:$E2E_TAG
     environment:
@@ -41,15 +32,11 @@ services:
       - UPGRADE_DB=true
     ports:
       - "5001:5001"
-    healthcheck:
-      test: ["CMD", "./wait-for-it.sh", "$DB_HOST:$DB_PORT", "-t", "0", "--", "./docker_run.sh"]
-      timeout: 20s
-      retries: 10
+    command: ./wait-for-it.sh db:5432 -t 0 -- ./docker_run.sh
 
   backend:
     container_name: backend
     depends_on:
-       - ldap
        - db
        - pb
     image: sartography/cr-connect-workflow:$E2E_TAG
@@ -62,7 +49,7 @@ services:
       - DB_PORT=5432
       - DB_USER=crc_user
       - DEVELOPMENT=true
-      - LDAP_URL=ldap:3890
+      - LDAP_URL=mock
       - PB_BASE_URL=http://pb:5001/v2.0/
       - PB_ENABLED=true
       - PORT0=5000
@@ -72,10 +59,8 @@ services:
       - UPGRADE_DB=true
     ports:
       - "5000:5000"
-    healthcheck:
-      test: ["CMD", "./wait-for-it.sh", "$PB_BASE_URL", "-t", "0", "--", "./docker_run.sh"]
-      timeout: 20s
-      retries: 10
+    command: ./wait-for-it.sh pb:5001 -t 0 -- ./docker_run.sh
+
 
 #  bpmn:
 #    container_name: bpmn
