@@ -5,6 +5,7 @@ import {Injectable, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatChipsModule} from '@angular/material/chips';
@@ -47,6 +48,7 @@ import {
 import {environment} from '../environments/environment.runtime';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import {ApprovalsComponent} from './approvals/approvals.component';
 import {CodeViewerComponent} from './code-viewer/code-viewer.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {FooterComponent} from './footer/footer.component';
@@ -61,10 +63,9 @@ import {ProfileComponent} from './profile/profile.component';
 import {ResearchComponent} from './research/research.component';
 import {StudiesDashboardComponent} from './studies-dashboard/studies-dashboard.component';
 import {ApprovalsFilesDashboardComponent} from './studies-files-dashboard/studies-files-dashboard.component';
-import {ApprovalFilesDialogComponent} from './studies-files-dashboard/studies-files-modal';
+import {ApprovalDialogComponent} from './approval-dialog/approval-dialog.component';
 import {StudiesProcessComponent} from './studies-process/studies-process.component';
 import {StudiesComponent} from './studies/studies.component';
-import {StudiesRrpComponent} from './studies-rrp/studies-rrp.component';
 import {StudyProgressComponent} from './study-progress/study-progress.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
@@ -82,6 +83,8 @@ export class ThisEnvironment implements AppEnvironment {
   api = environment.api;
   irbUrl = environment.irbUrl;
   title = environment.title;
+  googleAnalyticsKey = environment.googleAnalyticsKey;
+  sentryKey = environment.sentryKey;
 }
 
 /**
@@ -127,7 +130,7 @@ export function markedOptionsFactory(): MarkedOptions {
     NotificationsComponent,
     ProfileComponent,
     StudiesComponent,
-    StudiesRrpComponent,
+    ApprovalsComponent,
     StudyComponent,
     StudyProgressComponent,
     WorkflowComponent,
@@ -139,7 +142,7 @@ export function markedOptionsFactory(): MarkedOptions {
     ProcessViewerComponent,
     StudiesDashboardComponent,
     ApprovalsFilesDashboardComponent,
-    ApprovalFilesDialogComponent,
+    ApprovalDialogComponent,
     StudiesProcessComponent,
     WorkflowResetDialogComponent,
     ResearchComponent,
@@ -163,6 +166,7 @@ export function markedOptionsFactory(): MarkedOptions {
       },
     }),
     MatBadgeModule,
+    MatBottomSheetModule,
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
@@ -204,7 +208,7 @@ export function markedOptionsFactory(): MarkedOptions {
       useValue: {
         languages: {json: () => import('../../node_modules/highlight.js/lib/languages/json')}
       }
-    }
+    },
   ],
   bootstrap: [AppComponent],
   entryComponents: [

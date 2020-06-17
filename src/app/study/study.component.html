@@ -1,4 +1,4 @@
-<mat-sidenav-container>
+<mat-sidenav-container *ngIf="!loading; else loadingMessage">
   <mat-sidenav-content class="study-container">
     <div fxLayout="row">
       <button mat-flat-button ngClass="back" routerLink="/">
@@ -66,7 +66,11 @@
       <button mat-icon-button (click)="toggleFilesDisplay(false)"><mat-icon>close</mat-icon></button>
     </div>
     <div *ngIf="displayFiles" id="files-display-column">
-      <app-workflow-files [study]="study" [fileMetas]="fileMetas"></app-workflow-files>
+      <app-workflow-files [study]="study" [fileMetas]="study.files"></app-workflow-files>
     </div>
   </mat-sidenav>
 </mat-sidenav-container>
+
+<ng-template #loadingMessage>
+  <app-loading></app-loading>
+</ng-template>

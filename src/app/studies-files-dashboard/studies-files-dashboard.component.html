@@ -1,65 +1,92 @@
-<mat-expansion-panel
-  *ngFor="let approvalsGroup of approvalsByStatus; let i = index"
-  [expanded]="approvalsGroup.approvals.length > 0"
-  class="mat-elevation-z0"
->
-  <mat-expansion-panel-header>
-    <mat-panel-title class="mat-h2" [id]="approvalsGroupId(approvalsGroup)">
-      {{approvalsGroup.statusLabel}}
-      <mat-chip-list>
-        <mat-chip [ngClass]="approvalsGroup.status.toString().toLowerCase()"
-                  [selectable]="false">{{approvalsGroup.approvals.length}}</mat-chip>
-      </mat-chip-list>
-    </mat-panel-title>
-  </mat-expansion-panel-header>
-  <div class="status-{{approvalsGroup.status.toString().toLowerCase()}}" fxLayout="row wrap" fxLayoutGap="40px">
-    <table
-      [dataSource]="approvalsGroup.dataSource"
-      class="mat-elevation-z0"
-      mat-table
-      matSort
-      [attr.aria-describedby]="approvalsGroupId(approvalsGroup)"
-    >
-      <ng-container matColumnDef="id">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_id"> PI (ID) School Dept</th>
-        <td *matCellDef="let approval" mat-cell>
-          {{approval.approver.display_name}}<br />
-          {{approval.approver.department}}
-        </td>
-      </ng-container>
+<div class="status-{{approvalsByStatus.status.toString().toLowerCase()}}" fxLayout="row wrap" fxLayoutGap="40px">
+  <table
+    [attr.aria-describedby]="approvalsGroupId(approvalsByStatus)"
+    [dataSource]="approvalsByStatus.dataSource"
+    class="mat-elevation-z0"
+    mat-table
+    matSort
+  >
+    <ng-container matColumnDef="id">
+      <th *matHeaderCellDef id="col_approval_id" mat-header-cell mat-sort-header>PI (ID) School Dept</th>
+      <td *matCellDef="let approval" mat-cell>
+        {{ approval.primary_investigator.display_name }}<br/>
+        {{ approval.primary_investigator.department | cleanUpLdapProperties }}<br/>
+        <span class="smaller">Approver: {{ approval.approver.display_name }}</span>
 
-      <ng-container matColumnDef="comments">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_comments"> Comments</th>
-        <td *matCellDef="let approval" mat-cell>{{approval.message}}</td>
-      </ng-container>
+        <div *ngIf="approval.related_approvals" class="other_approver">
+          <b>Also approving:</b><br/>
+          <div *ngFor="let related of approval.related_approvals" class="status {{related.status}}">
+            {{related.approver.display_name }} <br/>
+            <b>{{related.status}}</b>
+          </div>
+        </div>
+      </td>
+    </ng-container>
 
-      <ng-container matColumnDef="docs">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_docs"> Docs</th>
-        <td *matCellDef="let approval" [ngClass]="'docs-cell'" mat-cell>
-          <mat-nav-list>
-            <mat-list-item *ngFor="let doc of approval.associated_files" (click)="downloadFile(doc)">
-              <span>{{ doc.name }}</span>
-              <span fxFlex></span>
-              <mat-icon>save_alt</mat-icon>
-            </mat-list-item>
-          </mat-nav-list>
-        </td>
-      </ng-container>
+    <ng-container matColumnDef="comments">
+      <th *matHeaderCellDef id="col_approval_comments" mat-header-cell mat-sort-header>Comments</th>
+      <td *matCellDef="let approval" mat-cell>{{ approval.message }}</td>
+    </ng-container>
 
-      <ng-container matColumnDef="current_status">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_status"> </th>
-        <td *matCellDef="let approval" mat-cell align="center">
-          <a mat-button mat-raised-button (click)="editApproval(approval)" >Approve/Reject</a>
-        </td>
-      </ng-container>
+    <ng-container matColumnDef="docs">
+      <th *matHeaderCellDef id="col_approval_docs" mat-header-cell mat-sort-header> Docs</th>
+      <td *matCellDef="let approval" [ngClass]="'docs-cell'" mat-cell>
+        <mat-nav-list>
+          <mat-list-item (click)="downloadFile(doc)" *ngFor="let doc of approval.associated_files">
+            <span>{{ doc.name }}</span>
+            <span fxFlex></span>
+            <mat-icon>save_alt</mat-icon>
+          </mat-list-item>
+        </mat-nav-list>
+      </td>
+    </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr
-        mat-row
-        *matRowDef="let approval; columns: displayedColumns;"
-        [attr.data-approval-id]="approval.id"
-        [ngClass]="{'study-row': true}"
-      ></tr>
-    </table>
-  </div>
-</mat-expansion-panel>
+    <ng-container matColumnDef="creation_date">
+      <th *matHeaderCellDef id="col_creation_date" mat-header-cell mat-sort-header>Creation Date</th>
+      <td *matCellDef="let approval" mat-cell>
+        {{ approval.date_created | date:'short' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="approval_date">
+      <th *matHeaderCellDef id="col_approval_date" mat-header-cell mat-sort-header>Approval Date</th>
+      <td *matCellDef="let approval" mat-cell>
+        <ng-container *ngIf="approval.date_approved">
+          {{ approval.date_approved | date:'short' }}
+        </ng-container>
+        <ng-container *ngIf="!approval.date_approved">
+          -
+        </ng-container>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="current_status">
+      <th *matHeaderCellDef id="col_approval_status" mat-header-cell mat-sort-header>Status</th>
+      <td *matCellDef="let approval" mat-cell>
+        <div class="status {{approval.status}}">{{approval.status}}</div>
+        <div *ngIf="approval.status ==='CANCELED'">This approval request was cancelled.</div>
+        <div *ngIf="approval.status ==='PENDING'" class="status {{approval.status}}">
+          <a (click)="editApproval(approval)" *ngIf="approveButtons" mat-button
+             mat-raised-button>Approve/Reject</a>
+        </div>
+        <div *ngIf="approval.status ==='APPROVED'" class="status {{approval.status}}">
+          <a (click)="editApproval(approval)" *ngIf="approveButtons" mat-button
+             mat-raised-button>Modify Approval</a>
+        </div>
+        <div *ngIf="approval.status ==='DECLINED'" class="status {{approval.status}}">
+          <a (click)="editApproval(approval)" *ngIf="approveButtons" mat-button
+             mat-raised-button>Modify Approval</a>
+        </div>
+      </td>
+      1
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr
+      *matRowDef="let approval; columns: displayedColumns;"
+      [attr.data-approval-id]="approval.id"
+      [ngClass]="{'study-row': true}"
+      mat-row
+    ></tr>
+  </table>
+</div>

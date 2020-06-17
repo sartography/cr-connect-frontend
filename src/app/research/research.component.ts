@@ -1,5 +1,13 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ApiService, AppEnvironment, ProtocolBuilderStatus, User, Workflow} from 'sartography-workflow-lib';
+import {
+  ApiService,
+  AppEnvironment,
+  Approval, ApprovalStatus,
+  ApprovalStatusLabels,
+  ProtocolBuilderStatus,
+  User,
+  Workflow
+} from 'sartography-workflow-lib';
 import {Study} from 'sartography-workflow-lib/lib/types/study';
 import {Router} from '@angular/router';
 
@@ -13,12 +21,16 @@ export class ResearchComponent implements OnInit  {
   user: User;
   studies: Study[] = [];
   status = ProtocolBuilderStatus;
+  approvalStatus = ApprovalStatus;
+  approvalStatusLabels = ApprovalStatusLabels;
+  loading = true;
 
   constructor(
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private api: ApiService,
     private router: Router
   ) {
+    this.loading = true;
     if (!this.environment.production) {
       const token = localStorage.getItem('token');
       this.isSignedIn = !!token;
@@ -33,6 +45,7 @@ export class ResearchComponent implements OnInit  {
     });
     this.api.getStudies().subscribe( studies => {
       this.studies = studies;
+      this.loading = false;
     });
   }
 
@@ -55,4 +68,11 @@ export class ResearchComponent implements OnInit  {
     });
   }
 
+  isActiveStudy(study: Study) {
+    return (
+      study.protocol_builder_status === ProtocolBuilderStatus.ACTIVE.valueOf().toUpperCase() &&
+      !study.approvals ||
+      study.approvals.length === 0
+    );
+  }
 }

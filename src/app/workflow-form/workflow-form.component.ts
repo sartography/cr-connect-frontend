@@ -22,6 +22,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   @Input() task: WorkflowTask;
   @Input() workflow: Workflow;
   @Output() workflowUpdated: EventEmitter<Workflow> = new EventEmitter();
+  @Output() apiError = new EventEmitter();
   form = new FormGroup({});
   model: any = {};
 
@@ -44,9 +45,16 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   }
 
   saveTaskData(task: WorkflowTask) {
-    this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, this.model).subscribe(
+    this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, this.model).
+    subscribe(
       updatedWorkflow => {
-        this.workflowUpdated.emit(updatedWorkflow);
+        this.workflow = updatedWorkflow;
+      },
+      error => {
+        this.apiError.emit(error);
+        },
+      () => {
+        this.workflowUpdated.emit(this.workflow);
       }
     );
   }

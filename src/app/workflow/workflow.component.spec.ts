@@ -33,6 +33,9 @@ import {WorkflowFilesComponent} from '../workflow-files/workflow-files.component
 import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
 import {WorkflowStepsMenuListComponent} from '../workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow.component';
+import {MatButton, MatButtonModule} from '@angular/material/button';
+import {MatBadge, MatBadgeModule} from '@angular/material/badge';
+import {LoadingComponent} from '../loading/loading.component';
 
 describe('WorkflowComponent', () => {
   let component: WorkflowComponent;
@@ -48,12 +51,15 @@ describe('WorkflowComponent', () => {
         WorkflowFormComponent,
         WorkflowStepsMenuListComponent,
         WorkflowFilesComponent,
+        LoadingComponent,
       ],
       imports: [
         BrowserAnimationsModule,
         FormlyMaterialModule,
         FormlyModule.forRoot(),
         HttpClientTestingModule,
+        MatButtonModule,
+        MatBadgeModule,
         MatDialogModule,
         MatIconModule,
         MatInputModule,
@@ -88,20 +94,16 @@ describe('WorkflowComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
-    expect(fReq.request.method).toEqual('GET');
-    fReq.flush(mockFileMetas);
-    expect(component.fileMetas).toEqual(mockFileMetas);
-
     const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
     expect(wf1Req.request.method).toEqual('GET');
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
 
-    const specReq = httpMock.expectOne('apiRoot/workflow-specification/' + mockWorkflowSpec0.id);
-    expect(specReq.request.method).toEqual('GET');
-    specReq.flush(mockWorkflowSpec0);
-    expect(component.workflowSpec).toEqual(mockWorkflowSpec0);
+    const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
+    expect(fReq.request.method).toEqual('GET');
+    fReq.flush(mockFileMetas);
+    expect(component.fileMetas).toEqual(mockFileMetas);
+
   });
 
   afterEach(() => {
@@ -131,7 +133,7 @@ describe('WorkflowComponent', () => {
     expect(component.workflow).toEqual(mockWorkflow1);
     expect((component as any).taskId).toBeUndefined();
     expect(component.currentTask).toBeUndefined();
-    expect(updateTaskListSpy).toHaveBeenCalledWith(mockWorkflow1.id);
+    expect(updateTaskListSpy).toHaveBeenCalledWith(mockWorkflow1);
   });
 
   it('should set current task when updating task list', () => {
@@ -139,40 +141,24 @@ describe('WorkflowComponent', () => {
     (component as any).taskId = undefined;
     component.currentTask = undefined;
 
-    (component as any).updateTaskList(mockWorkflow1.id);
+    (component as any).updateTaskList(mockWorkflow1);
 
     const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow1.id);
     expect(fReq.request.method).toEqual('GET');
     fReq.flush(mockFileMetas);
     expect(component.fileMetas).toEqual(mockFileMetas);
 
-    const tReq = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow1.id);
-    expect(tReq.request.method).toEqual('GET');
-    tReq.flush(mockWorkflow0);
-
-    const s1Req = httpMock.expectOne('apiRoot/workflow-specification/' + mockWorkflowSpec0.id);
-    expect(s1Req.request.method).toEqual('GET');
-    s1Req.flush(mockWorkflowSpec0);
-
     // Should select a task
     expect(component.currentTask).toBeTruthy();
 
     // Delete all tasks from workflow
     mockWorkflow0.next_task = undefined;
-    (component as any).updateTaskList(mockWorkflow0.id);
+    (component as any).updateTaskList(mockWorkflow0);
 
     const f2Req = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
     expect(f2Req.request.method).toEqual('GET');
     f2Req.flush(mockFileMetas);
     expect(component.fileMetas).toEqual(mockFileMetas);
-
-    const t2Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
-    expect(t2Req.request.method).toEqual('GET');
-    t2Req.flush(mockWorkflow0);
-
-    const s2Req = httpMock.expectOne('apiRoot/workflow-specification/' + mockWorkflowSpec0.id);
-    expect(s2Req.request.method).toEqual('GET');
-    s2Req.flush(mockWorkflowSpec0);
 
     // Should be no task to select.
     expect(component.currentTask).toBeUndefined();
