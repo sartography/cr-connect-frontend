@@ -68,8 +68,9 @@
                       {{ approval.approver.display_name }}<br>
                       <ng-container *ngIf="approval.approver.title">{{ approval.approver.title | cleanUpLdapProperties }},</ng-container>
                       {{ approval.approver.department | cleanUpLdapProperties }}<br>
-                      <strong>{{ approvalStatusLabels[approval.status.valueOf()] }}</strong><br>
+                      <strong>{{ approval.status.valueOf() }}</strong><br>
                       <ng-container *ngIf="approval.message"><em>{{ approval.message }}</em><br></ng-container>
+                      <ng-container *ngIf="approval.version">({{ approval.version | ordinal }} submission)<br></ng-container>
                     </ng-container>
                   </div>
                 </ng-container>
