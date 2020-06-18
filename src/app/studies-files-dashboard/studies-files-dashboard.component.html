@@ -11,13 +11,14 @@
       <td *matCellDef="let approval" mat-cell>
         {{ approval.primary_investigator.display_name }}<br/>
         {{ approval.primary_investigator.department | cleanUpLdapProperties }}<br/>
+        <br/>
         <span class="smaller">Approver: {{ approval.approver.display_name }}</span>
 
         <div *ngIf="approval.related_approvals" class="other_approver">
           <b>Also approving:</b><br/>
           <div *ngFor="let related of approval.related_approvals" class="status {{related.status}}">
-            {{related.approver.display_name }} <br/>
-            <b>{{related.status}}</b>
+            {{related.approver.display_name }}<br/>
+            <strong>{{related.status}}</strong>
           </div>
         </div>
       </td>
@@ -63,7 +64,10 @@
     <ng-container matColumnDef="current_status">
       <th *matHeaderCellDef id="col_approval_status" mat-header-cell mat-sort-header>Status</th>
       <td *matCellDef="let approval" mat-cell>
-        <div class="status {{approval.status}}">{{approval.status}}</div>
+        <div class="status {{approval.status}}">
+          <strong>{{ approval.status.valueOf() }}</strong><br>
+          ({{approval.version | ordinal}} submission)
+        </div>
         <div *ngIf="approval.status ==='CANCELED'">This approval request was cancelled.</div>
         <div *ngIf="approval.status ==='PENDING'" class="status {{approval.status}}">
           <a (click)="editApproval(approval)" *ngIf="approveButtons" mat-button
