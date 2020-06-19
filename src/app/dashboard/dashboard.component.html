@@ -1,5 +1,6 @@
 <mat-tab-group
   [selectedIndex]="selectedTab"
+  (selectedIndexChange)="selectCategory($event)"
 >
   <ng-container
     *ngFor="let cat of categoryTabs"
@@ -7,7 +8,6 @@
     <mat-tab
       *ngIf="cat.workflows && cat.workflows.length > 0"
       label="{{cat.display_name}}"
-      (click)="selectCategory(cat.id)"
     >
       <mat-card [ngClass]="'dashboard'">
         <mat-card-content>
