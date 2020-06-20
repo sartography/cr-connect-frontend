@@ -21,16 +21,10 @@ export class DashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-    route.queryParamMap.subscribe(qParams => {
-      const catIdStr = qParams.get('category');
-
-      if (catIdStr) {
-        this.selectCategory(parseInt(catIdStr, 10));
-      }
-    });
   }
 
   ngOnInit() {
+    console.log('this.study.categories', this.study.categories);
     this.categoryTabs = this.study.categories
       .sort((a, b) => (a.display_order < b.display_order) ? -1 : 1)
       .map(cat => {
@@ -40,6 +34,14 @@ export class DashboardComponent implements OnInit {
         return cat;
       })
       .filter(cat => cat.workflows.length > 0);
+
+    this.route.queryParamMap.subscribe(qParams => {
+      const catIdStr = qParams.get('category');
+
+      if (catIdStr) {
+        this.selectCategory(parseInt(catIdStr, 10));
+      }
+    });
   }
 
   workflowLabel(workflow) {
@@ -87,14 +89,17 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  selectCategory(catId: number) {
-    this.selectedCategoryId = catId;
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {category: catId},
-    }).then(() => {
-      this.selectedTab = this.categoryTabs.findIndex(c => c.id === catId);
-    });
+  selectCategory(displayOrder) {
+    if (this.categoryTabs && this.categoryTabs.length > 0) {
+      const cat = this.categoryTabs[displayOrder];
+      this.selectedCategoryId = cat.id;
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: {category: cat.id},
+      }).then(() => {
+        this.selectedTab = this.categoryTabs.findIndex(c => c.id === cat.id);
+      });
+    }
   }
 
   showWorkflowAction(workflowListItem: WorkflowStats) {
