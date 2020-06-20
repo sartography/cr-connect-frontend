@@ -1,15 +1,9 @@
+import {Location} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
-import { Location } from '@angular/common';
-import {
-  ApiService,
-  Workflow,
-  WorkflowTask,
-  WorkflowTaskState,
-  WorkflowTaskType
-} from 'sartography-workflow-lib';
+import {ApiService, Workflow, WorkflowTask, WorkflowTaskState, WorkflowTaskType} from 'sartography-workflow-lib';
 import {FileMeta} from 'sartography-workflow-lib/lib/types/file';
 import {
   WorkflowResetDialogComponent,
@@ -39,7 +33,7 @@ export class WorkflowComponent implements OnInit {
     private api: ApiService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private location: Location
+    private location: Location,
   ) {
     this.loading = true;
     this.route.paramMap.subscribe(paramMap => {
@@ -48,9 +42,12 @@ export class WorkflowComponent implements OnInit {
     });
   }
 
+  get numFiles(): number {
+    return this.fileMetas ? this.fileMetas.length : 0;
+  };
+
   ngOnInit(): void {
-    this.api.getWorkflow(this.workflowId).
-    subscribe(
+    this.api.getWorkflow(this.workflowId).subscribe(
       wf => {
         this.workflow = wf;
       },
@@ -68,10 +65,6 @@ export class WorkflowComponent implements OnInit {
     this.currentTask = null;
     console.log('Encountered an error:' + error);
   }
-
-  get numFiles(): number {
-    return this.fileMetas ? this.fileMetas.length : 0;
-  };
 
   setCurrentTask(taskId: string) {
     this.loading = true;
@@ -176,6 +169,15 @@ export class WorkflowComponent implements OnInit {
     });
   }
 
+  closePane() {
+    this.toggleFilesDisplay(false);
+    this.toggleDataDisplay(false);
+  }
+
+  goBack() {
+    this.location.back();
+  }
+
   private updateTaskList(wf: Workflow, forceTaskId?: string) {
     this.loading = true;
     this.api.listWorkflowFiles(wf.id).subscribe(fms => {
@@ -202,14 +204,5 @@ export class WorkflowComponent implements OnInit {
     this.logTaskData(this.currentTask);
     this.updateUrl();
     this.loading = false;
-  }
-
-  closePane() {
-    this.toggleFilesDisplay(false);
-    this.toggleDataDisplay(false);
-  }
-
-  goBack() {
-    this.location.back();
   }
 }
