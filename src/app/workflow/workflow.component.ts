@@ -3,12 +3,17 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ApiService, Workflow, WorkflowTask, WorkflowTaskState, WorkflowTaskType} from 'sartography-workflow-lib';
-import {FileMeta} from 'sartography-workflow-lib/lib/types/file';
 import {
-  WorkflowResetDialogComponent,
-  WorkflowResetDialogData
-} from '../workflow-reset-dialog/workflow-reset-dialog.component';
+  ApiService,
+  MultiInstanceType,
+  Workflow,
+  WorkflowNavItem,
+  WorkflowTask,
+  WorkflowTaskState,
+  WorkflowTaskType
+} from 'sartography-workflow-lib';
+import {FileMeta} from 'sartography-workflow-lib/lib/types/file';
+import {WorkflowResetDialogComponent, WorkflowResetDialogData} from '../workflow-reset-dialog/workflow-reset-dialog.component';
 
 @Component({
   selector: 'app-workflow',
@@ -26,6 +31,7 @@ export class WorkflowComponent implements OnInit {
   fileMetas: FileMeta[];
   loading = true;
   error: object;
+  multiInstanceTasks: WorkflowNavItem[];
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +55,7 @@ export class WorkflowComponent implements OnInit {
   ngOnInit(): void {
     this.api.getWorkflow(this.workflowId).subscribe(
       wf => {
+        console.log('ngOnInit workflow', wf);
         this.workflow = wf;
       },
       error => {
@@ -69,6 +76,7 @@ export class WorkflowComponent implements OnInit {
   setCurrentTask(taskId: string) {
     this.loading = true;
     this.api.setCurrentTaskForWorkflow(this.workflowId, taskId).subscribe(wf => {
+      console.log('setCurrentTask workflow', wf);
       this.workflow = wf;
       this.currentTask = wf.next_task;
       this.updateUrl();
@@ -86,6 +94,7 @@ export class WorkflowComponent implements OnInit {
   completeManualTask(task: WorkflowTask) {
     this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, {}).subscribe(
       updatedWorkflow => {
+        console.log('completeManualTask workflow', updatedWorkflow);
         this.workflowUpdated(updatedWorkflow);
       }
     );
@@ -107,6 +116,7 @@ export class WorkflowComponent implements OnInit {
   }
 
   workflowUpdated(wf: Workflow) {
+    console.log('workflowUpdated workflow', wf);
     this.workflow = wf;
     this.currentTask = undefined;
     this.updateTaskList(this.workflow);
@@ -148,7 +158,8 @@ export class WorkflowComponent implements OnInit {
   }
 
   resetWorkflow() {
-    this.api.getWorkflow(this.workflowId, {hard_reset: true}).subscribe((workflow) => {
+    this.api.getWorkflow(this.workflowId, {hard_reset: true}).subscribe(workflow => {
+      console.log('resetWorkflow workflow', workflow);
       this.snackBar.open(`Your workflow has been reset successfully.`, 'Ok', {duration: 3000});
       this.workflow = workflow;
       this.updateTaskList(workflow);
@@ -180,6 +191,7 @@ export class WorkflowComponent implements OnInit {
 
   private updateTaskList(wf: Workflow, forceTaskId?: string) {
     this.loading = true;
+    this.workflow = wf;
     this.api.listWorkflowFiles(wf.id).subscribe(fms => {
       this.fileMetas = fms;
     });
@@ -200,7 +212,17 @@ export class WorkflowComponent implements OnInit {
     } else {
       this.currentTask = wf.next_task;
     }
-    console.log('Udate Task Executed', this.currentTask);
+    console.log('Update Task Executed', this.currentTask);
+
+    this.multiInstanceTasks = this.workflow.navigation.filter(t => {
+      return (
+        t.task && this.currentTask &&
+        this.currentTask.multi_instance_type !== MultiInstanceType.NONE.valueOf() &&
+        this.currentTask.multi_instance_type === t.task.multi_instance_type &&
+        this.currentTask.name === t.task.name
+      );
+    });
+
     this.logTaskData(this.currentTask);
     this.updateUrl();
     this.loading = false;

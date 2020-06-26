@@ -22,7 +22,7 @@
     </h3>
     <app-workflow-steps-menu-list
       *ngIf="workflow"
-      [navList]="workflow.navigation"
+      [workflow]="workflow"
       [currentTask]="currentTask"
       (taskSelected)="setCurrentTask($event)"
     ></app-workflow-steps-menu-list>
@@ -52,6 +52,15 @@
         <mat-icon>chrome_reader_mode</mat-icon>
       </button>
     </div>
+
+    <mat-tab-group
+      *ngIf="multiInstanceTasks && multiInstanceTasks.length > 0"
+      [selectedIndex]="currentTask && (currentTask.multi_instance_index - 1)"
+    >
+      <mat-tab *ngFor="let miTask of multiInstanceTasks">
+        <ng-template mat-tab-label>{{miTask.task.multi_instance_index}}</ng-template>
+      </mat-tab>
+    </mat-tab-group>
     <ng-container *ngIf="!loading; else loadingMessage">
       <ng-container *ngIf="hasIncompleteUserTask(); else noTask">
         <app-workflow-form *ngIf="currentTask; else loadingMessage"
@@ -62,6 +71,7 @@
         ></app-workflow-form>
       </ng-container>
     </ng-container>
+
   </mat-sidenav-content>
   <mat-sidenav
     [opened]="displayData || displayFiles"

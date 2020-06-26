@@ -4,7 +4,22 @@
     <div *ngIf="task.documentation" class="documentation">
       <markdown [data]="task.documentation"></markdown>
     </div>
-    <div>
+    <div *ngIf="task.multi_instance_type === 'looping'">
+      <formly-form
+        *ngFor="let loopTask of loopTasks"
+        (keyup)="handleKeyUp($event)"
+        [fields]="loopTask.task.form.fields | toFormly:fileParams"
+        [form]="loopTask.form"
+        [model]="loopTask.model"
+      ></formly-form>
+      <button
+        (click)="saveTaskData(task)"
+        [disabled]="hasInvalidForm(loopTasks)"
+        color="primary"
+        mat-flat-button
+      >Save</button>
+    </div>
+    <div *ngIf="task.multi_instance_type !== 'looping'">
       <formly-form
         (keyup)="handleKeyUp($event)"
         [fields]="task.form.fields | toFormly:fileParams"

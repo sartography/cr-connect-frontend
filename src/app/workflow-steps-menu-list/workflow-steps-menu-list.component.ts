@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {WorkflowNavItem, WorkflowTask, WorkflowTaskState, WorkflowTaskType} from 'sartography-workflow-lib';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {MultiInstanceType, Workflow, WorkflowNavItem, WorkflowTask, WorkflowTaskState, WorkflowTaskType} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow-steps-menu-list',
@@ -7,18 +7,31 @@ import {WorkflowNavItem, WorkflowTask, WorkflowTaskState, WorkflowTaskType} from
   styleUrls: ['./workflow-steps-menu-list.component.scss']
 })
 
-export class WorkflowStepsMenuListComponent implements OnInit {
-  @Input() navList: WorkflowNavItem[];
+export class WorkflowStepsMenuListComponent implements OnInit, OnChanges {
+  @Input() workflow: Workflow;
   @Input() currentTask: WorkflowTask;
   @Output() taskSelected: EventEmitter<string> = new EventEmitter();
   taskStates = WorkflowTaskState;
+  navList: WorkflowNavItem[];
+  navListItems: WorkflowNavItem[];
+  loading = true;
 
   constructor() {
   }
 
   ngOnInit(): void {
-    console.log('navList', this.navList);
-    console.log('currentTask', this.currentTask);
+    this.loading = true;
+    this.navList = this.workflow.navigation;
+    this.loadNavListItems();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes', changes);
+    if (changes && changes.workflow && changes.workflow.currentValue) {
+      this.loading = true;
+      this.navList = changes.workflow.currentValue.navigation;
+      this.loadNavListItems();
+    }
   }
 
   selectTask(taskId: string) {
@@ -35,7 +48,13 @@ export class WorkflowStepsMenuListComponent implements OnInit {
       navItem &&
       navItem.task &&
       navItem.task.type &&
-      !hideTypes.includes(navItem.task.type)
+      !hideTypes.includes(navItem.task.type) &&
+      (navItem.task.multi_instance_type === MultiInstanceType.NONE || navItem.task.multi_instance_index === 1)
     );
+  }
+
+  loadNavListItems() {
+    this.navListItems = this.navList.filter(navItem => this.shouldDisplayNavItem(navItem));
+    this.loading = false;
   }
 }
