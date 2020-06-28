@@ -227,4 +227,12 @@ export class WorkflowComponent implements OnInit {
     this.updateUrl();
     this.loading = false;
   }
+
+  selectMultiInstanceTab(tabIndex: number) {
+    console.log('tabIndex', tabIndex);
+    const selectedItem = this.workflow.navigation.find(item => item.task && item.task.multi_instance_index === tabIndex + 1);
+    if (selectedItem) {
+      this.setCurrentTask(selectedItem.task_id);
+    }
+  }
 }

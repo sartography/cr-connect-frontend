@@ -1,13 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import createClone from 'rfdc';
-import {ApiService, FileParams, MultiInstanceType, Workflow, WorkflowTask} from 'sartography-workflow-lib';
-
-export interface LoopTask {
-  task: WorkflowTask,
-  form: FormGroup,
-  model: any,
-}
+import {ApiService, FileParams, Workflow, WorkflowTask} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow-form',
@@ -21,7 +15,6 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   @Output() apiError = new EventEmitter();
   form = new FormGroup({});
   model: any = {};
-  loopTasks: LoopTask[];
 
   @ViewChild('#jsonCode') jsonCodeElement: ElementRef;
   fileParams: FileParams;
@@ -33,19 +26,11 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this._loadModel(this.task);
-
-    if (this.task.multi_instance_type === MultiInstanceType.LOOPING.valueOf()) {
-      this.loopTasks = this._loadLoopTasks(this.task);
-    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.task && changes.task.currentValue) {
       this._loadModel(changes.task.currentValue);
-
-      if (this.task.multi_instance_type === MultiInstanceType.LOOPING.valueOf()) {
-        this.loopTasks = this._loadLoopTasks(this.task);
-      }
     }
   }
 
@@ -77,36 +62,6 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     ) {
       this._focusNextPrevCheckbox(thisEl, $event.key);
     }
-  }
-
-  // Generates an array of LoopTask containers (consisting of a copy of the original task,
-  // form, and portion of the model) for each _MICurrentVar
-  _loadLoopTasks(task: WorkflowTask): LoopTask[] {
-    const loops = [];
-    if (task && this.model) {
-      const numLoops = task.multi_instance_index;
-      const dataKey = `${task.name}_MIData`;
-
-      if (!this.model.hasOwnProperty(dataKey)) {
-        this.model[dataKey] = {};
-      }
-
-      for (let i = 0; i < numLoops; i++) {
-        const iKey = `${i}`;
-
-        if (!this.model[dataKey].hasOwnProperty(iKey)) {
-          this.model[dataKey][iKey] = {};
-        }
-
-        loops.push({
-          form: createClone({circles: true})(this.form),
-          task: createClone({circles: true})(task),
-          model: this.model[dataKey][iKey],
-        });
-      }
-    }
-
-    return loops;
   }
 
   private _loadModel(task: WorkflowTask) {
@@ -149,9 +104,5 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
       parentElement = parentElement.parentElement;
     }
     return parentElement;
-  }
-
-  hasInvalidForm(loopTasks: LoopTask[]) {
-    return loopTasks.some(lt => lt.form.invalid);
   }
 }
