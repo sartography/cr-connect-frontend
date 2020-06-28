@@ -5,7 +5,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   ApiService,
-  MultiInstanceType,
+  MultiInstanceType, scrollToTop,
   Workflow,
   WorkflowNavItem,
   WorkflowTask,
@@ -14,6 +14,7 @@ import {
 } from 'sartography-workflow-lib';
 import {FileMeta} from 'sartography-workflow-lib/lib/types/file';
 import {WorkflowResetDialogComponent, WorkflowResetDialogData} from '../workflow-reset-dialog/workflow-reset-dialog.component';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
   selector: 'app-workflow',
@@ -32,6 +33,7 @@ export class WorkflowComponent implements OnInit {
   loading = true;
   error: object;
   multiInstanceTasks: WorkflowNavItem[];
+  multiInstanceTypes = MultiInstanceType;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +42,7 @@ export class WorkflowComponent implements OnInit {
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
     private location: Location,
+    private deviceDetector: DeviceDetectorService,
   ) {
     this.loading = true;
     this.route.paramMap.subscribe(paramMap => {
@@ -225,6 +228,7 @@ export class WorkflowComponent implements OnInit {
 
     this.logTaskData(this.currentTask);
     this.updateUrl();
+    scrollToTop(this.deviceDetector);
     this.loading = false;
   }
 

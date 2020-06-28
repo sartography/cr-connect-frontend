@@ -1,4 +1,71 @@
 <mat-sidenav-container>
+  <mat-sidenav-content>
+    <h4 class="mat-card-subtitle">{{workflow && workflow.title}}</h4>
+    <div fxLayout="row" fxLayoutAlign="end">
+      <button
+        mat-mini-fab
+        title="Files for this task"
+        (click)="toggleFilesDisplay()"
+        [ngClass]="{'selected': displayFiles, 'mat-elevation-z0': true}"
+        color="accent"
+        [matBadge]="numFiles"
+        matBadgeColor="primary"
+        [matBadgeHidden]="numFiles <= 0"
+      >
+        <mat-icon>insert_drive_file</mat-icon>
+      </button>
+      <button
+        mat-mini-fab
+        title="Display collected task data"
+        (click)="toggleDataDisplay()"
+        [ngClass]="{'selected': displayData, 'mat-elevation-z0': true}"
+        color="primary"
+      >
+        <mat-icon>chrome_reader_mode</mat-icon>
+      </button>
+    </div>
+
+
+    <ng-container *ngIf="multiInstanceTasks && multiInstanceTasks.length > 0">
+      <mat-tab-group
+        *ngIf="currentTask && currentTask.multi_instance_type === multiInstanceTypes.PARALLEL"
+        [selectedIndex]="currentTask && (currentTask.multi_instance_index - 1)"
+        (selectedIndexChange)="selectMultiInstanceTab($event)"
+        class="multi-instance-tabs"
+      >
+        <mat-tab
+          *ngFor="let miTask of multiInstanceTasks"
+          [label]="miTask.task.multi_instance_index"
+        >
+          <div class="pad-2"></div>
+        </mat-tab>
+      </mat-tab-group>
+
+      <mat-horizontal-stepper
+        linear
+        #stepper
+        *ngIf="currentTask && currentTask.multi_instance_type === multiInstanceTypes.SEQUENTIAL"
+        [selectedIndex]="currentTask && (currentTask.multi_instance_index - 1)"
+        class="multi-instance-stepper"
+      >
+        <mat-step *ngFor="let miTask of multiInstanceTasks">
+          <div class="pad-2"></div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </ng-container>
+
+    <ng-container *ngIf="!loading; else loadingMessage">
+      <ng-container *ngIf="hasIncompleteUserTask(); else noTask">
+        <app-workflow-form *ngIf="currentTask; else loadingMessage"
+                           [task]="currentTask"
+                           [workflow]="workflow"
+                           (workflowUpdated)="workflowUpdated($event)"
+                           (apiError)="handleError($event)"
+        ></app-workflow-form>
+      </ng-container>
+    </ng-container>
+
+  </mat-sidenav-content>
   <mat-sidenav opened mode="side" position="start" [fixedInViewport]="true" [fixedTopGap]="64">
     <button
       mat-button
@@ -27,53 +94,6 @@
       (taskSelected)="setCurrentTask($event)"
     ></app-workflow-steps-menu-list>
   </mat-sidenav>
-  <mat-sidenav-content>
-    <h4 class="mat-card-subtitle">{{workflow && workflow.title}}</h4>
-    <div fxLayout="row" fxLayoutAlign="end">
-      <button
-        mat-mini-fab
-        title="Files for this task"
-        (click)="toggleFilesDisplay()"
-        [ngClass]="{'selected': displayFiles, 'mat-elevation-z0': true}"
-        color="accent"
-        [matBadge]="numFiles"
-        matBadgeColor="primary"
-        [matBadgeHidden]="numFiles <= 0"
-      >
-        <mat-icon>insert_drive_file</mat-icon>
-      </button>
-      <button
-        mat-mini-fab
-        title="Display collected task data"
-        (click)="toggleDataDisplay()"
-        [ngClass]="{'selected': displayData, 'mat-elevation-z0': true}"
-        color="primary"
-      >
-        <mat-icon>chrome_reader_mode</mat-icon>
-      </button>
-    </div>
-
-    <mat-tab-group
-      *ngIf="multiInstanceTasks && multiInstanceTasks.length > 0"
-      [selectedIndex]="currentTask && (currentTask.multi_instance_index - 1)"
-      (selectedIndexChange)="selectMultiInstanceTab($event)"
-    >
-      <mat-tab *ngFor="let miTask of multiInstanceTasks">
-        <ng-template mat-tab-label>{{miTask.task.multi_instance_index}}</ng-template>
-      </mat-tab>
-    </mat-tab-group>
-    <ng-container *ngIf="!loading; else loadingMessage">
-      <ng-container *ngIf="hasIncompleteUserTask(); else noTask">
-        <app-workflow-form *ngIf="currentTask; else loadingMessage"
-          [task]="currentTask"
-          [workflow]="workflow"
-          (workflowUpdated)="workflowUpdated($event)"
-          (apiError)="handleError($event)"
-        ></app-workflow-form>
-      </ng-container>
-    </ng-container>
-
-  </mat-sidenav-content>
   <mat-sidenav
     [opened]="displayData || displayFiles"
     mode="side"

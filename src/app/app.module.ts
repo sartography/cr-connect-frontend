@@ -74,6 +74,7 @@ import {WorkflowResetDialogComponent} from './workflow-reset-dialog/workflow-res
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
+import {MatStepperModule} from '@angular/material/stepper';
 
 
 @Injectable()
@@ -194,7 +195,9 @@ export function markedOptionsFactory(): MarkedOptions {
     SartographyFormsModule,
     SartographyPipesModule,
     SartographyWorkflowLibModule,
-    AppRoutingModule, // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
+    AppRoutingModule,
+    MatStepperModule,
+    // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},

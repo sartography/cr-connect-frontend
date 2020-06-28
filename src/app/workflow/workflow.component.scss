@@ -36,7 +36,7 @@ mat-list-item.disabled {
   transition: background-color 0.5s ease-in-out;
 }
 
-.files-display, {
+.files-display {
   padding: 3rem 2rem;
 }
 
@@ -78,4 +78,8 @@ mat-list-item.disabled {
 .api_error {
   max-width: 500px;
   margin: 20px auto;
+}
+
+::ng-deep .multi-instance-tabs .mat-tab-label {
+  min-width: 24px;
 }
