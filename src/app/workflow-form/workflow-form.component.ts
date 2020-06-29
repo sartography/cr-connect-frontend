@@ -1,14 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import createClone from 'rfdc';
 import {ApiService, FileParams, Workflow, WorkflowTask} from 'sartography-workflow-lib';
@@ -48,12 +38,14 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, this.model).
     subscribe(
       updatedWorkflow => {
+        console.log('saveTaskData workflow', updatedWorkflow);
         this.workflow = updatedWorkflow;
       },
       error => {
         this.apiError.emit(error);
         },
       () => {
+        console.log('saveTaskData emitting workflow', this.workflow);
         this.workflowUpdated.emit(this.workflow);
       }
     );

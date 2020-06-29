@@ -36,6 +36,7 @@ import {WorkflowComponent} from './workflow.component';
 import {MatButton, MatButtonModule} from '@angular/material/button';
 import {MatBadge, MatBadgeModule} from '@angular/material/badge';
 import {LoadingComponent} from '../loading/loading.component';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 describe('WorkflowComponent', () => {
   let component: WorkflowComponent;
@@ -83,6 +84,7 @@ describe('WorkflowComponent', () => {
         },
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
         {provide: APP_BASE_HREF, useValue: ''},
+        DeviceDetectorService,
       ]
     })
       .compileComponents();

@@ -1,21 +1,23 @@
-<mat-list *ngIf="navList">
-  <ng-container *ngFor="let navItem of navList">
-    <mat-list-item
-      *ngIf="shouldDisplayNavItem(navItem)"
-      (click)="selectTask(navItem.task_id)"
-      [ngClass]="{
-        'task': true,
-        'active': currentTask && currentTask.id === navItem.task_id,
-        'disabled': navItem.state === taskStates.LIKELY || navItem.state === taskStates.FUTURE || !navItem.task_id
-      }"
-    ><span class="indent_{{navItem.indent}}">{{ navItem.title }}</span>
-      <span fxFlex></span>
-      <mat-icon *ngIf="navItem.state === taskStates.COMPLETED">check</mat-icon>
-      <mat-icon *ngIf="navItem.state === taskStates.WAITING">more_horiz</mat-icon>
-      <mat-icon *ngIf="navItem.state === taskStates.FUTURE">access_time</mat-icon>
-      <mat-icon *ngIf="navItem.state === taskStates.LIKELY">access_time</mat-icon>
-      <mat-icon *ngIf="navItem.state === taskStates.READY">create</mat-icon>
-      <mat-icon *ngIf="navItem.state === 'None'">access_time</mat-icon>
-    </mat-list-item>
-  </ng-container>
+<mat-list *ngIf="workflow && !loading; else loadingMessage">
+  <mat-list-item
+    *ngFor="let navItem of navListItems"
+    (click)="selectTask(navItem.task_id)"
+    [ngClass]="{
+      'task': true,
+      'active': currentTask && currentTask.id === navItem.task_id,
+      'disabled': navItem.state === taskStates.LIKELY || navItem.state === taskStates.FUTURE || !navItem.task_id
+    }"
+  ><span class="indent_{{navItem.indent}}">{{ navItem.title }}</span>
+    <span fxFlex></span>
+    <mat-icon *ngIf="navItem.state === taskStates.COMPLETED">check</mat-icon>
+    <mat-icon *ngIf="navItem.state === taskStates.WAITING">more_horiz</mat-icon>
+    <mat-icon *ngIf="navItem.state === taskStates.FUTURE">access_time</mat-icon>
+    <mat-icon *ngIf="navItem.state === taskStates.LIKELY">access_time</mat-icon>
+    <mat-icon *ngIf="navItem.state === taskStates.READY">create</mat-icon>
+    <mat-icon *ngIf="navItem.state === 'None'">access_time</mat-icon>
+  </mat-list-item>
 </mat-list>
+
+<ng-template #loadingMessage>
+  <app-loading></app-loading>
+</ng-template>
