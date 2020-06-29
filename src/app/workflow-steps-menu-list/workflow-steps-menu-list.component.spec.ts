@@ -1,7 +1,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
-import {mockWorkflowTask0} from 'sartography-workflow-lib';
+import {mockWorkflow0, mockWorkflowTask0} from 'sartography-workflow-lib';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list.component';
 
 describe('WorkflowStepsMenuListComponent', () => {
@@ -22,6 +22,7 @@ describe('WorkflowStepsMenuListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkflowStepsMenuListComponent);
     component = fixture.componentInstance;
+    component.workflow = mockWorkflow0;
     fixture.detectChanges();
   });
 

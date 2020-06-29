@@ -1,32 +1,4 @@
 <mat-sidenav-container>
-  <mat-sidenav opened mode="side" position="start" [fixedInViewport]="true" [fixedTopGap]="64">
-    <button
-      mat-button
-      (click)="goBack()"
-      [ngClass]="'back'"
-    >
-      <mat-icon>chevron_left</mat-icon>
-      Back
-    </button>
-
-    <h3>
-      Tasks
-      <span fxFlex></span>
-      <button
-        mat-button
-        (click)="confirmResetWorkflow()"
-      >
-        <mat-icon>undo</mat-icon>
-        Start over
-      </button>
-    </h3>
-    <app-workflow-steps-menu-list
-      *ngIf="workflow"
-      [navList]="workflow.navigation"
-      [currentTask]="currentTask"
-      (taskSelected)="setCurrentTask($event)"
-    ></app-workflow-steps-menu-list>
-  </mat-sidenav>
   <mat-sidenav-content>
     <h4 class="mat-card-subtitle">{{workflow && workflow.title}}</h4>
     <div fxLayout="row" fxLayoutAlign="end">
@@ -52,17 +24,76 @@
         <mat-icon>chrome_reader_mode</mat-icon>
       </button>
     </div>
+
+
+    <ng-container *ngIf="multiInstanceTasks && multiInstanceTasks.length > 0">
+      <mat-tab-group
+        *ngIf="currentTask && currentTask.multi_instance_type === multiInstanceTypes.PARALLEL"
+        [selectedIndex]="currentTask && (currentTask.multi_instance_index - 1)"
+        (selectedIndexChange)="selectMultiInstanceTab($event)"
+        class="multi-instance-tabs"
+      >
+        <mat-tab
+          *ngFor="let miTask of multiInstanceTasks"
+          [label]="miTask.task.multi_instance_index"
+        >
+          <div class="pad-2"></div>
+        </mat-tab>
+      </mat-tab-group>
+
+      <mat-horizontal-stepper
+        linear
+        #stepper
+        *ngIf="currentTask && currentTask.multi_instance_type === multiInstanceTypes.SEQUENTIAL"
+        [selectedIndex]="currentTask && (currentTask.multi_instance_index - 1)"
+        class="multi-instance-stepper"
+      >
+        <mat-step *ngFor="let miTask of multiInstanceTasks">
+          <div class="pad-2"></div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </ng-container>
+
     <ng-container *ngIf="!loading; else loadingMessage">
       <ng-container *ngIf="hasIncompleteUserTask(); else noTask">
         <app-workflow-form *ngIf="currentTask; else loadingMessage"
-          [task]="currentTask"
-          [workflow]="workflow"
-          (workflowUpdated)="workflowUpdated($event)"
-          (apiError)="handleError($event)"
+                           [task]="currentTask"
+                           [workflow]="workflow"
+                           (workflowUpdated)="workflowUpdated($event)"
+                           (apiError)="handleError($event)"
         ></app-workflow-form>
       </ng-container>
     </ng-container>
+
   </mat-sidenav-content>
+  <mat-sidenav opened mode="side" position="start" [fixedInViewport]="true" [fixedTopGap]="64">
+    <button
+      mat-button
+      (click)="goBack()"
+      [ngClass]="'back'"
+    >
+      <mat-icon>chevron_left</mat-icon>
+      Back
+    </button>
+
+    <h3>
+      Tasks
+      <span fxFlex></span>
+      <button
+        mat-button
+        (click)="confirmResetWorkflow()"
+      >
+        <mat-icon>undo</mat-icon>
+        Start over
+      </button>
+    </h3>
+    <app-workflow-steps-menu-list
+      *ngIf="workflow"
+      [workflow]="workflow"
+      [currentTask]="currentTask"
+      (taskSelected)="setCurrentTask($event)"
+    ></app-workflow-steps-menu-list>
+  </mat-sidenav>
   <mat-sidenav
     [opened]="displayData || displayFiles"
     mode="side"
