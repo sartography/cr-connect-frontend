@@ -48,8 +48,7 @@ export class WorkflowStepsMenuListComponent implements OnInit, OnChanges {
       navItem &&
       navItem.task &&
       navItem.task.type &&
-      !hideTypes.includes(navItem.task.type) &&
-      (navItem.task.multi_instance_type === MultiInstanceType.NONE || navItem.task.multi_instance_index === 1)
+      !hideTypes.includes(navItem.task.type)
     );
   }
 

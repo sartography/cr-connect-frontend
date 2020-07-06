@@ -5,9 +5,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   ApiService,
-  MultiInstanceType, scrollToTop,
+  scrollToTop,
   Workflow,
-  WorkflowNavItem,
   WorkflowTask,
   WorkflowTaskState,
   WorkflowTaskType
@@ -32,8 +31,6 @@ export class WorkflowComponent implements OnInit {
   fileMetas: FileMeta[];
   loading = true;
   error: object;
-  multiInstanceTasks: WorkflowNavItem[];
-  multiInstanceTypes = MultiInstanceType;
 
   constructor(
     private route: ActivatedRoute,
@@ -216,27 +213,9 @@ export class WorkflowComponent implements OnInit {
       this.currentTask = wf.next_task;
     }
     console.log('Update Task Executed', this.currentTask);
-
-    this.multiInstanceTasks = this.workflow.navigation.filter(t => {
-      return (
-        t.task && this.currentTask &&
-        this.currentTask.multi_instance_type !== MultiInstanceType.NONE.valueOf() &&
-        this.currentTask.multi_instance_type === t.task.multi_instance_type &&
-        this.currentTask.name === t.task.name
-      );
-    });
-
     this.logTaskData(this.currentTask);
     this.updateUrl();
     scrollToTop(this.deviceDetector);
     this.loading = false;
-  }
-
-  selectMultiInstanceTab(tabIndex: number) {
-    console.log('tabIndex', tabIndex);
-    const selectedItem = this.workflow.navigation.find(item => item.task && item.task.multi_instance_index === tabIndex + 1);
-    if (selectedItem) {
-      this.setCurrentTask(selectedItem.task_id);
-    }
   }
 }
