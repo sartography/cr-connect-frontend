@@ -11,7 +11,19 @@ import {
 } from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import createClone from 'rfdc';
-import {ApiService, FileParams, Workflow, WorkflowTask} from 'sartography-workflow-lib';
+import {
+  ApiService,
+  FileParams,
+  MultiInstanceType,
+  ToFormlyPipe,
+  Workflow,
+  WorkflowNavItem,
+  WorkflowTask
+} from 'sartography-workflow-lib';
+import {interval} from 'rxjs';
+import {map, take} from 'rxjs/operators';
+import {FormlyFieldConfig} from '@ngx-formly/core';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-workflow-form',
@@ -28,9 +40,11 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   @ViewChild('#jsonCode') jsonCodeElement: ElementRef;
   fileParams: FileParams;
+  fields: FormlyFieldConfig[];
 
   constructor(
     private api: ApiService,
+    private location: Location,
   ) {
   }
 
@@ -45,7 +59,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   }
 
   saveTaskData(task: WorkflowTask) {
-    this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, this.model).subscribe(
+    return this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, this.model).subscribe(
       updatedWorkflow => {
         console.log('saveTaskData workflow', updatedWorkflow);
         this.workflow = updatedWorkflow;
@@ -73,6 +87,50 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
   }
 
+  getMultiInstanceSiblings(task: WorkflowTask): WorkflowNavItem[] {
+    if (task.multi_instance_type === MultiInstanceType.NONE) {
+      return [];
+    } else {
+      return this.workflow.navigation.filter(navItem => navItem.task && navItem.task.name === task.name);
+    }
+  }
+
+  numRemainingSiblingTasks(task: WorkflowTask): number {
+    const siblings = this.getMultiInstanceSiblings(task);
+
+    // Get the index of the current task
+    const thisIndex = siblings.findIndex(s => s.task_id === task.id);
+    return siblings.length - (thisIndex + 1);
+  }
+
+  saveAllSiblingTaskData(task: WorkflowTask) {
+    const thisModel = createClone()(this.model);
+    interval(300)
+      .pipe(
+        // Loop over remaining siblings
+        take(this.numRemainingSiblingTasks(task) + 1),
+        map(i => i)
+      )
+      .subscribe(i => {
+        console.log('saving task', i);
+
+        // Populate form field values with the ones from thisModel, but don't overwrite *everything* in this.model
+        this.model = createClone()(this.workflow.next_task.data);
+
+        for (const field of this.fields) {
+          console.log('field.key', field.key);
+          this.model[field.key] = thisModel[field.key];
+        }
+
+        console.log('this.workflow.next_task.id', this.workflow.next_task.id);
+        this.saveTaskData(this.workflow.next_task);
+      });
+  }
+
+  goBack() {
+    this.location.back();
+  }
+
   private _loadModel(task: WorkflowTask) {
     this.form = new FormGroup({});
     if (task && task.data) {
@@ -80,6 +138,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
       this.fileParams = {
         workflow_id: this.workflow.id,
       };
+      this.fields = new ToFormlyPipe(this.api).transform(this.task.form.fields, this.fileParams);
     }
   }
 
