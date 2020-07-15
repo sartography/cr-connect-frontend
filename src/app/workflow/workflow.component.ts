@@ -12,7 +12,10 @@ import {
   WorkflowTaskType
 } from 'sartography-workflow-lib';
 import {FileMeta} from 'sartography-workflow-lib/lib/types/file';
-import {WorkflowResetDialogComponent, WorkflowResetDialogData} from '../workflow-reset-dialog/workflow-reset-dialog.component';
+import {
+  WorkflowResetDialogComponent,
+  WorkflowResetDialogData
+} from '../workflow-reset-dialog/workflow-reset-dialog.component';
 import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Component({
@@ -118,6 +121,17 @@ export class WorkflowComponent implements OnInit {
   workflowUpdated(wf: Workflow) {
     console.log('workflowUpdated workflow', wf);
     this.workflow = wf;
+
+    // If this is the end of the workflow, redirect to the study menu in 5 seconds
+    if (this.workflow.next_task && this.workflow.next_task.type === WorkflowTaskType.END_EVENT) {
+      const redirectSecs = 5;
+      this.workflow.redirect = redirectSecs;
+      setTimeout(() => this.location.back(), redirectSecs * 1000);
+
+      // Start the countdown
+      this.countdown();
+    }
+
     this.currentTask = undefined;
     this.updateTaskList(this.workflow);
   }
@@ -189,6 +203,12 @@ export class WorkflowComponent implements OnInit {
     this.location.back();
   }
 
+  countdown() {
+    setInterval(() => {
+      this.workflow.redirect--;
+    }, 1000);
+  }
+
   private updateTaskList(wf: Workflow, forceTaskId?: string) {
     this.loading = true;
     this.workflow = wf;
@@ -213,6 +233,7 @@ export class WorkflowComponent implements OnInit {
       this.currentTask = wf.next_task;
     }
     console.log('Update Task Executed', this.currentTask);
+
     this.logTaskData(this.currentTask);
     this.updateUrl();
     scrollToTop(this.deviceDetector);

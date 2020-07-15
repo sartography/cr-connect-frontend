@@ -83,3 +83,8 @@ mat-list-item.disabled {
 ::ng-deep .multi-instance-tabs .mat-tab-label {
   min-width: 24px;
 }
+
+.redirecting {
+  color: $brand-accent;
+  font-weight: 700;
+}
