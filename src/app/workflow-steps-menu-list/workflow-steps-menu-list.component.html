@@ -5,7 +5,7 @@
     [ngClass]="{
       'task': true,
       'active': currentTask && currentTask.id === navItem.task_id,
-      'disabled': navItem.state === taskStates.LIKELY || navItem.state === taskStates.FUTURE || !navItem.task_id
+      'disabled': shouldDisableNavItem(navItem)
     }"
   ><span class="indent_{{navItem.indent}}">{{ navItem.title }}</span>
     <span fxFlex></span>

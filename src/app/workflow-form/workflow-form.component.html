@@ -11,12 +11,12 @@
       [model]="model"
     ></formly-form>
     <button
-      *ngIf="numRemainingSiblingTasks(task) > 0"
+      *ngIf="getIncompleteMISiblings(task).length > 1"
       (click)="saveAllSiblingTaskData(task)"
       [disabled]="form.invalid"
       color="accent"
       mat-flat-button
-    >Apply to remaining {{numRemainingSiblingTasks(task) + 1}} {{workflow.title}}</button>
+    >Apply to {{getIncompleteMISiblings(task).length}} incomplete {{workflow.title}}</button>
     <button (click)="saveTaskData(task)" [disabled]="form.invalid" color="primary" mat-flat-button>Save</button>
     <button (click)="goBack()" mat-flat-button>Cancel</button>
   </div>
