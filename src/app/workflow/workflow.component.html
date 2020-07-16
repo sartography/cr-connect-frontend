@@ -110,7 +110,7 @@
         color="primary"
         mat-flat-button
       >Continue</button>
-      <div *ngIf="!currentTask.documentation">
+      <div *ngIf="!currentTask.documentation && (currentTask.type !== taskTypes.END_EVENT)">
         <h1>{{currentTask.title}}</h1>
         <h2>Task type: {{currentTask.type}}</h2>
         <h3>Status: {{currentTask.state}}</h3>

@@ -129,26 +129,52 @@ describe('WorkflowComponent', () => {
   });
 
   it('should update workflow', () => {
+    const countdownSpy = spyOn(component, 'countdown').and.stub();
     const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
     component.workflowUpdated(mockWorkflow1);
     expect(component.workflow).toEqual(mockWorkflow1);
     expect(component.currentTask).toBeUndefined();
     expect(updateTaskListSpy).toHaveBeenCalledWith(mockWorkflow1);
+    expect(countdownSpy).not.toHaveBeenCalled();
+  });
 
-    // Set the next task to be an end event
+  it('should not redirect on end event with documentation', () => {
+    const countdownSpy = spyOn(component, 'countdown').and.stub();
+    const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
+
+    // Set the next task to be an end event with documentation
     const updatedWorkflow = createClone()(mockWorkflow1);
     const endEvent = createClone()(mockWorkflowTask1);
     endEvent.type = WorkflowTaskType.END_EVENT;
+    endEvent.documentation = 'The Restaurant at the End of the Universe.'
     updatedWorkflow.next_task = endEvent;
 
-    updateTaskListSpy.calls.reset();
+    // Next task should be end event now, but countdown to redirect should not start
     component.workflowUpdated(updatedWorkflow);
     expect(component.workflow).toEqual(updatedWorkflow);
+    expect(component.workflow.next_task).toEqual(endEvent, 'next task should be an end event');
+    expect(component.workflow.redirect).toBeUndefined('workflow redirect seconds should not be set');
+    expect(countdownSpy).not.toHaveBeenCalled();
+    expect(updateTaskListSpy).toHaveBeenCalledWith(updatedWorkflow);
+  });
 
-    // Next task should be end event now, and countdown to redirect should start
+  it('should redirect on end event without documentation', () => {
+    const countdownSpy = spyOn(component, 'countdown').and.stub();
+    const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
+
+    // Set the next task to be an end event with no documentation
+    const updatedWorkflow = createClone()(mockWorkflow1);
+    const endEvent = createClone()(mockWorkflowTask1);
+    endEvent.type = WorkflowTaskType.END_EVENT;
+    endEvent.documentation = ''
+    updatedWorkflow.next_task = endEvent;
+
+    // Next task should be end event now, but should not redirect
+    component.workflowUpdated(updatedWorkflow);
+    expect(component.workflow).toEqual(updatedWorkflow);
     expect(component.workflow.next_task).toEqual(endEvent, 'next task should be an end event');
     expect(component.workflow.redirect).toEqual(5, 'workflow redirect seconds should be set');
-
+    expect(countdownSpy).toHaveBeenCalled();
     expect(updateTaskListSpy).toHaveBeenCalledWith(updatedWorkflow);
   });
 
