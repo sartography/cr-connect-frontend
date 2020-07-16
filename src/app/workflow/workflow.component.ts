@@ -123,13 +123,19 @@ export class WorkflowComponent implements OnInit {
     this.workflow = wf;
 
     // If this is the end of the workflow, redirect to the study menu in 5 seconds
-    if (this.workflow.next_task && this.workflow.next_task.type === WorkflowTaskType.END_EVENT) {
+    if (
+      this.workflow.next_task &&
+      this.workflow.next_task.type === WorkflowTaskType.END_EVENT &&
+      !this.workflow.next_task.documentation
+    ) {
       const redirectSecs = 5;
       this.workflow.redirect = redirectSecs;
       setTimeout(() => this.location.back(), redirectSecs * 1000);
 
       // Start the countdown
       this.countdown();
+    } else {
+      delete this.workflow.redirect;
     }
 
     this.currentTask = undefined;
