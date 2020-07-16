@@ -22,8 +22,7 @@ import {
   mockFileMetas,
   mockWorkflow0,
   mockWorkflow1,
-  mockWorkflowSpec0,
-  mockWorkflowTask0,
+  mockWorkflowTask0, mockWorkflowTask1,
   ToFormlyPipe,
   WorkflowNavItem,
   WorkflowTaskState,
@@ -33,8 +32,8 @@ import {WorkflowFilesComponent} from '../workflow-files/workflow-files.component
 import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
 import {WorkflowStepsMenuListComponent} from '../workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow.component';
-import {MatButton, MatButtonModule} from '@angular/material/button';
-import {MatBadge, MatBadgeModule} from '@angular/material/badge';
+import {MatButtonModule} from '@angular/material/button';
+import {MatBadgeModule} from '@angular/material/badge';
 import {LoadingComponent} from '../loading/loading.component';
 import {DeviceDetectorService} from 'ngx-device-detector';
 
@@ -133,9 +132,24 @@ describe('WorkflowComponent', () => {
     const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
     component.workflowUpdated(mockWorkflow1);
     expect(component.workflow).toEqual(mockWorkflow1);
-    expect((component as any).taskId).toBeUndefined();
     expect(component.currentTask).toBeUndefined();
     expect(updateTaskListSpy).toHaveBeenCalledWith(mockWorkflow1);
+
+    // Set the next task to be an end event
+    const updatedWorkflow = createClone()(mockWorkflow1);
+    const endEvent = createClone()(mockWorkflowTask1);
+    endEvent.type = WorkflowTaskType.END_EVENT;
+    updatedWorkflow.next_task = endEvent;
+
+    updateTaskListSpy.calls.reset();
+    component.workflowUpdated(updatedWorkflow);
+    expect(component.workflow).toEqual(updatedWorkflow);
+
+    // Next task should be end event now, and countdown to redirect should start
+    expect(component.workflow.next_task).toEqual(endEvent, 'next task should be an end event');
+    expect(component.workflow.redirect).toEqual(5, 'workflow redirect seconds should be set');
+
+    expect(updateTaskListSpy).toHaveBeenCalledWith(updatedWorkflow);
   });
 
   it('should set current task when updating task list', () => {

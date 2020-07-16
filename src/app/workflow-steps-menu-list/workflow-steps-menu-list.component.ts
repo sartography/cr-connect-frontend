@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {MultiInstanceType, Workflow, WorkflowNavItem, WorkflowTask, WorkflowTaskState, WorkflowTaskType} from 'sartography-workflow-lib';
+import {Workflow, WorkflowNavItem, WorkflowTask, WorkflowTaskState, WorkflowTaskType} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-workflow-steps-menu-list',
@@ -55,5 +55,15 @@ export class WorkflowStepsMenuListComponent implements OnInit, OnChanges {
   loadNavListItems() {
     this.navListItems = this.navList.filter(navItem => this.shouldDisplayNavItem(navItem));
     this.loading = false;
+  }
+
+  shouldDisableNavItem(navItem: WorkflowNavItem): boolean {
+    return (
+      [
+        WorkflowTaskState.MAYBE,
+        WorkflowTaskState.LIKELY,
+        WorkflowTaskState.FUTURE
+      ].includes(navItem.state) || !navItem.task_id
+    )
   }
 }
