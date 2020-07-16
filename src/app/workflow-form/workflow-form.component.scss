@@ -15,4 +15,8 @@
   &.collapsed {
     width: 70%;
   }
+
+  & > button {
+    margin-right: 1rem;
+  }
 }

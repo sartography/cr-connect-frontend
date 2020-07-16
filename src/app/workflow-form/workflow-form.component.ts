@@ -1,7 +1,32 @@
-import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import createClone from 'rfdc';
-import {ApiService, FileParams, Workflow, WorkflowTask} from 'sartography-workflow-lib';
+import {
+  ApiService,
+  FileParams,
+  MultiInstanceType,
+  ToFormlyPipe,
+  Workflow,
+  WorkflowNavItem,
+  WorkflowTask,
+  WorkflowTaskState
+} from 'sartography-workflow-lib';
+import {from} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {FormlyFieldConfig} from '@ngx-formly/core';
+import {Location} from '@angular/common';
+import * as getObjectProperty from 'lodash/get';
+import * as setObjectProperty from 'lodash/set';
 
 @Component({
   selector: 'app-workflow-form',
@@ -18,9 +43,11 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   @ViewChild('#jsonCode') jsonCodeElement: ElementRef;
   fileParams: FileParams;
+  fields: FormlyFieldConfig[];
 
   constructor(
-    private api: ApiService
+    private api: ApiService,
+    private location: Location,
   ) {
   }
 
@@ -34,19 +61,22 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
   }
 
-  saveTaskData(task: WorkflowTask) {
-    this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, this.model).
-    subscribe(
+  saveTaskData(task: WorkflowTask, updateRemaining = false) {
+    return this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, this.model).subscribe(
       updatedWorkflow => {
         console.log('saveTaskData workflow', updatedWorkflow);
         this.workflow = updatedWorkflow;
       },
       error => {
         this.apiError.emit(error);
-        },
+      },
       () => {
-        console.log('saveTaskData emitting workflow', this.workflow);
-        this.workflowUpdated.emit(this.workflow);
+        if (updateRemaining && this.workflow.next_task) {
+          this.saveAllSiblingTaskData(this.workflow.next_task);
+        } else {
+          console.log('saveTaskData emitting workflow', this.workflow);
+          this.workflowUpdated.emit(this.workflow);
+        }
       }
     );
   }
@@ -64,13 +94,46 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
   }
 
+  getIncompleteMISiblings(task: WorkflowTask): WorkflowNavItem[] {
+    if (task.multi_instance_type === MultiInstanceType.NONE) {
+      return [];
+    } else {
+      return this.workflow.navigation.filter(navItem => {
+        return (
+          navItem.task &&
+          navItem.task.name === task.name &&
+          navItem.task.state === WorkflowTaskState.READY
+        );
+      });
+    }
+  }
+
+  saveAllSiblingTaskData(task: WorkflowTask) {
+    const taskModel = createClone()(this.model);
+
+    // Populate form field values with the ones from taskModel, but don't overwrite *everything* in this.model
+    this.model = createClone()(this.workflow.next_task.data);
+
+    for (const field of this.fields) {
+      const val = getObjectProperty(taskModel, field.key);
+      setObjectProperty(this.model, field.key, val);
+    }
+
+    this.saveTaskData(task, this.getIncompleteMISiblings(task).length > 1);
+  }
+
+  goBack() {
+    this.location.back();
+  }
+
   private _loadModel(task: WorkflowTask) {
     this.form = new FormGroup({});
-    if (task && task.data) {
+    if (task && task.data && task.form && task.form.fields) {
       this.model = createClone()(task.data);
       this.fileParams = {
         workflow_id: this.workflow.id,
       };
+      this.fields = new ToFormlyPipe(this.api).transform(task.form.fields, this.fileParams);
     }
   }
 

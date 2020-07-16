@@ -75,6 +75,9 @@ import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 import {MatStepperModule} from '@angular/material/stepper';
+import * as hljs from 'highlight.js';
+(document.defaultView as any).hljs = hljs;
+
 
 
 @Injectable()
