@@ -128,7 +128,7 @@ export class WorkflowComponent implements OnInit {
       this.workflow.next_task.type === WorkflowTaskType.END_EVENT &&
       !this.workflow.next_task.documentation
     ) {
-      const redirectSecs = 5;
+      const redirectSecs = 2;
       this.workflow.redirect = redirectSecs;
       setTimeout(() => this.location.back(), redirectSecs * 1000);
 
