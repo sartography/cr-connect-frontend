@@ -59,6 +59,28 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="actions">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_actions"> Actions</th>
+        <td *matCellDef="let study" mat-cell>
+          <button mat-icon-button [matMenuTriggerFor]="studyActionsMenu" aria-label="Example icon-button with a menu" (click)="$event.stopPropagation()">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #studyActionsMenu="matMenu">
+            <ng-container *ngFor="let action of studyActions">
+              <button
+                *ngIf="action.showIf(study)"
+                mat-menu-item
+                (click)="openConfirmationDialog(study, action)"
+                [matTooltip]="insertStudyTitle(action.tooltipText, study)"
+              >
+                <mat-icon>{{action.buttonIcon}}</mat-icon>
+                <span>{{action.buttonLabel}}.</span>
+              </button>
+            </ng-container>
+          </mat-menu>
+        </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr
         mat-row

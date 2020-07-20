@@ -63,7 +63,7 @@ import {ProfileComponent} from './profile/profile.component';
 import {ResearchComponent} from './research/research.component';
 import {StudiesDashboardComponent} from './studies-dashboard/studies-dashboard.component';
 import {ApprovalsFilesDashboardComponent} from './studies-files-dashboard/studies-files-dashboard.component';
-import {ApprovalDialogComponent} from './approval-dialog/approval-dialog.component';
+import {ApprovalDialogComponent} from './_dialogs/approval-dialog/approval-dialog.component';
 import {StudiesProcessComponent} from './studies-process/studies-process.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudyProgressComponent} from './study-progress/study-progress.component';
@@ -76,6 +76,7 @@ import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflo
 import {WorkflowComponent} from './workflow/workflow.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import * as hljs from 'highlight.js';
+import {ConfirmStudyStatusDialogComponent} from './_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
 (document.defaultView as any).hljs = hljs;
 
 
@@ -125,6 +126,7 @@ export function markedOptionsFactory(): MarkedOptions {
 @NgModule({
   declarations: [
     AppComponent,
+    ConfirmStudyStatusDialogComponent,
     DashboardComponent,
     FooterComponent,
     HelpComponent,
@@ -218,6 +220,7 @@ export function markedOptionsFactory(): MarkedOptions {
   ],
   bootstrap: [AppComponent],
   entryComponents: [
+    ConfirmStudyStatusDialogComponent,
     WorkflowResetDialogComponent
   ]
 })

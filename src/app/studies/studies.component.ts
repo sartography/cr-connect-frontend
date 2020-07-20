@@ -75,4 +75,7 @@ export class StudiesComponent implements OnInit {
     });
   }
 
+  updateStudies($event: Study) {
+    this.loadStudies();
+  }
 }
