@@ -1,3 +1,18 @@
+<div class="container">
+  <div class="task-events" *ngIf="taskEvents.length > 0">
+    <h1>Approvals</h1>
+    <div *ngFor="let taskEvent of taskEvents">
+      <h3>{{taskEvent.study.title}}</h3>
+      {{taskEvent.workflow.category_display_name}} > {{taskEvent.workflow.display_name}} > {{taskEvent.task_title}}
+      <button mat-flat-button color="primary" [routerLink]="['/study', taskEvent.study.id, 'workflow', taskEvent.workflow.id]">Review</button>
+    </div>
+  </div>
+  <div class="task-events" *ngIf="taskEvents.length === 0">
+    <h1>Approvals</h1>
+    <p>No approvals yet.</p>
+  </div>
+</div>
+
 <mat-expansion-panel
   *ngFor="let studiesGroup of studiesByStatus; let i = index"
   [expanded]="studiesGroup.studies.length > 0"

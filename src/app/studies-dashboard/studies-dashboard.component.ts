@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ApiService, ProtocolBuilderStatus, Study} from 'sartography-workflow-lib';
+import {ApiService, ProtocolBuilderStatus, Study, TaskAction, TaskEvent} from 'sartography-workflow-lib';
 import {StudiesByStatus} from '../studies/studies.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmStudyStatusDialogComponent} from '../_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
@@ -83,11 +83,13 @@ export class StudiesDashboardComponent implements OnInit {
       method: 'resumeStudy',
     },
   ];
+  taskEvents: TaskEvent[];
 
   constructor(
     private api: ApiService,
     public dialog: MatDialog
   ) {
+    this.api.getTaskEvents(TaskAction.ASSIGNMENT).subscribe(t => this.taskEvents = t);
   }
 
   ngOnInit(): void {
@@ -126,10 +128,10 @@ export class StudiesDashboardComponent implements OnInit {
       data: dialogData,
     });
 
-
     dialogRef.afterClosed().subscribe((data: ConfirmStudyStatusDialogData) => {
       if (data && data.confirm && data.action && data.study) {
-        this.api[data.action.method](data.study.id).subscribe(updatedStudy => this.studyUpdated.emit(updatedStudy));
+        // TODO: Add API methods for each study action (deleteStudy, holdStudy, openStudy, abandonStudy, resumeStudy)
+        // this.api[data.action.method](data.study.id).subscribe(updatedStudy => this.studyUpdated.emit(updatedStudy));
       }
     });
   }
