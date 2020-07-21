@@ -1,7 +1,19 @@
 @import "../../config";
 
 .task-events {
+  padding: 2rem;
   border: 1px solid black;
+  margin-bottom: 2rem;
+
+  tr:hover {
+    background-color: $brand-gray-light;
+    cursor: pointer;
+  }
+
+  td {
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
 }
 
 mat-panel-title.mat-h2 {

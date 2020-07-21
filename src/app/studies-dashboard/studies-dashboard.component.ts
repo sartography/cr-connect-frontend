@@ -6,6 +6,7 @@ import {ConfirmStudyStatusDialogComponent} from '../_dialogs/confirm-study-statu
 import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
 import {StudyAction} from '../_interfaces/study-action';
 import createClone from 'rfdc';
+import {MatTableDataSource} from '@angular/material/table';
 
 
 enum IrbHsrStatus {
@@ -34,6 +35,11 @@ export class StudiesDashboardComponent implements OnInit {
     'irb_hsr_status',
     'progress',
     'actions',
+  ];
+  approvalColumns: string[] = [
+    'approval_study',
+    'approval_workflow',
+    'approval_task',
   ];
 
   studyActions: StudyAction[] = [
@@ -83,13 +89,15 @@ export class StudiesDashboardComponent implements OnInit {
       method: 'resumeStudy',
     },
   ];
-  taskEvents: TaskEvent[];
+  approvalsDataSource: MatTableDataSource<TaskEvent>;
 
   constructor(
     private api: ApiService,
     public dialog: MatDialog
   ) {
-    this.api.getTaskEvents(TaskAction.ASSIGNMENT).subscribe(t => this.taskEvents = t);
+    this.api
+      .getTaskEvents(TaskAction.ASSIGNMENT)
+      .subscribe(t => this.approvalsDataSource = new MatTableDataSource(t));
   }
 
   ngOnInit(): void {
