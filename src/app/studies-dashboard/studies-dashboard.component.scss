@@ -4,16 +4,6 @@
   padding: 2rem;
   border: 1px solid black;
   margin-bottom: 2rem;
-
-  tr:hover {
-    background-color: $brand-gray-light;
-    cursor: pointer;
-  }
-
-  td {
-    padding-right: 1rem;
-    padding-left: 1rem;
-  }
 }
 
 mat-panel-title.mat-h2 {
@@ -30,7 +20,7 @@ mat-panel-title.mat-h2 {
   }
 }
 
-.study-row {
+.study-row, .approval-row {
   cursor: pointer;
 
   &:hover {
@@ -43,6 +33,7 @@ mat-panel-title.mat-h2 {
 
   td {
     padding-left: 1rem;
+    padding-right: 1rem;
     border-bottom-color: transparent;
     border-right: 1px solid $brand-gray-tint-1;
 
