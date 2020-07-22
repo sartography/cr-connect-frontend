@@ -7,6 +7,7 @@ import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
 import {StudyAction} from '../_interfaces/study-action';
 import createClone from 'rfdc';
 import {MatTableDataSource} from '@angular/material/table';
+import * as timeago from 'timeago.js';
 
 
 enum IrbHsrStatus {
@@ -40,6 +41,7 @@ export class StudiesDashboardComponent implements OnInit {
     'approval_study',
     'approval_workflow',
     'approval_task',
+    'approval_date',
   ];
 
   studyActions: StudyAction[] = [
@@ -177,10 +179,15 @@ export class StudiesDashboardComponent implements OnInit {
 
   private _updateStudy(data: ConfirmStudyStatusDialogData) {
     if (typeof data.action.method === 'string') {
+      console.log('data.action.method', data.action.method);
       this.api[data.action.method](data.study.id).subscribe(s => this.studyUpdated.emit(s));
     } else {
       const updatedStudy = data.action.method(data.study, data.model);
       this.api.updateStudy(data.study.id, updatedStudy).subscribe(s => this.studyUpdated.emit(s));
     }
+  }
+
+  timeAgo(date: Date) {
+    return timeago.format(date);
   }
 }

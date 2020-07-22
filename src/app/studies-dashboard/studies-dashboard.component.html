@@ -28,6 +28,13 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="approval_date">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_date"> Date</th>
+        <td *matCellDef="let approval" mat-cell>
+          {{timeAgo(approval.date)}}
+        </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="approvalColumns"></tr>
       <tr
         mat-row
