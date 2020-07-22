@@ -140,7 +140,6 @@ export class StudiesDashboardComponent implements OnInit {
   }
 
   openConfirmationDialog(study: Study, selectedAction: StudyAction) {
-    console.log('Set selectedStudy state to:', selectedAction);
     const action: StudyAction = createClone()(selectedAction);
     action.dialogTitle = this.insertStudyTitle(action.dialogTitle, study);
     action.dialogDescription = this.insertStudyTitle(action.dialogDescription, study);
@@ -163,12 +162,7 @@ export class StudiesDashboardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((data: ConfirmStudyStatusDialogData) => {
       if (data && data.confirm && data.action && data.study) {
-        if (typeof data.action.method === 'string') {
-          this.api[data.action.method](data.study.id).subscribe(s => this.studyUpdated.emit(s));
-        } else {
-          const updatedStudy = data.action.method(data.study, data.model);
-          this.api.updateStudy(data.study.id, updatedStudy).subscribe(s => this.studyUpdated.emit(s));
-        }
+        this._updateStudy(data);
       }
     });
   }
@@ -179,5 +173,14 @@ export class StudiesDashboardComponent implements OnInit {
 
   statusIs(study: Study, statuses: ProtocolBuilderStatus[]) {
     return statuses.some(s => study.protocol_builder_status.toString().toLowerCase() === s.toString().toLowerCase());
+  }
+
+  private _updateStudy(data: ConfirmStudyStatusDialogData) {
+    if (typeof data.action.method === 'string') {
+      this.api[data.action.method](data.study.id).subscribe(s => this.studyUpdated.emit(s));
+    } else {
+      const updatedStudy = data.action.method(data.study, data.model);
+      this.api.updateStudy(data.study.id, updatedStudy).subscribe(s => this.studyUpdated.emit(s));
+    }
   }
 }

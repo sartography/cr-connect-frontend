@@ -11,7 +11,7 @@ import {
   mockStudy0,
   mockWorkflow0,
   ProtocolBuilderStatus,
-  ProtocolBuilderStatusLabels,
+  ProtocolBuilderStatusLabels, Study,
   TaskAction,
   TaskEvent,
   WorkflowMetadata,
@@ -29,11 +29,33 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {StudyAction} from '../_interfaces/study-action';
+import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
+import {of} from 'rxjs';
 
 describe('StudiesDashboardComponent', () => {
   let component: StudiesDashboardComponent;
   let fixture: ComponentFixture<StudiesDashboardComponent>;
   let httpMock: HttpTestingController;
+  const mockStudyAction: StudyAction = {
+    showIf: (study) => this.statusIs(study, [ProtocolBuilderStatus.ACTIVE]),
+    buttonIcon: 'pause',
+    buttonLabel: 'Place study on hold...',
+    tooltipText: 'Set the status of <study_title> to "Hold"',
+    dialogTitle: 'Really put <study_title> on hold?',
+    dialogDescription: `This will put the study on hold, pausing notifications and approvals for the time being. You may take the study off hold at any time.`,
+    method: (study) => {
+      study.protocol_builder_status = ProtocolBuilderStatus.HOLD;
+      return study;
+    },
+  };
+
+  const mockConfirmDeleteData: ConfirmStudyStatusDialogData = {
+    action: mockStudyAction,
+    study: mockStudy0,
+    confirm: false,
+    formFields: [],
+    model: {},
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -127,5 +149,34 @@ describe('StudiesDashboardComponent', () => {
   it('should check for new studies', () => {
     expect(component.isNewStudy(mockStudy0.id)).toBeFalsy();
     expect(component.isNewStudy(666)).toBeTruthy();
+  });
+
+  it('should show a confirmation dialog before changing study status', () => {
+    const _updateStudySpy = spyOn((component as any), '_updateStudy').and.stub();
+    const openDialogSpy = spyOn(component.dialog, 'open')
+      .and.returnValue({afterClosed: () => of(mockConfirmDeleteData)} as any);
+
+    mockConfirmDeleteData.confirm = false;
+    component.openConfirmationDialog(mockStudy0, component.studyActions[0]);
+    expect(openDialogSpy).toHaveBeenCalled();
+    expect(_updateStudySpy).not.toHaveBeenCalled();
+
+    mockConfirmDeleteData.confirm = true;
+    component.openConfirmationDialog(mockStudy0, component.studyActions[0]);
+    expect(openDialogSpy).toHaveBeenCalled();
+    expect(_updateStudySpy).toHaveBeenCalled();
+
+    mockConfirmDeleteData.confirm = false;
+  });
+
+  it('should update study status', () => {
+    const studyUpdatedEmitSpy = spyOn((component as any).studyUpdated, 'emit').and.stub();
+    mockConfirmDeleteData.confirm = true;
+    (component as any)._updateStudy(mockConfirmDeleteData);
+    const wfsReq = httpMock.expectOne(`apiRoot/study/${mockStudy0.id}`);
+    expect(wfsReq.request.method).toEqual('POST');
+    wfsReq.flush(mockStudy0);
+
+    expect(studyUpdatedEmitSpy).toHaveBeenCalled();
   });
 });
