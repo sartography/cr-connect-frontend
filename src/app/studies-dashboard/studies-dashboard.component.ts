@@ -179,7 +179,6 @@ export class StudiesDashboardComponent implements OnInit {
 
   private _updateStudy(data: ConfirmStudyStatusDialogData) {
     if (typeof data.action.method === 'string') {
-      console.log('data.action.method', data.action.method);
       this.api[data.action.method](data.study.id).subscribe(s => this.studyUpdated.emit(s));
     } else {
       const updatedStudy = data.action.method(data.study, data.model);
