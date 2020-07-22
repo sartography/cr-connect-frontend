@@ -38,7 +38,7 @@
       ></tr>
     </table>
   </div>
-  <div class="task-events" *ngIf="approvalsDataSource.data.length === 0">
+  <div class="task-events" *ngIf="!approvalsDataSource || approvalsDataSource.data.length === 0">
     <h1>Approvals</h1>
     <p>No approvals yet.</p>
   </div>

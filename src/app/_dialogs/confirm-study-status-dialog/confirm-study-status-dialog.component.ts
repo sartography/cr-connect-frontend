@@ -1,6 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ConfirmStudyStatusDialogData} from '../../_interfaces/dialog-data';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-confirm-study-status-dialog',
@@ -8,6 +9,7 @@ import {ConfirmStudyStatusDialogData} from '../../_interfaces/dialog-data';
   styleUrls: ['./confirm-study-status-dialog.component.scss']
 })
 export class ConfirmStudyStatusDialogComponent {
+  form = new FormGroup({});
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmStudyStatusDialogComponent>,

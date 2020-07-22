@@ -44,7 +44,7 @@ export class StudiesDashboardComponent implements OnInit {
 
   studyActions: StudyAction[] = [
     {
-      showIf: (study) => [ProtocolBuilderStatus.ACTIVE].includes(study.protocol_builder_status),
+      showIf: (study) => this.statusIs(study, [ProtocolBuilderStatus.ACTIVE]),
       buttonIcon: 'fast_rewind',
       buttonLabel: 'Reset study...',
       tooltipText: 'Reset all CR Connect data for <study_title>',
@@ -53,13 +53,16 @@ export class StudiesDashboardComponent implements OnInit {
       method: 'deleteStudy',
     },
     {
-      showIf: (study) => study.protocol_builder_status === ProtocolBuilderStatus.ACTIVE,
+      showIf: (study) => this.statusIs(study, [ProtocolBuilderStatus.ACTIVE]),
       buttonIcon: 'pause',
       buttonLabel: 'Place study on hold...',
       tooltipText: 'Set the status of <study_title> to "Hold"',
       dialogTitle: 'Really put <study_title> on hold?',
       dialogDescription: `This will put the study on hold, pausing notifications and approvals for the time being. You may take the study off hold at any time.`,
-      method: 'holdStudy',
+      method: (study) => {
+        study.protocol_builder_status = ProtocolBuilderStatus.HOLD;
+        return study;
+      },
     },
     {
       showIf: (study) => this.statusIs(study, [ProtocolBuilderStatus.ACTIVE]),
@@ -68,25 +71,42 @@ export class StudiesDashboardComponent implements OnInit {
       tooltipText: 'Set the status of <study_title> to "Open To Enrollment"',
       dialogTitle: 'Really open <study_title> to enrollment?',
       dialogDescription: `This will open the study to enrollment on the specified launch date.`,
-      method: 'openStudy',
+      dialogFormFields: [{
+        key: 'enrollmentDate',
+        type: 'datepicker',
+        templateOptions: {
+          label: 'Date enrollment will begin',
+        }
+      }],
+      method: (study, enrollmentDate) => {
+        study.protocol_builder_status = ProtocolBuilderStatus.OPEN;
+        study.enrollment_date = enrollmentDate;
+        return study;
+      },
     },
     {
-      showIf: (study) => study.protocol_builder_status === ProtocolBuilderStatus.ACTIVE,
+      showIf: (study) => this.statusIs(study, [ProtocolBuilderStatus.ACTIVE]),
       buttonIcon: 'stop',
       buttonLabel: 'Abandon study...',
       tooltipText: 'Set the status of <study_title> to "Abandoned"',
       dialogTitle: 'Really abandon <study_title>?',
       dialogDescription: `This will change the status of this study to "Abandoned", preventing the study from appearing in anyone's approval queue. You may un-abandon the study at any time.`,
-      method: 'abandonStudy',
+      method: (study) => {
+        study.protocol_builder_status = ProtocolBuilderStatus.ABANDONED;
+        return study;
+      },
     },
     {
-      showIf: (study) => [ProtocolBuilderStatus.ABANDONED, ProtocolBuilderStatus.HOLD].includes(study.protocol_builder_status),
+      showIf: (study) => this.statusIs(study, [ProtocolBuilderStatus.ABANDONED, ProtocolBuilderStatus.HOLD]),
       buttonIcon: 'play',
       buttonLabel: 'Resume study...',
       tooltipText: 'Set the status of <study_title> to "In progress"',
       dialogTitle: 'Really resume <study_title>?',
       dialogDescription: `This will set the status of this study to "In progress", resuming any notifications and approvals.`,
-      method: 'resumeStudy',
+      method: (study) => {
+        study.protocol_builder_status = ProtocolBuilderStatus.ACTIVE;
+        return study;
+      },
     },
   ];
   approvalsDataSource: MatTableDataSource<TaskEvent>;
@@ -130,6 +150,11 @@ export class StudiesDashboardComponent implements OnInit {
       study,
     };
 
+    if (action.dialogFormFields) {
+      dialogData.formFields = action.dialogFormFields;
+      dialogData.model = {};
+    }
+
     const dialogRef = this.dialog.open(ConfirmStudyStatusDialogComponent, {
       height: '65vh',
       width: '50vw',
@@ -138,8 +163,12 @@ export class StudiesDashboardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((data: ConfirmStudyStatusDialogData) => {
       if (data && data.confirm && data.action && data.study) {
-        // TODO: Add API methods for each study action (deleteStudy, holdStudy, openStudy, abandonStudy, resumeStudy)
-        // this.api[data.action.method](data.study.id).subscribe(updatedStudy => this.studyUpdated.emit(updatedStudy));
+        if (typeof data.action.method === 'string') {
+          this.api[data.action.method](data.study.id).subscribe(s => this.studyUpdated.emit(s));
+        } else {
+          const updatedStudy = data.action.method(data.study, data.model);
+          this.api.updateStudy(data.study.id, updatedStudy).subscribe(s => this.studyUpdated.emit(s));
+        }
       }
     });
   }

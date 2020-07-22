@@ -3,6 +3,13 @@
   <button mat-icon-button mat-dialog-close=""><mat-icon>close</mat-icon></button>
 </div>
 <div mat-dialog-content>
+  <div *ngIf="data.formFields">
+    <formly-form
+      [fields]="data.formFields"
+      [form]="form"
+      [model]="data.model"
+    ></formly-form>
+  </div>
   <div class="select-mode" fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="20px">
     <button (click)="onSubmit()" color="warn" mat-flat-button>
       <mat-icon>check</mat-icon>

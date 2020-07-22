@@ -1,11 +1,17 @@
-import {ProtocolBuilderStatus, Study} from 'sartography-workflow-lib';
+import {Study} from 'sartography-workflow-lib';
+import {FormlyFieldConfig} from '@ngx-formly/core';
+
+export type StudyActionBoolean = (study: Study) => boolean;
+
+export type StudyActionMethod = (study: Study, ...params: any) => Study;
 
 export interface StudyAction {
-  showIf: (study: Study) => boolean;
+  showIf: StudyActionBoolean;
   buttonIcon: string;
   buttonLabel: string;
   tooltipText: string;
   dialogTitle: string;
   dialogDescription: string;
-  method: string;
+  dialogFormFields?: FormlyFieldConfig[];
+  method: string | StudyActionMethod;
 }
