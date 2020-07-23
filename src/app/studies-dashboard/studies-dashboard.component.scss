@@ -76,31 +76,3 @@ mat-panel-title.mat-h2 {
     }
   }
 }
-
-.mat-expansion-panel {
-  border-bottom: 1px solid $brand-gray-tint-2;
-  border-radius: 0;
-
-  .mat-expansion-panel-header {
-    padding: 2rem;
-
-    &.mat-expanded {
-      background-color: $brand-gray-light;
-    }
-  }
-
-  ::ng-deep .mat-expansion-indicator {
-    margin: 1rem;
-
-    &::after {
-      padding: 6px;
-      border-width: 0 4px 4px 0;
-    }
-  }
-
-  ::ng-deep .mat-expansion-panel-content {
-    .mat-expansion-panel-body {
-      padding: 1rem;
-    }
-  }
-}

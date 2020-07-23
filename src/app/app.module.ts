@@ -77,6 +77,7 @@ import {WorkflowComponent} from './workflow/workflow.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import * as hljs from 'highlight.js';
 import {ConfirmStudyStatusDialogComponent} from './_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
+import { CategoryComponent } from './category/category.component';
 (document.defaultView as any).hljs = hljs;
 
 
@@ -153,6 +154,7 @@ export function markedOptionsFactory(): MarkedOptions {
     WorkflowResetDialogComponent,
     ResearchComponent,
     LoadingComponent,
+    CategoryComponent,
   ],
   imports: [
     BrowserAnimationsModule,

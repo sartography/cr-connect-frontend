@@ -122,6 +122,10 @@ export class StudiesDashboardComponent implements OnInit {
       .subscribe(t => this.approvalsDataSource = new MatTableDataSource(t));
   }
 
+  get hasTaskEvents(): boolean {
+    return this.approvalsDataSource && this.approvalsDataSource.data && this.approvalsDataSource.data.length > 0;
+  }
+
   ngOnInit(): void {
   }
 
@@ -177,6 +181,10 @@ export class StudiesDashboardComponent implements OnInit {
     return statuses.some(s => study.protocol_builder_status.toString().toLowerCase() === s.toString().toLowerCase());
   }
 
+  timeAgo(date: Date) {
+    return timeago.format(date);
+  }
+
   private _updateStudy(data: ConfirmStudyStatusDialogData) {
     if (typeof data.action.method === 'string') {
       this.api[data.action.method](data.study.id).subscribe(s => this.studyUpdated.emit(s));
@@ -184,9 +192,5 @@ export class StudiesDashboardComponent implements OnInit {
       const updatedStudy = data.action.method(data.study, data.model);
       this.api.updateStudy(data.study.id, updatedStudy).subscribe(s => this.studyUpdated.emit(s));
     }
-  }
-
-  timeAgo(date: Date) {
-    return timeago.format(date);
   }
 }

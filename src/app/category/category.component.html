@@ -1,0 +1,39 @@
+<div class="category-title">
+  <div class="mat-card-subtitle">Workflow</div>
+  <h1>{{category.display_name}}</h1>
+</div>
+
+<mat-accordion class="categories">
+  <mat-expansion-panel *ngFor="let workflow of category.workflows">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{workflow.display_name}}</mat-panel-title>
+      <mat-panel-description>
+        {{workflow.description}}
+        <mat-icon *ngIf="isWorkflowComplete(workflow)">check_circle</mat-icon>
+        <ng-container *ngIf="!isWorkflowComplete(workflow)">
+          <button
+            *ngIf="workflow.completed_tasks === 0"
+            color="primary"
+            mat-flat-button
+            [routerLink]="['/study', study.id, 'workflow', workflow.id]"
+          >Start</button>
+          <button
+            *ngIf="workflow.completed_tasks > 0"
+            mat-flat-button
+          >Continue</button>
+        </ng-container>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-list>
+      <mat-list-item
+        *ngFor="let navItem of getNavForWorkflow(workflow.id)"
+        [routerLink]="['/study', study.id, 'workflow', workflow.id, 'task', navItem.task_id]"
+      >
+        <mat-icon mat-list-icon *ngIf="isTaskComplete(navItem)">check_circle</mat-icon>
+        <mat-icon mat-list-icon *ngIf="!isTaskComplete(navItem)">radio_button_unchecked</mat-icon>
+        {{navItem.title}}
+      </mat-list-item>
+    </mat-list>
+  </mat-expansion-panel>
+</mat-accordion>

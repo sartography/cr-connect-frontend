@@ -1,0 +1,25 @@
+@import "../../config";
+
+.mat-accordion {
+  width: 100%;
+}
+
+.categories .mat-expansion-panel-header-title,
+.categories .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.categories .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.categories .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.mat-card-subtitle {
+  text-transform: uppercase;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}

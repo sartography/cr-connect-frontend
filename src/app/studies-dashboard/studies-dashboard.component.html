@@ -1,7 +1,8 @@
 <div class="container">
-  <div class="task-events" *ngIf="approvalsDataSource && approvalsDataSource.data && approvalsDataSource.data.length > 0">
-    <h1 id="approvals_title">Your Tasks</h1>
+  <div class="task-events">
+    <h1 id="approvals_title">To Do Next</h1>
     <table
+      *ngIf="hasTaskEvents"
       [dataSource]="approvalsDataSource"
       class="mat-elevation-z0"
       mat-table
@@ -29,7 +30,7 @@
       </ng-container>
 
       <ng-container matColumnDef="approval_date">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_date"> Date</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_date"> Last Update</th>
         <td *matCellDef="let approval" mat-cell>
           {{timeAgo(approval.date)}}
         </td>
@@ -44,10 +45,7 @@
         [routerLink]="['/study', approval.study.id, 'workflow', approval.workflow.id]"
       ></tr>
     </table>
-  </div>
-  <div class="task-events" *ngIf="!approvalsDataSource || approvalsDataSource.data.length === 0">
-    <h1>Your Tasks</h1>
-    <p>No tasks assigned yet.</p>
+    <p *ngIf="!hasTaskEvents">No active tasks assigned.</p>
   </div>
 </div>
 

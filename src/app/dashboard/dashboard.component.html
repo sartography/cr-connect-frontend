@@ -1,46 +1,20 @@
-<mat-tab-group
-  [selectedIndex]="selectedTab"
-  (selectedIndexChange)="selectCategory($event)"
->
-  <ng-container
-    *ngFor="let cat of categoryTabs"
+<div fxLayout="row" fxLayoutGap="20px" *ngIf="!isCategorySelected">
+  <mat-card
+    *ngFor="let cat of categoryTabs; let i = index"
+    fxFlex="calc({{100 / categoryTabs.length}}%-20px)"
+    (click)="selectCategory(cat.id)"
   >
-    <mat-tab
+    <mat-card-title
       *ngIf="cat.workflows && cat.workflows.length > 0"
-      label="{{cat.display_name}}"
-    >
-      <mat-card [ngClass]="'dashboard'">
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item
-              *ngFor="let workflowListItem of cat.workflows"
-              [routerLink]="['workflow', workflowListItem.id]"
-              [ngClass]="
-                'workflow-list-item' +
-                ' workflow_state--' + workflowListItem.state +
-                ' workflow_status--' + workflowListItem.status
-              "
-            >
-              <h1 mat-line>{{workflowListItem.display_name}}</h1>
-              <h4 mat-line>{{workflowListItem.description}}</h4>
-              <span fxFlex></span>
-              <span class="workflow-label">{{workflowLabel(workflowListItem)}}</span>
-              <ng-container *ngIf="showWorkflowAction(workflowListItem)">
-                <ng-container *ngIf="workflowListItem.state !== states.DISABLED">
-                  <div
-                    class="workflow-action"
-                    [attr.data-study-id]="study.id"
-                    [attr.data-workflow-id]="workflowListItem.id"
-                  >
-                    <button *ngIf="!workflowListItem.completed_tasks || workflowListItem.completed_tasks === 0" mat-flat-button color="primary">Start</button>
-                    <button *ngIf="workflowListItem.completed_tasks && workflowListItem.completed_tasks > 0" mat-stroked-button>Continue</button>
-                  </div>
-                </ng-container>
-              </ng-container>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-    </mat-tab>
-  </ng-container>
-</mat-tab-group>
+    >{{cat.display_name}}
+    </mat-card-title>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item *ngFor="let workflowListItem of cat.workflows">{{workflowListItem.display_name}}</mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div fxLayout="column" *ngIf="isCategorySelected">
+  <app-category [category]="selectedCategory" [study]="study"></app-category>
+</div>

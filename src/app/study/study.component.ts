@@ -2,11 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   ApiService,
-  FileMeta,
+  FileMeta, isNumberDefined,
   ProtocolBuilderStatus,
   ProtocolBuilderStatusLabels,
   Study,
-  Workflow
+  Workflow, WorkflowSpecCategory
 } from 'sartography-workflow-lib';
 
 @Component({
@@ -19,6 +19,8 @@ export class StudyComponent implements OnInit {
   displayFiles = false;
   allWorkflows: Workflow[] = [];
   loading = true;
+  selectedCategoryId: number;
+  selectedCategory: WorkflowSpecCategory;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +38,10 @@ export class StudyComponent implements OnInit {
     });
   }
 
+  get isCategorySelected(): boolean {
+    return isNumberDefined(this.selectedCategoryId);
+  }
+
   get numFiles(): number {
     return this.study && this.study.files ? this.study.files.length : 0;
   }
@@ -49,5 +55,9 @@ export class StudyComponent implements OnInit {
 
   toggleFilesDisplay(show?: boolean) {
     this.displayFiles = show !== undefined ? show : !this.displayFiles;
+  }
+
+  selectCategory(categoryId: number) {
+    this.selectedCategoryId = categoryId;
   }
 }

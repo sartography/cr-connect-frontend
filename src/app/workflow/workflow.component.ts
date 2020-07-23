@@ -245,4 +245,8 @@ export class WorkflowComponent implements OnInit {
     scrollToTop(this.deviceDetector);
     this.loading = false;
   }
+
+  isLocked(currentTask: WorkflowTask): boolean {
+    return currentTask.state === WorkflowTaskState.LOCKED;
+  }
 }

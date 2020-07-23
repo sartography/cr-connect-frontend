@@ -1,8 +1,15 @@
 @import '../../config';
 
-::ng-deep .mat-tab-labels .mat-tab-label .mat-tab-label-content {
+.mat-card {
+  &:hover {
+    background-color: $brand-gray-light;
+    cursor: pointer;
+  }
+}
+
+::ng-deep .mat-card-title {
   color: black;
-  font-size: 1.25rem;
+  font-size: 2rem;
 }
 
 ::ng-deep .mat-tab-label:not(.mat-tab-disabled) {
@@ -11,7 +18,8 @@
 
 ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content,
 ::ng-deep .mat-list-base .mat-list-option .mat-list-item-content {
-  padding: 2rem;
+  padding: 0;
+  font-size: 1rem;
 }
 
 ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
