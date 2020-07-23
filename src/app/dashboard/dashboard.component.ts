@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   @Output() categorySelected = new EventEmitter<number>();
   @Input() selectedCategoryId: number;
   categoryTabs: WorkflowSpecCategory[];
+  statuses = WorkflowStatus;
 
   constructor(
     private route: ActivatedRoute,
@@ -122,5 +123,9 @@ export class DashboardComponent implements OnInit {
       (workflowListItem.state !== WorkflowState.DISABLED) &&
       (workflowListItem.state !== WorkflowState.HIDDEN)
     );
+  }
+
+  allComplete(cat: WorkflowSpecCategory) {
+    return cat.workflows.every(wf => wf.status === WorkflowStatus.COMPLETE);
   }
 }

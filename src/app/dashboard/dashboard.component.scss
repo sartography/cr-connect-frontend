@@ -1,5 +1,19 @@
 @import '../../config';
 
+.container {
+  margin: 2rem;
+}
+
+.workflow-status {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: $brand-gray-light;
+  color: $brand-gray;
+  font-size: 0.75rem;
+  padding: 0.5rem;
+}
+
 .mat-card {
   &:hover {
     background-color: $brand-gray-light;
