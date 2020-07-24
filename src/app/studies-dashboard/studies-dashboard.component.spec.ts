@@ -9,9 +9,8 @@ import {
   MockEnvironment,
   mockStudies,
   mockStudy0,
-  mockWorkflow0,
   ProtocolBuilderStatus,
-  ProtocolBuilderStatusLabels, Study,
+  ProtocolBuilderStatusLabels,
   TaskAction,
   TaskEvent,
   WorkflowMetadata,
@@ -74,7 +73,7 @@ describe('StudiesDashboardComponent', () => {
         MatTableModule,
         MatTooltipModule,
         NoopAnimationsModule,
-        RouterTestingModule
+        RouterTestingModule,
       ],
       providers: [
         ApiService,
@@ -129,6 +128,7 @@ describe('StudiesDashboardComponent', () => {
       task_type: WorkflowTaskType.USER_TASK,
       task_state: WorkflowTaskState.READY,
       task_lane: 'supervisor',
+      date: new Date(),
     };
     sReq.flush([mockTaskEvent]);
 
@@ -174,7 +174,7 @@ describe('StudiesDashboardComponent', () => {
     mockConfirmDeleteData.confirm = true;
     (component as any)._updateStudy(mockConfirmDeleteData);
     const wfsReq = httpMock.expectOne(`apiRoot/study/${mockStudy0.id}`);
-    expect(wfsReq.request.method).toEqual('POST');
+    expect(wfsReq.request.method).toEqual('PUT');
     wfsReq.flush(mockStudy0);
 
     expect(studyUpdatedEmitSpy).toHaveBeenCalled();
