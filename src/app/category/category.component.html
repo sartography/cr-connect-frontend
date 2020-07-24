@@ -4,22 +4,27 @@
 </div>
 
 <mat-accordion class="categories">
-  <mat-expansion-panel *ngFor="let workflow of category.workflows">
+  <mat-expansion-panel
+    *ngFor="let wf of workflowsToDisplay" [expanded]="wf.id === workflowId"
+    [routerLink]="['/study', study.id]"
+    [queryParams]="{category: category.id, workflow: wf.id}"
+  >
     <mat-expansion-panel-header>
-      <mat-panel-title>{{workflow.display_name}}</mat-panel-title>
+      <mat-panel-title>{{wf.display_name}}</mat-panel-title>
       <mat-panel-description>
-        {{workflow.description}}
-        <mat-icon *ngIf="isWorkflowComplete(workflow)">check_circle</mat-icon>
-        <ng-container *ngIf="!isWorkflowComplete(workflow)">
+        {{wf.description}}
+        <mat-icon *ngIf="isWorkflowComplete(wf)">check_circle</mat-icon>
+        <ng-container *ngIf="!isWorkflowComplete(wf)">
           <button
-            *ngIf="workflow.completed_tasks === 0"
+            *ngIf="wf.completed_tasks === 0"
             color="primary"
             mat-flat-button
-            [routerLink]="['/study', study.id, 'workflow', workflow.id]"
+            [routerLink]="['/study', study.id, 'workflow', wf.id]"
           >Start</button>
           <button
-            *ngIf="workflow.completed_tasks > 0"
+            *ngIf="wf.completed_tasks > 0"
             mat-flat-button
+            [routerLink]="['/study', study.id, 'workflow', wf.id]"
           >Continue</button>
         </ng-container>
       </mat-panel-description>
@@ -27,11 +32,11 @@
 
     <mat-list>
       <mat-list-item
-        *ngFor="let navItem of getNavForWorkflow(workflow.id)"
-        [routerLink]="['/study', study.id, 'workflow', workflow.id, 'task', navItem.task_id]"
+        *ngFor="let navItem of getNavForWorkflow(wf.id)"
+        [routerLink]="['/study', study.id, 'workflow', wf.id, 'task', navItem.task_id]"
+        [disabled]="shouldDisable(navItem)"
       >
-        <mat-icon mat-list-icon *ngIf="isTaskComplete(navItem)">check_circle</mat-icon>
-        <mat-icon mat-list-icon *ngIf="!isTaskComplete(navItem)">radio_button_unchecked</mat-icon>
+        <app-nav-item-icon mat-list-icon [navItem]="navItem"></app-nav-item-icon>
         {{navItem.title}}
       </mat-list-item>
     </mat-list>

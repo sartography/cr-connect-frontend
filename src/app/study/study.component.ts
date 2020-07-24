@@ -2,11 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   ApiService,
-  FileMeta, isNumberDefined,
+  isNumberDefined,
   ProtocolBuilderStatus,
   ProtocolBuilderStatusLabels,
   Study,
-  Workflow, WorkflowSpecCategory
+  Workflow,
+  WorkflowSpecCategory, WorkflowStats
 } from 'sartography-workflow-lib';
 
 @Component({
@@ -21,25 +22,23 @@ export class StudyComponent implements OnInit {
   loading = true;
   selectedCategoryId: number;
   selectedCategory: WorkflowSpecCategory;
+  selectedWorkflowId: number;
+  selectedWorkflow: WorkflowStats;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private api: ApiService,
   ) {
-    const paramMap = this.route.snapshot.paramMap;
-    const studyId = parseInt(paramMap.get('study_id'), 10);
-    this.api.getStudy(studyId).subscribe(s => {
-      this.study = s;
-      this.allWorkflows = this.study.categories.reduce((accumulator, cat) => {
-        return accumulator.concat(cat.workflows);
-      }, []);
-      this.loading = false;
-    });
+    this.loadStudy();
   }
 
   get isCategorySelected(): boolean {
     return isNumberDefined(this.selectedCategoryId);
+  }
+
+  get isWorkflowSelected(): boolean {
+    return isNumberDefined(this.selectedWorkflowId);
   }
 
   get numFiles(): number {
@@ -47,6 +46,19 @@ export class StudyComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  loadStudy() {
+    this.route.paramMap.subscribe(paramMap => {
+      const studyId = parseInt(paramMap.get('study_id'), 10);
+      this.api.getStudy(studyId).subscribe(s => {
+        this.study = s;
+        this.allWorkflows = this.study.categories.reduce((accumulator, cat) => {
+          return accumulator.concat(cat.workflows);
+        }, []);
+        this.loading = false;
+      });
+    });
   }
 
   getStatusLabel(status: ProtocolBuilderStatus) {
@@ -59,5 +71,18 @@ export class StudyComponent implements OnInit {
 
   selectCategory(categoryId: number) {
     this.selectedCategoryId = categoryId;
+
+    if (!isNumberDefined(categoryId)) {
+      this.selectWorkflow(undefined);
+      this.loadStudy();
+    }
+  }
+
+  selectWorkflow(workflowId: number) {
+    this.selectedWorkflowId = workflowId;
+
+    if (!isNumberDefined(workflowId)) {
+      this.loadStudy();
+    }
   }
 }

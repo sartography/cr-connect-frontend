@@ -175,7 +175,7 @@ describe('WorkflowComponent', () => {
     component.workflowUpdated(updatedWorkflow);
     expect(component.workflow).toEqual(updatedWorkflow);
     expect(component.workflow.next_task).toEqual(endEvent, 'next task should be an end event');
-    expect(component.workflow.redirect).toEqual(2, 'workflow redirect seconds should be set');
+    expect(component.workflow.redirect).toEqual(1, 'workflow redirect seconds should be set');
     expect(countdownSpy).toHaveBeenCalled();
     expect(updateTaskListSpy).toHaveBeenCalledWith(updatedWorkflow);
   });

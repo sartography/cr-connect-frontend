@@ -18,6 +18,7 @@ import {
 } from 'sartography-workflow-lib';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 import {StudyComponent} from './study.component';
+import {of} from 'rxjs';
 
 describe('StudyComponent', () => {
   let component: StudyComponent;
@@ -44,7 +45,7 @@ describe('StudyComponent', () => {
         ApiService,
         {
           provide: ActivatedRoute,
-          useValue: {snapshot: {paramMap: convertToParamMap({study_id: '0'})}},
+          useValue: {paramMap: of(convertToParamMap({study_id: '0'}))},
         },
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
         {provide: APP_BASE_HREF, useValue: ''},

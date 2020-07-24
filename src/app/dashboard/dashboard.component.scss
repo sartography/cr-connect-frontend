@@ -32,7 +32,7 @@
 
 ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content,
 ::ng-deep .mat-list-base .mat-list-option .mat-list-item-content {
-  padding: 0;
+  padding: 1rem;
   font-size: 1rem;
 }
 
@@ -40,4 +40,9 @@
 ::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {
   color: $brand-accent;
   background-color: $brand-accent;
+}
+
+.workflow-list-item {
+  &.complete {
+  }
 }

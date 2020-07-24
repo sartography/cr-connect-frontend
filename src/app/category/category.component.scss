@@ -39,3 +39,8 @@
     cursor: pointer;
   }
 }
+
+.mat-list-item-disabled {
+  background-color: transparent;
+  color: $brand-gray-tint-1;
+}

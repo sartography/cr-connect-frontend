@@ -78,6 +78,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import * as hljs from 'highlight.js';
 import {ConfirmStudyStatusDialogComponent} from './_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
 import { CategoryComponent } from './category/category.component';
+import { NavItemIconComponent } from './nav-item-icon/nav-item-icon.component';
 (document.defaultView as any).hljs = hljs;
 
 
@@ -155,6 +156,7 @@ export function markedOptionsFactory(): MarkedOptions {
     ResearchComponent,
     LoadingComponent,
     CategoryComponent,
+    NavItemIconComponent,
   ],
   imports: [
     BrowserAnimationsModule,

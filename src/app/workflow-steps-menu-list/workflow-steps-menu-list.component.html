@@ -5,16 +5,13 @@
     [ngClass]="{
       'task': true,
       'active': currentTask && currentTask.id === navItem.task_id,
-      'disabled': shouldDisableNavItem(navItem)
+      'disabled': shouldDisable(navItem)
     }"
-  ><span class="indent_{{navItem.indent}}">{{ navItem.title }}</span>
-    <span fxFlex></span>
-    <mat-icon *ngIf="navItem.state === taskStates.COMPLETED">check</mat-icon>
-    <mat-icon *ngIf="navItem.state === taskStates.WAITING">more_horiz</mat-icon>
-    <mat-icon *ngIf="navItem.state === taskStates.FUTURE">access_time</mat-icon>
-    <mat-icon *ngIf="navItem.state === taskStates.LIKELY">access_time</mat-icon>
-    <mat-icon *ngIf="navItem.state === taskStates.READY">create</mat-icon>
-    <mat-icon *ngIf="navItem.state === 'None'">access_time</mat-icon>
+  >
+    <div mat-line class="indent_{{navItem.indent}}" fxLayout="row" fxLayoutAlign="start center">
+      <app-nav-item-icon [navItem]="navItem"></app-nav-item-icon>
+      <div>{{ navItem.title }}</div>
+    </div>
   </mat-list-item>
 </mat-list>
 

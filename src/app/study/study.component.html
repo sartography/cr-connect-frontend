@@ -26,7 +26,9 @@
     *ngIf="allWorkflows.length > 0"
     [study]="study"
     [selectedCategoryId]="selectedCategoryId"
+    [selectedWorkflowId]="selectedWorkflowId"
     (categorySelected)="selectCategory($event)"
+    (workflowSelected)="selectWorkflow($event)"
   ></app-dashboard>
   <div *ngIf="!(allWorkflows.length > 0)">
     No active workflows for this study.
