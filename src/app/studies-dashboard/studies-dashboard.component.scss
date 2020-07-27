@@ -4,6 +4,7 @@
   padding: 2rem;
   border: 1px solid black;
   margin-bottom: 2rem;
+  min-width: 50vw;
 }
 
 mat-panel-title.mat-h2 {
@@ -75,4 +76,9 @@ mat-panel-title.mat-h2 {
       border-right: none;
     }
   }
+}
+
+.mat-button-toggle {
+  font-size: 1rem;
+  padding: 0rem 2rem;
 }

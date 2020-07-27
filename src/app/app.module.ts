@@ -79,6 +79,8 @@ import * as hljs from 'highlight.js';
 import {ConfirmStudyStatusDialogComponent} from './_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
 import { CategoryComponent } from './category/category.component';
 import { NavItemIconComponent } from './nav-item-icon/nav-item-icon.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 (document.defaultView as any).hljs = hljs;
 
 
@@ -206,6 +208,8 @@ export function markedOptionsFactory(): MarkedOptions {
     SartographyWorkflowLibModule,
     AppRoutingModule,
     MatStepperModule,
+    MatCheckboxModule,
+    MatButtonToggleModule,
     // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [

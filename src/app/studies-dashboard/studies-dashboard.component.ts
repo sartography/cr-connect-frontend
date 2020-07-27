@@ -8,7 +8,13 @@ import {StudyAction} from '../_interfaces/study-action';
 import createClone from 'rfdc';
 import {MatTableDataSource} from '@angular/material/table';
 import * as timeago from 'timeago.js';
+import {MatButtonToggleChange} from '@angular/material/button-toggle';
 
+
+interface TaskLane {
+  value: string|null;
+  label: string;
+}
 
 enum IrbHsrStatus {
   NOT_SUBMITTED = 'Not Submitted',
@@ -112,18 +118,25 @@ export class StudiesDashboardComponent implements OnInit {
     },
   ];
   approvalsDataSource: MatTableDataSource<TaskEvent>;
+  taskLanes: TaskLane[] = [
+    {value: 'supervisor', label: 'Approval Tasks'},
+    {value: null, label: 'Data Entry Tasks'},
+  ];
+  selectedTaskLane: TaskLane = this.taskLanes[0];
 
   constructor(
     private api: ApiService,
     public dialog: MatDialog
   ) {
-    this.api
-      .getTaskEvents(TaskAction.ASSIGNMENT)
-      .subscribe(t => this.approvalsDataSource = new MatTableDataSource(t));
+    this.loadTaskEvents();
   }
 
   get hasTaskEvents(): boolean {
-    return this.approvalsDataSource && this.approvalsDataSource.data && this.approvalsDataSource.data.length > 0;
+    return !!(
+      this.approvalsDataSource &&
+      this.approvalsDataSource.filteredData &&
+      this.approvalsDataSource.filteredData.length > 0
+    );
   }
 
   ngOnInit(): void {
@@ -185,6 +198,28 @@ export class StudiesDashboardComponent implements OnInit {
     return timeago.format(date);
   }
 
+  loadTaskEvents() {
+    this.api
+      .getTaskEvents(TaskAction.ASSIGNMENT)
+      .subscribe(t => {
+        this.approvalsDataSource = new MatTableDataSource(t);
+        this.approvalsDataSource.filterPredicate = (taskEvent: TaskEvent, filter) => {
+          console.log('taskEvent', taskEvent);
+          return taskEvent.task_lane === this.selectedTaskLane.value;
+        };
+
+        // Sending the filter a non-empty string so it will update.
+        this.approvalsDataSource.filter = this.selectedTaskLane.label;
+      });
+  }
+
+  toggleTaskLane($event: MatButtonToggleChange) {
+    this.selectedTaskLane = $event.value;
+
+    // Sending the filter a non-empty string so it will update.
+    this.approvalsDataSource.filter = this.selectedTaskLane.label;
+  }
+
   private _updateStudy(data: ConfirmStudyStatusDialogData) {
     if (typeof data.action.method === 'string') {
       this.api[data.action.method](data.study.id).subscribe(s => this.studyUpdated.emit(s));
@@ -192,5 +227,13 @@ export class StudiesDashboardComponent implements OnInit {
       const updatedStudy = data.action.method(data.study, data.model);
       this.api.updateStudy(data.study.id, updatedStudy).subscribe(s => this.studyUpdated.emit(s));
     }
+  }
+
+  numTasksInTaskLane(taskLane: TaskLane): number {
+    if (this.approvalsDataSource && this.approvalsDataSource.data && this.approvalsDataSource.data.length > 0) {
+      return this.approvalsDataSource.data.filter(taskEvent => taskEvent.task_lane === taskLane.value).length;
+    }
+
+    return 0;
   }
 }
