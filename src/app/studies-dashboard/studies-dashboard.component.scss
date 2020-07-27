@@ -45,6 +45,8 @@ mat-panel-title.mat-h2 {
     &:last-child {
       border-right: none;
     }
+
+    &.study-actions { padding: 0; }
   }
 
   .new {
@@ -90,4 +92,10 @@ mat-panel-title.mat-h2 {
 .no-task-events {
   padding: 4rem;
   text-align: center;
+}
+
+::ng-deep button.study-action-button {
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
