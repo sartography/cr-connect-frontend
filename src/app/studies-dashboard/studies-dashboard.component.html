@@ -1,6 +1,6 @@
 <div class="container">
   <div class="task-events">
-    <div fxLayout="row">
+    <div fxLayout="row" class="task-events-header">
       <h1 id="approvals_title">To Do Next</h1>
       <span fxFlex></span>
       <mat-button-toggle-group
@@ -66,7 +66,7 @@
         [routerLink]="['/study', approval.study.id, 'workflow', approval.workflow.id]"
       ></tr>
     </table>
-    <p *ngIf="!hasTaskEvents">No {{selectedTaskLane.label}} to display.</p>
+    <p *ngIf="!hasTaskEvents" class="no-task-events">No {{selectedTaskLane.label}} to display.</p>
   </div>
 </div>
 

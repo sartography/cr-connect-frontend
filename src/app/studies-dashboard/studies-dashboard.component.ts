@@ -9,10 +9,11 @@ import createClone from 'rfdc';
 import {MatTableDataSource} from '@angular/material/table';
 import * as timeago from 'timeago.js';
 import {MatButtonToggleChange} from '@angular/material/button-toggle';
+import {FormlyFieldConfig} from '@ngx-formly/core';
 
 
 interface TaskLane {
-  value: string|null;
+  value: string | null;
   label: string;
 }
 
@@ -49,6 +50,16 @@ export class StudiesDashboardComponent implements OnInit {
     'approval_task',
     'approval_date',
   ];
+  defaultStudyActionForm: FormlyFieldConfig[] = [
+    {
+      key: 'comment',
+      type: 'textarea',
+      templateOptions: {
+        label: 'Comment',
+        rows: 5,
+      },
+    }
+  ];
 
   studyActions: StudyAction[] = [
     {
@@ -67,8 +78,10 @@ export class StudiesDashboardComponent implements OnInit {
       tooltipText: 'Set the status of <study_title> to "Hold"',
       dialogTitle: 'Really put <study_title> on hold?',
       dialogDescription: `This will put the study on hold, pausing notifications and approvals for the time being. You may take the study off hold at any time.`,
-      method: (study) => {
+      dialogFormFields: this.defaultStudyActionForm,
+      method: (study, model) => {
         study.protocol_builder_status = ProtocolBuilderStatus.HOLD;
+        study.comment = model.comment;
         return study;
       },
     },
@@ -79,16 +92,11 @@ export class StudiesDashboardComponent implements OnInit {
       tooltipText: 'Set the status of <study_title> to "Open To Enrollment"',
       dialogTitle: 'Really open <study_title> to enrollment?',
       dialogDescription: `This will open the study to enrollment on the specified launch date.`,
-      dialogFormFields: [{
-        key: 'enrollmentDate',
-        type: 'datepicker',
-        templateOptions: {
-          label: 'Date enrollment will begin',
-        }
-      }],
-      method: (study, enrollmentDate) => {
+      dialogFormFields: this.enrollmentDateForm(),
+      method: (study, model) => {
         study.protocol_builder_status = ProtocolBuilderStatus.OPEN;
-        study.enrollment_date = enrollmentDate;
+        study.enrollment_date = model.enrollmentDate;
+        study.comment = model.comment;
         return study;
       },
     },
@@ -99,8 +107,10 @@ export class StudiesDashboardComponent implements OnInit {
       tooltipText: 'Set the status of <study_title> to "Abandoned"',
       dialogTitle: 'Really abandon <study_title>?',
       dialogDescription: `This will change the status of this study to "Abandoned", preventing the study from appearing in anyone's approval queue. You may un-abandon the study at any time.`,
-      method: (study) => {
+      dialogFormFields: this.defaultStudyActionForm,
+      method: (study, model) => {
         study.protocol_builder_status = ProtocolBuilderStatus.ABANDONED;
+        study.comment = model.comment;
         return study;
       },
     },
@@ -111,8 +121,10 @@ export class StudiesDashboardComponent implements OnInit {
       tooltipText: 'Set the status of <study_title> to "In progress"',
       dialogTitle: 'Really resume <study_title>?',
       dialogDescription: `This will set the status of this study to "In progress", resuming any notifications and approvals.`,
-      method: (study) => {
+      dialogFormFields: this.defaultStudyActionForm,
+      method: (study, model) => {
         study.protocol_builder_status = ProtocolBuilderStatus.ACTIVE;
+        study.comment = model.comment;
         return study;
       },
     },
@@ -174,8 +186,6 @@ export class StudiesDashboardComponent implements OnInit {
     }
 
     const dialogRef = this.dialog.open(ConfirmStudyStatusDialogComponent, {
-      height: '65vh',
-      width: '50vw',
       data: dialogData,
     });
 
@@ -220,6 +230,14 @@ export class StudiesDashboardComponent implements OnInit {
     this.approvalsDataSource.filter = this.selectedTaskLane.label;
   }
 
+  numTasksInTaskLane(taskLane: TaskLane): number {
+    if (this.approvalsDataSource && this.approvalsDataSource.data && this.approvalsDataSource.data.length > 0) {
+      return this.approvalsDataSource.data.filter(taskEvent => taskEvent.task_lane === taskLane.value).length;
+    }
+
+    return 0;
+  }
+
   private _updateStudy(data: ConfirmStudyStatusDialogData) {
     if (typeof data.action.method === 'string') {
       this.api[data.action.method](data.study.id).subscribe(s => this.studyUpdated.emit(s));
@@ -229,11 +247,15 @@ export class StudiesDashboardComponent implements OnInit {
     }
   }
 
-  numTasksInTaskLane(taskLane: TaskLane): number {
-    if (this.approvalsDataSource && this.approvalsDataSource.data && this.approvalsDataSource.data.length > 0) {
-      return this.approvalsDataSource.data.filter(taskEvent => taskEvent.task_lane === taskLane.value).length;
-    }
-
-    return 0;
+  private enrollmentDateForm() {
+    const formFields: FormlyFieldConfig[] = createClone()(this.defaultStudyActionForm) as FormlyFieldConfig[];
+    formFields.push({
+      key: 'enrollmentDate',
+      type: 'datepicker',
+      templateOptions: {
+        label: 'Date enrollment will begin',
+      },
+    });
+    return formFields;
   }
 }

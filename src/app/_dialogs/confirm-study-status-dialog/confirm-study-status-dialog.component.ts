@@ -26,6 +26,7 @@ export class ConfirmStudyStatusDialogComponent {
       action: this.data.action,
       confirm: true,
       study: this.data.study,
+      model: this.data.model,
     };
     this.dialogRef.close(data);
   }
