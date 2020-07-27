@@ -17,6 +17,7 @@ describe('DeleteFileDialogComponent', () => {
     tooltipText: '',
     dialogTitle: '',
     dialogDescription: '',
+    dialogFormFields: [],
     method: '',
   };
 
@@ -61,7 +62,7 @@ describe('DeleteFileDialogComponent', () => {
 
   it('should confirm deletion on submit', () => {
     const closeSpy = spyOn(component.dialogRef, 'close').and.stub();
-    const expectedData: ConfirmStudyStatusDialogData = {action: mockAction, confirm: true, study: mockStudy0};
+    const expectedData: ConfirmStudyStatusDialogData = {action: mockAction, confirm: true, study: mockStudy0, model: undefined};
     component.data.study = mockStudy0;
     component.onSubmit();
     expect(closeSpy).toHaveBeenCalledWith(expectedData);
