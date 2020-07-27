@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('this.study.categories', this.study.categories);
+    console.log('this.study', this.study);
     this.categoryTabs = this.study.categories
       .sort((a, b) => (a.display_order < b.display_order) ? -1 : 1)
       .map(cat => {

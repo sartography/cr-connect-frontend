@@ -67,7 +67,7 @@ describe('CategoryComponent', () => {
 
   it('should get workflow nav list for give workflow id', () => {
     const wf = component.workflows[0];
-    expect(component.getNavForWorkflow(wf.id)).toEqual(wf.navigation);
+    expect(component.getTaskEventForWorkflow(wf.id)).toEqual(wf.navigation);
   });
 
   it('should check if task is complete', () => {

@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {
   ApiService,
-  Study,
+  Study, TaskEvent,
   Workflow,
   WorkflowNavItem,
   WorkflowSpecCategory,
@@ -20,7 +20,6 @@ export class CategoryComponent implements OnInit {
   @Input() category: WorkflowSpecCategory;
   @Input() study: Study;
   @Input() workflowId: number;
-  workflows: Workflow[] = [];
 
   constructor(private api: ApiService) {
   }
@@ -30,21 +29,15 @@ export class CategoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.category.workflows.forEach(wf => {
-      this.api.getWorkflow(wf.id).subscribe(w => this.workflows.push(w));
-    });
   }
 
   isWorkflowComplete(workflow: WorkflowStats): boolean {
     return workflow.status === WorkflowStatus.COMPLETE;
   }
 
-  getNavForWorkflow(workflowId: number): WorkflowNavItem[] {
-    if (this.workflows && this.workflows.length > 0) {
-      const workflow = this.workflows.find(wf => wf.id === workflowId);
-      if (workflow && workflow.navigation) {
-        return workflow.navigation.filter(navItem => shouldDisplayNavItem(navItem));
-      }
+  getTaskEventForWorkflow(workflowId: number): TaskEvent[] {
+    if (this.study && this.study.events && this.study.events.length > 0) {
+      return this.study.events.filter(taskEvent => taskEvent.workflow.id === workflowId);
     }
   }
 

@@ -5,7 +5,8 @@
 
 <mat-accordion class="categories">
   <mat-expansion-panel
-    *ngFor="let wf of workflowsToDisplay" [expanded]="wf.id === workflowId"
+    *ngFor="let wf of workflowsToDisplay"
+    [expanded]="wf.id === workflowId"
     [routerLink]="['/study', study.id]"
     [queryParams]="{category: category.id, workflow: wf.id}"
   >
@@ -32,12 +33,11 @@
 
     <mat-list>
       <mat-list-item
-        *ngFor="let navItem of getNavForWorkflow(wf.id)"
-        [routerLink]="['/study', study.id, 'workflow', wf.id, 'task', navItem.task_id]"
-        [disabled]="shouldDisable(navItem)"
+        *ngFor="let taskEvent of getTaskEventForWorkflow(wf.id)"
+        [routerLink]="['/study', study.id, 'workflow', wf.id, 'task', taskEvent.task_id]"
       >
-        <app-nav-item-icon mat-list-icon [navItem]="navItem"></app-nav-item-icon>
-        {{navItem.title}}
+        <app-nav-item-icon mat-list-icon [taskEvent]="taskEvent"></app-nav-item-icon>
+        {{taskEvent.task_title}}
       </mat-list-item>
     </mat-list>
   </mat-expansion-panel>
