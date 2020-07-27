@@ -1,24 +1,30 @@
-<div mat-dialog-title *ngIf="data && data.study">
-  {{data.action.dialogTitle}}
-  <span fxFlex></span>
-  <button mat-icon-button mat-dialog-close=""><mat-icon>close</mat-icon></button>
-</div>
-<div mat-dialog-content>
-  <div *ngIf="data.formFields">
-    <formly-form
-      [fields]="data.formFields"
-      [form]="form"
-      [model]="data.model"
-    ></formly-form>
-  </div>
-  <div class="select-mode" fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="20px">
-    <button (click)="onSubmit()" color="warn" mat-flat-button>
-      <mat-icon>check</mat-icon>
-      Yes
-    </button>
-    <button (click)="onNoClick()" color="primary" mat-flat-button>
+<div class="mat-typography">
+
+  <div *ngIf="data && data.study" mat-dialog-title>
+    {{data.action.dialogTitle}}
+    <span fxFlex></span>
+    <button mat-dialog-close="" mat-icon-button>
       <mat-icon>close</mat-icon>
-      No
     </button>
+  </div>
+  <div mat-dialog-content>
+    <p>{{data.action.dialogDescription}}</p>
+    <div *ngIf="data.formFields">
+      <formly-form
+        [fields]="data.formFields"
+        [form]="form"
+        [model]="data.model"
+      ></formly-form>
+    </div>
+    <div class="select-mode" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+      <button (click)="onSubmit()" color="warn" mat-flat-button>
+        <mat-icon>check</mat-icon>
+        Yes
+      </button>
+      <button (click)="onNoClick()" color="primary" mat-flat-button>
+        <mat-icon>close</mat-icon>
+        No
+      </button>
+    </div>
   </div>
 </div>
