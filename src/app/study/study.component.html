@@ -1,4 +1,4 @@
-<div *ngIf="study" class="study-container">
+<div *ngIf="!loading && study; else loadingMessage" class="study-container">
   <div class="class" fxLayout="row">
     <button
       [routerLink]="!isCategorySelected ? '/' : '/study/' + study.id"

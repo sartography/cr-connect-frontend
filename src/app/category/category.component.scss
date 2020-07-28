@@ -44,3 +44,11 @@
   background-color: transparent;
   color: $brand-gray-tint-1;
 }
+
+::ng-deep .mat-expansion-panel-body {
+  min-height: 4rem;
+
+  .loading {
+    height: 4rem;
+  }
+}

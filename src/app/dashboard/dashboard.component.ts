@@ -142,4 +142,9 @@ export class DashboardComponent implements OnInit {
   allComplete(cat: WorkflowSpecCategory) {
     return cat.workflows.every(wf => wf.status === WorkflowStatus.COMPLETE);
   }
+
+  selectWorkflow(workflowId: number) {
+    this.selectedWorkflowId = workflowId;
+    this.workflowSelected.emit(this.selectedWorkflowId);
+  }
 }

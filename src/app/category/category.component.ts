@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
   ApiService,
-  Study, TaskEvent,
+  Study,
   Workflow,
   WorkflowNavItem,
   WorkflowSpecCategory,
@@ -20,32 +20,53 @@ export class CategoryComponent implements OnInit {
   @Input() category: WorkflowSpecCategory;
   @Input() study: Study;
   @Input() workflowId: number;
+  @Output() workflowUpdated = new EventEmitter<number>();
+  selectedWorkflow: Workflow;
+  loading = true;
+  shouldDisable = shouldDisableNavItem;
 
   constructor(private api: ApiService) {
   }
 
+  get navItems(): WorkflowNavItem[] {
+    if (this.selectedWorkflow && this.selectedWorkflow.navigation && this.selectedWorkflow.navigation.length > 0) {
+      return this.selectedWorkflow.navigation.filter(navItem => shouldDisplayNavItem(navItem));
+    } else {
+      return [];
+    }
+  }
+
   get workflowsToDisplay(): WorkflowStats[] {
-    return this.category.workflows.filter(wf => shouldDisplayWorkflow(wf));
+    if (this.category && this.category.workflows && this.category.workflows.length > 0) {
+      return this.category.workflows.filter(wf => shouldDisplayWorkflow(wf));
+    } else {
+      return [];
+    }
   }
 
   ngOnInit(): void {
+    this.loadWorkflow();
   }
 
   isWorkflowComplete(workflow: WorkflowStats): boolean {
     return workflow.status === WorkflowStatus.COMPLETE;
   }
 
-  getTaskEventForWorkflow(workflowId: number): TaskEvent[] {
-    if (this.study && this.study.events && this.study.events.length > 0) {
-      return this.study.events.filter(taskEvent => taskEvent.workflow.id === workflowId);
-    }
-  }
-
   isTaskComplete(navItem: WorkflowNavItem): boolean {
     return navItem.state === WorkflowTaskState.COMPLETED;
   }
 
-  shouldDisable(navItem: WorkflowNavItem) {
-    return shouldDisableNavItem(navItem);
+  selectWorkflow(workflowId: number) {
+    this.workflowId = workflowId;
+    this.workflowUpdated.emit(workflowId);
+    this.loadWorkflow();
+  }
+
+  private loadWorkflow() {
+    this.loading = true;
+    this.api.getWorkflow(this.workflowId).subscribe(wf => {
+      this.selectedWorkflow = wf;
+      this.loading = false;
+    });
   }
 }

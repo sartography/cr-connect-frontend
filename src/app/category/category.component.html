@@ -9,6 +9,7 @@
     [expanded]="wf.id === workflowId"
     [routerLink]="['/study', study.id]"
     [queryParams]="{category: category.id, workflow: wf.id}"
+    (click)="selectWorkflow(wf.id)"
   >
     <mat-expansion-panel-header>
       <mat-panel-title>{{wf.display_name}}</mat-panel-title>
@@ -31,14 +32,18 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <mat-list>
+    <mat-list *ngIf="wf.id === workflowId && !loading">
       <mat-list-item
-        *ngFor="let taskEvent of getTaskEventForWorkflow(wf.id)"
-        [routerLink]="['/study', study.id, 'workflow', wf.id, 'task', taskEvent.task_id]"
+        *ngFor="let navItem of navItems"
+        [routerLink]="['/study', study.id, 'workflow', wf.id, 'task', navItem.task_id]"
+        [disabled]="shouldDisable(navItem)"
       >
-        <app-nav-item-icon mat-list-icon [taskEvent]="taskEvent"></app-nav-item-icon>
-        {{taskEvent.task_title}}
+        <app-nav-item-icon mat-list-icon [navItem]="navItem"></app-nav-item-icon>
+        {{navItem.task.title}}
       </mat-list-item>
     </mat-list>
+    <div *ngIf="wf.id === workflowId && loading" fxLayout="column" fxLayoutAlign="center center">
+      <app-loading size="sm"></app-loading>
+    </div>
   </mat-expansion-panel>
 </mat-accordion>
