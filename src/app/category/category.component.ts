@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
-  ApiService,
+  ApiService, isNumberDefined,
   Study,
   Workflow,
   WorkflowNavItem,
@@ -64,9 +64,12 @@ export class CategoryComponent implements OnInit {
 
   private loadWorkflow() {
     this.loading = true;
-    this.api.getWorkflow(this.workflowId).subscribe(wf => {
-      this.selectedWorkflow = wf;
-      this.loading = false;
-    });
+
+    if (isNumberDefined(this.workflowId)) {
+      this.api.getWorkflow(this.workflowId, {do_engine_steps: false}).subscribe(wf => {
+        this.selectedWorkflow = wf;
+        this.loading = false;
+      });
+    }
   }
 }

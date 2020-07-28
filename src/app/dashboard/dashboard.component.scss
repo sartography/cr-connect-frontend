@@ -26,23 +26,19 @@
   font-size: 2rem;
 }
 
-::ng-deep .mat-tab-label:not(.mat-tab-disabled) {
-  opacity: 1;
+::ng-deep .mat-card.dashboard {
+  .mat-card-title {
+    padding: 1rem;
+  }
+}
+
+::ng-deep .mat-list-base .mat-list-item,
+::ng-deep .mat-list-base .mat-list-option {
+  border-bottom: none;
 }
 
 ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content,
 ::ng-deep .mat-list-base .mat-list-option .mat-list-item-content {
   padding: 1rem;
   font-size: 1rem;
-}
-
-::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
-::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-  color: $brand-accent;
-  background-color: $brand-accent;
-}
-
-.workflow-list-item {
-  &.complete {
-  }
 }

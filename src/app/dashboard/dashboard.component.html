@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container" fxLayout="column">
   <div *ngIf="!isCategorySelected" fxLayout="row" fxLayoutGap="20px">
     <mat-card
       *ngFor="let cat of categoryTabs; let i = index"
       fxFlex="calc({{100 / categoryTabs.length}}%-20px)"
-      [ngClass]="'dashboard'"
       (click)="selectCategory($event, cat.id)"
+      [ngClass]="'dashboard'"
     >
       <mat-card-title
         *ngIf="cat.workflows && cat.workflows.length > 0"
