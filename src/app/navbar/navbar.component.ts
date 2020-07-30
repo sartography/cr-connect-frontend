@@ -178,6 +178,10 @@ export class NavbarComponent {
     }
   }
 
+  get isImpersonating(): boolean {
+    return !!(localStorage.getItem('admin_view_as') && this.impersonatedUser);
+  }
+
   viewAs(uid: string) {
     if (this.isAdmin && (uid !== this.realUser.uid)) {
       localStorage.setItem('admin_view_as', uid);

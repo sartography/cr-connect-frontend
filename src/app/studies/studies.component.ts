@@ -42,7 +42,6 @@ export class StudiesComponent implements OnInit {
   }
 
   loadStudies() {
-    console.log('load studies');
     this.loading = true;
     this.api.getStudies().subscribe(allStudies => {
       const sorted = allStudies.sort((a, b) => {

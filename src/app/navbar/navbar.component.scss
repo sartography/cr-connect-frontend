@@ -8,6 +8,14 @@
   z-index: 2;
 }
 
+#adminToolbar {
+  border-radius: 5px;
+
+  &.viewing-as-user {
+    background-color: $brand-accent;
+  }
+}
+
 .flex-spacer {
   flex-grow: 1;
 }

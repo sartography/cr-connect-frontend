@@ -31,7 +31,6 @@ export class NavItemIconComponent implements OnInit {
           return 'remove_circle_outline';
       }
     } else if (this.taskEvent) {
-      console.log('this.taskEvent.task_state', this.taskEvent.task_state);
       switch (this.taskEvent.task_state) {
         case WorkflowTaskState.COMPLETED:
           return 'check_circle';

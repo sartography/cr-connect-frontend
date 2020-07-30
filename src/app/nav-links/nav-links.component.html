@@ -22,6 +22,7 @@
     >
       <mat-icon [ngClass]="{'with-label': link.showLabel}">{{link.icon}}</mat-icon>
       <ng-container *ngIf="link.showLabel">{{link.label}}</ng-container>
+      <mat-icon>arrow_drop_down</mat-icon>
     </button>
     <mat-menu #menu="matMenu" xPosition="before">
       <button
