@@ -1,6 +1,8 @@
 import {Component, Inject} from '@angular/core';
 import {MatIconRegistry} from '@angular/material/icon';
 import {DomSanitizer, Title} from '@angular/platform-browser';
+import {NavigationEnd, Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
 import {AppEnvironment, FileType, GoogleAnalyticsService} from 'sartography-workflow-lib';
 
 @Component({
@@ -17,8 +19,11 @@ export class AppComponent {
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
     private googleAnalyticsService: GoogleAnalyticsService,
+    private router: Router,
   ) {
-    this.googleAnalyticsService.init(this.environment.googleAnalyticsKey);
+    // const navEnd = this.router.events.pipe(filter(e => e instanceof NavigationEnd));
+    // navEnd.subscribe(_ => this.googleAnalyticsService.init(this.environment.googleAnalyticsKey));
+
     const fileTypes = Object.values(FileType);
     fileTypes.forEach(t => {
       const url = this.domSanitizer.bypassSecurityTrustResourceUrl(`assets/icons/file_types/${t}.svg`)

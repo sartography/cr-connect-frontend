@@ -5,8 +5,11 @@ import {
   MockEnvironment,
   mockNav0,
   mockStudy0,
-  mockWorkflowSpecCategory0, mockWorkflowTask0, WorkflowNavItem,
-  WorkflowTaskState
+  mockWorkflow0,
+  mockWorkflowSpecCategory0, mockWorkflowTask0, mockWorkflowTasks,
+  WorkflowNavItem,
+  WorkflowTaskState,
+  WorkflowTaskType
 } from 'sartography-workflow-lib';
 import {APP_BASE_HREF} from '@angular/common';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
@@ -48,12 +51,6 @@ describe('CategoryComponent', () => {
     component.category = mockWorkflowSpecCategory0;
     component.study = mockStudy0;
     fixture.detectChanges();
-
-    mockWorkflowSpecCategory0.workflows.forEach(wf => {
-      const wfReq = httpMock.expectOne('apiRoot/workflow/' + wf.id);
-      expect(wfReq.request.method).toEqual('GET');
-      wfReq.flush(wf);
-    });
   });
 
   afterEach(() => {
@@ -65,9 +62,24 @@ describe('CategoryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get workflow nav list for give workflow id', () => {
-    const wf = component.workflows[0];
-    expect(component.getTaskEventForWorkflow(wf.id)).toEqual(wf.navigation);
+  it('should get workflow nav list for selected workflow', () => {
+    component.selectedWorkflow = createClone({circles: true})(mockWorkflow0);
+
+    // Set all tasks to undefined
+    component.selectedWorkflow.navigation.forEach(navItem => navItem.task = undefined);
+    expect(component.navItems).toEqual([], 'should filter non-user tasks from nav');
+
+    // Set all tasks to a NONE_TASK
+    const noneTask = createClone()(mockWorkflowTask0);
+    noneTask.type = WorkflowTaskType.NONE_TASK;
+    component.selectedWorkflow.navigation.forEach(navItem => navItem.task = noneTask);
+    expect(component.navItems).toEqual([], 'should filter none tasks from nav');
+
+    // Set all tasks to a USER_TASK
+    const userTask = createClone()(mockWorkflowTask0);
+    userTask.type = WorkflowTaskType.USER_TASK;
+    component.selectedWorkflow.navigation.forEach(navItem => navItem.task = mockWorkflowTask0);
+    expect(component.navItems).toEqual(component.selectedWorkflow.navigation, 'should include user tasks in nav');
   });
 
   it('should check if task is complete', () => {

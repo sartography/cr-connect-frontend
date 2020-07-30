@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Inject, Output} from '@angular/core';
-import {Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
 import {ApiService, AppEnvironment, GoogleAnalyticsService, User} from 'sartography-workflow-lib';
 import {NavItem} from '../_interfaces/nav-item';
 
@@ -25,6 +26,7 @@ export class NavbarComponent {
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private googleAnalyticsService: GoogleAnalyticsService,
   ) {
+    this.googleAnalyticsService.init(this.environment.googleAnalyticsKey);
     this._loadUser();
     this.title = environment.title;
   }
@@ -36,7 +38,7 @@ export class NavbarComponent {
 
     if (this.isAdmin) {
       this.api.getUser(impersonateUid || undefined).subscribe(u => {
-        if (this.realUser.uid !== impersonateUid) {
+        if (this.realUser.uid !== impersonateUid && this.realUser.uid !== u.uid) {
           this.impersonatedUser = u;
         } else {
           this.realUser = u;
