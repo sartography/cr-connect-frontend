@@ -1,0 +1,38 @@
+<ng-container *ngFor="let link of links">
+  <a *ngIf="!link.links"
+     [id]="link.id"
+     [ngClass]="{'active': isLinkActive(link.path)}"
+     [routerLink]="link.path"
+     mat-button
+     [matTooltip]="link.label"
+  >
+    <mat-icon [ngClass]="{'with-label': link.showLabel}">{{link.icon}}</mat-icon>
+    <ng-container *ngIf="link.showLabel">{{link.label}}</ng-container>
+  </a>
+
+  <ng-container *ngIf="link.links">
+    <button
+      [attr.aria-label]="link.label"
+      [id]="link.id"
+      [matMenuTriggerFor]="menu"
+      mat-button
+     [matTooltip]="link.label"
+    >
+      <mat-icon [ngClass]="{'with-label': link.showLabel}">{{link.icon}}</mat-icon>
+      <ng-container *ngIf="link.showLabel">{{link.label}}</ng-container>
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <button
+        *ngFor="let menuLink of link.links"
+        [id]="menuLink.id"
+        [ngClass]="{'active': isLinkActive(menuLink.path)}"
+        [routerLink]="menuLink.path ? menuLink.path : null"
+        (click)="menuLink.action ? menuLink.action() : null"
+        mat-menu-item
+      >
+        <mat-icon [ngClass]="{'with-label': menuLink.showLabel}">{{menuLink.icon}}</mat-icon>
+        <span *ngIf="menuLink.showLabel">{{menuLink.label}}</span>
+      </button>
+    </mat-menu>
+  </ng-container>
+</ng-container>
