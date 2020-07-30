@@ -9,6 +9,8 @@ import {AppEnvironment, FileType, GoogleAnalyticsService} from 'sartography-work
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  loading: boolean;
+
   constructor(
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private titleService: Title,
@@ -23,5 +25,10 @@ export class AppComponent {
       this.matIconRegistry.addSvgIconInNamespace('crc', t, url);
     });
     this.titleService.setTitle(this.environment.title);
+  }
+
+  reload() {
+    this.loading = true;
+    setTimeout(() => this.loading = false, 300);
   }
 }

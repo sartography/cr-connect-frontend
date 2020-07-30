@@ -5,6 +5,7 @@
      [routerLink]="link.path"
      mat-button
      [matTooltip]="link.label"
+     [disabled]="link.disabled"
   >
     <mat-icon [ngClass]="{'with-label': link.showLabel}">{{link.icon}}</mat-icon>
     <ng-container *ngIf="link.showLabel">{{link.label}}</ng-container>
@@ -16,7 +17,8 @@
       [id]="link.id"
       [matMenuTriggerFor]="menu"
       mat-button
-     [matTooltip]="link.label"
+      [matTooltip]="link.label"
+      [disabled]="link.disabled"
     >
       <mat-icon [ngClass]="{'with-label': link.showLabel}">{{link.icon}}</mat-icon>
       <ng-container *ngIf="link.showLabel">{{link.label}}</ng-container>
@@ -28,6 +30,7 @@
         [ngClass]="{'active': isLinkActive(menuLink.path)}"
         [routerLink]="menuLink.path ? menuLink.path : null"
         (click)="menuLink.action ? menuLink.action() : null"
+        [disabled]="menuLink.disabled"
         mat-menu-item
       >
         <mat-icon [ngClass]="{'with-label': menuLink.showLabel}">{{menuLink.icon}}</mat-icon>

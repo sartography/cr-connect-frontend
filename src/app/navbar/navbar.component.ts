@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, EventEmitter, Inject, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {ApiService, AppEnvironment, GoogleAnalyticsService, User} from 'sartography-workflow-lib';
 import {NavItem} from '../_interfaces/nav-item';
@@ -10,11 +10,14 @@ import {NavItem} from '../_interfaces/nav-item';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+  @Output() userChanged = new EventEmitter<User>();
   navLinks: NavItem[];
   adminNavLinks: NavItem[];
-  user: User;
+  private realUser: User;
+  private impersonatedUser: User;
   title: string;
   allUsers: User[];
+  loading = true;
 
   constructor(
     private router: Router,
@@ -27,33 +30,59 @@ export class NavbarComponent {
   }
 
   private _loadUser() {
-    const uid = localStorage.getItem('admin_view_as');
-    this.api.getUser(uid).subscribe(u => {
-      console.log('user:', u);
-      this.user = u;
+    this.loading = true;
+    this.impersonatedUser = undefined;
+    const impersonateUid = localStorage.getItem('admin_view_as');
 
-      if (this.user && this.user.uid) {
-        this.googleAnalyticsService.setUser(this.user.uid);
-      }
+    if (this.isAdmin) {
+      this.api.getUser(impersonateUid || undefined).subscribe(u => {
+        if (this.realUser.uid !== impersonateUid) {
+          this.impersonatedUser = u;
+        } else {
+          this.realUser = u;
+        }
 
-      this._loadNavLinks();
+        this._afterUserLoad();
+      }, error => this._onLoginError());
+    } else if (impersonateUid) {
+      // Get the real user first
+      this.api.getUser().subscribe(u => {
+        this.realUser = u;
 
-      if (this.user && this.user.is_admin) {
-        this._loadAdminNavLinks();
-      }
-    }, error => {
-      localStorage.removeItem('token');
-    });
+        // Then impersonate
+        if (this.isAdmin) {
+          this._loadUser();
+        }
+      }, error => this._onLoginError());
+    } else {
+      this.api.getUser().subscribe(u => {
+        this.realUser = u;
+        this._afterUserLoad();
+      }, error => this._onLoginError());
+    }
+  }
+
+  private _afterUserLoad() {
+    if (this.realUser && this.realUser.uid) {
+      this.googleAnalyticsService.setUser(this.realUser.uid);
+    }
+
+    this._loadNavLinks();
+
+    if (this.isAdmin) {
+      this._loadAdminNavLinks();
+    } else {
+      this.loading = false;
+      this.userChanged.emit(this.user);
+    }
   }
 
   private _loadAdminNavLinks() {
-    const isViewingAs = !!localStorage.getItem('admin_view_as');
-
-
-    if (this.user && this.user.is_admin) {
+    if (this.isAdmin) {
+      this.loading = true;
+      const isViewingAs = !!localStorage.getItem('admin_view_as');
       this.api.listUsers().subscribe(users => {
         this.allUsers = users;
-        console.log('allUsers', this.allUsers);
         this.adminNavLinks = [
           {
             id: 'nav_admin',
@@ -67,10 +96,13 @@ export class NavbarComponent {
                 icon: 'person',
                 action: () => this.viewAs(u.uid),
                 showLabel: true,
+                disabled: u.uid === this.user.uid,
               } as NavItem;
             })
           }
         ];
+        this.loading = false;
+        this.userChanged.emit(this.user);
       });
     }
   }
@@ -133,7 +165,31 @@ export class NavbarComponent {
     }
   }
 
-  private viewAs(uid: string) {
-    localStorage.setItem('admin_view_as', uid);
+  get isAdmin(): boolean {
+    return this.realUser && this.realUser.is_admin;
+  }
+
+  get user(): User {
+    if (this.isAdmin) {
+      const isViewingAs = !!localStorage.getItem('admin_view_as') && this.impersonatedUser;
+      return isViewingAs ? this.impersonatedUser : this.realUser;
+    } else {
+      return this.realUser;
+    }
+  }
+
+  viewAs(uid: string) {
+    if (this.isAdmin && (uid !== this.realUser.uid)) {
+      localStorage.setItem('admin_view_as', uid);
+    } else {
+      localStorage.removeItem('admin_view_as');
+    }
+
+    this._loadUser();
+  }
+
+  private _onLoginError() {
+    localStorage.removeItem('admin_view_as');
+    localStorage.removeItem('token');
   }
 }

@@ -7,4 +7,5 @@ export interface NavItem {
   action?: () => void;
   showLabel?: boolean;
   showIcon?: boolean;
+  disabled?: boolean;
 }
