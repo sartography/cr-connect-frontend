@@ -1,3 +1,75 @@
+<div class="container">
+  <div class="task-events">
+    <div fxLayout="row" class="task-events-header">
+      <h1 id="approvals_title">To Do Next</h1>
+      <span fxFlex></span>
+      <mat-button-toggle-group
+        [(ngModel)]="selectedTaskLane"
+        (change)="toggleTaskLane($event)"
+        aria-label="Filter Tasks by Role Type"
+      >
+        <mat-button-toggle
+          *ngFor="let taskLane of taskLanes"
+          [value]="taskLane"
+        >
+          <span
+            [matBadge]="numTasksInTaskLane(taskLane)"
+            [matBadgeHidden]="numTasksInTaskLane(taskLane) === 0"
+            matBadgeOverlap="false"
+            matBadgeColor="accent"
+          >{{taskLane.label}}</span>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <table
+      *ngIf="hasTaskEvents"
+      [dataSource]="approvalsDataSource"
+      class="mat-elevation-z0"
+      mat-table
+      matSort
+      [attr.aria-describedby]="'approvals_title'"
+    >
+      <ng-container matColumnDef="approval_study">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_study"> Study</th>
+        <td *matCellDef="let approval" mat-cell> {{approval.study.title}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="approval_workflow">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_workflow"> Workflow</th>
+        <td *matCellDef="let approval" mat-cell>
+          {{approval.workflow.category_display_name}} >
+          {{approval.workflow.display_name}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="approval_task">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_task"> Task</th>
+        <td *matCellDef="let approval" mat-cell>
+          {{approval.task_title}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="approval_date">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_date"> Last Update</th>
+        <td *matCellDef="let approval" mat-cell>
+          {{timeAgo(approval.date)}}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="approvalColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let approval; columns: approvalColumns;"
+        [attr.data-approval-id]="approval.id"
+        [ngClass]="{'approval-row': true}"
+        [routerLink]="['/study', approval.study.id, 'workflow', approval.workflow.id]"
+      ></tr>
+    </table>
+    <p *ngIf="!hasTaskEvents" class="no-task-events">No {{selectedTaskLane.label}} to display.</p>
+  </div>
+</div>
+
 <mat-expansion-panel
   *ngFor="let studiesGroup of studiesByStatus; let i = index"
   [expanded]="studiesGroup.studies.length > 0"
@@ -56,6 +128,34 @@
         <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_progress"> Progress</th>
         <td *matCellDef="let study" mat-cell>
           <app-study-progress [study]="study"></app-study-progress>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th *matHeaderCellDef mat-header-cell id="col_study_actions"> Actions</th>
+        <td *matCellDef="let study" mat-cell [ngClass]="'study-actions'">
+          <button
+            mat-flat-button
+            [matMenuTriggerFor]="studyActionsMenu"
+            aria-label="Study actions"
+            (click)="$event.stopPropagation()"
+            [ngClass]="'study-action-button'"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #studyActionsMenu="matMenu">
+            <ng-container *ngFor="let action of studyActions">
+              <button
+                *ngIf="action.showIf(study)"
+                mat-menu-item
+                (click)="openConfirmationDialog(study, action)"
+                [matTooltip]="insertStudyTitle(action.tooltipText, study)"
+              >
+                <mat-icon>{{action.buttonIcon}}</mat-icon>
+                <span>{{action.buttonLabel}}.</span>
+              </button>
+            </ng-container>
+          </mat-menu>
         </td>
       </ng-container>
 

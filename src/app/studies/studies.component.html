@@ -33,6 +33,7 @@
       [studiesByStatus]="studiesByStatus"
       [beforeStudyIds]="beforeStudyIds"
       [afterStudyIds]="afterStudyIds"
+      (studyUpdated)="updateStudies($event)"
     ></app-studies-dashboard>
     <app-studies-process *ngIf="view === 'process'"></app-studies-process>
   </div>

@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {ApiService, Approval, ApprovalFile, ApprovalStatusLabels} from 'sartography-workflow-lib';
 import {ApprovalsByStatus} from '../approvals/approvals.component';
-import {ApprovalDialogComponent} from '../approval-dialog/approval-dialog.component';
+import {ApprovalDialogComponent} from '../_dialogs/approval-dialog/approval-dialog.component';
 
 enum IrbHsrStatus {
   NOT_SUBMITTED = 'Not Submitted',

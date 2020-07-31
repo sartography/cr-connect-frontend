@@ -1,53 +1,33 @@
-<nav class="mat-elevation-z6" id="globalHeader" *ngIf="user">
-  <a
-    [routerLink]="['/']"
-    class="site-title mat-title"
-    id="nav_home"
-    mat-button
-  >
-    <img class="logo" src="assets/logo/uva_rotunda.svg" alt="University of Virginia">
-    {{title}}
-  </a>
-  <div class="flex-spacer"></div>
-  <ng-container *ngFor="let link of navLinks">
-    <a *ngIf="!link.links"
-       [id]="link.id"
-       [ngClass]="{'active': isLinkActive(link.path)}"
-       [routerLink]="link.path"
-       mat-button
-       [matTooltip]="link.label"
+<ng-container *ngIf="!loading && user; else loadingMessage">
+  <nav class="mat-elevation-z6" id="globalHeader">
+    <a
+      [routerLink]="['/']"
+      class="site-title mat-title"
+      id="nav_home"
+      mat-button
     >
-      <mat-icon [ngClass]="{'with-label': showLabels}">{{link.icon}}</mat-icon>
-      <ng-container *ngIf="showLabels">{{link.label}}</ng-container>
+      <img alt="University of Virginia" class="logo" src="assets/logo/uva_rotunda.svg">
+      {{title}}
     </a>
+    <div class="flex-spacer"></div>
 
-    <ng-container *ngIf="link.links">
-      <button
-        [attr.aria-label]="link.label"
-        [id]="link.id"
-        [matMenuTriggerFor]="menu"
-        mat-button
-       [matTooltip]="link.label"
-      >
-        <mat-icon>{{link.icon}}</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu" xPosition="before">
-        <button
-          *ngFor="let menuLink of link.links"
-          [id]="menuLink.id"
-          [ngClass]="{'active': isLinkActive(menuLink.path)}"
-          [routerLink]="menuLink.path"
-          mat-menu-item
-        >
-          <mat-icon *ngIf="menuLink.icon">{{menuLink.icon}}</mat-icon>
-          <span>{{menuLink.label}}</span>
-        </button>
-      </mat-menu>
+    <ng-container *ngIf="isAdmin">
+      <app-nav-links
+        [links]="adminNavLinks"
+        [ngClass]="{'viewing-as-user': isImpersonating}"
+        id="adminToolbar"
+      ></app-nav-links>
+      <div class="flex-spacer"></div>
     </ng-container>
-  </ng-container>
 
-  <span class="user-info">
-    {{user.display_name}}
-    ({{user.uid}})
-  </span>
-</nav>
+    <app-nav-links [links]="navLinks"></app-nav-links>
+  </nav>
+</ng-container>
+
+<ng-template #loadingMessage>
+  <nav class="mat-elevation-z6" id="loadingHeader">
+    <div>
+      <app-loading [size]="'sm'"></app-loading>
+    </div>
+  </nav>
+</ng-template>

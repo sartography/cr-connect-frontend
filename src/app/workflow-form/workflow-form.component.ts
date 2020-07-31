@@ -21,8 +21,6 @@ import {
   WorkflowTask,
   WorkflowTaskState
 } from 'sartography-workflow-lib';
-import {from} from 'rxjs';
-import {map} from 'rxjs/operators';
 import {FormlyFieldConfig} from '@ngx-formly/core';
 import {Location} from '@angular/common';
 import * as getObjectProperty from 'lodash/get';

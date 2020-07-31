@@ -2,11 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   ApiService,
-  FileMeta,
+  isNumberDefined,
   ProtocolBuilderStatus,
   ProtocolBuilderStatusLabels,
   Study,
-  Workflow
+  Workflow,
+  WorkflowSpecCategory, WorkflowStats
 } from 'sartography-workflow-lib';
 
 @Component({
@@ -16,38 +17,63 @@ import {
 })
 export class StudyComponent implements OnInit {
   study: Study;
-  displayFiles = false;
   allWorkflows: Workflow[] = [];
   loading = true;
+  selectedCategoryId: number;
+  selectedCategory: WorkflowSpecCategory;
+  selectedWorkflowId: number;
+  selectedWorkflow: WorkflowStats;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private api: ApiService,
   ) {
-    const paramMap = this.route.snapshot.paramMap;
-    const studyId = parseInt(paramMap.get('study_id'), 10);
-    this.api.getStudy(studyId).subscribe(s => {
-      this.study = s;
-      this.allWorkflows = this.study.categories.reduce((accumulator, cat) => {
-        return accumulator.concat(cat.workflows);
-      }, []);
-      this.loading = false;
-    });
+    this.loadStudy();
   }
 
-  get numFiles(): number {
-    return this.study && this.study.files ? this.study.files.length : 0;
+  get isCategorySelected(): boolean {
+    return isNumberDefined(this.selectedCategoryId);
+  }
+
+  get isWorkflowSelected(): boolean {
+    return isNumberDefined(this.selectedWorkflowId);
   }
 
   ngOnInit() {
+  }
+
+  loadStudy() {
+    this.route.paramMap.subscribe(paramMap => {
+      const studyId = parseInt(paramMap.get('study_id'), 10);
+      this.api.getStudy(studyId).subscribe(s => {
+        this.study = s;
+        this.allWorkflows = this.study.categories.reduce((accumulator, cat) => {
+          return accumulator.concat(cat.workflows);
+        }, []);
+        this.loading = false;
+      });
+    });
   }
 
   getStatusLabel(status: ProtocolBuilderStatus) {
     return ProtocolBuilderStatusLabels[status.toUpperCase()];
   }
 
-  toggleFilesDisplay(show?: boolean) {
-    this.displayFiles = show !== undefined ? show : !this.displayFiles;
+  selectCategory(categoryId: number) {
+    this.selectedCategoryId = categoryId;
+
+    if (!isNumberDefined(categoryId)) {
+      this.selectWorkflow(undefined);
+      this.loadStudy();
+    }
+  }
+
+  selectWorkflow(workflowId: number) {
+    this.selectedWorkflowId = workflowId;
+
+    if (!isNumberDefined(workflowId)) {
+      this.loadStudy();
+    }
   }
 }

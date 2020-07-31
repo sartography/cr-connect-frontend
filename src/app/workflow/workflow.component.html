@@ -94,6 +94,7 @@
 <ng-template #noTask>
   <div class="task-status" fxLayout="column" fxLayoutAlign="stretch stretch">
     <div class="non-user-task" *ngIf="currentTask">
+      <h1 class="mat-display-2" *ngIf="isLocked(currentTask)">{{workflow.title}} is complete.</h1>
       <h1 class="mat-display-2" *ngIf="currentTask.type === taskTypes.END_EVENT">{{workflow.title}} is complete.</h1>
       <div class="documentation" *ngIf="currentTask.documentation">
         <markdown [data]="currentTask.documentation"></markdown>

@@ -63,7 +63,7 @@ import {ProfileComponent} from './profile/profile.component';
 import {ResearchComponent} from './research/research.component';
 import {StudiesDashboardComponent} from './studies-dashboard/studies-dashboard.component';
 import {ApprovalsFilesDashboardComponent} from './studies-files-dashboard/studies-files-dashboard.component';
-import {ApprovalDialogComponent} from './approval-dialog/approval-dialog.component';
+import {ApprovalDialogComponent} from './_dialogs/approval-dialog/approval-dialog.component';
 import {StudiesProcessComponent} from './studies-process/studies-process.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudyProgressComponent} from './study-progress/study-progress.component';
@@ -76,6 +76,12 @@ import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflo
 import {WorkflowComponent} from './workflow/workflow.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import * as hljs from 'highlight.js';
+import {ConfirmStudyStatusDialogComponent} from './_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
+import { CategoryComponent } from './category/category.component';
+import { NavItemIconComponent } from './nav-item-icon/nav-item-icon.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { NavLinksComponent } from './nav-links/nav-links.component';
 (document.defaultView as any).hljs = hljs;
 
 
@@ -125,6 +131,7 @@ export function markedOptionsFactory(): MarkedOptions {
 @NgModule({
   declarations: [
     AppComponent,
+    ConfirmStudyStatusDialogComponent,
     DashboardComponent,
     FooterComponent,
     HelpComponent,
@@ -151,6 +158,9 @@ export function markedOptionsFactory(): MarkedOptions {
     WorkflowResetDialogComponent,
     ResearchComponent,
     LoadingComponent,
+    CategoryComponent,
+    NavItemIconComponent,
+    NavLinksComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -200,6 +210,8 @@ export function markedOptionsFactory(): MarkedOptions {
     SartographyWorkflowLibModule,
     AppRoutingModule,
     MatStepperModule,
+    MatCheckboxModule,
+    MatButtonToggleModule,
     // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
   ],
   providers: [
@@ -218,6 +230,7 @@ export function markedOptionsFactory(): MarkedOptions {
   ],
   bootstrap: [AppComponent],
   entryComponents: [
+    ConfirmStudyStatusDialogComponent,
     WorkflowResetDialogComponent
   ]
 })

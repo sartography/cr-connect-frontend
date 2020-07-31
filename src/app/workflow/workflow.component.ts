@@ -128,7 +128,7 @@ export class WorkflowComponent implements OnInit {
       this.workflow.next_task.type === WorkflowTaskType.END_EVENT &&
       !this.workflow.next_task.documentation
     ) {
-      const redirectSecs = 2;
+      const redirectSecs = 1;
       this.workflow.redirect = redirectSecs;
       setTimeout(() => this.location.back(), redirectSecs * 1000);
 
@@ -153,7 +153,7 @@ export class WorkflowComponent implements OnInit {
       const incompleteTasks = this.workflow.navigation.filter(t => incompleteStates.includes(t.state));
       return this.currentTask &&
         (this.currentTask.type === WorkflowTaskType.USER_TASK) &&
-        (incompleteTasks.length > 0);
+        ((this.currentTask.state === WorkflowTaskState.READY) || (incompleteTasks.length > 0));
     } else {
       return false;
     }
@@ -244,5 +244,9 @@ export class WorkflowComponent implements OnInit {
     this.updateUrl();
     scrollToTop(this.deviceDetector);
     this.loading = false;
+  }
+
+  isLocked(currentTask: WorkflowTask): boolean {
+    return currentTask.state === WorkflowTaskState.LOCKED;
   }
 }

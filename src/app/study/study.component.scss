@@ -10,13 +10,34 @@
 
 .study-metadata {
   padding: 0;
-  margin: 2rem 0rem;
+  margin: 0rem 2rem;
 
   h1,
   ::ng-deep .mat-list-base[dense] .mat-list-item .mat-list-item-content,
   ::ng-deep .mat-list-base[dense] .mat-list-option .mat-list-item-content {
     padding-left: 0;
   }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+
+  dl {
+    list-style: none;
+
+    dt {
+      margin-right: 0.5rem;
+      color: $brand-gray-tint-1;
+    }
+
+    dd {
+      margin-left: 0;
+      margin-right: 2rem;
+      font-weight: bold;
+    }
+  }
+
 }
 
 .list-item-label {
