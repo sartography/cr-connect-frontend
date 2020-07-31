@@ -1,21 +1,44 @@
 @import '../../config';
 
-::ng-deep .mat-tab-labels .mat-tab-label .mat-tab-label-content {
-  color: black;
-  font-size: 1.25rem;
+.container {
+  margin: 2rem;
 }
 
-::ng-deep .mat-tab-label:not(.mat-tab-disabled) {
-  opacity: 1;
+.workflow-status {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: $brand-gray-light;
+  color: $brand-gray;
+  font-size: 0.75rem;
+  padding: 0.5rem;
+}
+
+.mat-card {
+  &:hover {
+    background-color: $brand-gray-light;
+    cursor: pointer;
+  }
+}
+
+::ng-deep .mat-card-title {
+  color: black;
+  font-size: 2rem;
+}
+
+::ng-deep .mat-card.dashboard {
+  .mat-card-title {
+    padding: 1rem;
+  }
+}
+
+::ng-deep .mat-list-base .mat-list-item,
+::ng-deep .mat-list-base .mat-list-option {
+  border-bottom: none;
 }
 
 ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content,
 ::ng-deep .mat-list-base .mat-list-option .mat-list-item-content {
-  padding: 2rem;
-}
-
-::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
-::ng-deep .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-  color: $brand-accent;
-  background-color: $brand-accent;
+  padding: 1rem;
+  font-size: 1rem;
 }

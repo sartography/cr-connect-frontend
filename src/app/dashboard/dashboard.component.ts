@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Study, WorkflowSpecCategory, WorkflowState, WorkflowStatus,} from 'sartography-workflow-lib';
+import {isNumberDefined, Study, WorkflowSpecCategory, WorkflowState, WorkflowStatus,} from 'sartography-workflow-lib';
 import {WorkflowStats} from 'sartography-workflow-lib/lib/types/stats';
+import {shouldDisplayWorkflow} from '../_util/nav-item';
 
 
 @Component({
@@ -11,11 +12,12 @@ import {WorkflowStats} from 'sartography-workflow-lib/lib/types/stats';
 })
 export class DashboardComponent implements OnInit {
   @Input() study: Study;
+  @Output() categorySelected = new EventEmitter<number>();
+  @Output() workflowSelected = new EventEmitter<number>();
+  @Input() selectedCategoryId: number;
+  @Input() selectedWorkflowId: number;
   categoryTabs: WorkflowSpecCategory[];
   statuses = WorkflowStatus;
-  states = WorkflowState;
-  selectedCategoryId: number;
-  selectedTab: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -23,8 +25,16 @@ export class DashboardComponent implements OnInit {
   ) {
   }
 
+  get selectedCategory(): WorkflowSpecCategory {
+    return this.categoryTabs.find(c => c.id === this.selectedCategoryId);
+  }
+
+  get isCategorySelected(): boolean {
+    return isNumberDefined(this.selectedCategoryId) && !!this.selectedCategory;
+  }
+
   ngOnInit() {
-    console.log('this.study.categories', this.study.categories);
+    console.log('this.study', this.study);
     this.categoryTabs = this.study.categories
       .sort((a, b) => (a.display_order < b.display_order) ? -1 : 1)
       .map(cat => {
@@ -37,10 +47,10 @@ export class DashboardComponent implements OnInit {
 
     this.route.queryParamMap.subscribe(qParams => {
       const catIdStr = qParams.get('category');
-
-      if (catIdStr) {
-        this.selectCategory(parseInt(catIdStr, 10));
-      }
+      const wfIdStr = qParams.get('workflow');
+      const catId = catIdStr ? parseInt(catIdStr, 10) : undefined;
+      const wfId = wfIdStr ? parseInt(wfIdStr, 10) : undefined;
+      this.selectCategory(null, catId, wfId);
     });
   }
 
@@ -89,24 +99,52 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  selectCategory(displayOrder) {
-    if (this.categoryTabs && this.categoryTabs.length > 0) {
-      const cat = this.categoryTabs[displayOrder];
-      this.selectedCategoryId = cat.id;
+  selectCategory($event?: MouseEvent, categoryId?: number, workflowId?: number) {
+    if ($event && $event instanceof (MouseEvent)) {
+      $event.stopPropagation();
+    }
+
+    if (isNumberDefined(categoryId) && isNumberDefined(workflowId)) {
+      if (this.categoryTabs && this.categoryTabs.length > 0) {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: {category: categoryId, workflow: workflowId},
+        }).then(() => {
+          this.selectedCategoryId = categoryId;
+          this.selectedWorkflowId = workflowId;
+          this.categorySelected.emit(this.selectedCategoryId);
+        });
+      }
+    } else if (isNumberDefined(categoryId)) {
+      if (this.categoryTabs && this.categoryTabs.length > 0) {
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: {category: categoryId},
+        }).then(() => {
+          this.selectedCategoryId = categoryId;
+          this.categorySelected.emit(this.selectedCategoryId);
+        });
+      }
+    } else {
       this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: {category: cat.id},
       }).then(() => {
-        this.selectedTab = this.categoryTabs.findIndex(c => c.id === cat.id);
+        this.selectedCategoryId = undefined;
+        this.categorySelected.emit(undefined);
       });
     }
   }
 
-  showWorkflowAction(workflowListItem: WorkflowStats) {
-    return (
-      (workflowListItem.status !== WorkflowStatus.COMPLETE) &&
-      (workflowListItem.state !== WorkflowState.DISABLED) &&
-      (workflowListItem.state !== WorkflowState.HIDDEN)
-    );
+  workflowsToShow(workflowListItems: WorkflowStats[]) {
+    return workflowListItems.filter(wf => shouldDisplayWorkflow(wf));
+  }
+
+  allComplete(cat: WorkflowSpecCategory) {
+    return cat.workflows.every(wf => wf.status === WorkflowStatus.COMPLETE);
+  }
+
+  selectWorkflow(workflowId: number) {
+    this.selectedWorkflowId = workflowId;
+    this.workflowSelected.emit(this.selectedWorkflowId);
   }
 }

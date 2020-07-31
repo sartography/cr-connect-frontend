@@ -1,0 +1,49 @@
+<div class="category-title">
+  <div class="mat-card-subtitle">Workflow</div>
+  <h1>{{category.display_name}}</h1>
+</div>
+
+<mat-accordion class="categories">
+  <mat-expansion-panel
+    *ngFor="let wf of workflowsToDisplay"
+    [expanded]="wf.id === workflowId"
+    [routerLink]="['/study', study.id]"
+    [queryParams]="{category: category.id, workflow: wf.id}"
+    (click)="selectWorkflow(wf.id)"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{wf.display_name}}</mat-panel-title>
+      <mat-panel-description>
+        {{wf.description}}
+        <mat-icon *ngIf="isWorkflowComplete(wf)">check_circle</mat-icon>
+        <ng-container *ngIf="!isWorkflowComplete(wf)">
+          <button
+            *ngIf="wf.completed_tasks === 0"
+            color="primary"
+            mat-flat-button
+            [routerLink]="['/study', study.id, 'workflow', wf.id]"
+          >Start</button>
+          <button
+            *ngIf="wf.completed_tasks > 0"
+            mat-flat-button
+            [routerLink]="['/study', study.id, 'workflow', wf.id]"
+          >Continue</button>
+        </ng-container>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-list *ngIf="wf.id === workflowId && !loading">
+      <mat-list-item
+        *ngFor="let navItem of navItems"
+        [routerLink]="['/study', study.id, 'workflow', wf.id, 'task', navItem.task_id]"
+        [disabled]="shouldDisable(navItem)"
+      >
+        <app-nav-item-icon mat-list-icon [navItem]="navItem"></app-nav-item-icon>
+        {{navItem.task.title}}
+      </mat-list-item>
+    </mat-list>
+    <div *ngIf="wf.id === workflowId && loading" fxLayout="column" fxLayoutAlign="center center">
+      <app-loading size="sm"></app-loading>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

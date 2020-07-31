@@ -42,6 +42,7 @@ export class StudiesComponent implements OnInit {
   }
 
   loadStudies() {
+    this.loading = true;
     this.api.getStudies().subscribe(allStudies => {
       const sorted = allStudies.sort((a, b) => {
         const aTime = new Date(a.last_updated).getTime();
@@ -75,4 +76,7 @@ export class StudiesComponent implements OnInit {
     });
   }
 
+  updateStudies($event: Study) {
+    this.loadStudies();
+  }
 }

@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Workflow, WorkflowNavItem, WorkflowTask, WorkflowTaskState, WorkflowTaskType} from 'sartography-workflow-lib';
+import {shouldDisableNavItem, shouldDisplayNavItem} from '../_util/nav-item';
 
 @Component({
   selector: 'app-workflow-steps-menu-list',
@@ -38,32 +39,12 @@ export class WorkflowStepsMenuListComponent implements OnInit, OnChanges {
     this.taskSelected.emit(taskId);
   }
 
-  shouldDisplayNavItem(navItem: WorkflowNavItem): boolean {
-    const hideTypes = [
-      WorkflowTaskType.SCRIPT_TASK,
-      WorkflowTaskType.BUSINESS_RULE_TASK,
-      WorkflowTaskType.NONE_TASK,
-    ];
-    return (
-      navItem &&
-      navItem.task &&
-      navItem.task.type &&
-      !hideTypes.includes(navItem.task.type)
-    );
-  }
-
   loadNavListItems() {
-    this.navListItems = this.navList.filter(navItem => this.shouldDisplayNavItem(navItem));
+    this.navListItems = this.navList.filter(navItem => shouldDisplayNavItem(navItem));
     this.loading = false;
   }
 
-  shouldDisableNavItem(navItem: WorkflowNavItem): boolean {
-    return (
-      [
-        WorkflowTaskState.MAYBE,
-        WorkflowTaskState.LIKELY,
-        WorkflowTaskState.FUTURE
-      ].includes(navItem.state) || !navItem.task_id
-    )
+  shouldDisable(navItem: WorkflowNavItem): boolean {
+    return shouldDisableNavItem(navItem);
   }
 }

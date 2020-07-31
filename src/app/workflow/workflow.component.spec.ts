@@ -22,7 +22,8 @@ import {
   mockFileMetas,
   mockWorkflow0,
   mockWorkflow1,
-  mockWorkflowTask0, mockWorkflowTask1,
+  mockWorkflowTask0,
+  mockWorkflowTask1,
   ToFormlyPipe,
   WorkflowNavItem,
   WorkflowTaskState,
@@ -36,6 +37,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatBadgeModule} from '@angular/material/badge';
 import {LoadingComponent} from '../loading/loading.component';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {WorkflowResetDialogData} from '../workflow-reset-dialog/workflow-reset-dialog.component';
 
 describe('WorkflowComponent', () => {
   let component: WorkflowComponent;
@@ -173,7 +175,7 @@ describe('WorkflowComponent', () => {
     component.workflowUpdated(updatedWorkflow);
     expect(component.workflow).toEqual(updatedWorkflow);
     expect(component.workflow.next_task).toEqual(endEvent, 'next task should be an end event');
-    expect(component.workflow.redirect).toEqual(2, 'workflow redirect seconds should be set');
+    expect(component.workflow.redirect).toEqual(1, 'workflow redirect seconds should be set');
     expect(countdownSpy).toHaveBeenCalled();
     expect(updateTaskListSpy).toHaveBeenCalledWith(updatedWorkflow);
   });
@@ -250,6 +252,7 @@ describe('WorkflowComponent', () => {
     const workflowAllComplete = createClone({circles: true})(mockWorkflow0);
     workflowAllComplete.navigation.forEach((n: WorkflowNavItem) => n.state = WorkflowTaskState.COMPLETED);
     component.workflow = workflowAllComplete;
+    component.currentTask = undefined;
     expect(component.hasIncompleteUserTask()).toBeFalsy();
 
     const workflowNoneComplete = createClone({circles: true})(mockWorkflow0);
@@ -297,5 +300,35 @@ describe('WorkflowComponent', () => {
     component.toggleFilesDisplay();
     expect(component.displayFiles).toBeTrue();
     expect(toggleDataDisplaySpy).toHaveBeenCalled();
+  });
+
+  it('should show a confirmation dialog before resetting a workflow', () => {
+    const mockConfirmDeleteData: WorkflowResetDialogData = {
+      workflowId: component.workflowId,
+      name: component.workflow.title,
+    };
+
+    const resetWorkflowSpy = spyOn(component, 'resetWorkflow').and.stub();
+    const openDialogSpy = spyOn(component.dialog, 'open')
+      .and.returnValue({afterClosed: () => of(mockConfirmDeleteData)} as any);
+
+    component.confirmResetWorkflow();
+    expect(openDialogSpy).toHaveBeenCalled();
+    expect(resetWorkflowSpy).not.toHaveBeenCalled();
+
+    mockConfirmDeleteData.confirm = true;
+    component.confirmResetWorkflow();
+    expect(openDialogSpy).toHaveBeenCalled();
+    expect(resetWorkflowSpy).toHaveBeenCalled();
+  });
+
+  it('should reset a workflow', () => {
+    const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
+    (component as any).resetWorkflow();
+    const wfsReq = httpMock.expectOne(`apiRoot/workflow/${component.workflowId}?hard_reset=true`);
+    expect(wfsReq.request.method).toEqual('GET');
+    wfsReq.flush(null);
+
+    expect(updateTaskListSpy).toHaveBeenCalled();
   });
 });

@@ -1,75 +1,39 @@
-<mat-sidenav-container *ngIf="!loading; else loadingMessage">
-  <mat-sidenav-content class="study-container">
-    <div fxLayout="row">
-      <button mat-flat-button ngClass="back" routerLink="/">
-        <mat-icon>chevron_left</mat-icon>
-        Back
-      </button>
-      <span fxFlex></span>
-      <button
-        mat-mini-fab
-        title="Files for this study"
-        (click)="toggleFilesDisplay()"
-        [ngClass]="{'selected': displayFiles, 'mat-elevation-z0': true}"
-        color="accent"
-        [matBadge]="numFiles"
-        matBadgeColor="primary"
-        [matBadgeHidden]="numFiles <= 0"
-      >
-        <mat-icon>insert_drive_file</mat-icon>
-      </button>
+<div *ngIf="!loading && study; else loadingMessage" class="study-container">
+  <div class="class" fxLayout="row">
+    <button
+      [routerLink]="!isCategorySelected ? '/' : '/study/' + study.id"
+      (click)="selectCategory(undefined)"
+      mat-flat-button
+      ngClass="back"
+    >
+      <mat-icon>chevron_left</mat-icon>
+      Back
+    </button>
+    <mat-divider vertical></mat-divider>
+    <div class="study-metadata">
+      <h1>{{study.title}}</h1>
+      <dl fxLayout="row">
+        <dt>ID:</dt>
+        <dd>{{study.id}}</dd>
+        <dt>PI:</dt>
+        <dd>{{study.primary_investigator_id || 'None'}}</dd>
+      </dl>
     </div>
+  </div>
+  <mat-divider></mat-divider>
 
-    <ng-container *ngIf="study">
-      <div class="study-metadata">
-        <h1>{{study.title}}</h1>
-        <mat-list dense>
-          <mat-list-item>
-            <div class="list-item-label">Study ID:</div>
-            <div class="list-item-value">{{study.id}}</div>
-          </mat-list-item>
-          <mat-list-item>
-            <div class="list-item-label">Status:</div>
-            <div class="list-item-value">{{getStatusLabel(study.protocol_builder_status)}}</div>
-          </mat-list-item>
-          <mat-list-item>
-            <div class="list-item-label">Primary Investigator:</div>
-            <div class="list-item-value">{{study.primary_investigator_id}}</div>
-          </mat-list-item>
-          <mat-list-item>
-            <div class="list-item-label">Clinical Research Coordinator:</div>
-            <div class="list-item-value">{{study.user_uid}}</div>
-          </mat-list-item>
-        </mat-list>
-        <mat-divider></mat-divider>
-      </div>
-
-      <app-dashboard
-        *ngIf="allWorkflows.length > 0"
-        [study]="study"
-      ></app-dashboard>
-      <div *ngIf="!(allWorkflows.length > 0)">
-        No active workflows for this study.
-      </div>
-    </ng-container>
-  </mat-sidenav-content>
-  <mat-sidenav
-    [opened]="displayFiles"
-    mode="side"
-    position="end"
-    [fixedInViewport]="true"
-    [fixedTopGap]="64"
-    [ngClass]="{'files-display': displayFiles}"
-  >
-    <div fxLayout="row" class="close-pane">
-      <span fxFlex></span>
-      <button mat-icon-button (click)="toggleFilesDisplay(false)"><mat-icon>close</mat-icon></button>
-    </div>
-    <div *ngIf="displayFiles" id="files-display-column">
-      <app-workflow-files [study]="study" [fileMetas]="study.files"></app-workflow-files>
-    </div>
-  </mat-sidenav>
-</mat-sidenav-container>
+  <app-dashboard
+    *ngIf="allWorkflows.length > 0"
+    [study]="study"
+    [selectedCategoryId]="selectedCategoryId"
+    [selectedWorkflowId]="selectedWorkflowId"
+    (categorySelected)="selectCategory($event)"
+    (workflowSelected)="selectWorkflow($event)"
+  ></app-dashboard>
+  <div *ngIf="!(allWorkflows.length > 0)">
+    No active workflows for this study.
+  </div>
+</div>
 
 <ng-template #loadingMessage>
   <app-loading></app-loading>
