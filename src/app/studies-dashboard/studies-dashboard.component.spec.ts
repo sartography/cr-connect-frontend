@@ -9,8 +9,8 @@ import {
   MockEnvironment,
   mockStudies,
   mockStudy0,
-  ProtocolBuilderStatus,
-  ProtocolBuilderStatusLabels,
+  StudyStatus,
+  StudyStatusLabels,
   TaskAction,
   TaskEvent,
   WorkflowMetadata,
@@ -36,14 +36,14 @@ describe('StudiesDashboardComponent', () => {
   let fixture: ComponentFixture<StudiesDashboardComponent>;
   let httpMock: HttpTestingController;
   const mockStudyAction: StudyAction = {
-    showIf: (study) => this.statusIs(study, [ProtocolBuilderStatus.ACTIVE]),
+    showIf: (study) => this.statusIs(study, [StudyStatus.IN_PROGRESS]),
     buttonIcon: 'pause',
     buttonLabel: 'Place study on hold...',
     tooltipText: 'Set the status of <study_title> to "Hold"',
     dialogTitle: 'Really put <study_title> on hold?',
     dialogDescription: `This will put the study on hold, pausing notifications and approvals for the time being. You may take the study off hold at any time.`,
     method: (study) => {
-      study.protocol_builder_status = ProtocolBuilderStatus.HOLD;
+      study.status = StudyStatus.HOLD;
       return study;
     },
   };
@@ -88,10 +88,10 @@ describe('StudiesDashboardComponent', () => {
     httpMock = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(StudiesDashboardComponent);
     component = fixture.componentInstance;
-    component.studiesByStatus = Object.keys(ProtocolBuilderStatus).map(statusKey => {
+    component.studiesByStatus = Object.keys(StudyStatus).map(statusKey => {
       return {
-        status: ProtocolBuilderStatus[statusKey],
-        statusLabel: ProtocolBuilderStatusLabels[statusKey],
+        status: StudyStatus[statusKey],
+        statusLabel: StudyStatusLabels[statusKey],
         studies: mockStudies,
         dataSource: new MatTableDataSource(mockStudies),
       };
