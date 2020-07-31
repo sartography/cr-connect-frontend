@@ -1,11 +1,19 @@
 @import "../../config";
 
-#globalHeader {
+#globalHeader, #loadingHeader {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 2;
+}
+
+#adminToolbar {
+  border-radius: 5px;
+
+  &.viewing-as-user {
+    background-color: $brand-accent;
+  }
 }
 
 .flex-spacer {
@@ -45,13 +53,4 @@ a.active {
   background-color: $brand-gray-tint-2;
   color: $brand-gray;
   font-weight: bold;
-}
-
-mat-icon.with-label {
-  margin-right: 0.25em;
-}
-
-span.user-info {
-  margin-left: 1em;
-  font-style: italic;
 }
