@@ -92,24 +92,24 @@ describe('Clinical Research Coordinator App', () => {
     page.clickAndExpectRoute('.study-row', '/study/' + studyId);
   });
 
-  it('should display workflow spec categories in tabs', async () => {
-    const numTabs = await page.getElements('.workflow-list-item').count();
-    expect(numTabs).toBeGreaterThan(0);
-
-    for (let i = 0; i < numTabs; i++) {
-      page.clickElement(`#mat-tab-label-0-${i}`);
-      await page.waitFor(500);
-      expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
-    }
+  it('should display workflow spec categories in tiles', async () => {
+    const numTiles = await page.getElements('.workflow-list-item').count();
+    expect(numTiles).toBeGreaterThan(0);
   });
 
   it('should navigate to a workflow', async () => {
-    expect(page.getElements('.workflow-list-item').count()).toBeGreaterThan(0);
-    const workflow = await page.getElement('.workflow-list-item .workflow-action');
+    const wfSelector = '.workflow-list-item .workflow-action';
+    expect(page.getElements(wfSelector).count()).toBeGreaterThan(0);
+    const workflow = await page.getElement(wfSelector);
     const studyId = await workflow.getAttribute('data-study-id');
+    const catId = await workflow.getAttribute('data-category-id');
     const workflowId = await workflow.getAttribute('data-workflow-id');
-    const expectedRoute = `/study/${studyId}/workflow/${workflowId}/task/`;
-    await page.clickElement('.workflow-list-item .workflow-action button');
+
+    console.log('studyId', studyId);
+    console.log('catId', catId);
+    console.log('workflowId', workflowId);
+    const expectedRoute = `/study/${studyId}?category=${catId}&workflow=${workflowId}`;
+    await page.clickElement(wfSelector);
     const newRoute = await page.getRoute();
     expect(newRoute.slice(0, expectedRoute.length)).toEqual(expectedRoute);
   });
