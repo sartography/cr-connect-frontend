@@ -63,7 +63,7 @@ export class StudiesComponent implements OnInit {
 
       const statusKeys = Object.keys(StudyStatus);
       this.studiesByStatus = statusKeys.map((statusKey, i) => {
-        const filtered = sorted.filter(s => s.status.toLowerCase().replace(' ', '_') === statusKey.toLowerCase());
+        const filtered = sorted.filter(s => s.status.toLowerCase() === statusKey.toLowerCase());
         return {
           status: StudyStatus[statusKey],
           statusLabel: StudyStatusLabels[statusKey],

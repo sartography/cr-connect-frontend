@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ApiService, StudyStatus, Study, TaskAction, TaskEvent} from 'sartography-workflow-lib';
+import {ApiService, StudyStatus, StudyStatusLabels, Study, TaskAction, TaskEvent} from 'sartography-workflow-lib';
 import {StudiesByStatus} from '../studies/studies.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmStudyStatusDialogComponent} from '../_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
@@ -163,7 +163,7 @@ export class StudiesDashboardComponent implements OnInit {
   }
 
   getStudyStatus(study: Study) {
-    return study.status;
+    return StudyStatusLabels[study.status.toUpperCase()];
   }
 
   studiesGroupId(studiesGroup: StudiesByStatus) {
