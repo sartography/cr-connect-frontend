@@ -81,6 +81,7 @@ import { CategoryComponent } from './category/category.component';
 import { NavItemIconComponent } from './nav-item-icon/nav-item-icon.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { NavLinksComponent } from './nav-links/nav-links.component';
 (document.defaultView as any).hljs = hljs;
 
 
@@ -159,6 +160,7 @@ export function markedOptionsFactory(): MarkedOptions {
     LoadingComponent,
     CategoryComponent,
     NavItemIconComponent,
+    NavLinksComponent,
   ],
   imports: [
     BrowserAnimationsModule,

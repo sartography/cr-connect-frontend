@@ -16,7 +16,7 @@ export class NavItemIconComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  get getIcon(): string {
+  get icon(): string {
     if (this.workflowStats) {
       switch (this.workflowStats.status) {
         case WorkflowStatus.COMPLETE:
@@ -28,43 +28,28 @@ export class NavItemIconComponent implements OnInit {
         case WorkflowStatus.WAITING:
           return 'remove_circle_outline';
         default:
-          return 'remove_circle_outline';
+          return;
       }
     } else if (this.taskEvent) {
-      console.log('this.taskEvent.task_state', this.taskEvent.task_state);
-      switch (this.taskEvent.task_state) {
-        case WorkflowTaskState.COMPLETED:
-          return 'check_circle';
-        case WorkflowTaskState.WAITING:
-          return 'pending';
-        case WorkflowTaskState.FUTURE:
-          return 'pending';
-        case WorkflowTaskState.LIKELY:
-          return 'pending';
-        case WorkflowTaskState.READY:
-          return 'radio_button_unchecked';
-        case WorkflowTaskState.LOCKED:
-          return 'lock';
-        default:
-          return 'pending';
-      }
+      return this.iconForState(this.taskEvent.task_state);
     } else if (this.navItem) {
-      switch (this.navItem.state) {
-        case WorkflowTaskState.COMPLETED:
-          return 'check_circle';
-        case WorkflowTaskState.WAITING:
-          return 'pending';
-        case WorkflowTaskState.FUTURE:
-          return 'pending';
-        case WorkflowTaskState.LIKELY:
-          return 'pending';
-        case WorkflowTaskState.READY:
-          return 'radio_button_unchecked';
-        case WorkflowTaskState.LOCKED:
-          return 'lock';
-        default:
-          return 'pending';
-      }
+      return this.iconForState(this.navItem.state);
     }
+  }
+
+  private iconForState(taskState: string) {
+    const stateIcons = {
+      future: 'pending',
+      waiting: 'remove_circle_outline',
+      ready: 'radio_button_unchecked',
+      cancelled: 'remove_circle_outline',
+      completed: 'check_circle',
+      likely: 'pending',
+      maybe: 'pending',
+      locked: 'lock',
+      noop: 'remove_circle_outline',
+      none: 'remove_circle_outline',
+    };
+    return stateIcons[taskState.toLowerCase()];
   }
 }
