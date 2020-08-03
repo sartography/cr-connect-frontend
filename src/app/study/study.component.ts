@@ -3,8 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {
   ApiService,
   isNumberDefined,
-  ProtocolBuilderStatus,
-  ProtocolBuilderStatusLabels,
+  StudyStatus,
+  StudyStatusLabels,
   Study,
   Workflow,
   WorkflowSpecCategory, WorkflowStats
@@ -56,8 +56,8 @@ export class StudyComponent implements OnInit {
     });
   }
 
-  getStatusLabel(status: ProtocolBuilderStatus) {
-    return ProtocolBuilderStatusLabels[status.toUpperCase()];
+  getStatusLabel(status: StudyStatus) {
+    return StudyStatusLabels[status.toUpperCase()];
   }
 
   selectCategory(categoryId: number) {

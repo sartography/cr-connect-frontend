@@ -4,7 +4,7 @@ import {
   AppEnvironment,
   Approval, ApprovalStatus,
   ApprovalStatusLabels,
-  ProtocolBuilderStatus,
+  StudyStatus,
   User,
   Workflow
 } from 'sartography-workflow-lib';
@@ -20,7 +20,7 @@ export class ResearchComponent implements OnInit  {
   isSignedIn: boolean;
   user: User;
   studies: Study[] = [];
-  status = ProtocolBuilderStatus;
+  status = StudyStatus;
   approvalStatus = ApprovalStatus;
   approvalStatusLabels = ApprovalStatusLabels;
   loading = true;
@@ -70,7 +70,7 @@ export class ResearchComponent implements OnInit  {
 
   isActiveStudy(study: Study) {
     return (
-      study.protocol_builder_status === ProtocolBuilderStatus.ACTIVE.valueOf().toUpperCase() &&
+      study.status === StudyStatus.IN_PROGRESS.valueOf().toUpperCase() &&
       !study.approvals ||
       study.approvals.length === 0
     );
