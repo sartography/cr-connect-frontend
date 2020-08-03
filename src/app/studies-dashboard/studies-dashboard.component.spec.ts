@@ -17,16 +17,9 @@ import {
   MockEnvironment,
   mockStudies,
   mockStudy0,
+  mockTaskEvents,
   StudyStatus,
   StudyStatusLabels,
-  TaskAction,
-  TaskEvent,
-  WorkflowMetadata,
-  WorkflowState,
-  WorkflowStatus,
-  WorkflowTaskState,
-  WorkflowTaskType
-  mockTaskEvents,
 } from 'sartography-workflow-lib';
 import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
 import {StudyAction} from '../_interfaces/study-action';
