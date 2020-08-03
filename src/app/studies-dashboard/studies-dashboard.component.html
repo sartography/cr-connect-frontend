@@ -102,10 +102,10 @@
         <td *matCellDef="let study" mat-cell> {{study.title}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="protocol_builder_status">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_pb_status"> Protocol Builder Status</th>
+      <ng-container matColumnDef="status">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_status"> Status</th>
         <td *matCellDef="let study" mat-cell>
-          {{getProtocolBuilderStatus(study)}}
+          {{getStudyStatus(study)}}
           <span *ngIf="isNewStudy(study.id)" class="new">NEW</span>
         </td>
       </ng-container>
