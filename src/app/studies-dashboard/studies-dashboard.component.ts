@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ApiService, ProtocolBuilderStatus, Study, TaskAction, TaskEvent} from 'sartography-workflow-lib';
+import {ApiService, StudyStatus, StudyStatusLabels, Study, TaskAction, TaskEvent} from 'sartography-workflow-lib';
 import {TaskLane} from '../_interfaces/task-lane';
 import {StudiesByStatus} from '../studies/studies.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -33,7 +33,7 @@ export class StudiesDashboardComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'title',
-    'protocol_builder_status',
+    'status',
     'committees_complete',
     'irb_hsr_status',
     'progress',
@@ -58,7 +58,7 @@ export class StudiesDashboardComponent implements OnInit {
 
   studyActions: StudyAction[] = [
     {
-      showIf: (study) => this.statusIs(study, [ProtocolBuilderStatus.ACTIVE]),
+      showIf: (study) => this.statusIs(study, [StudyStatus.IN_PROGRESS]),
       buttonIcon: 'fast_rewind',
       buttonLabel: 'Reset study...',
       tooltipText: 'Reset all CR Connect data for <study_title>',
@@ -67,7 +67,7 @@ export class StudiesDashboardComponent implements OnInit {
       method: 'deleteStudy',
     },
     {
-      showIf: (study) => this.statusIs(study, [ProtocolBuilderStatus.ACTIVE]),
+      showIf: (study) => this.statusIs(study, [StudyStatus.IN_PROGRESS]),
       buttonIcon: 'pause',
       buttonLabel: 'Place study on hold...',
       tooltipText: 'Set the status of <study_title> to "Hold"',
@@ -75,13 +75,13 @@ export class StudiesDashboardComponent implements OnInit {
       dialogDescription: `This will put the study on hold, pausing notifications and approvals for the time being. You may take the study off hold at any time.`,
       dialogFormFields: this.defaultStudyActionForm,
       method: (study, model) => {
-        study.protocol_builder_status = ProtocolBuilderStatus.HOLD;
+        study.status = StudyStatus.HOLD;
         study.comment = model.comment;
         return study;
       },
     },
     {
-      showIf: (study) => this.statusIs(study, [ProtocolBuilderStatus.ACTIVE]),
+      showIf: (study) => this.statusIs(study, [StudyStatus.IN_PROGRESS]),
       buttonIcon: 'send',
       buttonLabel: 'Open study to enrollment...',
       tooltipText: 'Set the status of <study_title> to "Open To Enrollment"',
@@ -89,14 +89,14 @@ export class StudiesDashboardComponent implements OnInit {
       dialogDescription: `This will open the study to enrollment on the specified launch date.`,
       dialogFormFields: this.enrollmentDateForm(),
       method: (study, model) => {
-        study.protocol_builder_status = ProtocolBuilderStatus.OPEN;
+        study.status = StudyStatus.OPEN_FOR_ENROLLMENT;
         study.enrollment_date = model.enrollmentDate;
         study.comment = model.comment;
         return study;
       },
     },
     {
-      showIf: (study) => this.statusIs(study, [ProtocolBuilderStatus.ACTIVE]),
+      showIf: (study) => this.statusIs(study, [StudyStatus.IN_PROGRESS]),
       buttonIcon: 'stop',
       buttonLabel: 'Abandon study...',
       tooltipText: 'Set the status of <study_title> to "Abandoned"',
@@ -104,13 +104,13 @@ export class StudiesDashboardComponent implements OnInit {
       dialogDescription: `This will change the status of this study to "Abandoned", preventing the study from appearing in anyone's approval queue. You may un-abandon the study at any time.`,
       dialogFormFields: this.defaultStudyActionForm,
       method: (study, model) => {
-        study.protocol_builder_status = ProtocolBuilderStatus.ABANDONED;
+        study.status = StudyStatus.ABANDONED;
         study.comment = model.comment;
         return study;
       },
     },
     {
-      showIf: (study) => this.statusIs(study, [ProtocolBuilderStatus.ABANDONED, ProtocolBuilderStatus.HOLD]),
+      showIf: (study) => this.statusIs(study, [StudyStatus.ABANDONED, StudyStatus.HOLD]),
       buttonIcon: 'play',
       buttonLabel: 'Resume study...',
       tooltipText: 'Set the status of <study_title> to "In progress"',
@@ -118,7 +118,7 @@ export class StudiesDashboardComponent implements OnInit {
       dialogDescription: `This will set the status of this study to "In progress", resuming any notifications and approvals.`,
       dialogFormFields: this.defaultStudyActionForm,
       method: (study, model) => {
-        study.protocol_builder_status = ProtocolBuilderStatus.ACTIVE;
+        study.status = StudyStatus.IN_PROGRESS;
         study.comment = model.comment;
         return study;
       },
@@ -157,8 +157,8 @@ export class StudiesDashboardComponent implements OnInit {
     return IrbHsrStatus.NOT_SUBMITTED;
   }
 
-  getProtocolBuilderStatus(study: Study) {
-    return study.protocol_builder_status;
+  getStudyStatus(study: Study) {
+    return StudyStatusLabels[study.status.toUpperCase()];
   }
 
   studiesGroupId(studiesGroup: StudiesByStatus) {
@@ -195,8 +195,8 @@ export class StudiesDashboardComponent implements OnInit {
     return text.replace('<study_title>', study.title);
   }
 
-  statusIs(study: Study, statuses: ProtocolBuilderStatus[]) {
-    return statuses.some(s => study.protocol_builder_status.toString().toLowerCase() === s.toString().toLowerCase());
+  statusIs(study: Study, statuses: StudyStatus[]) {
+    return statuses.some(s => study.status.toString().toLowerCase() === s.toString().toLowerCase());
   }
 
   timeAgo(date: Date) {

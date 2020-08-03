@@ -14,8 +14,8 @@ import {
   ApiService,
   MockEnvironment,
   mockStudy0,
-  ProtocolBuilderStatus,
-  ProtocolBuilderStatusLabels
+  StudyStatus,
+  StudyStatusLabels
 } from 'sartography-workflow-lib';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 import {LoadingComponent} from '../loading/loading.component';
@@ -80,8 +80,8 @@ describe('StudyComponent', () => {
   });
 
   it('should get status label', () => {
-    expect(component.getStatusLabel(ProtocolBuilderStatus.ACTIVE))
-      .toEqual(ProtocolBuilderStatusLabels.ACTIVE);
+    expect(component.getStatusLabel(StudyStatus.IN_PROGRESS))
+      .toEqual(StudyStatusLabels.IN_PROGRESS);
   });
 
   it('should check for workflows', () => {

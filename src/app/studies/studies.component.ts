@@ -3,14 +3,14 @@ import {MatTableDataSource} from '@angular/material/table';
 import {
   ApiService,
   AppEnvironment,
-  ProtocolBuilderStatus,
-  ProtocolBuilderStatusLabels,
+  StudyStatus,
+  StudyStatusLabels,
   Study
 } from 'sartography-workflow-lib';
 
 
 export interface StudiesByStatus {
-  status: ProtocolBuilderStatus;
+  status: StudyStatus;
   statusLabel: string;
   studies: Study[];
   dataSource: MatTableDataSource<Study>;
@@ -61,12 +61,12 @@ export class StudiesComponent implements OnInit {
         this.beforeStudyIds = this.afterStudyIds;
       }
 
-      const statusKeys = Object.keys(ProtocolBuilderStatus);
+      const statusKeys = Object.keys(StudyStatus);
       this.studiesByStatus = statusKeys.map((statusKey, i) => {
-        const filtered = sorted.filter(s => s.protocol_builder_status.toLowerCase() === statusKey.toLowerCase());
+        const filtered = sorted.filter(s => s.status.toLowerCase() === statusKey.toLowerCase());
         return {
-          status: ProtocolBuilderStatus[statusKey],
-          statusLabel: ProtocolBuilderStatusLabels[statusKey],
+          status: StudyStatus[statusKey],
+          statusLabel: StudyStatusLabels[statusKey],
           studies: filtered,
           dataSource: new MatTableDataSource(filtered),
         };
