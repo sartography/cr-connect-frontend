@@ -17,7 +17,6 @@ import {
 })
 export class StudyComponent implements OnInit {
   study: Study;
-  displayFiles = false;
   allWorkflows: Workflow[] = [];
   loading = true;
   selectedCategoryId: number;
@@ -41,10 +40,6 @@ export class StudyComponent implements OnInit {
     return isNumberDefined(this.selectedWorkflowId);
   }
 
-  get numFiles(): number {
-    return this.study && this.study.files ? this.study.files.length : 0;
-  }
-
   ngOnInit() {
   }
 
@@ -63,10 +58,6 @@ export class StudyComponent implements OnInit {
 
   getStatusLabel(status: StudyStatus) {
     return StudyStatusLabels[status.toUpperCase()];
-  }
-
-  toggleFilesDisplay(show?: boolean) {
-    this.displayFiles = show !== undefined ? show : !this.displayFiles;
   }
 
   selectCategory(categoryId: number) {

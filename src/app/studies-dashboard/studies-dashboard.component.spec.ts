@@ -1,9 +1,17 @@
+import {APP_BASE_HREF} from '@angular/common';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {MatButtonToggleChange, MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatIconModule} from '@angular/material/icon';
+import {MatMenuModule} from '@angular/material/menu';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterTestingModule} from '@angular/router/testing';
+import {of} from 'rxjs';
 import {
   ApiService,
   MockEnvironment,
@@ -18,18 +26,12 @@ import {
   WorkflowStatus,
   WorkflowTaskState,
   WorkflowTaskType
+  mockTaskEvents,
 } from 'sartography-workflow-lib';
+import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
+import {StudyAction} from '../_interfaces/study-action';
 import {StudyProgressComponent} from '../study-progress/study-progress.component';
 import {StudiesDashboardComponent} from './studies-dashboard.component';
-import {APP_BASE_HREF} from '@angular/common';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatIconModule} from '@angular/material/icon';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {StudyAction} from '../_interfaces/study-action';
-import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
-import {of} from 'rxjs';
 
 describe('StudiesDashboardComponent', () => {
   let component: StudiesDashboardComponent;
@@ -65,6 +67,7 @@ describe('StudiesDashboardComponent', () => {
       imports: [
         BrowserAnimationsModule,
         HttpClientTestingModule,
+        MatButtonToggleModule,
         MatChipsModule,
         MatDialogModule,
         MatExpansionModule,
@@ -102,35 +105,7 @@ describe('StudiesDashboardComponent', () => {
 
     const sReq = httpMock.expectOne('apiRoot/task_events?action=ASSIGNMENT');
     expect(sReq.request.method).toEqual('GET');
-    const mockWorkflowMetadata: WorkflowMetadata = {
-      state: WorkflowState.REQUIRED,
-      completed_tasks: 0,
-      total_tasks: 0,
-      category_id: 0,
-      description: `It is a tale told by an idiot, full of sound and fury, signifying nothing.`,
-      display_name: 'A Poor Player',
-      name: 'walking_shadow',
-      id: 0,
-      category_display_name: 'Life',
-      status: WorkflowStatus.USER_INPUT_REQUIRED,
-      display_order: null,
-    };
-
-    const mockTaskEvent: TaskEvent = {
-      id: 1,
-      study: mockStudy0,
-      workflow: mockWorkflowMetadata,
-      user_uid: 'macbeth',
-      action: TaskAction.ASSIGNMENT,
-      task_id: 'tomorrow-and-tomorrow-and-tomorrow',
-      task_title: 'Light Fools the Way to Dusty Death',
-      task_name: 'out_out_brief_candle',
-      task_type: WorkflowTaskType.USER_TASK,
-      task_state: WorkflowTaskState.READY,
-      task_lane: 'supervisor',
-      date: new Date(),
-    };
-    sReq.flush([mockTaskEvent]);
+    sReq.flush(mockTaskEvents);
 
     expect(component.approvalsDataSource).toBeTruthy();
     expect(component.approvalsDataSource.data).toBeTruthy();
@@ -178,5 +153,17 @@ describe('StudiesDashboardComponent', () => {
     wfsReq.flush(mockStudy0);
 
     expect(studyUpdatedEmitSpy).toHaveBeenCalled();
+  });
+
+  it('should toggle task lane', () => {
+    expect(component.taskLanes).toBeDefined();
+    expect(component.taskLanes.length).toBeGreaterThan(1);
+
+    for (const taskLane of component.taskLanes) {
+      component.toggleTaskLane(new MatButtonToggleChange(null, taskLane));
+      expect(component.selectedTaskLane).toEqual(taskLane);
+      expect(component.approvalsDataSource.filter).toEqual(taskLane.label);
+      expect(component.numTasksInTaskLane(taskLane)).toBeGreaterThan(0);
+    }
   });
 });

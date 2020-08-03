@@ -16,10 +16,18 @@
         <mat-list>
           <mat-list-item
             *ngFor="let workflowListItem of workflowsToShow(cat.workflows)"
-            [ngClass]="'workflow_status--' + workflowListItem.status + ' workflow_state--' + workflowListItem.state"
+            [ngClass]="'workflow-list-item workflow_status--' + workflowListItem.status + ' workflow_state--' + workflowListItem.state"
             (click)="selectCategory($event, cat.id, workflowListItem.id)"
           >
-            <div mat-line fxLayout="row" fxLayoutAlign="start center">
+            <div
+              mat-line
+              fxLayout="row"
+              fxLayoutAlign="start center"
+              [ngClass]="{'workflow-action': true}"
+              [attr.data-study-id]="study.id"
+              [attr.data-category-id]="cat.id"
+              [attr.data-workflow-id]="workflowListItem.id"
+            >
               <app-nav-item-icon [workflowStats]="workflowListItem"></app-nav-item-icon>
               <div>{{workflowListItem.display_name}}</div>
             </div>

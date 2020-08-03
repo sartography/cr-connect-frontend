@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ApiService, StudyStatus, StudyStatusLabels, Study, TaskAction, TaskEvent} from 'sartography-workflow-lib';
+import {TaskLane} from '../_interfaces/task-lane';
 import {StudiesByStatus} from '../studies/studies.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmStudyStatusDialogComponent} from '../_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
@@ -10,12 +11,6 @@ import {MatTableDataSource} from '@angular/material/table';
 import * as timeago from 'timeago.js';
 import {MatButtonToggleChange} from '@angular/material/button-toggle';
 import {FormlyFieldConfig} from '@ngx-formly/core';
-
-
-interface TaskLane {
-  value: string | null;
-  label: string;
-}
 
 enum IrbHsrStatus {
   NOT_SUBMITTED = 'Not Submitted',
@@ -132,7 +127,7 @@ export class StudiesDashboardComponent implements OnInit {
   approvalsDataSource: MatTableDataSource<TaskEvent>;
   taskLanes: TaskLane[] = [
     {value: 'supervisor', label: 'Approval Tasks'},
-    {value: null, label: 'Data Entry Tasks'},
+    {value: '', label: 'Data Entry Tasks'},
   ];
   selectedTaskLane: TaskLane = this.taskLanes[0];
 
@@ -214,8 +209,7 @@ export class StudiesDashboardComponent implements OnInit {
       .subscribe(t => {
         this.approvalsDataSource = new MatTableDataSource(t);
         this.approvalsDataSource.filterPredicate = (taskEvent: TaskEvent, filter) => {
-          console.log('taskEvent', taskEvent);
-          return taskEvent.task_lane === this.selectedTaskLane.value;
+          return this._taskLanesAreEqual(taskEvent.task_lane, this.selectedTaskLane.value);
         };
 
         // Sending the filter a non-empty string so it will update.
@@ -232,10 +226,18 @@ export class StudiesDashboardComponent implements OnInit {
 
   numTasksInTaskLane(taskLane: TaskLane): number {
     if (this.approvalsDataSource && this.approvalsDataSource.data && this.approvalsDataSource.data.length > 0) {
-      return this.approvalsDataSource.data.filter(taskEvent => taskEvent.task_lane === taskLane.value).length;
+      return this.approvalsDataSource.data.filter(taskEvent => {
+        return this._taskLanesAreEqual(taskEvent.task_lane, taskLane.value)
+      }).length;
     }
 
     return 0;
+  }
+
+  // Returns true if given task lanes are equal.
+  // If either value is falsey, use '' for the comparison.
+  private _taskLanesAreEqual(a, b): boolean {
+    return ((a || '') === (b || ''))
   }
 
   private _updateStudy(data: ConfirmStudyStatusDialogData) {
