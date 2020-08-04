@@ -244,7 +244,7 @@ export class StudiesDashboardComponent implements OnInit {
     if (typeof data.action.method === 'string') {
       this.api[data.action.method](data.study.id).subscribe(s => this.studyUpdated.emit(s));
     } else {
-      const updatedStudy = data.action.method(data.study, data.model);
+      const updatedStudy: Study = data.action.method(data.study, data.model);
       this.api.updateStudy(data.study.id, updatedStudy).subscribe(s => this.studyUpdated.emit(s));
     }
   }
