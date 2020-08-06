@@ -50,7 +50,7 @@
     "ngx-page-scroll-core": "^7.0.0",
     "rfdc": "^1.1.4",
     "rxjs": "~6.5.4",
-    "sartography-workflow-lib": "0.0.345",
+    "sartography-workflow-lib": "0.0.374",
     "timeago.js": "^4.0.2",
     "ts-md5": "^1.2.7",
     "tslib": "^1.13.0",
