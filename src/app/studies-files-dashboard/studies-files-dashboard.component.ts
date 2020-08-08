@@ -35,6 +35,7 @@ export class ApprovalsFilesDashboardComponent implements OnInit {
     private api: ApiService) {
   }
 
+
   ngOnInit(): void {
   }
 
