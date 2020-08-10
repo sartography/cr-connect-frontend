@@ -67,6 +67,7 @@ import {ApprovalDialogComponent} from './_dialogs/approval-dialog/approval-dialo
 import {StudiesProcessComponent} from './studies-process/studies-process.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudyProgressComponent} from './study-progress/study-progress.component';
+import {StudyEventsComponent} from './study-events/study-events.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
@@ -144,6 +145,7 @@ export function markedOptionsFactory(): MarkedOptions {
     ApprovalsComponent,
     StudyComponent,
     StudyProgressComponent,
+    StudyEventsComponent,
     WorkflowComponent,
     WorkflowFilesComponent,
     WorkflowFormComponent,

@@ -9,7 +9,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import createClone from 'rfdc';
 import {
   ApiService,
@@ -60,9 +60,24 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   }
 
   saveTaskData(task: WorkflowTask, updateRemaining = false) {
-    return this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, this.model).subscribe(
+    const modelData = createClone()(this.model);
+
+    // Set value of hidden fields to null
+    const controls = (this.form as any)._formlyControls;
+    if (controls) {
+      for (const [key, control] of Object.entries(controls)) {
+        if (control instanceof FormControl) {
+          const field = (control as any)._fields[0];
+          if (field.hide) {
+            setObjectProperty(modelData, key, null);
+          }
+        }
+      }
+    }
+
+    // Save task data
+    return this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, modelData).subscribe(
       updatedWorkflow => {
-        console.log('saveTaskData workflow', updatedWorkflow);
         this.workflow = updatedWorkflow;
       },
       error => {
@@ -72,7 +87,6 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
         if (updateRemaining && this.workflow.next_task) {
           this.saveAllSiblingTaskData(this.workflow.next_task);
         } else {
-          console.log('saveTaskData emitting workflow', this.workflow);
           this.workflowUpdated.emit(this.workflow);
         }
       }
