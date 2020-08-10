@@ -11,7 +11,7 @@ describe('NotificationsComponent', () => {
     TestBed.configureTestingModule({
       declarations: [NotificationsComponent],
       providers: [
-        {provide: APP_BASE_HREF, useValue: ''},
+        {provide: APP_BASE_HREF, useValue: '/'},
       ]
     })
       .compileComponents();
