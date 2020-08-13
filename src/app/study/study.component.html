@@ -30,6 +30,11 @@
     (categorySelected)="selectCategory($event)"
     (workflowSelected)="selectWorkflow($event)"
   ></app-dashboard>
+
+  <app-study-events
+    *ngIf="study.events_history.length > 0"
+    [study]="study"
+  ></app-study-events>
   <div *ngIf="!(allWorkflows.length > 0)">
     No active workflows for this study.
   </div>

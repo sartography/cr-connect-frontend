@@ -1,0 +1,39 @@
+<div fxLayout="row wrap" fxLayoutGap="40px">
+  <table
+    [attr.aria-describedby]="eventsGroupId()"
+    [dataSource]="study.events_history"
+    class="mat-elevation-z0"
+    mat-table
+    matSort
+  >
+    <ng-container matColumnDef="create_date">
+      <th *matHeaderCellDef id="col_create_date" mat-header-cell mat-sort-header>Creation Date</th>
+      <td *matCellDef="let event" mat-cell>
+        {{ event.create_date | date:'short' }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th *matHeaderCellDef id="col_status" mat-header-cell mat-sort-header>Status</th>
+      <td *matCellDef="let event" mat-cell>{{ getStatusLabel(event.status) }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="comment">
+      <th *matHeaderCellDef id="col_comment" mat-header-cell mat-sort-header>Comment</th>
+      <td *matCellDef="let event" mat-cell>{{ event.comment }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="event_type">
+      <th *matHeaderCellDef id="col_event_type" mat-header-cell mat-sort-header>Event Type</th>
+      <td *matCellDef="let event" mat-cell>{{ getEventTypeLabel(event.event_type) }}</td>
+    </ng-container>
+
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr
+      *matRowDef="let event; columns: displayedColumns;"
+      [attr.data-approval-id]="event.id"
+      [ngClass]="{'study-row': true}"
+      mat-row
+    ></tr>
+  </table>
+</div>

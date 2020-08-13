@@ -94,7 +94,7 @@ describe('Router: App', () => {
         HttpClient,
         ApiService,
         {provide: 'APP_ENVIRONMENT', useValue: mockEnvironment},
-        {provide: APP_BASE_HREF, useValue: ''},
+        {provide: APP_BASE_HREF, useValue: '/'},
       ]
     });
 

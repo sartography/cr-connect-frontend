@@ -26,7 +26,7 @@ describe('NavLinksComponent', () => {
           useValue: mockRouter
         },
         {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
-        {provide: APP_BASE_HREF, useValue: ''},
+        {provide: APP_BASE_HREF, useValue: '/'},
       ],
     })
       .compileComponents();
