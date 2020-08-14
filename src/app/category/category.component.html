@@ -15,7 +15,12 @@
       <mat-panel-title>{{wf.display_name}}</mat-panel-title>
       <mat-panel-description>
         {{wf.description}}
-        <mat-icon *ngIf="isWorkflowComplete(wf)">check_circle</mat-icon>
+        <ng-container *ngIf="isWorkflowComplete(wf)">
+          <button
+            mat-icon-button
+            [routerLink]="['/study', study.id, 'workflow', wf.id]"
+          ><mat-icon *ngIf="isWorkflowComplete(wf)">check_circle</mat-icon></button>
+        </ng-container>
         <ng-container *ngIf="!isWorkflowComplete(wf)">
           <button
             *ngIf="wf.completed_tasks === 0"
