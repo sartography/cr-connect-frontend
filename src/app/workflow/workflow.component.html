@@ -95,7 +95,7 @@
 <ng-template #noTask>
   <div class="task-status" fxLayout="column" fxLayoutAlign="stretch stretch">
     <div class="non-user-task" *ngIf="currentTask">
-      <h1 class="mat-display-2" *ngIf="isLocked(currentTask)">{{workflow.title}} is complete.</h1>
+      <h1 class="mat-display-2" *ngIf="isLocked(currentTask) && currentTask.type !== taskTypes.END_EVENT">{{workflow.title}} is pending approval.</h1>
       <h1 class="mat-display-2" *ngIf="currentTask.type === taskTypes.END_EVENT">{{workflow.title}} is complete.</h1>
       <div class="documentation" *ngIf="currentTask.documentation">
         <markdown [data]="currentTask.documentation"></markdown>
@@ -116,7 +116,7 @@
         color="primary"
         mat-flat-button
       >Continue</button>
-      <div *ngIf="!currentTask.documentation && (currentTask.type !== taskTypes.END_EVENT)">
+      <div *ngIf="!isLocked(currentTask) && !currentTask.documentation && (currentTask.type !== taskTypes.END_EVENT)">
         <h1>{{currentTask.title}}</h1>
         <h2>Task type: {{currentTask.type}}</h2>
         <h3>Status: {{currentTask.state}}</h3>

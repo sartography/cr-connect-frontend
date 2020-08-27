@@ -9,6 +9,20 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
+## Local Development with Sartogprahy Libraries
+If you are making changes to the Sartography Libraries dependency,
+you can replace that line in the package.json file with something akin to this, where you supply the full path to the dist folder, remember
+to run 'npm build' in that directory for your local changes to take effect, and be sure to change this back to the proper value before
+committing your code
+```
+ "sartography-workflow-lib": "/home/dan/code/workflow/sartography-libraries/dist/sartography-workflow-lib",
+```
+ Also note that you need to add
+ ```json
+             "preserveSymlinks": true
+```
+to your angular.json file in build/options.
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
