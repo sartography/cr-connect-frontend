@@ -84,7 +84,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { NavLinksComponent } from './nav-links/nav-links.component';
 import { WorkflowNavComponent } from './workflow-nav/workflow-nav.component';
-import {MatTreeModule} from "@angular/material/tree";
+import {MatTreeModule} from '@angular/material/tree';
 (document.defaultView as any).hljs = hljs;
 
 
