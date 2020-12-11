@@ -44,7 +44,7 @@
         [disabled]="shouldDisable(navItem)"
       >
         <app-nav-item-icon mat-list-icon [navItem]="navItem"></app-nav-item-icon>
-        {{navItem.task.title}}
+        {{navItem.description}}
       </mat-list-item>
     </mat-list>
     <div *ngIf="wf.id === workflowId && loading" fxLayout="column" fxLayoutAlign="center center">

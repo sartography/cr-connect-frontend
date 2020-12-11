@@ -1,10 +1,4 @@
-import {
-  WorkflowNavItem,
-  WorkflowState,
-  WorkflowStats,
-  WorkflowTaskState,
-  WorkflowTaskType
-} from 'sartography-workflow-lib';
+import {NavItemType, WorkflowNavItem, WorkflowState, WorkflowStats, WorkflowTaskState} from 'sartography-workflow-lib';
 
 
 export const shouldDisplayWorkflow = (workflowListItem: WorkflowStats): boolean => {
@@ -19,20 +13,35 @@ export const shouldDisplayWorkflow = (workflowListItem: WorkflowStats): boolean 
   );
 }
 
+const groupTypes = [
+  NavItemType.SEQUENCE_FLOW,
+  NavItemType.EXCLUSIVE_GATEWAY,
+  NavItemType.PARALLEL_GATEWAY,
+  NavItemType.CALL_ACTIVITY,
+]
+const userTypes = [
+  NavItemType.USER_TASK,
+  NavItemType.MANUAL_TASK,
+];
+
 export const shouldDisplayNavItem = (navItem: WorkflowNavItem): boolean => {
-  const hideTypes = [
-    WorkflowTaskType.SCRIPT_TASK,
-    WorkflowTaskType.BUSINESS_RULE_TASK,
-    WorkflowTaskType.NONE_TASK,
-  ];
   return (
-    navItem &&
-    navItem.task &&
-    navItem.task.type &&
-    !hideTypes.includes(navItem.task.type)
+      navItem &&
+      isOrContainsUserTasks(navItem)
   );
 };
 
+export const isOrContainsUserTasks = (navItem: WorkflowNavItem): boolean => {
+  if (userTypes.includes(navItem.spec_type)) {
+    return true;
+  }
+  for (const child of navItem.children) {
+    if (isOrContainsUserTasks(child)) {
+      return true;
+    }
+  }
+  return false;
+};
 
 export const shouldDisableNavItem = (navItem: WorkflowNavItem): boolean => {
   const disableTypes = [
@@ -40,5 +49,5 @@ export const shouldDisableNavItem = (navItem: WorkflowNavItem): boolean => {
     WorkflowTaskState.LIKELY,
     WorkflowTaskState.FUTURE
   ];
-  return (disableTypes.includes(navItem.state) || !navItem.task_id)
+  return (disableTypes.includes(navItem.state) || navItem.spec_type !== NavItemType.USER_TASK)
 }

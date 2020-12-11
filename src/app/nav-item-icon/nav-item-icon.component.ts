@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TaskEvent, WorkflowNavItem, WorkflowStats, WorkflowStatus, WorkflowTaskState} from 'sartography-workflow-lib';
+import {NavItemType, TaskEvent, WorkflowNavItem, WorkflowStats, WorkflowStatus} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-nav-item-icon',
@@ -33,7 +33,18 @@ export class NavItemIconComponent implements OnInit {
     } else if (this.taskEvent) {
       return this.iconForState(this.taskEvent.task_state);
     } else if (this.navItem) {
-      return this.iconForState(this.navItem.state);
+      return this.iconForNav(this.navItem);
+    }
+  }
+
+  private iconForNav(nav: WorkflowNavItem) {
+    switch (nav.spec_type) {
+      case NavItemType.USER_TASK:
+        return this.iconForState(nav.state);
+      case NavItemType.EXCLUSIVE_GATEWAY:
+        return 'alt_route';
+      case NavItemType.SEQUENCE_FLOW:
+        return 'arrow_right';
     }
   }
 
@@ -50,6 +61,10 @@ export class NavItemIconComponent implements OnInit {
       noop: 'remove_circle_outline',
       none: 'remove_circle_outline',
     };
-    return stateIcons[taskState.toLowerCase()];
+    if(taskState != null) {
+      return stateIcons[taskState.toLowerCase()];
+    } else {
+      return stateIcons.noop;
+    }
   }
 }

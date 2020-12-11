@@ -31,6 +31,7 @@ export class WorkflowComponent implements OnInit {
   taskTypes = WorkflowTaskType;
   displayData = (localStorage.getItem('displayData') === 'true');
   displayFiles = (localStorage.getItem('displayFiles') === 'true');
+  showAllNav = (localStorage.getItem('showAllNav') === 'false');
   fileMetas: FileMeta[];
   loading = true;
   error: object;
@@ -177,6 +178,13 @@ export class WorkflowComponent implements OnInit {
     }
   }
 
+  toggleShowAllNav(show?: boolean) {
+    this.showAllNav = show !== undefined ? show : !this.showAllNav;
+    console.log('Show All', this.showAllNav);
+    localStorage.setItem('showAllNav', (!!this.displayData).toString());
+  }
+
+
   resetWorkflow() {
     this.api.getWorkflow(this.workflowId, {hard_reset: true}).subscribe(workflow => {
       console.log('resetWorkflow workflow', workflow);
@@ -228,7 +236,7 @@ export class WorkflowComponent implements OnInit {
 
       // If it's a valid task and not the current workflow task,
       // reset the token to the selected task.
-      if (navItem && navItem.task && (forceTaskId !== wf.next_task.id)) {
+      if (navItem && (forceTaskId !== wf.next_task.id)) {
         this.setCurrentTask(forceTaskId);
       } else {
         // The given task ID is no longer part of this workflow.
