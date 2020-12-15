@@ -112,9 +112,8 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     } else {
       return this.workflow.navigation.filter(navItem => {
         return (
-          navItem.task &&
-          navItem.task.name === task.name &&
-          navItem.task.state === WorkflowTaskState.READY
+          navItem.name === task.name &&
+          navItem.state === WorkflowTaskState.READY
         );
       });
     }

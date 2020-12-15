@@ -50,6 +50,16 @@
 
     <h3>
       Tasks
+      <button
+        mat-mini-fab
+        title="Show All Menu Items"
+        (click)="toggleShowAllNav()"
+        [ngClass]="{'selected': showAllNav, 'mat-elevation-z0': true}"
+        color="primary"
+      >
+        <mat-icon>menu_open</mat-icon>
+      </button>
+
       <span fxFlex></span>
       <button
         mat-button
@@ -59,12 +69,13 @@
         Start over
       </button>
     </h3>
-    <app-workflow-steps-menu-list
+    <app-workflow-nav
       *ngIf="workflow"
-      [workflow]="workflow"
+      [navList]="workflow.navigation"
+      [showAll]="showAllNav"
       [currentTask]="currentTask"
       (taskSelected)="setCurrentTask($event)"
-    ></app-workflow-steps-menu-list>
+    ></app-workflow-nav>
   </mat-sidenav>
   <mat-sidenav
     [opened]="displayData || displayFiles"

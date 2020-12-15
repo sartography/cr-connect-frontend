@@ -19,7 +19,7 @@
   pointer-events: none;
 }
 
-$indent: 2rem;
+$indent: 1rem;
 
 .task .indent_1 {
   text-indent: $indent * 1;
@@ -31,4 +31,16 @@ $indent: 2rem;
 
 .task .indent_3 {
   text-indent: $indent * 3;
+}
+
+.task .indent_4 {
+  text-indent: $indent * 4;
+}
+
+.task .indent_5 {
+  text-indent: $indent * 5;
+}
+
+.task .indent_6 {
+  text-indent: $indent * 6;
 }

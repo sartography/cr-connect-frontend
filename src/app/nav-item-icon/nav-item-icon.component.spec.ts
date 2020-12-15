@@ -3,7 +3,7 @@ import {MatIconModule} from '@angular/material/icon';
 import createClone from 'rfdc';
 import {
   mockNav0, mockTaskEvent0,
-  mockWorkflowStats0, TaskEvent, WorkflowNavItem,
+  mockWorkflowStats0, NavItemType, TaskEvent, WorkflowNavItem,
   WorkflowStatus,
   WorkflowTaskState,
   WorkflowTaskType
@@ -67,7 +67,9 @@ describe('NavItemIconComponent', () => {
     component.navItem = navItem;
     states.forEach(s => {
       navItem.state = s;
-      expect(component.icon).toBeTruthy();
+      if(navItem.spec_type === NavItemType.USER_TASK) {
+        expect(component.icon).toBeTruthy();
+      }
       numPassed++;
     });
 
