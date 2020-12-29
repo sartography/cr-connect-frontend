@@ -1,23 +1,21 @@
 <div class="container" fxLayout="column">
-  <div *ngIf="!isCategorySelected" fxLayout="row" fxLayoutGap="20px">
+  <div *ngIf="!isCategorySelected" fxLayout="row" fxLayoutGap="5px">
     <mat-card
       *ngFor="let cat of categoryTabs; let i = index"
-      fxFlex="calc({{100 / categoryTabs.length}}%-20px)"
+      fxFlex="calc({{100 / categoryTabs.length}}%-30px)"
       (click)="selectCategory($event, cat.id)"
       [ngClass]="'dashboard'"
     >
-      <mat-card-title
-        *ngIf="cat.workflows && cat.workflows.length > 0"
-      >{{cat.display_name}}
-        <span fxFlex></span>
-        <span class="workflow-status">{{allComplete(cat) ? 'COMPLETE' : 'IN PROGRESS'}}</span>
+      <mat-card-title *ngIf="cat.workflows && cat.workflows.length > 0">
+        <div class="mat-card-title-main">{{cat.display_name}}</div>
+        <div class="workflow-status">{{allComplete(cat) ? 'COMPLETE' : 'IN PROGRESS'}}</div>
       </mat-card-title>
       <mat-card-content>
         <mat-list>
           <mat-list-item
             *ngFor="let workflowListItem of workflowsToShow(cat.workflows)"
             [ngClass]="'workflow-list-item workflow_status--' + workflowListItem.status + ' workflow_state--' + workflowListItem.state"
-            (click)="selectCategory($event, cat.id, workflowListItem.id)"
+            [routerLink]="['/study', study.id, 'workflow', workflowListItem.id]"
           >
             <div
               mat-line

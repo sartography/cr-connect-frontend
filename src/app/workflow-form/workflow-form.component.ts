@@ -25,11 +25,48 @@ import {FormlyFieldConfig} from '@ngx-formly/core';
 import {Location} from '@angular/common';
 import * as getObjectProperty from 'lodash/get';
 import * as setObjectProperty from 'lodash/set';
+import {animate, keyframes, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-workflow-form',
   templateUrl: './workflow-form.component.html',
-  styleUrls: ['./workflow-form.component.scss']
+  styleUrls: ['./workflow-form.component.scss'],
+  animations: [
+    trigger('disableTrigger', [
+      state(
+        'default',
+        style({
+          opacity: 1,
+        })
+      ),
+      state(
+        'disabled',
+        style({
+          opacity: 0.5,
+        })
+      ),
+      transition('* => *', animate('1000ms ease-out')),
+    ]),
+    trigger('flashTrigger', [
+      state('in', style({
+        height: '200px',
+        opacity: 1,
+        color: 'red'
+      })),
+      transition('* => *', [
+        animate('2s', keyframes ( [
+          style({ opacity: 0.1, color: '000000', offset: 0.1 }),
+          style({ opacity: 0.3, color: 'red', offset: 0.2 }),
+          style({ opacity: 0.7, color: 'red',   offset: 0.3 }),
+          style({ opacity: 1.0, color: 'red', offset: 0.4 }),
+          style({ opacity: 0.3, color: 'red', offset: 0.5 }),
+          style({ opacity: 0.5, color: 'red', offset: 0.6 }),
+          style({ opacity: 0.7, color: 'red',   offset: 0.7 }),
+          style({ opacity: 1.0, color: '000000', offset: 0.8 })
+        ]))
+      ])
+    ])
+  ]
 })
 export class WorkflowFormComponent implements OnInit, OnChanges {
   @Input() task: WorkflowTask;
@@ -38,10 +75,13 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   @Output() apiError = new EventEmitter();
   form = new FormGroup({});
   model: any = {};
+  formViewState = 'enabled';
 
   @ViewChild('#jsonCode') jsonCodeElement: ElementRef;
   fileParams: FileParams;
   fields: FormlyFieldConfig[];
+  locked = true;
+  taskStates = WorkflowTaskState;
 
   constructor(
     private api: ApiService,
@@ -137,6 +177,11 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     this.location.back();
   }
 
+  saveDisabled() {
+    console.log('Save Disabled?', (this.form.valid && !this.locked))
+    return(this.locked || this.form.invalid)
+  }
+
   private _loadModel(task: WorkflowTask) {
     this.form = new FormGroup({});
     if (task && task.data && task.form && task.form.fields) {
@@ -145,6 +190,13 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
         workflow_id: this.workflow.id,
       };
       this.fields = new ToFormlyPipe(this.api).transform(task.form.fields, this.fileParams);
+    }
+    if(task && task.state === WorkflowTaskState.READY) {
+      this.locked = false;
+      this.formViewState = 'enabled'
+    } else {
+      this.locked = true;
+      this.formViewState = 'disabled'
     }
   }
 
