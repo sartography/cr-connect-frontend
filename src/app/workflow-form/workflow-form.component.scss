@@ -1,4 +1,10 @@
 @import "../../config";
+
+#lockedMessage {
+  width: 100%;
+  color: black;
+}
+
 .documentation {
   background-color: $brand-primary-tint-4;
   margin: 10px 0 20px 0;

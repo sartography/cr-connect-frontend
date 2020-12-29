@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {NavItemType, TaskEvent, WorkflowNavItem, WorkflowStats, WorkflowStatus} from 'sartography-workflow-lib';
 
 @Component({
@@ -6,34 +6,47 @@ import {NavItemType, TaskEvent, WorkflowNavItem, WorkflowStats, WorkflowStatus} 
   templateUrl: './nav-item-icon.component.html',
   styleUrls: ['./nav-item-icon.component.scss']
 })
-export class NavItemIconComponent implements OnInit {
+export class NavItemIconComponent implements OnInit, OnChanges {
   @Input() navItem: WorkflowNavItem;
   @Input() taskEvent: TaskEvent;
-  @Input() workflowStats: WorkflowStats
+  @Input() workflowStats: WorkflowStats;
+
+  icon: string;
+  css: string;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.update_icon()
   }
 
-  get icon(): string {
+  ngOnChanges(): void {
+    this.update_icon()
+  }
+
+  update_icon(): void {
     if (this.workflowStats) {
       switch (this.workflowStats.status) {
         case WorkflowStatus.COMPLETE:
-          return 'check_circle';
+          this.icon = 'check_circle';
+          this.css = 'complete';
+          break;
         case WorkflowStatus.USER_INPUT_REQUIRED:
-          return 'pending';
+          this.icon = 'pending';
+          break;
         case WorkflowStatus.NOT_STARTED:
-          return 'radio_button_unchecked';
+          this.icon = 'radio_button_unchecked';
+          break;
         case WorkflowStatus.WAITING:
-          return 'remove_circle_outline';
+          this.icon = 'remove_circle_outline';
+          break;
         default:
           return;
       }
     } else if (this.taskEvent) {
-      return this.iconForState(this.taskEvent.task_state);
+        this.icon = this.iconForState(this.taskEvent.task_state);
     } else if (this.navItem) {
-      return this.iconForNav(this.navItem);
+        this.icon = this.iconForNav(this.navItem);
     }
   }
 
