@@ -111,8 +111,11 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
       return [];
     } else {
       return this.workflow.navigation.filter(navItem => {
+        const re = /(.+?)(_[0-9]+)*$/
+        const matcha = navItem.name.match(re)[1]
+        const matchb = task.name.match(re)[1]
         return (
-          navItem.name === task.name &&
+          matcha === matchb &&
           navItem.state === WorkflowTaskState.READY
         );
       });
