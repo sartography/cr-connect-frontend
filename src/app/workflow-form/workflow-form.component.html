@@ -9,16 +9,21 @@
       [form]="form"
       [model]="model"
     ></formly-form>
+
+    <button (click)="saveTaskData(task)" [disabled]="form.invalid" color="primary" mat-flat-button>Save</button>
+    <button (click)="goBack()" mat-flat-button>Cancel</button>
     <button
+      title="This will apply the current settings to this task and all remaining tasks"
       *ngIf="getIncompleteMISiblings(task).length > 1"
       (click)="saveAllSiblingTaskData(task)"
       [disabled]="form.invalid"
       color="accent"
       mat-flat-button
-    >Apply to {{getIncompleteMISiblings(task).length}} incomplete {{workflow.title}}</button>
-    <button (click)="saveTaskData(task)" [disabled]="form.invalid" color="primary" mat-flat-button>Save</button>
-    <button (click)="goBack()" mat-flat-button>Cancel</button>
+    >Apply to all {{getIncompleteMISiblings(task).length}} {{workflow.title}}</button>
+
   </div>
+
+
 </div>
 
 <ng-template #loadingMessage>
