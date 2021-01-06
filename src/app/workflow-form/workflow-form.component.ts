@@ -107,7 +107,10 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   }
 
   flattenNavList(navlist: WorkflowNavItem[],startlist) : WorkflowNavItem[] {
-    for (let task  of navlist) {
+    // take a nested structure of navigation items and turn it into a list
+    // if an item has children then descend into the tree and add all of the
+    // children as well.
+    for (const task  of navlist) {
       startlist.push(task);
       if (task.children.length > 0)
         this.flattenNavList(task.children,startlist);
