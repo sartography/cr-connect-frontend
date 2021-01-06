@@ -106,11 +106,23 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
   }
 
+  flattenNavList(navlist: WorkflowNavItem[],startlist) : WorkflowNavItem[] {
+    for (let task  of navlist) {
+      startlist.push(task);
+      if (task.children.length > 0)
+        this.flattenNavList(task.children,startlist);
+    }
+    return startlist;
+  }
+
   getIncompleteMISiblings(task: WorkflowTask): WorkflowNavItem[] {
     if (task.multi_instance_type === MultiInstanceType.NONE) {
       return [];
     } else {
-      return this.workflow.navigation.filter(navItem => {
+      const navlist = this.flattenNavList(this.workflow.navigation,[])
+      return navlist.filter(navItem => {
+        if (navItem.name === null) // some sequence flows may have no name
+          return false;
         const re = /(.+?)(_[0-9]+)*$/
         const matcha = navItem.name.match(re)[1]
         const matchb = task.name.match(re)[1]
