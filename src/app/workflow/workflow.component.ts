@@ -31,7 +31,6 @@ export class WorkflowComponent implements OnInit {
   taskTypes = WorkflowTaskType;
   displayData = (localStorage.getItem('displayData') === 'true');
   displayFiles = (localStorage.getItem('displayFiles') === 'true');
-  showAllNav = (localStorage.getItem('showAllNav') === 'false');
   fileMetas: FileMeta[];
   loading = true;
   error: object;
@@ -177,13 +176,6 @@ export class WorkflowComponent implements OnInit {
       this.toggleDataDisplay(!this.displayFiles);
     }
   }
-
-  toggleShowAllNav(show?: boolean) {
-    this.showAllNav = show !== undefined ? show : !this.showAllNav;
-    console.log('Show All', this.showAllNav);
-    localStorage.setItem('showAllNav', (!!this.displayData).toString());
-  }
-
 
   resetWorkflow() {
     this.api.getWorkflow(this.workflowId, {hard_reset: true}).subscribe(workflow => {
