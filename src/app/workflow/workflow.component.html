@@ -54,15 +54,6 @@
 
     <h3>
       Tasks
-      <button
-        mat-mini-fab
-        title="Show All Menu Items"
-        (click)="toggleShowAllNav()"
-        [ngClass]="{'selected': showAllNav, 'mat-elevation-z0': true}"
-        color="primary"
-      >
-        <mat-icon>menu_open</mat-icon>
-      </button>
 
       <span fxFlex></span>
       <button
@@ -73,13 +64,26 @@
         Start over
       </button>
     </h3>
-    <app-workflow-nav
+    <app-workflow-progress-menu
       *ngIf="workflow"
       [navList]="workflow.navigation"
-      [showAll]="showAllNav"
       [currentTask]="currentTask"
-      (taskSelected)="setCurrentTask($event)"
-    ></app-workflow-nav>
+      (taskSelected)="setCurrentTask($event)">
+    </app-workflow-progress-menu>
+
+    <div class="adminTools">
+      <h4>Advanced Navigation</h4>
+      <em>This area is provided to administrative users only.  It allows you to see
+      the full navigation to help clarify where you are in the BPMN workflow and why.</em>
+      <app-workflow-nav
+        *ngIf="workflow"
+        [navList]="workflow.navigation"
+        [showAll]="true"
+        [currentTask]="currentTask"
+        (taskSelected)="setCurrentTask($event)"
+      ></app-workflow-nav>
+    </div>
+
   </mat-sidenav>
   <mat-sidenav
     [opened]="displayData || displayFiles"

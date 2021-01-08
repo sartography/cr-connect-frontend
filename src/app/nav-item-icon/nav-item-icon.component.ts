@@ -54,6 +54,8 @@ export class NavItemIconComponent implements OnInit, OnChanges {
     switch (nav.spec_type) {
       case NavItemType.USER_TASK:
         return this.iconForState(nav.state);
+      case NavItemType.MANUAL_TASK:
+        return this.iconForState(nav.state);
       case NavItemType.EXCLUSIVE_GATEWAY:
         return 'alt_route';
       case NavItemType.SEQUENCE_FLOW:

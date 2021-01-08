@@ -85,6 +85,7 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { NavLinksComponent } from './nav-links/nav-links.component';
 import { WorkflowNavComponent } from './workflow-nav/workflow-nav.component';
 import {MatTreeModule} from '@angular/material/tree';
+import { WorkflowProgressMenuComponent } from './workflow-progress-menu/workflow-progress-menu.component';
 (document.defaultView as any).hljs = hljs;
 
 
@@ -166,6 +167,7 @@ export function markedOptionsFactory(): MarkedOptions {
     NavItemIconComponent,
     NavLinksComponent,
     WorkflowNavComponent,
+    WorkflowProgressMenuComponent,
   ],
     imports: [
         BrowserAnimationsModule,

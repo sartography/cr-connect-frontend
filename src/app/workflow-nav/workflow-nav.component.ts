@@ -1,5 +1,11 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Workflow, WorkflowNavItem, WorkflowTask, WorkflowTaskState} from 'sartography-workflow-lib';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  NavItemType,
+  WorkflowNavItem,
+  WorkflowTask,
+  WorkflowTaskState,
+  WorkflowTaskType
+} from 'sartography-workflow-lib';
 import {shouldDisableNavItem, shouldDisplayNavItem} from '../_util/nav-item';
 
 @Component({
@@ -8,7 +14,12 @@ import {shouldDisableNavItem, shouldDisplayNavItem} from '../_util/nav-item';
   styleUrls: ['./workflow-nav.component.scss']
 })
 export class WorkflowNavComponent implements OnInit {
-
+  /*
+  This is a recursive component that will render a list of nav items,
+  Then re-call itself to display all that nav-items children, through
+  an unlimited depth.  It is a particularly good experience for end users
+  but can be helpful when debugging.
+   */
   @Input() navList: WorkflowNavItem[];
   @Input() currentTask: WorkflowTask;
   @Input() showAll = true;
@@ -17,14 +28,14 @@ export class WorkflowNavComponent implements OnInit {
   loading = true;
   expandedMap = new Map();
 
+  completedTasks:  WorkflowNavItem[];
+  readyTasks:  WorkflowNavItem[];
+  futureTasks: WorkflowNavItem[];
+
   constructor() { }
 
   ngOnInit(): void {
     this.loading = true;
-  }
-
-  selectTask(taskId: string) {
-    this.taskSelected.emit(taskId);
   }
 
   shouldDisable(navItem: WorkflowNavItem): boolean {
@@ -47,8 +58,11 @@ export class WorkflowNavComponent implements OnInit {
   }
 
   toggleExpanded(navItem: WorkflowNavItem) {
-    console.log('EXPANDED', navItem.description, this.expandedMap.get(navItem.spec_id))
+    console.log('EXPANDED', navItem.description, this.expandedMap.get(navItem.spec_id));
     this.expandedMap.set(navItem.spec_id, !(this.expandedMap.get(navItem.spec_id)));
   }
 
+  selectTask(taskId: string) {
+    this.taskSelected.emit(taskId);
+  }
 }

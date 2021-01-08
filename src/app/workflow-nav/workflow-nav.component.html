@@ -1,6 +1,7 @@
 <mat-nav-list>
-  <ng-container *ngFor="let navItem of navList">
 
+
+  <ng-container *ngFor="let navItem of navList">
     <mat-list-item *ngIf="shouldDisplay(navItem)"
                    [ngClass]="{
       'task': true,
