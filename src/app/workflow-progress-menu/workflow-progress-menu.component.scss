@@ -1,0 +1,28 @@
+@import "../../config";
+
+.progress {
+  margin: 0 10px 0 0;
+}
+
+.navSection {
+  margin: 0 0 20px 20px;
+}
+
+.navHeading {
+  color: $brand-primary-tint-1;
+  margin: 15px 0 5px 0;
+  font-size: 1.2em;
+}
+
+.task {
+  font-size: 1rem;
+}
+
+.selectable:hover {
+  background-color: $brand-gray-light;
+}
+
+.selectable {
+  color: $brand-accent;
+  cursor: pointer;
+}
