@@ -1,3 +1,9 @@
+@import '../../config';
+
 .mat-icon {
   margin-right: 0.5rem;
+}
+
+.complete {
+  color: $brand-primary
 }

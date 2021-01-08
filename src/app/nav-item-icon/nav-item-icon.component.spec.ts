@@ -39,7 +39,8 @@ describe('NavItemIconComponent', () => {
     component.workflowStats = workflowStats;
     statuses.forEach(s => {
       workflowStats.status = s;
-      expect(component.icon).toBeTruthy();
+      component.update_icon();
+      expect(component.icon).toBeTruthy('no icon for ' + s);
       numPassed++;
     });
 
@@ -53,7 +54,8 @@ describe('NavItemIconComponent', () => {
     component.taskEvent = taskEvent;
     states.forEach(s => {
       taskEvent.task_state = s;
-      expect(component.icon).toBeTruthy();
+      component.update_icon();
+      expect(component.icon).toBeTruthy('no icon for ' + s);
       numPassed++;
     });
 
