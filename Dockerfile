@@ -1,10 +1,8 @@
 ### STAGE 1: Build ###
-FROM node AS builder
-RUN mkdir /app
-WORKDIR /app
-ADD package.json /app/
-ADD package-lock.json /app/
+FROM sartography/cr-connect-angular-base AS builder
+
 COPY . /app/
+
 ARG build_config=prod
 RUN npm install && \
     npm run build:$build_config
