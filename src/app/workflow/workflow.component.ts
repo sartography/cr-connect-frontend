@@ -3,13 +3,15 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
+
 import {
   ApiService,
   scrollToTop,
   Workflow,
   WorkflowTask,
   WorkflowTaskState,
-  WorkflowTaskType
+  WorkflowTaskType,
+  User
 } from 'sartography-workflow-lib';
 import {FileMeta} from 'sartography-workflow-lib/lib/types/file';
 import {
@@ -23,10 +25,12 @@ import {DeviceDetectorService} from 'ngx-device-detector';
   templateUrl: './workflow.component.html',
   styleUrls: ['./workflow.component.scss']
 })
+
 export class WorkflowComponent implements OnInit {
   workflow: Workflow;
   currentTask: WorkflowTask;
   studyId: number;
+  showDataPane: boolean;
   workflowId: number;
   taskTypes = WorkflowTaskType;
   displayData = (localStorage.getItem('displayData') === 'true');
@@ -35,6 +39,7 @@ export class WorkflowComponent implements OnInit {
   fileMetas: FileMeta[];
   loading = true;
   error: object;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -45,12 +50,14 @@ export class WorkflowComponent implements OnInit {
     private location: Location,
     private deviceDetector: DeviceDetectorService,
   ) {
-    this.loading = true;
+
+    this.showDataPane = false;
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
     });
   }
+
 
   get numFiles(): number {
     return this.fileMetas ? this.fileMetas.length : 0;
@@ -161,7 +168,10 @@ export class WorkflowComponent implements OnInit {
   }
 
   toggleDataDisplay(show?: boolean) {
-    this.displayData = show !== undefined ? show : !this.displayData;
+    if (this.showDataPane)
+      this.displayData = show !== undefined ? show : !this.displayData;
+    else
+      this.displayData = false;
     localStorage.setItem('displayData', (!!this.displayData).toString());
 
     if (this.displayData && show === undefined) {

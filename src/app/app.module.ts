@@ -93,6 +93,7 @@ import {MatTreeModule} from '@angular/material/tree';
 export class ThisEnvironment implements AppEnvironment {
   homeRoute = environment.homeRoute;
   production = environment.production;
+  hideDataPane = environment.hideDataPane;
   api = environment.api;
   irbUrl = environment.irbUrl;
   title = environment.title;

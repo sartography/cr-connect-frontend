@@ -15,7 +15,7 @@
       >
         <mat-icon>insert_drive_file</mat-icon>
       </button>
-      <button
+      <button *ngIf="showDataPane"
         mat-mini-fab
         title="Display collected task data"
         (click)="toggleDataDisplay()"
