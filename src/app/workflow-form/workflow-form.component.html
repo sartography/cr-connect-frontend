@@ -37,11 +37,7 @@
       color="accent"
       mat-flat-button
     >Apply to all {{getIncompleteMISiblings(task).length}} {{workflow.title}}</button>
-    <button (click)="saveTaskData(task)" [disabled]="saveDisabled()" color="primary" mat-flat-button>Save</button>
-    <button (click)="goBack()" mat-flat-button>Cancel</button>
   </div>
-
-
 </div>
 
 <ng-template #loadingMessage>
