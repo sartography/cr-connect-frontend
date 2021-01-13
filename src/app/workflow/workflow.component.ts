@@ -11,7 +11,6 @@ import {
   WorkflowTask,
   WorkflowTaskState,
   WorkflowTaskType,
-  User
 } from 'sartography-workflow-lib';
 import {FileMeta} from 'sartography-workflow-lib/lib/types/file';
 import {
@@ -19,6 +18,7 @@ import {
   WorkflowResetDialogData
 } from '../workflow-reset-dialog/workflow-reset-dialog.component';
 import {DeviceDetectorService} from 'ngx-device-detector';
+import {environment} from '../../environments/environment.runtime';
 
 @Component({
   selector: 'app-workflow',
@@ -51,7 +51,7 @@ export class WorkflowComponent implements OnInit {
     private deviceDetector: DeviceDetectorService,
   ) {
 
-    this.showDataPane = false;
+    this.showDataPane = (!environment.hideDataPane)||(localStorage.getItem('userIsAdmin')==='true') ;
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
