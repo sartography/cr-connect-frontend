@@ -1,0 +1,38 @@
+<div class="progress">
+  <h4 class="navHeading">Ready Tasks</h4>
+  <div *ngIf="readyTasks.length > 1">
+    <ng-container *ngTemplateOutlet="navItemTemplate; context: {nav: readyTasks}"></ng-container>
+  </div>
+  <div *ngIf="readyTasks.length === 1">
+    <ng-container *ngTemplateOutlet="navItemTemplate; context: {nav: readyTasks}"></ng-container>
+    <em>Only the current task (displayed to the left) can be completed at this time.
+      If a choice of tasks becomes available, those options will be displayed here.</em>
+  </div>
+  <div *ngIf="readyTasks.length === 0">
+    You have no open tasks in this workflow at this time.
+  </div>
+
+  <div *ngIf="completedTasks.length > 0">
+    <h4 class="navHeading">Previously Completed</h4>
+    <em>You may jump back in time to complete any of these tasks, but you will need to re-progress
+      through this workflow in case the changes you make impact later steps.</em>
+    <ng-container *ngTemplateOutlet="navItemTemplate; context: {nav: completedTasks}"></ng-container>
+  </div>
+
+  <div *ngIf="futureTasks.length > 0">
+    <h4 class="navHeading">What's Ahead</h4>
+    <ng-container *ngTemplateOutlet="navItemTemplate; context: {nav: futureTasks}"></ng-container>
+  </div>
+
+  <ng-template #navItemTemplate let-nav='nav'>
+    <div class="navSection">
+      <ng-container *ngFor="let navItem of nav">
+        <div [ngClass]="{'task': true, 'selectable': selectable(navItem)}" mat-line fxLayout="row" fxLayoutAlign="start center"
+             (click)="selectTask(navItem)">
+          <app-nav-item-icon [navItem]="navItem"></app-nav-item-icon>
+          <div>{{ navItem.description }}</div>
+        </div>
+      </ng-container>
+    </div>
+  </ng-template>
+</div>

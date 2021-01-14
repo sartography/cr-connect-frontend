@@ -1,29 +1,33 @@
 <mat-sidenav-container>
   <mat-sidenav-content>
-    <h4 class="mat-card-subtitle">{{workflow && workflow.title}}</h4>
-    <h1 class="mat-card-title">{{currentTask && currentTask.title}}</h1>
-    <div fxLayout="row" fxLayoutAlign="end">
-      <button
-        mat-mini-fab
-        title="Files for this task"
-        (click)="toggleFilesDisplay()"
-        [ngClass]="{'selected': displayFiles, 'mat-elevation-z0': true}"
-        color="accent"
-        [matBadge]="numFiles"
-        matBadgeColor="primary"
-        [matBadgeHidden]="numFiles <= 0"
-      >
-        <mat-icon>insert_drive_file</mat-icon>
-      </button>
-      <button *ngIf="showDataPane"
-        mat-mini-fab
-        title="Display collected task data"
-        (click)="toggleDataDisplay()"
-        [ngClass]="{'selected': displayData, 'mat-elevation-z0': true}"
-        color="primary"
-      >
-        <mat-icon>chrome_reader_mode</mat-icon>
-      </button>
+    <div fxLayout="row" fxLayoutAlign="space-between" >
+      <div>
+        <h1 class="mat-card-title">{{currentTask && currentTask.title}}</h1>
+        <h4 class="mat-card-subtitle">{{workflow && workflow.title}}</h4>
+      </div>
+      <div fxLayout="row">
+        <button
+          mat-mini-fab
+          title="Files for this task"
+          (click)="toggleFilesDisplay()"
+          [ngClass]="{'selected': displayFiles, 'mat-elevation-z0': true}"
+          color="accent"
+          [matBadge]="numFiles"
+          matBadgeColor="primary"
+          [matBadgeHidden]="numFiles <= 0"
+        >
+          <mat-icon>insert_drive_file</mat-icon>
+        </button>
+        <button
+          mat-mini-fab
+          title="Display collected task data"
+          (click)="toggleDataDisplay()"
+          [ngClass]="{'selected': displayData, 'mat-elevation-z0': true}"
+          color="primary"
+        >
+          <mat-icon>chrome_reader_mode</mat-icon>
+        </button>
+      </div>
     </div>
 
     <ng-container *ngIf="!loading; else loadingMessage">
@@ -50,15 +54,6 @@
 
     <h3>
       Tasks
-      <button
-        mat-mini-fab
-        title="Show All Menu Items"
-        (click)="toggleShowAllNav()"
-        [ngClass]="{'selected': showAllNav, 'mat-elevation-z0': true}"
-        color="primary"
-      >
-        <mat-icon>menu_open</mat-icon>
-      </button>
 
       <span fxFlex></span>
       <button
@@ -69,13 +64,26 @@
         Start over
       </button>
     </h3>
-    <app-workflow-nav
+    <app-workflow-progress-menu
       *ngIf="workflow"
       [navList]="workflow.navigation"
-      [showAll]="showAllNav"
       [currentTask]="currentTask"
-      (taskSelected)="setCurrentTask($event)"
-    ></app-workflow-nav>
+      (taskSelected)="setCurrentTask($event)">
+    </app-workflow-progress-menu>
+
+    <div class="adminTools">
+      <h4>Advanced Navigation</h4>
+      <em>This area is provided to administrative users only.  It allows you to see
+      the full navigation to help clarify where you are in the BPMN workflow and why.</em>
+      <app-workflow-nav
+        *ngIf="workflow"
+        [navList]="workflow.navigation"
+        [showAll]="true"
+        [currentTask]="currentTask"
+        (taskSelected)="setCurrentTask($event)"
+      ></app-workflow-nav>
+    </div>
+
   </mat-sidenav>
   <mat-sidenav
     [opened]="displayData || displayFiles"
