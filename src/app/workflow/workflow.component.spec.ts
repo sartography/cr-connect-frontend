@@ -13,7 +13,7 @@ import {ActivatedRoute, convertToParamMap, Router} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {FormlyModule} from '@ngx-formly/core';
 import {FormlyMaterialModule} from '@ngx-formly/material';
-import {MarkdownModule} from 'ngx-markdown';
+import {MarkdownModule, MarkdownService, MarkedOptions} from 'ngx-markdown';
 import createClone from 'rfdc';
 import {of} from 'rxjs';
 import {
@@ -24,10 +24,13 @@ import {
   mockWorkflow1,
   mockWorkflowTask0,
   mockWorkflowTask1,
+  mockUser0,
+  mockUser1,
   ToFormlyPipe,
   WorkflowNavItem,
   WorkflowTaskState,
-  WorkflowTaskType
+  WorkflowTaskType,
+  RadioDataFieldComponent
 } from 'sartography-workflow-lib';
 import {WorkflowFilesComponent} from '../workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
@@ -38,12 +41,21 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {LoadingComponent} from '../loading/loading.component';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {WorkflowResetDialogData} from '../workflow-reset-dialog/workflow-reset-dialog.component';
+import {Mock} from 'protractor/built/driverProviders';
+import {WorkflowNavComponent} from '../workflow-nav/workflow-nav.component';
+
+class MockMarkdownService {
+  toHtml(text:string):string {return text};
+  compile(markdown: string, decodeHtml?: boolean, emojify?: boolean, markedOptions?: MarkedOptions): string {return markdown};
+  highlight(element?: Element | Document): void {};
+}
 
 describe('WorkflowComponent', () => {
   let component: WorkflowComponent;
   let fixture: ComponentFixture<WorkflowComponent>;
   let httpMock: HttpTestingController;
   const mockRouter = {navigate: jasmine.createSpy('navigate')};
+  const mockEnvironment = new MockEnvironment();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -54,11 +66,16 @@ describe('WorkflowComponent', () => {
         WorkflowStepsMenuListComponent,
         WorkflowFilesComponent,
         LoadingComponent,
+        WorkflowNavComponent,
       ],
       imports: [
         BrowserAnimationsModule,
         FormlyMaterialModule,
-        FormlyModule.forRoot(),
+        FormlyModule.forRoot({
+          types: [
+            {name: 'radio_data', component: RadioDataFieldComponent, wrappers: ['form-field']},
+          ]
+        }),
         HttpClientTestingModule,
         MatButtonModule,
         MatBadgeModule,
@@ -83,9 +100,12 @@ describe('WorkflowComponent', () => {
           provide: Router,
           useValue: mockRouter
         },
-        {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+        {provide: 'APP_ENVIRONMENT', useValue: mockEnvironment},
         {provide: APP_BASE_HREF, useValue: '/'},
         DeviceDetectorService,
+        {provide: MarkdownService, useClass: MockMarkdownService},
+
+
       ]
     })
       .compileComponents();
@@ -331,4 +351,16 @@ describe('WorkflowComponent', () => {
 
     expect(updateTaskListSpy).toHaveBeenCalled();
   });
+
+  it('AdminUser with hideDataPane=true should show button', () => {
+    mockEnvironment.hideDataPane = true;
+    fixture.detectChanges()
+    const userReq = httpMock.expectOne('apiRoot/user');
+    expect(userReq.request.method).toEqual('GET');
+    userReq.flush(mockUser0);
+    expect(component.isAdmin).toEqual(true);
+    expect(component.showDataPane).toBeTrue();
+  });
+
+
 });

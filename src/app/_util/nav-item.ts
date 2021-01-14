@@ -35,7 +35,7 @@ export const isOrContainsUserTasks = (navItem: WorkflowNavItem): boolean => {
   if (userTypes.includes(navItem.spec_type)) {
     return true;
   }
-  for (const child of navItem.children) {
+  for (const child of navItem.children || []) {
     if (isOrContainsUserTasks(child)) {
       return true;
     }

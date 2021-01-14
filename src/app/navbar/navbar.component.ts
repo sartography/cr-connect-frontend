@@ -168,11 +168,7 @@ export class NavbarComponent {
   }
 
   get isAdmin(): boolean {
-    let flag = false;
-    if (this.realUser && this.realUser.is_admin)
-      flag = true;
-    localStorage.setItem('userIsAdmin',flag.toString());
-    return flag;
+    return this.realUser && this.realUser.is_admin;
   }
 
   get user(): User {

@@ -19,7 +19,7 @@
     </mat-list-item>
     <div class="submenu" *ngIf="isExpanded(navItem)">
       <app-workflow-nav
-        *ngIf="navItem.children.length > 0"
+        *ngIf="navItem && navItem.children && navItem.children.length > 0"
         [navList]="navItem.children"
         [showAll]="showAll"
         [currentTask]="currentTask"

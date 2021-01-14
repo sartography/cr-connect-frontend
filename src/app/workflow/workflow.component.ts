@@ -1,11 +1,12 @@
 import {Location} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Inject} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {
   ApiService,
+  AppEnvironment,
   scrollToTop,
   Workflow,
   WorkflowTask,
@@ -18,7 +19,8 @@ import {
   WorkflowResetDialogData
 } from '../workflow-reset-dialog/workflow-reset-dialog.component';
 import {DeviceDetectorService} from 'ngx-device-detector';
-import {environment} from '../../environments/environment.runtime';
+
+
 
 @Component({
   selector: 'app-workflow',
@@ -38,6 +40,7 @@ export class WorkflowComponent implements OnInit {
   showAllNav = (localStorage.getItem('showAllNav') === 'false');
   fileMetas: FileMeta[];
   loading = true;
+  isAdmin: boolean;
   error: object;
 
 
@@ -47,14 +50,20 @@ export class WorkflowComponent implements OnInit {
     private api: ApiService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
+    @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private location: Location,
     private deviceDetector: DeviceDetectorService,
   ) {
+    this.api.getUser().subscribe(u=> {
+      this.isAdmin = u.is_admin;
+      this.showDataPane = (!environment.hideDataPane) || (this.isAdmin);
+    });
 
-    this.showDataPane = (!environment.hideDataPane)||(localStorage.getItem('userIsAdmin')==='true') ;
+
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
+
     });
   }
 
