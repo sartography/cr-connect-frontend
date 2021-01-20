@@ -36,6 +36,7 @@ export class WorkflowResetDialogComponent {
   onSubmit() {
     this.data.confirm = true;
     this.data.clearData = this.clearData;
+    console.log("Clear DAta?" + this.data);
     this.dialogRef.close(this.data);
   }
 }

@@ -1,6 +1,6 @@
 import {Location} from '@angular/common';
 import {Component, OnInit} from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
@@ -191,11 +191,16 @@ export class WorkflowComponent implements OnInit {
       workflowId: this.workflowId,
       name: this.workflow.title,
     };
-    const dialogRef = this.dialog.open(WorkflowResetDialogComponent, {data});
+
+    const config = new MatDialogConfig();
+    config.maxWidth = '500px';
+    config.data = data;
+
+    const dialogRef = this.dialog.open(WorkflowResetDialogComponent, config);
 
     dialogRef.afterClosed().subscribe((dialogData: WorkflowResetDialogData) => {
       if (dialogData && dialogData.confirm) {
-        this.resetWorkflow();
+        this.resetWorkflow(dialogData.clearData);
       }
     });
   }

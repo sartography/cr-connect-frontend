@@ -7,7 +7,6 @@
     <p>Clicking "Yes" below will start the <strong>{{data.name}}</strong> workflow over from the beginning. However, we'll attempt to save the data you've already entered. Just be aware that you may need to re-enter some items.</p>
   </div>
   <div class="select-mode" fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="20px">
-    <input type="checkbox" (onclick)="toggleClearData()" value="{{clearData}}">Clear all previously entered data for this workflow
     <button (click)="onSubmit()" color="warn" mat-flat-button>
       <mat-icon>check</mat-icon>
       Yes
@@ -16,5 +15,15 @@
       <mat-icon>close</mat-icon>
       No
     </button>
+  </div>
+  <div class="clearAll">
+    <label>
+      <input type="checkbox" (change)="toggleClearData()" [checked]="clearData">Clear Previously entered information.
+    </label>
+    <p>
+      In rare cases you may wish to clear out all of your previous answers for this workflow, and start over.  This will
+      make the original default answers to questions available, and your previous answers to these questions will not
+      be displayed as you re-complete the forms.
+    </p>
   </div>
 </div>
