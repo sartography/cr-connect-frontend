@@ -177,8 +177,8 @@ export class WorkflowComponent implements OnInit {
     }
   }
 
-  resetWorkflow() {
-    this.api.getWorkflow(this.workflowId, {hard_reset: true}).subscribe(workflow => {
+  resetWorkflow(clearData: boolean = false) {
+    this.api.restartWorkflow(this.workflowId, clearData).subscribe(workflow => {
       console.log('resetWorkflow workflow', workflow);
       this.snackBar.open(`Your workflow has been reset successfully.`, 'Ok', {duration: 3000});
       this.workflow = workflow;
