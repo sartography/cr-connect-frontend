@@ -97,7 +97,7 @@ describe('WorkflowComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
+    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
     expect(wf1Req.request.method).toEqual('GET');
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
@@ -325,7 +325,7 @@ describe('WorkflowComponent', () => {
   it('should reset a workflow', () => {
     const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
     (component as any).resetWorkflow();
-    const wfsReq = httpMock.expectOne(`apiRoot/workflow/${component.workflowId}?hard_reset=true`);
+    const wfsReq = httpMock.expectOne(`apiRoot/workflow/${component.workflowId}/restart?clear_data=false`);
     expect(wfsReq.request.method).toEqual('GET');
     wfsReq.flush(null);
 

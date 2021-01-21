@@ -45,4 +45,11 @@ describe('WorkflowResetDialogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should toggle clear data', () => {
+    expect(component.clearData).toBeFalse();
+    component.toggleClearData();
+    expect(component.clearData).toBeTrue();
+  });
+
 });
