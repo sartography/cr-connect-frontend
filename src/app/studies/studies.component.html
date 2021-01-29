@@ -1,20 +1,7 @@
 <div class="studies-container" fxLayout="column">
   <nav fxFlex="100">
     <a mat-button (click)="view = 'dashboard'" [ngClass]="{'active': view === 'dashboard'}">Dashboard View</a>
-    <mat-divider [vertical]="true"></mat-divider>
-    <a mat-button (click)="view = 'process'" [ngClass]="{'active': view === 'process'}">Process View</a>
     <span fxFlex></span>
-    <a
-      [href]="irbUrl"
-      color="primary"
-      id="cta_protocol_builder"
-      mat-button
-      target="_blank"
-    >
-      <mat-icon>add</mat-icon>
-      Create new protocol
-      <mat-icon>open_in_new</mat-icon>
-    </a>
     <a
       (click)="loading = true; loadStudies()"
       color="accent"
@@ -35,7 +22,6 @@
       [afterStudyIds]="afterStudyIds"
       (studyUpdated)="updateStudies($event)"
     ></app-studies-dashboard>
-    <app-studies-process *ngIf="view === 'process'"></app-studies-process>
   </div>
 </div>
 
