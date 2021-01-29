@@ -126,8 +126,8 @@ export class StudiesDashboardComponent implements OnInit {
   ];
   approvalsDataSource: MatTableDataSource<TaskEvent>;
   taskLanes: TaskLane[] = [
-    {value: 'supervisor', label: 'Approval Tasks'},
-    {value: '', label: 'Data Entry Tasks'},
+    {value: 'supervisor', label: 'Approvals'},
+    {value: '', label: 'Data Entry'},
   ];
   selectedTaskLane: TaskLane = this.taskLanes[0];
 
