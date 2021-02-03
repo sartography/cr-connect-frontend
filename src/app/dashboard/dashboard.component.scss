@@ -4,17 +4,21 @@
   margin: 0;
 }
 
-
+.mat-card {
+  background-color : rgba(255,255,255,.25);
+}
 
 .mat-card {
   &:hover {
-    background-color: $brand-gray-light;
+    background-color : rgba(255,255,255,.5);
+    //background-color: $brand-gray-light;
     cursor: pointer;
   }
 }
 
 .mat-card-title-main {
   color: white;
+  border-radius: 10px 10px 0px 0px;
   background-color: $brand-primary;
   font-size: 1.2rem;
   font-weight: bold;
@@ -28,10 +32,23 @@
   padding: 0.2rem;
   text-align: center;
 }
+.lcldashboard {
+  background-color : rgba(255,255,255,.25);
+  border-radius : 10px;
+}
+mat-card.dashboard mat-card-content mat-list-item{
+  background-color : rgba(255,255,255,.8);
+}
 
+mat-card.dashboard mat-card-content mat-list-item {
+  &:hover {
+    background-color: white;
+  }
+}
 ::ng-deep .mat-list-base .mat-list-item,
 ::ng-deep .mat-list-base .mat-list-option {
   border-bottom: none;
+
 }
 
 ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content,

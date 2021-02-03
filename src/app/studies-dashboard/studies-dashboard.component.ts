@@ -30,6 +30,7 @@ export class StudiesDashboardComponent implements OnInit {
   @Input() beforeStudyIds: number[];
   @Input() afterStudyIds: number[];
   @Output() studyUpdated = new EventEmitter<Study>();
+  currentTab = 0;
   displayedColumns: string[] = [
     'id',
     'title',
@@ -147,6 +148,10 @@ export class StudiesDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  changeTab(currentTab: number){
+    this.currentTab = currentTab
   }
 
   isNewStudy(studyId: number) {

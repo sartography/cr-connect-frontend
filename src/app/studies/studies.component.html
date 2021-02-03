@@ -1,9 +1,10 @@
 <div class="studies-container" fxLayout="column">
   <nav fxFlex="100">
-    <a mat-button (click)="view = 'dashboard'" [ngClass]="{'active': view === 'dashboard'}">Dashboard View</a>
+    <a mat-button (click)="view = 'dashboard'" class="dashboard-text" [ngClass]="{'active': view === 'dashboard'}">Dashboard</a>
     <span fxFlex></span>
     <a
       (click)="loading = true; loadStudies()"
+      class="contrast-button"
       color="accent"
       id="cta_reload_studies"
       mat-button

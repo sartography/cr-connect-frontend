@@ -69,104 +69,113 @@
     <p *ngIf="!hasTaskEvents" class="no-task-events">No {{selectedTaskLane.label}} to display.</p>
   </div>
 </div>
+<div class="study-tab-div">
+<mat-chip-list aria-label="Study Type Selection">
+  <mat-chip [selected]="currentTab==i"
+            color="accent"
+            class="study-tab-chip"
+            (click)="this.changeTab(i)"
+            *ngFor="let studiesGroup of studiesByStatus; let i = index">
+  {{studiesGroup.statusLabel}}
+    <mat-chip [ngClass]="studiesGroup.status.toString().toLowerCase()"
+              [selectable]="false">{{studiesGroup.studies.length}}</mat-chip>
+  </mat-chip>
+</mat-chip-list>
+<div display="block"
+     >&nbsp;</div>
+<div class="study-tab-group">
+  <mat-card
+    class="tab"
+    [hidden] = "currentTab !== i "
+    *ngFor="let studiesGroup of studiesByStatus; let i = index">
+    <div  class="status-{{studiesGroup.status.toString().toLowerCase()}}"
+          fxLayout="row wrap"
+          fxLayoutGap="40px">
+      <table
+        [dataSource]="studiesGroup.dataSource"
+        class="mat-elevation-z0"
+        mat-table
+        matSort
+        [attr.aria-describedby]="studiesGroupId(studiesGroup)"
+      >
+        <ng-container matColumnDef="id">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_id"> Study ID</th>
+          <td *matCellDef="let study" mat-cell> {{study.id}} </td>
+        </ng-container>
 
-<mat-expansion-panel
-  *ngFor="let studiesGroup of studiesByStatus; let i = index"
-  [expanded]="studiesGroup.studies.length > 0"
-  class="mat-elevation-z0"
->
-  <mat-expansion-panel-header>
-    <mat-panel-title class="mat-h2" [id]="studiesGroupId(studiesGroup)">
-      {{studiesGroup.statusLabel}}
-      <mat-chip-list>
-        <mat-chip [ngClass]="studiesGroup.status.toString().toLowerCase()"
-                  [selectable]="false">{{studiesGroup.studies.length}}</mat-chip>
-      </mat-chip-list>
-    </mat-panel-title>
-  </mat-expansion-panel-header>
-  <div class="status-{{studiesGroup.status.toString().toLowerCase()}}" fxLayout="row wrap" fxLayoutGap="40px">
-    <table
-      [dataSource]="studiesGroup.dataSource"
-      class="mat-elevation-z0"
-      mat-table
-      matSort
-      [attr.aria-describedby]="studiesGroupId(studiesGroup)"
-    >
-      <ng-container matColumnDef="id">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_id"> Study ID</th>
-        <td *matCellDef="let study" mat-cell> {{study.id}} </td>
-      </ng-container>
+        <ng-container matColumnDef="title">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_title"> Study Title</th>
+          <td *matCellDef="let study" mat-cell> {{study.title}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="title">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_title"> Study Title</th>
-        <td *matCellDef="let study" mat-cell> {{study.title}} </td>
-      </ng-container>
+        <ng-container matColumnDef="status">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_status"> Status</th>
+          <td *matCellDef="let study" mat-cell>
+            {{getStudyStatus(study)}}
+            <span *ngIf="isNewStudy(study.id)" class="new">NEW</span>
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="status">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_status"> Status</th>
-        <td *matCellDef="let study" mat-cell>
-          {{getStudyStatus(study)}}
-          <span *ngIf="isNewStudy(study.id)" class="new">NEW</span>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="committees_complete">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_committees_complete"> Committees</th>
+          <td *matCellDef="let study" mat-cell>
+            0/0
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="committees_complete">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_committees_complete"> Internal Committees Complete</th>
-        <td *matCellDef="let study" mat-cell>
-          0/0
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="irb_hsr_status">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_irb_hsr_status"> IRB-HSR Status</th>
+          <td *matCellDef="let study" mat-cell>
+            {{getIrbHsrStatus(study)}}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="irb_hsr_status">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_irb_hsr_status"> IRB-HSR Status</th>
-        <td *matCellDef="let study" mat-cell>
-          {{getIrbHsrStatus(study)}}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="progress">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_progress"> Progress</th>
+          <td *matCellDef="let study" mat-cell>
+            <app-study-progress [study]="study"></app-study-progress>
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="progress">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_progress"> Progress</th>
-        <td *matCellDef="let study" mat-cell>
-          <app-study-progress [study]="study"></app-study-progress>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="actions">
+          <th *matHeaderCellDef mat-header-cell id="col_study_actions"> Actions</th>
+          <td *matCellDef="let study" mat-cell [ngClass]="'study-actions'">
+            <button
+              mat-flat-button
+              [matMenuTriggerFor]="studyActionsMenu"
+              aria-label="Study actions"
+              (click)="$event.stopPropagation()"
+              [ngClass]="'study-action-button'"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #studyActionsMenu="matMenu">
+              <ng-container *ngFor="let action of studyActions">
+                <button
+                  *ngIf="action.showIf(study)"
+                  mat-menu-item
+                  (click)="openConfirmationDialog(study, action)"
+                  [matTooltip]="insertStudyTitle(action.tooltipText, study)"
+                >
+                  <mat-icon>{{action.buttonIcon}}</mat-icon>
+                  <span>{{action.buttonLabel}}.</span>
+                </button>
+              </ng-container>
+            </mat-menu>
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="actions">
-        <th *matHeaderCellDef mat-header-cell id="col_study_actions"> Actions</th>
-        <td *matCellDef="let study" mat-cell [ngClass]="'study-actions'">
-          <button
-            mat-flat-button
-            [matMenuTriggerFor]="studyActionsMenu"
-            aria-label="Study actions"
-            (click)="$event.stopPropagation()"
-            [ngClass]="'study-action-button'"
-          >
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #studyActionsMenu="matMenu">
-            <ng-container *ngFor="let action of studyActions">
-              <button
-                *ngIf="action.showIf(study)"
-                mat-menu-item
-                (click)="openConfirmationDialog(study, action)"
-                [matTooltip]="insertStudyTitle(action.tooltipText, study)"
-              >
-                <mat-icon>{{action.buttonIcon}}</mat-icon>
-                <span>{{action.buttonLabel}}.</span>
-              </button>
-            </ng-container>
-          </mat-menu>
-        </td>
-      </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let study; columns: displayedColumns;"
+          [attr.data-study-id]="study.id"
+          [ngClass]="{'study-row': true, 'new': isNewStudy(study.id)}"
+          [routerLink]="['/study', study.id]"
+        ></tr>
+      </table>
+    </div>
+  </mat-card>
+</div>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr
-        mat-row
-        *matRowDef="let study; columns: displayedColumns;"
-        [attr.data-study-id]="study.id"
-        [ngClass]="{'study-row': true, 'new': isNewStudy(study.id)}"
-        [routerLink]="['/study', study.id]"
-      ></tr>
-    </table>
-  </div>
-</mat-expansion-panel>
+</div>
