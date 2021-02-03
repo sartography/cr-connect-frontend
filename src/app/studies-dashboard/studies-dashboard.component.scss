@@ -90,7 +90,7 @@ mat-panel-title.mat-h2 {
 
 .mat-button-toggle {
   font-size: 1rem;
-  padding: 0rem 2rem;
+  padding: 0 2rem;
 }
 
 .task-events-header {
@@ -106,6 +106,7 @@ mat-panel-title.mat-h2 {
   width: 100%;
   height: 100%;
   margin: 0;
+  background: transparent;
 }
 
 .study-tab-div {
@@ -115,11 +116,20 @@ mat-panel-title.mat-h2 {
 }
 
 .study-tab-group {
-  border-radius : 10px 10px 0px 0px;
+  border-radius : 10px 10px 0 0;
   padding-left : 10px;
   padding-right : 10px;
+  margin-top: 10px;
   background-color : white;
 }
+
+.study-blue {
+  font-size: 1.125rem;
+  font-weight: bold;
+  font-family: $body-font-family;
+  color: $brand-primary;
+}
+
 
 .study-tab-chip {
   padding: 16px 20px;
@@ -128,4 +138,35 @@ mat-panel-title.mat-h2 {
 }
 .mat-chip.mat-standard-chip.mat-chip-selected.mat-accent{
   opacity: 100%;
+}
+
+.in-progress-study {
+  display : block;
+  text-align: center;
+  padding: 10px;
+  margin: 5px;
+  color : #999;
+  border: 1px solid #999;
+
+}
+
+
+.new-study {
+  display : block;
+  text-align: center;
+  padding: 10px;
+  margin: 5px;
+  color : #222;
+  border: 1px solid #bbb;
+
+}
+
+.irb-study {
+  display : block;
+  text-align: center;
+  padding: 10px;
+  margin: 5px;
+  color : #222;
+  border: 1px solid $brand-accent-muted;
+
 }

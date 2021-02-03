@@ -81,8 +81,6 @@
               [selectable]="false">{{studiesGroup.studies.length}}</mat-chip>
   </mat-chip>
 </mat-chip-list>
-<div display="block"
-     >&nbsp;</div>
 <div class="study-tab-group">
   <mat-card
     class="tab"
@@ -100,24 +98,38 @@
       >
         <ng-container matColumnDef="id">
           <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_id"> Study ID</th>
-          <td *matCellDef="let study" mat-cell> {{study.id}} </td>
+          <td *matCellDef="let study" class="study-blue" mat-cell> {{study.id}} </td>
         </ng-container>
 
         <ng-container matColumnDef="title">
           <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_title"> Study Title</th>
-          <td *matCellDef="let study" mat-cell> {{study.title}} </td>
+          <td *matCellDef="let study" class="study-blue" mat-cell> {{study.title}} </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
           <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_status"> Status</th>
           <td *matCellDef="let study" mat-cell>
-            {{getStudyStatus(study)}}
-            <span *ngIf="isNewStudy(study.id)" class="new">NEW</span>
+            <div *ngIf="studyStatusDisplayType(study)==='New'" class="new-study">
+              NEW APPLICATION
+            </div>
+            <div *ngIf="studyStatusDisplayType(study)==='Progress'">
+              <div class="in-progress-study">
+                {{getStudyStatus(study).toUpperCase()}}
+              </div>
+              <app-study-progress [study]="study"></app-study-progress>
+            </div>
+            <div *ngIf="studyStatusDisplayType(study)==='Irb'">
+              <div class = "irb-study">
+                {{getIrbHsrStatus(study).toUpperCase()}}
+              </div>
+              <app-study-progress [study]="study"></app-study-progress>
+            </div>
+
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="committees_complete">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_committees_complete"> Committees</th>
+        <ng-container matColumnDef="reviews_complete">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_Reviews_complete">Reviews</th>
           <td *matCellDef="let study" mat-cell>
             0/0
           </td>
@@ -127,13 +139,6 @@
           <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_irb_hsr_status"> IRB-HSR Status</th>
           <td *matCellDef="let study" mat-cell>
             {{getIrbHsrStatus(study)}}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="progress">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_progress"> Progress</th>
-          <td *matCellDef="let study" mat-cell>
-            <app-study-progress [study]="study"></app-study-progress>
           </td>
         </ng-container>
 
@@ -170,7 +175,7 @@
           mat-row
           *matRowDef="let study; columns: displayedColumns;"
           [attr.data-study-id]="study.id"
-          [ngClass]="{'study-row': true, 'new': isNewStudy(study.id)}"
+          [ngClass]="{'study-row': true, 'new': isNewStudy(study)}"
           [routerLink]="['/study', study.id]"
         ></tr>
       </table>

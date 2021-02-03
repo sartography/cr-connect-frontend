@@ -3,14 +3,14 @@
 .tasks-complete {
   border-bottom: 4px solid $brand-gray-light;
   position: relative;
-  width: 80%;
+
 }
 
 .percent-complete {
   display: block;
   position: absolute;
   bottom: -4px;
-  left: 0px;
+  left: 0;
   background-color: $brand-accent;
   height: 4px;
   font-weight: 700;
