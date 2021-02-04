@@ -379,7 +379,7 @@ describe('WorkflowComponent', () => {
     expect(component.isAdmin).toEqual(true);
     expect(component.showDataPane).toBeTrue();
 
-    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
+    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
     expect(wf1Req.request.method).toEqual('GET');
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
@@ -404,7 +404,7 @@ describe('WorkflowComponent', () => {
     expect(component.isAdmin).toEqual(true);
     expect(component.showDataPane).toBeTrue();
 
-    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
+    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
     expect(wf1Req.request.method).toEqual('GET');
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
@@ -429,7 +429,7 @@ describe('WorkflowComponent', () => {
     expect(component.isAdmin).toEqual(false);
     expect(component.showDataPane).toBeTrue();
 
-    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
+    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
     expect(wf1Req.request.method).toEqual('GET');
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
