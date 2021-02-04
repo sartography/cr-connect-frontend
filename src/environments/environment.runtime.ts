@@ -5,7 +5,7 @@ declare var ENV;
 export const _has = (env, key, temp): boolean => env && ![null, undefined, temp, ''].includes(env[key]);
 
 export const environment: AppEnvironment = {
-  homeRoute: _has(ENV, 'homeRoute', '$HOME_ROUTE') ? ENV.homeRoute : 'research',
+  homeRoute: _has(ENV, 'homeRoute', '$HOME_ROUTE') ? ENV.homeRoute : 'home',
   production: _has(ENV, 'production', '$PRODUCTION') ? (ENV.production === 'true') : false,
   hideDataPane: _has(ENV, 'hideDataPane', '$HIDE_DATA_PANE') ? (ENV.hideDataPane === 'true') : true,
   api: _has(ENV, 'api', '$API_URL') ? ENV.api : 'http://localhost:5000/v1.0',

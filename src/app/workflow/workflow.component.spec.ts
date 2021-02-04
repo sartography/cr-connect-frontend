@@ -130,8 +130,8 @@ describe('WorkflowComponent', () => {
     userReq.flush(mockUser0);
     expect(component.isAdmin).toEqual(true);
     expect(component.showDataPane).toBeTrue();
+    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
 
-    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id);
     expect(wf1Req.request.method).toEqual('GET');
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
@@ -358,7 +358,7 @@ describe('WorkflowComponent', () => {
   it('should reset a workflow', () => {
     const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
     (component as any).resetWorkflow();
-    const wfsReq = httpMock.expectOne(`apiRoot/workflow/${component.workflowId}?hard_reset=true`);
+    const wfsReq = httpMock.expectOne(`apiRoot/workflow/${component.workflowId}/restart?clear_data=false`);
     expect(wfsReq.request.method).toEqual('GET');
     wfsReq.flush(null);
 

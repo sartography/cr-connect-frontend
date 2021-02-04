@@ -1,6 +1,7 @@
+
 import { Location } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -193,8 +194,8 @@ export class WorkflowComponent implements OnInit {
     }
   }
 
-  resetWorkflow() {
-    this.api.getWorkflow(this.workflowId, {hard_reset: true}).subscribe(workflow => {
+  resetWorkflow(clearData: boolean = false) {
+    this.api.restartWorkflow(this.workflowId, clearData).subscribe(workflow => {
       console.log('resetWorkflow workflow', workflow);
       this.snackBar.open(`Your workflow has been reset successfully.`, 'Ok', {duration: 3000});
       this.workflow = workflow;
@@ -207,11 +208,16 @@ export class WorkflowComponent implements OnInit {
       workflowId: this.workflowId,
       name: this.workflow.title,
     };
-    const dialogRef = this.dialog.open(WorkflowResetDialogComponent, {data});
+
+    const config = new MatDialogConfig();
+    config.maxWidth = '500px';
+    config.data = data;
+
+    const dialogRef = this.dialog.open(WorkflowResetDialogComponent, config);
 
     dialogRef.afterClosed().subscribe((dialogData: WorkflowResetDialogData) => {
       if (dialogData && dialogData.confirm) {
-        this.resetWorkflow();
+        this.resetWorkflow(dialogData.clearData);
       }
     });
   }
