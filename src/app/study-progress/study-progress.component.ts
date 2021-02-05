@@ -36,5 +36,4 @@ export class StudyProgressComponent implements OnInit {
       this.percentComplete = Math.floor(this.numCompletedWorkflows / this.numTotalWorkflows * 100);
     }
   }
-
 }

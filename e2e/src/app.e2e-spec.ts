@@ -13,7 +13,6 @@ describe('Clinical Research Coordinator App', () => {
   it('should automatically sign-in and redirect to home screen', () => {
     page.navigateTo();
     expect(page.getRoute()).toEqual('/home');
-    expect(page.getElements('#cta_protocol_builder').count()).toBeGreaterThan(0);
   });
 
   it('should navigate to help screen', () => {
@@ -34,54 +33,6 @@ describe('Clinical Research Coordinator App', () => {
     page.setLocalStorageVar('numstudy', '1');
     expect(page.getLocalStorageVar('numstudy')).toEqual('1');
     page.clickAndExpectRoute('#nav_home', '/home');
-    expect(page.getElements('#cta_protocol_builder').count()).toBeGreaterThan(0);
-  });
-
-  it('should open Protocol Builder in new window', async () => {
-    expect(page.getElements('#cta_protocol_builder').count()).toEqual(1);
-    expect(page.getElements('#cta_reload_studies').count()).toEqual(1);
-
-    // Open Protocol Builder in new tab.
-    const numTabsBefore = await page.getNumTabs();
-    page.clickElement('#cta_protocol_builder');
-    const numTabsAfter = await page.getNumTabs();
-    expect(numTabsAfter).toBeGreaterThan(numTabsBefore);
-
-    // Close Protocol Builder tab.
-    await page.switchFocusToTab(1);
-    await page.closeTab();
-    await page.switchFocusToTab(0);
-  });
-
-  it('should load new study from Protocol Builder', async () => {
-    const numStudiesBefore = await page.getElements('.study-row').count();
-
-    // Add a new study to Protocol Builder.
-    http.post('/new_study', '' +
-      `STUDYID=${Math.floor(Math.random() * 100000)}&` +
-      `TITLE=${encodeURIComponent('New study title')}&` +
-      `NETBADGEID=dhf8r&` +
-      `DATE_MODIFIED=${encodeURIComponent(new Date().toISOString())}&` +
-      `requirements=9&` +
-      `requirements=21&` +
-      `requirements=40&` +
-      `requirements=44&` +
-      `requirements=52&` +
-      `requirements=53&` +
-      `Q_COMPLETE=y`,
-      {'Content-Type': 'application/x-www-form-urlencoded'}
-    ).catch(error => {
-      console.error(error);
-    });
-    http.failOnHttpError = false;
-
-    // Reload the list of studies.
-    await page.clickElement('#cta_reload_studies');
-    await page.waitForNotVisible('.loading');
-    await page.waitForClickable('.study-row');
-
-    const numStudiesAfter = await page.getElements('.study-row').count();
-    expect(numStudiesAfter).toBeGreaterThan(numStudiesBefore);
   });
 
   it('should navigate to a study', async () => {
