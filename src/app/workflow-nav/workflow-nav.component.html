@@ -8,7 +8,7 @@
       'active': currentTask && currentTask.id === navItem.task_id
     }"
     >
-      <button *ngIf="navItem.children.length > 0 " aria-label="More / Less" (click)="toggleExpanded(navItem)">
+      <button *ngIf="navItem && navItem.children && navItem.children.length > 0 " aria-label="More / Less" (click)="toggleExpanded(navItem)">
         <mat-icon>{{isExpanded(navItem) ? "expand_less" : "expand_more"}}</mat-icon>
       </button>
       <div mat-line fxLayout="row" fxLayoutAlign="start center" *ngIf="shouldDisplay(navItem)">
@@ -20,7 +20,7 @@
     </mat-list-item>
     <div class="submenu" *ngIf="isExpanded(navItem)">
       <app-workflow-nav
-        *ngIf="navItem.children.length > 0"
+        *ngIf="navItem && navItem.children && navItem.children.length > 0"
         [navList]="navItem.children"
         [showAll]="showAll"
         [currentTask]="currentTask"

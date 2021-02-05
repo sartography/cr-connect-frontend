@@ -1,49 +1,66 @@
-import {APP_BASE_HREF} from '@angular/common';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material/input';
-import {MatListModule} from '@angular/material/list';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {ActivatedRoute, convertToParamMap, Router} from '@angular/router';
-import {RouterTestingModule} from '@angular/router/testing';
-import {FormlyModule} from '@ngx-formly/core';
-import {FormlyMaterialModule} from '@ngx-formly/material';
-import {MarkdownModule} from 'ngx-markdown';
+import { APP_BASE_HREF } from '@angular/common';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute, convertToParamMap, Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyMaterialModule } from '@ngx-formly/material';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { MarkdownModule, MarkdownService, MarkedOptions } from 'ngx-markdown';
 import createClone from 'rfdc';
-import {of} from 'rxjs';
+import { of } from 'rxjs';
 import {
   ApiService,
   MockEnvironment,
   mockFileMetas,
+  mockUser0, mockUser1,
   mockWorkflow0,
   mockWorkflow1,
   mockWorkflowTask0,
   mockWorkflowTask1,
+  RadioDataFieldComponent,
   ToFormlyPipe,
   WorkflowNavItem,
   WorkflowTaskState,
   WorkflowTaskType
 } from 'sartography-workflow-lib';
-import {WorkflowFilesComponent} from '../workflow-files/workflow-files.component';
-import {WorkflowFormComponent} from '../workflow-form/workflow-form.component';
-import {WorkflowStepsMenuListComponent} from '../workflow-steps-menu-list/workflow-steps-menu-list.component';
-import {WorkflowComponent} from './workflow.component';
-import {MatButtonModule} from '@angular/material/button';
-import {MatBadgeModule} from '@angular/material/badge';
-import {LoadingComponent} from '../loading/loading.component';
-import {DeviceDetectorService} from 'ngx-device-detector';
-import {WorkflowResetDialogData} from '../workflow-reset-dialog/workflow-reset-dialog.component';
+import { LoadingComponent } from '../loading/loading.component';
+import { WorkflowFilesComponent } from '../workflow-files/workflow-files.component';
+import { WorkflowFormComponent } from '../workflow-form/workflow-form.component';
+import { WorkflowNavComponent } from '../workflow-nav/workflow-nav.component';
+import { WorkflowResetDialogData } from '../workflow-reset-dialog/workflow-reset-dialog.component';
+import { WorkflowStepsMenuListComponent } from '../workflow-steps-menu-list/workflow-steps-menu-list.component';
+import { WorkflowComponent } from './workflow.component';
+
+class MockMarkdownService {
+  toHtml(text: string): string {
+    return text
+  };
+
+  compile(markdown: string, decodeHtml?: boolean, emojify?: boolean, markedOptions?: MarkedOptions): string {
+    return markdown
+  };
+
+  highlight(element?: Element | Document): void {
+  };
+}
 
 describe('WorkflowComponent', () => {
   let component: WorkflowComponent;
   let fixture: ComponentFixture<WorkflowComponent>;
   let httpMock: HttpTestingController;
   const mockRouter = {navigate: jasmine.createSpy('navigate')};
+  const mockEnvironment = new MockEnvironment();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -54,11 +71,16 @@ describe('WorkflowComponent', () => {
         WorkflowStepsMenuListComponent,
         WorkflowFilesComponent,
         LoadingComponent,
+        WorkflowNavComponent,
       ],
       imports: [
         BrowserAnimationsModule,
         FormlyMaterialModule,
-        FormlyModule.forRoot(),
+        FormlyModule.forRoot({
+          types: [
+            {name: 'radio_data', component: RadioDataFieldComponent, wrappers: ['form-field']},
+          ]
+        }),
         HttpClientTestingModule,
         MatButtonModule,
         MatBadgeModule,
@@ -83,21 +105,33 @@ describe('WorkflowComponent', () => {
           provide: Router,
           useValue: mockRouter
         },
-        {provide: 'APP_ENVIRONMENT', useClass: MockEnvironment},
+        {provide: 'APP_ENVIRONMENT', useValue: mockEnvironment},
         {provide: APP_BASE_HREF, useValue: '/'},
         DeviceDetectorService,
+        {provide: MarkdownService, useClass: MockMarkdownService},
+
+
       ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
+    localStorage.setItem('token', 'some_token');
     httpMock = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(WorkflowComponent);
     component = fixture.componentInstance;
+    mockEnvironment.hideDataPane = true;
+
     fixture.detectChanges();
 
+    const userReq = httpMock.expectOne('apiRoot/user');
+    expect(userReq.request.method).toEqual('GET');
+    userReq.flush(mockUser0);
+    expect(component.isAdmin).toEqual(true);
+    expect(component.showDataPane).toBeTrue();
     const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
+
     expect(wf1Req.request.method).toEqual('GET');
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
@@ -106,7 +140,6 @@ describe('WorkflowComponent', () => {
     expect(fReq.request.method).toEqual('GET');
     fReq.flush(mockFileMetas);
     expect(component.fileMetas).toEqual(mockFileMetas);
-
   });
 
   afterEach(() => {
@@ -330,5 +363,80 @@ describe('WorkflowComponent', () => {
     wfsReq.flush(null);
 
     expect(updateTaskListSpy).toHaveBeenCalled();
+  });
+
+  it('AdminUser with hideDataPane=true should show button', () => {
+    fixture.destroy();
+    fixture = TestBed.createComponent(WorkflowComponent);
+    component = fixture.componentInstance;
+    mockEnvironment.hideDataPane = true;
+
+    fixture.detectChanges();
+
+    const userReq = httpMock.expectOne('apiRoot/user');
+    expect(userReq.request.method).toEqual('GET');
+    userReq.flush(mockUser0);
+    expect(component.isAdmin).toEqual(true);
+    expect(component.showDataPane).toBeTrue();
+
+    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
+    expect(wf1Req.request.method).toEqual('GET');
+    wf1Req.flush(mockWorkflow0);
+    expect(component.workflow).toEqual(mockWorkflow0);
+
+    const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
+    expect(fReq.request.method).toEqual('GET');
+    fReq.flush(mockFileMetas);
+    expect(component.fileMetas).toEqual(mockFileMetas);
+  });
+
+  it('AdminUser with hideDataPane=false should show button', () => {
+    fixture.destroy();
+    fixture = TestBed.createComponent(WorkflowComponent);
+    component = fixture.componentInstance;
+    mockEnvironment.hideDataPane = false;
+
+    fixture.detectChanges();
+
+    const userReq = httpMock.expectOne('apiRoot/user');
+    expect(userReq.request.method).toEqual('GET');
+    userReq.flush(mockUser0);
+    expect(component.isAdmin).toEqual(true);
+    expect(component.showDataPane).toBeTrue();
+
+    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
+    expect(wf1Req.request.method).toEqual('GET');
+    wf1Req.flush(mockWorkflow0);
+    expect(component.workflow).toEqual(mockWorkflow0);
+
+    const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
+    expect(fReq.request.method).toEqual('GET');
+    fReq.flush(mockFileMetas);
+    expect(component.fileMetas).toEqual(mockFileMetas);
+  });
+
+  it('Non-admin user with hideDataPane=false should hide button', () => {
+    fixture.destroy();
+    fixture = TestBed.createComponent(WorkflowComponent);
+    component = fixture.componentInstance;
+    mockEnvironment.hideDataPane = false;
+
+    fixture.detectChanges();
+
+    const userReq = httpMock.expectOne('apiRoot/user');
+    expect(userReq.request.method).toEqual('GET');
+    userReq.flush(mockUser1);
+    expect(component.isAdmin).toEqual(false);
+    expect(component.showDataPane).toBeTrue();
+
+    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
+    expect(wf1Req.request.method).toEqual('GET');
+    wf1Req.flush(mockWorkflow0);
+    expect(component.workflow).toEqual(mockWorkflow0);
+
+    const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
+    expect(fReq.request.method).toEqual('GET');
+    fReq.flush(mockFileMetas);
+    expect(component.fileMetas).toEqual(mockFileMetas);
   });
 });

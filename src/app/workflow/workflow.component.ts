@@ -1,39 +1,47 @@
-import {Location} from '@angular/common';
-import {Component, OnInit} from '@angular/core';
+
+import { Location } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {ActivatedRoute, Router} from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { DeviceDetectorService } from 'ngx-device-detector';
+
 import {
   ApiService,
+  AppEnvironment,
   scrollToTop,
   Workflow,
   WorkflowTask,
   WorkflowTaskState,
-  WorkflowTaskType
+  WorkflowTaskType,
 } from 'sartography-workflow-lib';
-import {FileMeta} from 'sartography-workflow-lib/lib/types/file';
+import { FileMeta } from 'sartography-workflow-lib/lib/types/file';
 import {
   WorkflowResetDialogComponent,
   WorkflowResetDialogData
 } from '../workflow-reset-dialog/workflow-reset-dialog.component';
-import {DeviceDetectorService} from 'ngx-device-detector';
+
 
 @Component({
   selector: 'app-workflow',
   templateUrl: './workflow.component.html',
   styleUrls: ['./workflow.component.scss']
 })
+
 export class WorkflowComponent implements OnInit {
   workflow: Workflow;
   currentTask: WorkflowTask;
   studyId: number;
+  showDataPane: boolean;
   workflowId: number;
   taskTypes = WorkflowTaskType;
   displayData = (localStorage.getItem('displayData') === 'true');
   displayFiles = (localStorage.getItem('displayFiles') === 'true');
   fileMetas: FileMeta[];
   loading = true;
+  isAdmin: boolean;
   error: object;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -41,13 +49,14 @@ export class WorkflowComponent implements OnInit {
     private api: ApiService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
+    @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private location: Location,
     private deviceDetector: DeviceDetectorService,
   ) {
-    this.loading = true;
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
+
     });
   }
 
@@ -56,18 +65,23 @@ export class WorkflowComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.api.getWorkflow(this.workflowId).subscribe(
-      wf => {
-        console.log('ngOnInit workflow', wf);
-        this.workflow = wf;
-      },
-      error => {
-        this.handleError(error)
-      },
-      () => {
-        this.updateTaskList(this.workflow);
-      }
-    );
+    this.api.getUser().subscribe(u => {
+      this.isAdmin = u.is_admin;
+      this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);
+
+      this.api.getWorkflow(this.workflowId).subscribe(
+        wf => {
+          console.log('ngOnInit workflow', wf);
+          this.workflow = wf;
+        },
+        error => {
+          this.handleError(error)
+        },
+        () => {
+          this.updateTaskList(this.workflow);
+        }
+      );
+    });
   }
 
   handleError(error): void {
@@ -160,7 +174,10 @@ export class WorkflowComponent implements OnInit {
   }
 
   toggleDataDisplay(show?: boolean) {
-    this.displayData = show !== undefined ? show : !this.displayData;
+    if (this.showDataPane)
+      this.displayData = show !== undefined ? show : !this.displayData;
+    else
+      this.displayData = false;
     localStorage.setItem('displayData', (!!this.displayData).toString());
 
     if (this.displayData && show === undefined) {
@@ -220,6 +237,10 @@ export class WorkflowComponent implements OnInit {
     }, 1000);
   }
 
+  isLocked(currentTask: WorkflowTask): boolean {
+    return currentTask.state === WorkflowTaskState.LOCKED;
+  }
+
   private updateTaskList(wf: Workflow, forceTaskId?: string) {
     this.loading = true;
     this.workflow = wf;
@@ -249,9 +270,5 @@ export class WorkflowComponent implements OnInit {
     this.updateUrl();
     scrollToTop(this.deviceDetector);
     this.loading = false;
-  }
-
-  isLocked(currentTask: WorkflowTask): boolean {
-    return currentTask.state === WorkflowTaskState.LOCKED;
   }
 }

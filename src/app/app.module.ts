@@ -94,8 +94,8 @@ import { WorkflowProgressMenuComponent } from './workflow-progress-menu/workflow
 export class ThisEnvironment implements AppEnvironment {
   homeRoute = environment.homeRoute;
   production = environment.production;
+  hideDataPane = environment.hideDataPane;
   api = environment.api;
-  hideDataPane = false;
   irbUrl = environment.irbUrl;
   title = environment.title;
   googleAnalyticsKey = environment.googleAnalyticsKey;
