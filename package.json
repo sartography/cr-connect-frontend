@@ -17,7 +17,7 @@
     "backend:build": "cd docker && docker-compose pull && docker-compose build && cd ..",
     "backend:start": "cd docker && docker-compose up -d --force-recreate && cd ..",
     "backend": "npm run backend:stop && npm run backend:build && npm run backend:start",
-    "env": "chmod +x ./docker/substitute-env-variables.sh && ./docker/substitute-env-variables.sh src/index.html PRODUCTION,API_URL,IRB_URL,HOME_ROUTE,BASE_HREF,DEPLOY_URL,PORT0,GOOGLE_ANALYTICS_KEY,SENTRY_KEY,TITLE",
+    "env": "chmod +x ./docker/substitute-env-variables.sh && ./docker/substitute-env-variables.sh src/index.html PRODUCTION,API_URL,IRB_URL,HOME_ROUTE,BASE_HREF,DEPLOY_URL,PORT0,GOOGLE_ANALYTICS_KEY,SENTRY_KEY,TITLE,HIDE_DATA_PANE",
     "ci": "npm run lint && npm run test:coverage && sonar-scanner && npm run env && npm run backend && npm run e2e"
   },
   "private": true,
@@ -39,7 +39,7 @@
     "@sentry/browser": "^5.19.0",
     "@yellowspot/ng-truncate": "^1.5.1",
     "chart.js": "^2.9.3",
-    "highlight.js": "^9.18.1",
+    "highlight.js": "^10.4.1",
     "lodash.isequal": "^4.5.0",
     "ng2-charts": "^2.3.2",
     "ngx-device-detector": "^1.4.5",

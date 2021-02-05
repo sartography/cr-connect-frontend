@@ -5,6 +5,7 @@
       fxFlex="calc({{100 / categoryTabs.length}}%-30px)"
       (click)="selectCategory($event, cat.id)"
       [ngClass]="'dashboard'"
+      class="lcldashboard"
     >
       <mat-card-title *ngIf="cat.workflows && cat.workflows.length > 0">
         <div class="mat-card-title-main">{{cat.display_name}}</div>
