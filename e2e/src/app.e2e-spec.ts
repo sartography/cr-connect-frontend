@@ -35,6 +35,38 @@ describe('Clinical Research Coordinator App', () => {
     page.clickAndExpectRoute('#nav_home', '/home');
   });
 
+
+  it('should load new study from Protocol Builder', async () => {
+    const numStudiesBefore = await page.getElements('.study-row').count();
+
+    // Add a new study to Protocol Builder.
+    http.post('/new_study', '' +
+      `STUDYID=${Math.floor(Math.random() * 100000)}&` +
+      `TITLE=${encodeURIComponent('New study title')}&` +
+      `NETBADGEID=dhf8r&` +
+      `DATE_MODIFIED=${encodeURIComponent(new Date().toISOString())}&` +
+      `requirements=9&` +
+      `requirements=21&` +
+      `requirements=40&` +
+      `requirements=44&` +
+      `requirements=52&` +
+      `requirements=53&` +
+      `Q_COMPLETE=y`,
+      {'Content-Type': 'application/x-www-form-urlencoded'}
+    ).catch(error => {
+      console.error(error);
+    });
+    http.failOnHttpError = false;
+
+    // Reload the list of studies.
+    await page.clickElement('#cta_reload_studies');
+    await page.waitForNotVisible('.loading');
+    await page.waitForClickable('.study-row');
+
+    const numStudiesAfter = await page.getElements('.study-row').count();
+    expect(numStudiesAfter).toBeGreaterThan(numStudiesBefore);
+  });
+
   it('should navigate to a study', async () => {
     const studyRow = page.getElement('.study-row');
     const studyId = await studyRow.getAttribute('data-study-id');
