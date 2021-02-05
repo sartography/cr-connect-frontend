@@ -20,6 +20,12 @@ enum IrbHsrStatus {
   APPROVED = 'Approved',
 }
 
+enum StudyStatusDisplayType {
+  NEW = 'New',
+  IRB = 'Irb',
+  PROGRESS = 'Progress'
+}
+
 @Component({
   selector: 'app-studies-dashboard',
   templateUrl: './studies-dashboard.component.html',
@@ -30,13 +36,12 @@ export class StudiesDashboardComponent implements OnInit {
   @Input() beforeStudyIds: number[];
   @Input() afterStudyIds: number[];
   @Output() studyUpdated = new EventEmitter<Study>();
+  currentTab = 0;
   displayedColumns: string[] = [
     'id',
     'title',
     'status',
-    'committees_complete',
-    'irb_hsr_status',
-    'progress',
+    'reviews_complete',
     'actions',
   ];
   approvalColumns: string[] = [
@@ -126,8 +131,8 @@ export class StudiesDashboardComponent implements OnInit {
   ];
   approvalsDataSource: MatTableDataSource<TaskEvent>;
   taskLanes: TaskLane[] = [
-    {value: 'supervisor', label: 'Approval Tasks'},
-    {value: '', label: 'Data Entry Tasks'},
+    {value: 'supervisor', label: 'Approvals'},
+    {value: '', label: 'Data Entry'},
   ];
   selectedTaskLane: TaskLane = this.taskLanes[0];
 
@@ -149,8 +154,18 @@ export class StudiesDashboardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  isNewStudy(studyId: number) {
-    return !this.beforeStudyIds.includes(studyId);
+  changeTab(currentTab: number){
+    this.currentTab = currentTab
+  }
+
+  studyStatusDisplayType(study: Study) {
+    if (this.isNewStudy(study)) { return StudyStatusDisplayType.NEW;}
+    if (this.getIrbHsrStatus(study) !== IrbHsrStatus.NOT_SUBMITTED) { return StudyStatusDisplayType.IRB;}
+    return StudyStatusDisplayType.PROGRESS;
+  }
+
+  isNewStudy(study: Study) {
+    return !this.beforeStudyIds.includes(study.id);
   }
 
   getIrbHsrStatus(study: Study) {

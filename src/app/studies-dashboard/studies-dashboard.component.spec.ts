@@ -115,8 +115,7 @@ describe('StudiesDashboardComponent', () => {
   });
 
   it('should check for new studies', () => {
-    expect(component.isNewStudy(mockStudy0.id)).toBeFalsy();
-    expect(component.isNewStudy(666)).toBeTruthy();
+    expect(component.isNewStudy(mockStudy0)).toBeFalsy();
   });
 
   it('should show a confirmation dialog before changing study status', () => {
