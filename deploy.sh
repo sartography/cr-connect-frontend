@@ -20,7 +20,7 @@ function branch_to_tag () {
 }
 
 function branch_to_deploy_group() {
-  if [[ $1 =~ ^(rrt\/.*)$ ]]; then echo "rrt"; else echo "crconnect" ; fi
+  if [[ $1 =~ ^(rrt\/.*)$ ]]; then echo "rrt"; elses echo "crconnect" ; fi
 }
 
 DOCKER_TAG=$(branch_to_tag "$TRAVIS_BRANCH")
@@ -42,4 +42,5 @@ docker build -f Dockerfile -t "$DOCKER_REPO:$DOCKER_TAG" . || exit 1
 # Push Docker image to Docker Hub
 echo "Publishing to Docker Hub..."
 docker push "$DOCKER_REPO" || exit 1
+
 echo "Done."
