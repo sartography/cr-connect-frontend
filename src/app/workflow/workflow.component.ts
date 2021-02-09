@@ -65,7 +65,9 @@ export class WorkflowComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.api.getUser().subscribe(u => {
+    // fixme: We should have a central user service, not lots of distinct calls.
+    const impersonateUid = localStorage.getItem('admin_view_as');
+    this.api.getUser(impersonateUid || undefined).subscribe(u => {
       this.isAdmin = u.is_admin;
       this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);
 
