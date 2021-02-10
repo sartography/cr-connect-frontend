@@ -28,7 +28,8 @@
               [attr.data-workflow-id]="workflowListItem.id"
             >
               <app-nav-item-icon [workflowStats]="workflowListItem"></app-nav-item-icon>
-              <div>{{workflowListItem.display_name}}</div>
+               <div><b *ngIf="workflowListItem.is_review">{{workflowListItem.display_name}}</b>
+                 <span *ngIf="! workflowListItem.is_review">{{workflowListItem.display_name}}</span></div>
             </div>
           </mat-list-item>
         </mat-list>

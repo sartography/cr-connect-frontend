@@ -131,16 +131,37 @@
         <ng-container matColumnDef="reviews_complete">
           <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_Reviews_complete">Reviews</th>
           <td *matCellDef="let study" mat-cell>
-            0/0
+            <app-review-progress [study]="study"></app-review-progress>
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="irb_hsr_status">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_irb_hsr_status"> IRB-HSR Status</th>
+        <ng-container matColumnDef="updated">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_updated">Updated</th>
           <td *matCellDef="let study" mat-cell>
-            {{getIrbHsrStatus(study)}}
+            <div>
+              {{study.last_activity_date | date: 'short'}}
+            </div>
+            <div>
+              {{study.last_activity_user}}
+            </div>
+
           </td>
         </ng-container>
+
+
+        <ng-container matColumnDef="created">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_created">Created</th>
+          <td *matCellDef="let study" mat-cell>
+            <div>
+            {{study.last_updated | date:'short' }}
+            </div>
+            <div>
+              {{study.create_user_display}}
+            </div>
+
+          </td>
+        </ng-container>
+
 
         <ng-container matColumnDef="actions">
           <th *matHeaderCellDef mat-header-cell id="col_study_actions"> Actions</th>

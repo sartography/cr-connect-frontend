@@ -42,6 +42,8 @@ export class StudiesDashboardComponent implements OnInit {
     'title',
     'status',
     'reviews_complete',
+    'updated',
+    'created',
     'actions',
   ];
   approvalColumns: string[] = [
