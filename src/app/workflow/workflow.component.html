@@ -146,7 +146,11 @@
         </div>
       </div>
     </div>
-    <div class="no-task" *ngIf="!currentTask">
+    <div class="no-task" *ngIf="loading" >
+      <h1>Loading tasks...</h1>
+      <p>Please wait</p>
+    </div>
+    <div class="no-task" *ngIf="!currentTask  && !loading" >
       <h1>No tasks found.</h1>
       <p>This workflow does not have any tasks in it.</p>
     </div>
