@@ -1,5 +1,13 @@
 @import "../../config";
 
+.outer {
+  min-height: 200px;
+  background-color: white;
+  border-radius: 10px 10px 0px 0px;
+}
+
+
+
 .smaller {
   font-size: 0.875rem;
 }
@@ -30,7 +38,7 @@ div.status {
 
   td {
     padding-left: 1rem;
-    border-bottom-color: transparent;
+    //border-bottom-color: transparent;
     border-right: 1px solid $brand-gray-tint-1;
 
     &:first-child {
@@ -41,7 +49,9 @@ div.status {
       border-right: none;
     }
   }
-
+  &:last-child {
+    border-bottom : 1px black;
+  }
   .new {
     background-color: $brand-accent;
     color: white;
@@ -54,7 +64,7 @@ div.status {
 
 .mat-table {
   width: 100%;
-
+  border-radius: 10px 10px 0px 0px;
   .mat-header-cell {
     font-size: 1.1250rem;
     font-family: $heading-font-family;
@@ -62,13 +72,14 @@ div.status {
     padding-left: 1rem;
     border-bottom-color: $brand-gray-tint-1;
     border-right: 1px solid $brand-gray-tint-1;
-
     &:first-child {
       padding-left: 0;
+      border-radius: 10px 0px 0px 0px;
     }
 
     &:last-child {
       border-right: none;
+      border-radius: 0px 10px 0px 0px;
     }
   }
 

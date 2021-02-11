@@ -16,6 +16,7 @@ import {WorkflowComponent} from './workflow/workflow.component';
 export class ThisEnvironment implements AppEnvironment {
   homeRoute = environment.homeRoute;
   production = environment.production;
+  hideDataPane = environment.hideDataPane;
   api = environment.api;
   irbUrl = environment.irbUrl;
   title = environment.title;

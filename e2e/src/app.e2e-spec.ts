@@ -13,7 +13,6 @@ describe('Clinical Research Coordinator App', () => {
   it('should automatically sign-in and redirect to home screen', () => {
     page.navigateTo();
     expect(page.getRoute()).toEqual('/home');
-    expect(page.getElements('#cta_protocol_builder').count()).toBeGreaterThan(0);
   });
 
   it('should navigate to help screen', () => {
@@ -34,24 +33,8 @@ describe('Clinical Research Coordinator App', () => {
     page.setLocalStorageVar('numstudy', '1');
     expect(page.getLocalStorageVar('numstudy')).toEqual('1');
     page.clickAndExpectRoute('#nav_home', '/home');
-    expect(page.getElements('#cta_protocol_builder').count()).toBeGreaterThan(0);
   });
 
-  it('should open Protocol Builder in new window', async () => {
-    expect(page.getElements('#cta_protocol_builder').count()).toEqual(1);
-    expect(page.getElements('#cta_reload_studies').count()).toEqual(1);
-
-    // Open Protocol Builder in new tab.
-    const numTabsBefore = await page.getNumTabs();
-    page.clickElement('#cta_protocol_builder');
-    const numTabsAfter = await page.getNumTabs();
-    expect(numTabsAfter).toBeGreaterThan(numTabsBefore);
-
-    // Close Protocol Builder tab.
-    await page.switchFocusToTab(1);
-    await page.closeTab();
-    await page.switchFocusToTab(0);
-  });
 
   it('should load new study from Protocol Builder', async () => {
     const numStudiesBefore = await page.getElements('.study-row').count();

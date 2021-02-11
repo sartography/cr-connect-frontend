@@ -64,7 +64,6 @@ import {ResearchComponent} from './research/research.component';
 import {StudiesDashboardComponent} from './studies-dashboard/studies-dashboard.component';
 import {ApprovalsFilesDashboardComponent} from './studies-files-dashboard/studies-files-dashboard.component';
 import {ApprovalDialogComponent} from './_dialogs/approval-dialog/approval-dialog.component';
-import {StudiesProcessComponent} from './studies-process/studies-process.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudyProgressComponent} from './study-progress/study-progress.component';
 import {StudyEventsComponent} from './study-events/study-events.component';
@@ -94,6 +93,7 @@ import { WorkflowProgressMenuComponent } from './workflow-progress-menu/workflow
 export class ThisEnvironment implements AppEnvironment {
   homeRoute = environment.homeRoute;
   production = environment.production;
+  hideDataPane = environment.hideDataPane;
   api = environment.api;
   irbUrl = environment.irbUrl;
   title = environment.title;
@@ -159,7 +159,6 @@ export function markedOptionsFactory(): MarkedOptions {
     StudiesDashboardComponent,
     ApprovalsFilesDashboardComponent,
     ApprovalDialogComponent,
-    StudiesProcessComponent,
     WorkflowResetDialogComponent,
     ResearchComponent,
     LoadingComponent,

@@ -6,6 +6,7 @@ describe('Environments', () => {
   it('should have default values for all the environments', () => {
     expect(environment).toBeDefined();
     expect(environment.production).toEqual(false);
+    expect(environment.hideDataPane).toEqual(true);
     expect(environment.api).toEqual('apiRoot');
     expect(environment.irbUrl).toEqual('irbUrl');
     expect(environment.homeRoute).toEqual('home');
