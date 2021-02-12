@@ -9,8 +9,15 @@
   background-color: $brand-primary-tint-4;
   margin: 10px 0 20px 0;
   padding: 10px;
+  display: flex;
 }
 
+.documentation > mat-icon {
+  float: right;
+}
+.documentation > div {
+  width: 100%;
+}
 #form-column, #data-display-column {
   transition: all 200ms ease-in-out;
 }

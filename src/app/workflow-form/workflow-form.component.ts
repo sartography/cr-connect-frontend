@@ -6,6 +6,7 @@ import {
   OnChanges,
   OnInit,
   Output,
+  Inject,
   SimpleChanges,
   ViewChild
 } from '@angular/core';
@@ -26,6 +27,7 @@ import {Location} from '@angular/common';
 import * as getObjectProperty from 'lodash/get';
 import * as setObjectProperty from 'lodash/set';
 import {animate, keyframes, state, style, transition, trigger} from '@angular/animations';
+import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-workflow-form',
@@ -86,6 +88,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   constructor(
     private api: ApiService,
     private location: Location,
+    public dialog: MatDialog,
   ) {
   }
 
@@ -97,6 +100,11 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     if (changes.task && changes.task.currentValue) {
       this._loadModel(changes.task.currentValue);
     }
+  }
+  openDialog() {
+    this.dialog.open(InfoDialog, {
+      data: this.task.documentation
+    });
   }
 
   saveTaskData(task: WorkflowTask, updateRemaining = false) {
@@ -249,4 +257,12 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
     return parentElement;
   }
+}
+
+@Component({
+  selector: 'info-dialog',
+  templateUrl: './info-dialog.html',
+})
+export class InfoDialog {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string) {}
 }
