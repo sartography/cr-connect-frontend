@@ -94,7 +94,6 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this._loadModel(this.task);
-    console.log(this.task);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
