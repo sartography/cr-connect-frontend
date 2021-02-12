@@ -66,10 +66,11 @@ export class CategoryComponent implements OnInit {
     this.loading = true;
 
     if (isNumberDefined(this.workflowId)) {
-      this.api.getWorkflow(this.workflowId, false).subscribe(wf => {
-        this.selectedWorkflow = wf;
-        this.loading = false;
-      });
+      // ! src/app/category/category.component.ts:69:45 - error TS2559: Type 'false' has no properties in common with type 'WorkflowResetParams'.
+      // this.api.getWorkflow(this.workflowId, false).subscribe(wf => {
+      //   this.selectedWorkflow = wf;
+      //   this.loading = false;
+      // });
     }
   }
 }

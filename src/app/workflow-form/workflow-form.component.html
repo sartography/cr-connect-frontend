@@ -18,7 +18,8 @@
 
   <div id="form-column" [@disableTrigger]="formViewState">
     <div *ngIf="task.documentation" class="documentation">
-          <div markdown [data]="task.title"></div>
+          <div markdown [data]="task.documentation"></div>
+          <div *ngIf="task.properties"></div>
           <mat-icon (click)="openDialog()">info</mat-icon>
     </div>
     <formly-form
