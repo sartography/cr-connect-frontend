@@ -198,12 +198,12 @@ export class WorkflowComponent implements OnInit {
 
   resetWorkflow(clearData: boolean = false) {
     // ! ERROR in src/app/workflow/workflow.component.ts:200:14 - error TS2339: Property 'restartWorkflow' does not exist on type 'ApiService'.
-    // this.api.restartWorkflow(this.workflowId, clearData).subscribe(workflow => {
-    //   console.log('resetWorkflow workflow', workflow);
-    //   this.snackBar.open(`Your workflow has been reset successfully.`, 'Ok', {duration: 3000});
-    //   this.workflow = workflow;
-    //   this.updateTaskList(workflow);
-    // });
+    this.api.restartWorkflow(this.workflowId, clearData).subscribe(workflow => {
+      console.log('resetWorkflow workflow', workflow);
+      this.snackBar.open(`Your workflow has been reset successfully.`, 'Ok', {duration: 3000});
+      this.workflow = workflow;
+      this.updateTaskList(workflow);
+    });
   }
 
   confirmResetWorkflow() {

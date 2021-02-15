@@ -10,7 +10,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import createClone from 'rfdc';
 import {
   ApiService,
@@ -22,12 +22,12 @@ import {
   WorkflowTask,
   WorkflowTaskState
 } from 'sartography-workflow-lib';
-import {FormlyFieldConfig} from '@ngx-formly/core';
-import {Location} from '@angular/common';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Location } from '@angular/common';
 import * as getObjectProperty from 'lodash/get';
 import * as setObjectProperty from 'lodash/set';
-import {animate, keyframes, state, style, transition, trigger} from '@angular/animations';
-import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-workflow-form',
@@ -56,14 +56,14 @@ import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
         color: 'red'
       })),
       transition('* => *', [
-        animate('2s', keyframes ( [
+        animate('2s', keyframes([
           style({ opacity: 0.1, color: '000000', offset: 0.1 }),
           style({ opacity: 0.3, color: 'red', offset: 0.2 }),
-          style({ opacity: 0.7, color: 'red',   offset: 0.3 }),
+          style({ opacity: 0.7, color: 'red', offset: 0.3 }),
           style({ opacity: 1.0, color: 'red', offset: 0.4 }),
           style({ opacity: 0.3, color: 'red', offset: 0.5 }),
           style({ opacity: 0.5, color: 'red', offset: 0.6 }),
-          style({ opacity: 0.7, color: 'red',   offset: 0.7 }),
+          style({ opacity: 0.7, color: 'red', offset: 0.7 }),
           style({ opacity: 1.0, color: '000000', offset: 0.8 })
         ]))
       ])
@@ -85,6 +85,9 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   locked = true;
   taskStates = WorkflowTaskState;
 
+  documentationTitles = Array<string>();
+  documentationBlocks = Array<string>();
+
   constructor(
     private api: ApiService,
     private location: Location,
@@ -94,6 +97,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this._loadModel(this.task);
+    this.processElementDocumentation(this.task.documentation);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -101,12 +105,32 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
       this._loadModel(changes.task.currentValue);
     }
   }
-  openDialog() {
+  openDialog(markdown: string) {
     this.dialog.open(InfoDialog, {
-      data: this.task
+      data: markdown
     });
   }
 
+  processElementDocumentation(markdown: string) {
+    // Get Headers 
+    var reg = /(\#{1}\s*)([\s\S]*?)(?=\n+\#{1} |$)/g;
+    var titles = [];
+    var docs = [];
+    var matches = markdown.match(reg);
+    if (matches){ 
+    matches.forEach(function (section: string) {
+      titles.push("###"+section.split("\n", 1)[0]);
+      docs.push(section);
+    })
+
+    this.documentationTitles = titles;
+    this.documentationBlocks = docs;
+  } else {
+      this.documentationTitles = [markdown.split("\n", 1)[0] + "..."];
+      this.documentationBlocks = [markdown];
+    }
+
+  }
   saveTaskData(task: WorkflowTask, updateRemaining = false) {
     const modelData = createClone()(this.model);
 
@@ -154,14 +178,14 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
   }
 
-  flattenNavList(navlist: WorkflowNavItem[],startlist) : WorkflowNavItem[] {
+  flattenNavList(navlist: WorkflowNavItem[], startlist): WorkflowNavItem[] {
     // take a nested structure of navigation items and turn it into a list
     // if an item has children then descend into the tree and add all of the
     // children as well.
-    for (const task  of navlist) {
+    for (const task of navlist) {
       startlist.push(task);
       if (task.children.length > 0)
-        this.flattenNavList(task.children,startlist);
+        this.flattenNavList(task.children, startlist);
     }
     return startlist;
   }
@@ -170,7 +194,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     if (task.multi_instance_type === MultiInstanceType.NONE) {
       return [];
     } else {
-      const navlist = this.flattenNavList(this.workflow.navigation,[])
+      const navlist = this.flattenNavList(this.workflow.navigation, [])
       return navlist.filter(navItem => {
         if (navItem.name === null) // some sequence flows may have no name
           return false;
@@ -205,7 +229,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   saveDisabled() {
     console.log('Save Disabled?', (this.form.valid && !this.locked))
-    return(this.locked || this.form.invalid)
+    return (this.locked || this.form.invalid)
   }
 
   private _loadModel(task: WorkflowTask) {
@@ -217,7 +241,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
       };
       this.fields = new ToFormlyPipe(this.api).transform(task.form.fields, this.fileParams);
     }
-    if(task && task.state === WorkflowTaskState.READY) {
+    if (task && task.state === WorkflowTaskState.READY) {
       this.locked = false;
       this.formViewState = 'enabled'
     } else {
@@ -264,5 +288,5 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   templateUrl: './info-dialog.html',
 })
 export class InfoDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: string) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string) { }
 }

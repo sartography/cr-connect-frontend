@@ -69,7 +69,7 @@ import {StudyProgressComponent} from './study-progress/study-progress.component'
 import {StudyEventsComponent} from './study-events/study-events.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
-import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
+import {WorkflowFormComponent, InfoDialog} from './workflow-form/workflow-form.component';
 import {WorkflowResetDialogComponent} from './workflow-reset-dialog/workflow-reset-dialog.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
@@ -152,6 +152,7 @@ export function markedOptionsFactory(): MarkedOptions {
     WorkflowComponent,
     WorkflowFilesComponent,
     WorkflowFormComponent,
+    InfoDialog,
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
     CodeViewerComponent,
