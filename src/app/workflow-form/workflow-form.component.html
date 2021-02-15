@@ -16,8 +16,8 @@
   </div>
 
   <div id="form-column" [@disableTrigger]="formViewState">
-    <div *ngFor="let doc of documentationTitles; let i = index " class="documentation">
-      <div markdown [data]="doc"></div>
+    <div *ngFor="let title of documentationTitles; let i = index " class="documentation">
+      <div markdown [data]="title"></div>
       <mat-icon (click)="openDialog(documentationBlocks[i])">info</mat-icon>
     </div>
 

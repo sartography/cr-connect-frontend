@@ -29,6 +29,7 @@ import * as setObjectProperty from 'lodash/set';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+import {WorkflowDialogComponent} from '../workflow-dialog/workflow-dialog.component'
 @Component({
   selector: 'app-workflow-form',
   templateUrl: './workflow-form.component.html',
@@ -112,25 +113,23 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   }
 
   processElementDocumentation(markdown: string) {
-    // Get Headers 
-    var reg = /(\#{1}\s*)([\s\S]*?)(?=\n+\#{1} |$)/g;
-    var titles = [];
-    var docs = [];
-    var matches = markdown.match(reg);
-    if (matches){ 
-    matches.forEach(function (section: string) {
-      titles.push("###"+section.split("\n", 1)[0]);
-      docs.push(section);
-    })
-
-    this.documentationTitles = titles;
-    this.documentationBlocks = docs;
-  } else {
-      this.documentationTitles = [markdown.split("\n", 1)[0] + "..."];
+    const reg = /(\#{1}\s*)([\s\S]*?)(?=\n+\#{1} |$)/g;
+    const matches = markdown.match(reg);
+    const titles = [];
+    const docs = [];
+    if (matches) {
+      matches.forEach( section => {
+        titles.push('###' + section.split('\n', 1)[0]);
+        docs.push(section);
+      })
+      this.documentationTitles = titles;
+      this.documentationBlocks = docs;
+    } else {
+      this.documentationTitles = [markdown.split('\n', 1)[0] + '...'];
       this.documentationBlocks = [markdown];
     }
-
   }
+
   saveTaskData(task: WorkflowTask, updateRemaining = false) {
     const modelData = createClone()(this.model);
 
@@ -283,10 +282,3 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   }
 }
 
-@Component({
-  selector: 'info-dialog',
-  templateUrl: './info-dialog.html',
-})
-export class InfoDialog {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: string) { }
-}

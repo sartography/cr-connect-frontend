@@ -69,7 +69,7 @@ import {StudyProgressComponent} from './study-progress/study-progress.component'
 import {StudyEventsComponent} from './study-events/study-events.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
-import {WorkflowFormComponent, InfoDialog} from './workflow-form/workflow-form.component';
+import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
 import {WorkflowResetDialogComponent} from './workflow-reset-dialog/workflow-reset-dialog.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
@@ -85,6 +85,7 @@ import { NavLinksComponent } from './nav-links/nav-links.component';
 import { WorkflowNavComponent } from './workflow-nav/workflow-nav.component';
 import {MatTreeModule} from '@angular/material/tree';
 import { WorkflowProgressMenuComponent } from './workflow-progress-menu/workflow-progress-menu.component';
+import { WorkflowDialogComponent } from './workflow-dialog/workflow-dialog.component';
 (document.defaultView as any).hljs = hljs;
 
 
@@ -152,7 +153,6 @@ export function markedOptionsFactory(): MarkedOptions {
     WorkflowComponent,
     WorkflowFilesComponent,
     WorkflowFormComponent,
-    InfoDialog,
     WorkflowSpecListComponent,
     WorkflowStepsMenuListComponent,
     CodeViewerComponent,
@@ -168,6 +168,7 @@ export function markedOptionsFactory(): MarkedOptions {
     NavLinksComponent,
     WorkflowNavComponent,
     WorkflowProgressMenuComponent,
+    WorkflowDialogComponent,
   ],
     imports: [
         BrowserAnimationsModule,
