@@ -29,7 +29,7 @@ import * as setObjectProperty from 'lodash/set';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import {WorkflowDialogComponent} from '../workflow-dialog/workflow-dialog.component'
+import { WorkflowDialogComponent } from '../workflow-dialog/workflow-dialog.component'
 @Component({
   selector: 'app-workflow-form',
   templateUrl: './workflow-form.component.html',
@@ -107,26 +107,44 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
   }
   openDialog(markdown: string) {
-    this.dialog.open(InfoDialog, {
+    this.dialog.open(WorkflowDialogComponent, {
       data: markdown
     });
   }
 
+  // processElementDocumentation(markdown: string) {
+  //   // const reg = /(<\s*info[^>]*>)([\s\S]*?)<\s*\/\s*info>/g;
+  //   const data = markdown.split("<info>");
+  //   const main = data[0];
+  //   const info = data[1];
+
+  //   this.documentationTitles = [main];
+  //   this.documentationBlocks = [info];
+
+  // }
   processElementDocumentation(markdown: string) {
-    const reg = /(\#{1}\s*)([\s\S]*?)(?=\n+\#{1} |$)/g;
-    const matches = markdown.match(reg);
+    const reg = /(?:<\s*block(?:\s+?id=["'](.+?)["'])?[^>]*>)([\s\S]*?)(?:<\s*\/\s*block>)/g;
     const titles = [];
-    const docs = [];
-    if (matches) {
-      matches.forEach( section => {
-        titles.push('###' + section.split('\n', 1)[0]);
-        docs.push(section);
+    const helpTexts = [];
+    const matches = [...markdown.matchAll(reg)];
+    console.log(matches);
+    if (matches.length > 0) {
+      matches.forEach(section => {
+        const id = section[1];
+        const content = section[2];
+        titles.push(content);
+        if (this.task.properties[id]) {
+          helpTexts.push(this.task.properties[id]);
+        }
+        else {
+          helpTexts.push('');
+        }
       })
       this.documentationTitles = titles;
-      this.documentationBlocks = docs;
+      this.documentationBlocks = helpTexts;
     } else {
-      this.documentationTitles = [markdown.split('\n', 1)[0] + '...'];
-      this.documentationBlocks = [markdown];
+      this.documentationTitles = [markdown];
+      this.documentationBlocks = [''];
     }
   }
 

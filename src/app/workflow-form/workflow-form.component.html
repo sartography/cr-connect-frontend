@@ -18,10 +18,9 @@
   <div id="form-column" [@disableTrigger]="formViewState">
     <div *ngFor="let title of documentationTitles; let i = index " class="documentation">
       <div markdown [data]="title"></div>
-      <mat-icon (click)="openDialog(documentationBlocks[i])">info</mat-icon>
+      <mat-icon *ngIf="documentationBlocks[i]" (click)="openDialog(documentationBlocks[i])">info</mat-icon>
     </div>
-
-
+    
     <formly-form (keyup)="handleKeyUp($event)" [fields]="fields" [form]="form" [model]="model"></formly-form>
 
     <button (click)="saveTaskData(task)" [disabled]="form.invalid" color="primary" mat-flat-button>Save</button>
