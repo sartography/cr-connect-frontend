@@ -65,7 +65,7 @@ export class StudyComponent implements OnInit {
 
     if (!isNumberDefined(categoryId)) {
       this.selectWorkflow(undefined);
-      this.loadStudy();
+      // this.loadStudy(); # this calls selectWorkflow which will call loadStudy anyhow . . .
     }
   }
 
