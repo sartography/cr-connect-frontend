@@ -1,4 +1,5 @@
 <div class="container">
+
   <div class="task-events">
     <div fxLayout="row" class="task-events-header">
       <h1 id="approvals_title">In Progress</h1>
@@ -23,35 +24,43 @@
     </div>
 
     <table
-      *ngIf="hasTaskEvents"
+      [hidden]="!hasTaskEvents"
       [dataSource]="approvalsDataSource"
-      class="mat-elevation-z0"
+      class="mat-elevation-z0 in-progress-box"
       mat-table
+      #firstTable
+      #firstTableSort="matSort"
       matSort
       [attr.aria-describedby]="'approvals_title'"
     >
-      <ng-container matColumnDef="approval_study">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_study"> Study</th>
+      <ng-container matColumnDef="user_uid">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Waiting On</th>
+        <td *matCellDef="let approval" mat-cell> {{approval.user_uid}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="study.title">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Study</th>
         <td *matCellDef="let approval" mat-cell> {{approval.study.title}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="approval_workflow">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_workflow"> Workflow</th>
+      <ng-container matColumnDef="workflow.category_display_name">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Workflow</th>
         <td *matCellDef="let approval" mat-cell>
           {{approval.workflow.category_display_name}} >
           {{approval.workflow.display_name}}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="approval_task">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_task"> Task</th>
+      <ng-container matColumnDef="task_title">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Task</th>
         <td *matCellDef="let approval" mat-cell>
           {{approval.task_title}}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="approval_date">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_date"> Last Update</th>
+      <ng-container matColumnDef="date">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Last Update</th>
         <td *matCellDef="let approval" mat-cell>
           {{timeAgo(approval.date)}}
         </td>
@@ -65,10 +74,13 @@
         [ngClass]="{'approval-row': true}"
         [routerLink]="['/study', approval.study.id, 'workflow', approval.workflow.id]"
       ></tr>
+
     </table>
+     <mat-paginator pageSize="5"></mat-paginator>
     <p *ngIf="!hasTaskEvents" class="no-task-events">No {{selectedTaskLane.label}} to display.</p>
   </div>
 </div>
+<div class="divider"></div>
 <div class="study-tab-div">
 <mat-chip-list aria-label="Study Type Selection">
   <mat-chip [selected]="currentTab==i"
@@ -93,6 +105,8 @@
         [dataSource]="studiesGroup.dataSource"
         class="mat-elevation-z0"
         mat-table
+        #secondTable
+        #secondTableSort="matSort"
         matSort
         [attr.aria-describedby]="studiesGroupId(studiesGroup)"
       >

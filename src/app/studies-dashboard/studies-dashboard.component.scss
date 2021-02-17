@@ -5,6 +5,9 @@
   min-height: 100px;
 }
 
+.divider{
+  min-height: 500px;
+}
 .task-events {
   color: white;
   background-color : rgba(255,255,255,.25);
@@ -13,7 +16,13 @@
   border: 1px solid rgba(255,255,255,.5);
   margin-bottom: 2rem;
   min-width: 50vw;
+  min-height:440px;
+  position: absolute;
+  top:  -70px;
+  left: 350px;
+
 }
+
 
 mat-panel-title.mat-h2 {
   padding-top: 16px;
