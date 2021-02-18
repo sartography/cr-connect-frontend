@@ -28,8 +28,6 @@
       [dataSource]="approvalsDataSource"
       class="mat-elevation-z0 in-progress-box"
       mat-table
-      #firstTable
-      #firstTableSort="matSort"
       matSort
       [attr.aria-describedby]="'approvals_title'"
     >
@@ -105,9 +103,6 @@
         [dataSource]="studiesGroup.dataSource"
         class="mat-elevation-z0"
         mat-table
-        #secondTable
-        #secondTableSort="matSort"
-        matSort
         [attr.aria-describedby]="studiesGroupId(studiesGroup)"
       >
         <ng-container matColumnDef="id">

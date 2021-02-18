@@ -39,8 +39,7 @@ export class StudiesDashboardComponent implements OnInit {
   @Input() afterStudyIds: number[];
   @Output() studyUpdated = new EventEmitter<Study>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild('firstTableSort') sort: MatSort;
-  @ViewChild('secondTableSort') sort2: MatSort;
+  @ViewChild(MatSort) sort: MatSort;
   currentTab = 0;
   displayedColumns: string[] = [
     'id',
