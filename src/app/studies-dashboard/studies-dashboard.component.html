@@ -33,9 +33,9 @@
       matSort
       [attr.aria-describedby]="'approvals_title'"
     >
-      <ng-container matColumnDef="user_uid">
+      <ng-container matColumnDef="user_display">
         <th *matHeaderCellDef mat-header-cell mat-sort-header>Waiting On</th>
-        <td *matCellDef="let approval" mat-cell> {{approval.user_uid}} </td>
+        <td *matCellDef="let approval" mat-cell> {{approval.user_display}} </td>
       </ng-container>
 
 

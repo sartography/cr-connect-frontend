@@ -52,7 +52,7 @@ export class StudiesDashboardComponent implements OnInit {
     'actions',
   ];
   approvalColumns: string[] = [
-    'user_uid',
+    'user_display',
     'study.title',
     'workflow.category_display_name',
     'task_title',
@@ -238,6 +238,15 @@ export class StudiesDashboardComponent implements OnInit {
 
         // Sending the filter a non-empty string so it will update.
         this.approvalsDataSource.filter = this.selectedTaskLane.label;
+        this.approvalsDataSource.sortingDataAccessor = (item, property) => {
+          switch(property) {
+            case 'task_title': return item.task_title.toLowerCase();
+            case 'study.title': return item.study.title.toLowerCase();
+            case 'workflow.category_display_name': return item.workflow.category_display_name.toLowerCase() +
+              item.workflow.display_name.toLowerCase();
+            default: return item[property];
+          }
+        };
         this.approvalsDataSource.sort = this.sort;
       });
   }
