@@ -45,7 +45,8 @@ export class DashboardComponent implements OnInit {
     const enums : WorkflowState[] = [WorkflowState.DISABLED,WorkflowState.HIDDEN,WorkflowState.REQUIRED,WorkflowState.OPTIONAL];
     const mystate = enums[Math.floor(Math.random() * enums.length)];
     console.log(mystate);
-    wf.message = mystate;
+    // fixme: there is no message on workflow stats presently.
+    // wf.message = mystate;
     wf.state = mystate;
     return wf;
   }
