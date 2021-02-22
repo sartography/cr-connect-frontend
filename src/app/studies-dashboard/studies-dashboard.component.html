@@ -103,6 +103,9 @@
         [dataSource]="studiesGroup.dataSource"
         class="mat-elevation-z0"
         mat-table
+        #secondTable
+        #secondSort(matSort)
+        matSort
         [attr.aria-describedby]="studiesGroupId(studiesGroup)"
       >
         <ng-container matColumnDef="id">
