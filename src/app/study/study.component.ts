@@ -40,6 +40,15 @@ export class StudyComponent implements OnInit {
     return isNumberDefined(this.selectedWorkflowId);
   }
 
+  shrink(len: number, title: string){
+    if (title.length > len){
+      return title.substr(0,len - 4) + ' ...';
+    }
+    return title;
+  }
+
+
+
   ngOnInit() {
   }
 

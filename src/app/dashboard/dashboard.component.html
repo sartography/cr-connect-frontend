@@ -16,21 +16,28 @@
           <mat-list-item
             *ngFor="let workflowListItem of workflowsToShow(cat.workflows)"
             [ngClass]="'workflow-list-item workflow_status--' + workflowListItem.status + ' workflow_state--' + workflowListItem.state"
-            [routerLink]="['/study', study.id, 'workflow', workflowListItem.id]"
+
           >
+            <span title="{{workflowListItem.message}}">
             <div
               mat-line
               fxLayout="row"
               fxLayoutAlign="start center"
-              [ngClass]="{'workflow-action': true}"
+              [ngClass]="{'workflow-action': true,
+                          'disable-link':true}"
               [attr.data-study-id]="study.id"
               [attr.data-category-id]="cat.id"
               [attr.data-workflow-id]="workflowListItem.id"
+              [routerLink]="['/study', study.id, 'workflow', workflowListItem.id]"
             >
+
               <app-nav-item-icon [workflowStats]="workflowListItem"></app-nav-item-icon>
                <div><b *ngIf="workflowListItem.is_review">{{workflowListItem.display_name}}</b>
-                 <span *ngIf="! workflowListItem.is_review">{{workflowListItem.display_name}}</span></div>
+                 <span *ngIf="! workflowListItem.is_review">{{workflowListItem.display_name}}</span>
+                 <span></span>
+                 <span *ngIf="requiredItem(workflowListItem)"><b>&nbsp; *</b></span></div>
             </div>
+            </span>
           </mat-list-item>
         </mat-list>
       </mat-card-content>

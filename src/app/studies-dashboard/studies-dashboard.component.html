@@ -39,7 +39,7 @@
 
       <ng-container matColumnDef="study.title">
         <th *matHeaderCellDef mat-header-cell mat-sort-header> Study</th>
-        <td *matCellDef="let approval" mat-cell> {{approval.study.title}} </td>
+        <td *matCellDef="let approval" mat-cell title="{{approval.study.title}}"> {{shrink(60,approval.study.title)}} </td>
       </ng-container>
 
       <ng-container matColumnDef="workflow.category_display_name">
@@ -115,7 +115,7 @@
 
         <ng-container matColumnDef="title">
           <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_title"> Study Title</th>
-          <td *matCellDef="let study" class="study-blue" mat-cell> {{study.title}} </td>
+          <td *matCellDef="let study" class="study-blue" mat-cell title="{{study.title}}"> {{shrink(120,study.title)}} </td>
         </ng-container>
 
         <ng-container matColumnDef="status">

@@ -165,6 +165,13 @@ export class StudiesDashboardComponent implements OnInit {
     this.currentTab = currentTab
   }
 
+  shrink(len: number, title: string){
+    if (title.length > len){
+      return title.substr(0,len - 4) + ' ...';
+    }
+    return title;
+  }
+
   studyStatusDisplayType(study: Study) {
     if (this.isNewStudy(study)) { return StudyStatusDisplayType.NEW;}
     if (this.getIrbHsrStatus(study) !== IrbHsrStatus.NOT_SUBMITTED) { return StudyStatusDisplayType.IRB;}
