@@ -1,4 +1,5 @@
 <div class="container">
+
   <div class="task-events">
     <div fxLayout="row" class="task-events-header">
       <h1 id="approvals_title">In Progress</h1>
@@ -23,35 +24,41 @@
     </div>
 
     <table
-      *ngIf="hasTaskEvents"
+      [hidden]="!hasTaskEvents"
       [dataSource]="approvalsDataSource"
-      class="mat-elevation-z0"
+      class="mat-elevation-z0 in-progress-box"
       mat-table
       matSort
       [attr.aria-describedby]="'approvals_title'"
     >
-      <ng-container matColumnDef="approval_study">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_study"> Study</th>
-        <td *matCellDef="let approval" mat-cell> {{approval.study.title}} </td>
+      <ng-container matColumnDef="user_display">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Waiting On</th>
+        <td *matCellDef="let approval" mat-cell> {{approval.user_display}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="approval_workflow">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_workflow"> Workflow</th>
+
+      <ng-container matColumnDef="study.title">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Study</th>
+        <td *matCellDef="let approval" mat-cell title="{{approval.study.title}}"> {{shrink(60,approval.study.title)}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="workflow.category_display_name">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Workflow</th>
         <td *matCellDef="let approval" mat-cell>
           {{approval.workflow.category_display_name}} >
           {{approval.workflow.display_name}}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="approval_task">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_task"> Task</th>
+      <ng-container matColumnDef="task_title">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Task</th>
         <td *matCellDef="let approval" mat-cell>
           {{approval.task_title}}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="approval_date">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_approval_date"> Last Update</th>
+      <ng-container matColumnDef="date">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header> Last Update</th>
         <td *matCellDef="let approval" mat-cell>
           {{timeAgo(approval.date)}}
         </td>
@@ -65,10 +72,13 @@
         [ngClass]="{'approval-row': true}"
         [routerLink]="['/study', approval.study.id, 'workflow', approval.workflow.id]"
       ></tr>
+
     </table>
+     <mat-paginator pageSize="5"></mat-paginator>
     <p *ngIf="!hasTaskEvents" class="no-task-events">No {{selectedTaskLane.label}} to display.</p>
   </div>
 </div>
+<div class="divider"></div>
 <div class="study-tab-div">
 <mat-chip-list aria-label="Study Type Selection">
   <mat-chip [selected]="currentTab==i"
@@ -93,6 +103,8 @@
         [dataSource]="studiesGroup.dataSource"
         class="mat-elevation-z0"
         mat-table
+        #secondTable
+        #secondSort(matSort)
         matSort
         [attr.aria-describedby]="studiesGroupId(studiesGroup)"
       >
@@ -103,7 +115,7 @@
 
         <ng-container matColumnDef="title">
           <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_title"> Study Title</th>
-          <td *matCellDef="let study" class="study-blue" mat-cell> {{study.title}} </td>
+          <td *matCellDef="let study" class="study-blue" mat-cell title="{{study.title}}"> {{shrink(120,study.title)}} </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
@@ -131,16 +143,37 @@
         <ng-container matColumnDef="reviews_complete">
           <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_Reviews_complete">Reviews</th>
           <td *matCellDef="let study" mat-cell>
-            0/0
+            <app-review-progress [study]="study"></app-review-progress>
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="irb_hsr_status">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_irb_hsr_status"> IRB-HSR Status</th>
+        <ng-container matColumnDef="updated">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_updated">Updated</th>
           <td *matCellDef="let study" mat-cell>
-            {{getIrbHsrStatus(study)}}
+            <div>
+              {{study.last_activity_date | date: 'short'}}
+            </div>
+            <div>
+              {{study.last_activity_user}}
+            </div>
+
           </td>
         </ng-container>
+
+
+        <ng-container matColumnDef="created">
+          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_created">Created</th>
+          <td *matCellDef="let study" mat-cell>
+            <div>
+            {{study.last_updated | date:'short' }}
+            </div>
+            <div>
+              {{study.create_user_display}}
+            </div>
+
+          </td>
+        </ng-container>
+
 
         <ng-container matColumnDef="actions">
           <th *matHeaderCellDef mat-header-cell id="col_study_actions"> Actions</th>
