@@ -16,19 +16,17 @@
           <mat-list-item
             *ngFor="let workflowListItem of workflowsToShow(cat.workflows)"
             [ngClass]="'workflow-list-item workflow_status--' + workflowListItem.status + ' workflow_state--' + workflowListItem.state"
-
-          >
-            <span title="{{workflowListItem.message}}">
+            [attr.data-study-id]="study.id"
+            [attr.data-category-id]="cat.id"
+            [attr.data-workflow-id]="workflowListItem.id"
+            [routerLink]="['/study', study.id, 'workflow', workflowListItem.id]">
+            <span title="Message to go here">
             <div
               mat-line
               fxLayout="row"
               fxLayoutAlign="start center"
               [ngClass]="{'workflow-action': true,
                           'disable-link':true}"
-              [attr.data-study-id]="study.id"
-              [attr.data-category-id]="cat.id"
-              [attr.data-workflow-id]="workflowListItem.id"
-              [routerLink]="['/study', study.id, 'workflow', workflowListItem.id]"
             >
 
               <app-nav-item-icon [workflowStats]="workflowListItem"></app-nav-item-icon>
