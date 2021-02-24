@@ -40,6 +40,15 @@ export class StudyComponent implements OnInit {
     return isNumberDefined(this.selectedWorkflowId);
   }
 
+  shrink(len: number, title: string){
+    if (title.length > len){
+      return title.substr(0,len - 4) + ' ...';
+    }
+    return title;
+  }
+
+
+
   ngOnInit() {
   }
 
@@ -65,7 +74,7 @@ export class StudyComponent implements OnInit {
 
     if (!isNumberDefined(categoryId)) {
       this.selectWorkflow(undefined);
-      this.loadStudy();
+      // this.loadStudy(); # this calls selectWorkflow which will call loadStudy anyhow . . .
     }
   }
 

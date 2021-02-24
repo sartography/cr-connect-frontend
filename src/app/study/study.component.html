@@ -11,7 +11,7 @@
     </button>
     <mat-divider vertical></mat-divider>
     <div class="study-metadata">
-      <h1>{{study.title}}</h1>
+      <h1 title="{{study.title}}" class="study-metadata-title">{{shrink(160,study.title)}}</h1>
       <dl fxLayout="row">
         <dt>ID:</dt>
         <dd>{{study.id}}</dd>

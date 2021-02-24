@@ -3,7 +3,7 @@ import {NavItemType, WorkflowNavItem, WorkflowState, WorkflowStats, WorkflowTask
 
 export const shouldDisplayWorkflow = (workflowListItem: WorkflowStats): boolean => {
   const hideTypes = [
-    WorkflowState.DISABLED,
+    // removed disabled state per Alex - we need to display them and show them as being disabled instead.
     WorkflowState.HIDDEN,
   ];
   return (

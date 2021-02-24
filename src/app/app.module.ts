@@ -86,6 +86,9 @@ import { WorkflowNavComponent } from './workflow-nav/workflow-nav.component';
 import {MatTreeModule} from '@angular/material/tree';
 import { WorkflowProgressMenuComponent } from './workflow-progress-menu/workflow-progress-menu.component';
 import { WorkflowDialogComponent } from './workflow-dialog/workflow-dialog.component';
+import { ReviewProgressComponent } from './review-progress/review-progress.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+
 (document.defaultView as any).hljs = hljs;
 
 
@@ -169,6 +172,7 @@ export function markedOptionsFactory(): MarkedOptions {
     WorkflowNavComponent,
     WorkflowProgressMenuComponent,
     WorkflowDialogComponent,
+    ReviewProgressComponent,
   ],
     imports: [
         BrowserAnimationsModule,
@@ -205,7 +209,6 @@ export function markedOptionsFactory(): MarkedOptions {
         MatSelectModule,
         MatSidenavModule,
         MatSnackBarModule,
-        MatSortModule,
         MatTableModule,
         MatTabsModule,
         MatToolbarModule,
@@ -216,6 +219,8 @@ export function markedOptionsFactory(): MarkedOptions {
         SartographyFormsModule,
         SartographyPipesModule,
         SartographyWorkflowLibModule,
+        MatPaginatorModule,
+        MatSortModule,
         AppRoutingModule,
         MatStepperModule,
         MatCheckboxModule,
