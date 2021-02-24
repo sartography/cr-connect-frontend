@@ -28,8 +28,6 @@ import * as getObjectProperty from 'lodash/get';
 import * as setObjectProperty from 'lodash/set';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { WorkflowDialogComponent } from '../workflow-dialog/workflow-dialog.component'
 @Component({
   selector: 'app-workflow-form',
   templateUrl: './workflow-form.component.html',
@@ -98,7 +96,9 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this._loadModel(this.task);
-    this.processElementDocumentation(this.task.documentation);
+    if (this.task) {
+      this.processElementDocumentation(this.task.documentation);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -107,21 +107,11 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
   }
   openDialog(markdown: string) {
-    this.dialog.open(WorkflowDialogComponent, {
+    this.dialog.open(WorkflowFormDialogComponent, {
       data: markdown
     });
   }
 
-  // processElementDocumentation(markdown: string) {
-  //   // const reg = /(<\s*info[^>]*>)([\s\S]*?)<\s*\/\s*info>/g;
-  //   const data = markdown.split("<info>");
-  //   const main = data[0];
-  //   const info = data[1];
-
-  //   this.documentationTitles = [main];
-  //   this.documentationBlocks = [info];
-
-  // }
   processElementDocumentation(markdown: string) {
     const reg = /(?:<\s*block(?:\s+?id=["'](.+?)["'])?[^>]*>)([\s\S]*?)(?:<\s*\/\s*block>)/g;
     const titles = [];
@@ -300,3 +290,11 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   }
 }
 
+@Component({
+  selector: 'app-workflow-form-dialog',
+  templateUrl: 'workflow-form-dialog.html',
+})
+
+export class WorkflowFormDialogComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: string) {}
+}
