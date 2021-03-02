@@ -3,10 +3,8 @@
     <mat-card
       *ngFor="let cat of categoryTabs; let i = index"
       fxFlex="calc({{100 / categoryTabs.length}}%-30px)"
-      (click)="selectCategory($event, cat.id)"
       [ngClass]="'dashboard'"
-      class="lcldashboard"
-    >
+      class="lcldashboard">
       <mat-card-title *ngIf="cat.workflows && cat.workflows.length > 0">
         <div class="mat-card-title-main">{{cat.display_name}}</div>
         <div class="workflow-status">{{allComplete(cat) ? 'COMPLETE' : 'IN PROGRESS'}}</div>
@@ -16,17 +14,18 @@
           <mat-list-item
             *ngFor="let workflowListItem of workflowsToShow(cat.workflows)"
             [ngClass]="'workflow-list-item workflow_status--' + workflowListItem.status + ' workflow_state--' + workflowListItem.state"
-            [attr.data-study-id]="study.id"
-            [attr.data-category-id]="cat.id"
-            [attr.data-workflow-id]="workflowListItem.id"
-            [routerLink]="['/study', study.id, 'workflow', workflowListItem.id]">
-            <span title="Message to go here">
+            >
+            <span title="{{workflowListItem.message}}">
             <div
               mat-line
               fxLayout="row"
               fxLayoutAlign="start center"
+              [attr.data-study-id]="study.id"
+              [attr.data-category-id]="cat.id"
+              [attr.data-workflow-id]="workflowListItem.id"
+              [routerLink]="['/study', study.id, 'workflow', workflowListItem.id]"
               [ngClass]="{'workflow-action': true,
-                          'disable-link':true}"
+                          'disable-link':workflowListItem.state===states.DISABLED}"
             >
 
               <app-nav-item-icon [workflowStats]="workflowListItem"></app-nav-item-icon>

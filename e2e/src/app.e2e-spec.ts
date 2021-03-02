@@ -81,7 +81,7 @@ describe('Clinical Research Coordinator App', () => {
   });
 
   it('should navigate to a workflow', async () => {
-    const wfSelector = '.workflow-list-item';
+    const wfSelector = '.workflow-list-item .workflow-action';
     expect(page.getElements(wfSelector).count()).toBeGreaterThan(0);
     const workflow = await page.getElement(wfSelector);
     const studyId = await workflow.getAttribute('data-study-id');
