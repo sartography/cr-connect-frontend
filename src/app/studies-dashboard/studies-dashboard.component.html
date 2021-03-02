@@ -109,17 +109,17 @@
         [attr.aria-describedby]="studiesGroupId(studiesGroup)"
       >
         <ng-container matColumnDef="id">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_id"> Study ID</th>
+          <th scope="col" *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_id"> Study ID</th>
           <td *matCellDef="let study" class="study-blue" mat-cell> {{study.id}} </td>
         </ng-container>
 
         <ng-container matColumnDef="title">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_title"> Study Title</th>
+          <th  scope="col" *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_title"> Study Title</th>
           <td *matCellDef="let study" class="study-blue" mat-cell title="{{study.title}}"> {{shrink(120,study.title,study.short_title)}} </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_status"> Status</th>
+          <th scope="col" *matHeaderCellDef mat-header-cell mat-sort-header id="col_status"> Status</th>
           <td *matCellDef="let study" mat-cell>
             <div *ngIf="studyStatusDisplayType(study)==='New'" class="new-study">
               NEW APPLICATION
@@ -141,14 +141,14 @@
         </ng-container>
 
         <ng-container matColumnDef="reviews_complete">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_Reviews_complete">Reviews</th>
+          <th  scope="col" *matHeaderCellDef mat-header-cell mat-sort-header id="col_Reviews_complete">Reviews</th>
           <td *matCellDef="let study" mat-cell>
             <app-review-progress [study]="study"></app-review-progress>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="updated">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_updated">Updated</th>
+          <th  scope="col" *matHeaderCellDef mat-header-cell mat-sort-header id="col_updated">Updated</th>
           <td *matCellDef="let study" mat-cell>
             <div>
               {{study.last_activity_date | date: 'short'}}
@@ -162,7 +162,7 @@
 
 
         <ng-container matColumnDef="created">
-          <th *matHeaderCellDef mat-header-cell mat-sort-header id="col_created">Created</th>
+          <th  scope="col" *matHeaderCellDef mat-header-cell mat-sort-header id="col_created">Created</th>
           <td *matCellDef="let study" mat-cell>
             <div>
             {{study.last_updated | date:'short' }}
@@ -176,7 +176,7 @@
 
 
         <ng-container matColumnDef="actions">
-          <th *matHeaderCellDef mat-header-cell id="col_study_actions"> Actions</th>
+          <th  scope="col" *matHeaderCellDef mat-header-cell id="col_study_actions"> Actions</th>
           <td *matCellDef="let study" mat-cell [ngClass]="'study-actions'">
             <button
               mat-flat-button

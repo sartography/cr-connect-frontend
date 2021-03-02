@@ -29,10 +29,10 @@
             >
 
               <app-nav-item-icon [workflowStats]="workflowListItem"></app-nav-item-icon>
-               <div><b *ngIf="workflowListItem.is_review">{{workflowListItem.display_name}}</b>
+               <div><strong *ngIf="workflowListItem.is_review">{{workflowListItem.display_name}}</strong>
                  <span *ngIf="! workflowListItem.is_review">{{workflowListItem.display_name}}</span>
                  <span></span>
-                 <span *ngIf="requiredItem(workflowListItem)"><b>&nbsp; *</b></span></div>
+                 <span *ngIf="requiredItem(workflowListItem)"><strong>&nbsp; *</strong></span></div>
             </div>
             </span>
           </mat-list-item>
