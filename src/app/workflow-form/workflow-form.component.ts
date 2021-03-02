@@ -206,6 +206,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
       this.model = createClone()(task.data);
       this.fileParams = {
         workflow_id: this.workflow.id,
+        task_spec_name: task.name
       };
       this.fields = new ToFormlyPipe(this.api).transform(task.form.fields, this.fileParams);
     }
