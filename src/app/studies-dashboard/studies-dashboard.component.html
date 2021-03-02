@@ -32,18 +32,18 @@
       [attr.aria-describedby]="'approvals_title'"
     >
       <ng-container matColumnDef="user_display">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header>Waiting On</th>
+        <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header>Waiting On</th>
         <td *matCellDef="let approval" mat-cell> {{approval.user_display}} </td>
       </ng-container>
 
 
       <ng-container matColumnDef="study.title">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> Study</th>
+        <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header> Study</th>
         <td *matCellDef="let approval" mat-cell title="{{approval.study.title}}"> {{shrink(60,approval.study.title,approval.study.short_title)}} </td>
       </ng-container>
 
       <ng-container matColumnDef="workflow.category_display_name">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> Workflow</th>
+        <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header> Workflow</th>
         <td *matCellDef="let approval" mat-cell>
           {{approval.workflow.category_display_name}} >
           {{approval.workflow.display_name}}
@@ -51,14 +51,14 @@
       </ng-container>
 
       <ng-container matColumnDef="task_title">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> Task</th>
+        <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header> Task</th>
         <td *matCellDef="let approval" mat-cell>
           {{approval.task_title}}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="date">
-        <th *matHeaderCellDef mat-header-cell mat-sort-header> Last Update</th>
+        <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header> Last Update</th>
         <td *matCellDef="let approval" mat-cell>
           {{timeAgo(approval.date)}}
         </td>

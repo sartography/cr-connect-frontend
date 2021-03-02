@@ -15,7 +15,7 @@
         <span class="smaller">Approver: {{ approval.approver.display_name }}</span>
 
         <div *ngIf="approval.related_approvals" class="other_approver">
-          <b>Also approving:</b><br/>
+          <strong>Also approving:</strong><br/>
           <div *ngFor="let related of approval.related_approvals" class="status {{related.status}}">
             {{related.approver.display_name }}<br/>
             <strong>{{related.status}}</strong>
