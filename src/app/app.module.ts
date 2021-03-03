@@ -128,7 +128,6 @@ export function markedOptionsFactory(): MarkedOptions {
 
   renderer.code = (text, language, escaped) => {
     if (language === "info"){
-     
       return ` <a class="mdc-button mdc-button--raised" onclick="callAngularFunction(\`${text}\`);">
       <i class="material-icons mdc-button__icon">info</i></a>`;
     }
@@ -201,8 +200,7 @@ export function markedOptionsFactory(): MarkedOptions {
                 provide: MarkedOptions,
                 useFactory: markedOptionsFactory,
             },
-            // ! Just a reminder to check this out because I don't know how much of a security issue this is 
-            sanitize: SecurityContext.NONE
+            sanitize: SecurityContext.URL
         }),
         MatBadgeModule,
         MatBottomSheetModule,

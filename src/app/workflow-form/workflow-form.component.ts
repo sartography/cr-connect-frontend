@@ -28,7 +28,8 @@ import { Location } from '@angular/common';
 import * as getObjectProperty from 'lodash/get';
 import * as setObjectProperty from 'lodash/set';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-workflow-form',
   templateUrl: './workflow-form.component.html',
@@ -275,5 +276,9 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 })
 
 export class WorkflowFormDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: string) {}
+  constructor(public dialogRef: MatDialogRef<WorkflowFormDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: string) {}
+  close(){
+    this.dialogRef.close();
+ }
 }
