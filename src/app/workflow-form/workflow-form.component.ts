@@ -116,11 +116,6 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
       data: markdown
     });
   }
-  test = ` Tell me the french fire
-  \`\`\`info
-sadasvfe
-  fdsdfd
-  \`\`\``
 
   saveTaskData(task: WorkflowTask, updateRemaining = false) {
     const modelData = createClone()(this.model);
