@@ -45,6 +45,7 @@ import {
   SartographyPipesModule,
   SartographyWorkflowLibModule
 } from 'sartography-workflow-lib';
+
 import {environment} from '../environments/environment.runtime';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -88,6 +89,8 @@ import { WorkflowProgressMenuComponent } from './workflow-progress-menu/workflow
 import { ReviewProgressComponent } from './review-progress/review-progress.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 
+import { SecurityContext } from '@angular/core';
+
 (document.defaultView as any).hljs = hljs;
 
 
@@ -122,6 +125,15 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
   const linkRenderer = renderer.link;
+
+  renderer.code = (text, language, escaped) => {
+    if (language === "info"){
+      // console.log(`<button type='button' onclick="callAngularFunction('${text.trim()}');">test</button>`);
+      console.log(text.trim());
+      return `<button type='button' onclick="callAngularFunction('${text.trim()}');">test</button>`;
+    }
+    return new MarkedRenderer().code(text, language, escaped); // Use Default
+  }
 
   renderer.link = (href, title, text) => {
     const html = linkRenderer.call(renderer, href, title, text);
@@ -189,6 +201,8 @@ export function markedOptionsFactory(): MarkedOptions {
                 provide: MarkedOptions,
                 useFactory: markedOptionsFactory,
             },
+            // ! Just a reminder to check this out because I don't know how much of a security issue this is 
+            sanitize: SecurityContext.NONE
         }),
         MatBadgeModule,
         MatBottomSheetModule,

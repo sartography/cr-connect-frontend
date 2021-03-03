@@ -1,4 +1,6 @@
+
 <div *ngIf="task && form; else loadingMessage">
+  
   <div id="lockedMessage" *ngIf="locked" [@flashTrigger]>
     <mat-icon>lock</mat-icon>
     This task is locked.
@@ -16,9 +18,11 @@
   </div>
 
   <div id="form-column" [@disableTrigger]="formViewState">
-    <div *ngFor="let title of documentationTitles; let i = index " class="documentation">
-      <div markdown [data]="title"></div>
-      <mat-icon *ngIf="documentationBlocks[i]" (click)="openDialog(documentationBlocks[i])">info</mat-icon>
+    <div class="documentation">
+
+      <div markdown [data]="test">
+        
+      </div>
     </div>
     
     <formly-form (keyup)="handleKeyUp($event)" [fields]="fields" [form]="form" [model]="model"></formly-form>

@@ -8,7 +8,8 @@ import {
   Output,
   Inject,
   SimpleChanges,
-  ViewChild
+  ViewChild,
+  NgZone
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import createClone from 'rfdc';
@@ -84,22 +85,26 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   locked = true;
   taskStates = WorkflowTaskState;
 
-  documentationTitles = Array<string>();
+  documentationHeaders = Array<string>();
   documentationBlocks = Array<string>();
 
   constructor(
     private api: ApiService,
     private location: Location,
     public dialog: MatDialog,
+    private ngZone: NgZone,  
   ) {
   }
 
   ngOnInit() {
     this._loadModel(this.task);
-    if (this.task) {
-      this.processElementDocumentation(this.task.documentation);
-    }
+    window['angularComponentReference'] = { component: this, zone: this.ngZone, loadAngularFunction: (str) => this.angularFunctionCalled(str), };  
   }
+  
+  angularFunctionCalled(mat: string) {  
+    console.log(mat);
+    this.openDialog(mat);
+  } 
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.task && changes.task.currentValue) {
@@ -111,32 +116,11 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
       data: markdown
     });
   }
-
-  processElementDocumentation(markdown: string) {
-    const reg = /(?:<\s*block(?:\s+?id=["'](.+?)["'])?[^>]*>)([\s\S]*?)(?:<\s*\/\s*block>)/g;
-    const titles = [];
-    const helpTexts = [];
-    const matches = [...markdown.matchAll(reg)];
-    console.log(matches);
-    if (matches.length > 0) {
-      matches.forEach(section => {
-        const id = section[1];
-        const content = section[2];
-        titles.push(content);
-        if (this.task.properties[id]) {
-          helpTexts.push(this.task.properties[id]);
-        }
-        else {
-          helpTexts.push('');
-        }
-      })
-      this.documentationTitles = titles;
-      this.documentationBlocks = helpTexts;
-    } else {
-      this.documentationTitles = [markdown];
-      this.documentationBlocks = [''];
-    }
-  }
+  test = ` Tell me the french fire
+  \`\`\`info
+sadasvfe
+  fdsdfd
+  \`\`\``
 
   saveTaskData(task: WorkflowTask, updateRemaining = false) {
     const modelData = createClone()(this.model);
