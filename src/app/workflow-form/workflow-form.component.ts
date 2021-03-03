@@ -108,7 +108,9 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
       for (const [key, control] of Object.entries(controls)) {
         if (control instanceof FormControl) {
           const field = (control as any)._fields[0];
-          if (field.hide) {
+          // If a field is marked as required, but is hidden, cary over the
+          // default value, and do not null it out.
+          if (field.hide && !field.templateOptions.required) {
             setObjectProperty(modelData, key, null);
           }
         }
