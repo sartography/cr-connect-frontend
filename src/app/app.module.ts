@@ -128,9 +128,9 @@ export function markedOptionsFactory(): MarkedOptions {
 
   renderer.code = (text, language, escaped) => {
     if (language === "info"){
-      // console.log(`<button type='button' onclick="callAngularFunction('${text.trim()}');">test</button>`);
-      console.log(text.trim());
-      return `<button type='button' onclick="callAngularFunction('${text.trim()}');">test</button>`;
+     
+      return ` <a class="mdc-button mdc-button--raised" onclick="callAngularFunction(\`${text}\`);">
+      <i class="material-icons mdc-button__icon">info</i></a>`;
     }
     return new MarkedRenderer().code(text, language, escaped); // Use Default
   }
