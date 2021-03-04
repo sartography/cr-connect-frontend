@@ -127,7 +127,7 @@ export function markedOptionsFactory(): MarkedOptions {
   const linkRenderer = renderer.link;
 
   renderer.code = (text, language, escaped) => {
-    if (language === "info"){
+    if (language === 'info'){
       return ` <a class="mdc-button mdc-button--raised" onclick="callAngularFunction(\`${text}\`);">
       <i class="material-icons mdc-button__icon">info</i></a>`;
     }

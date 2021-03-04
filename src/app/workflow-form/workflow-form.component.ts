@@ -93,19 +93,21 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     private api: ApiService,
     private location: Location,
     public dialog: MatDialog,
-    private ngZone: NgZone,  
-  ) {
-  }
+    private ngZone: NgZone) { }
 
   ngOnInit() {
     this._loadModel(this.task);
-    window['angularComponentReference'] = { component: this, zone: this.ngZone, loadAngularFunction: (str) => this.angularFunctionCalled(str), };  
+    window[`angularComponentReference`] = {
+      component: this, zone: this.ngZone, loadAngularFunction: (str: string) => {
+        return this.angularFunctionCalled(str);
+      }
+    };
   }
-  
-  angularFunctionCalled(mat: string) {  
+
+  angularFunctionCalled(mat: string) {
     console.log(mat);
     this.openDialog(mat);
-  } 
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.task && changes.task.currentValue) {
