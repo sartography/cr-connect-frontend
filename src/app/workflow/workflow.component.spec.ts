@@ -22,7 +22,7 @@ import { of } from 'rxjs';
 import {
   ApiService,
   MockEnvironment,
-  mockFileMetas,
+  mockFileMetas, mockNav0, mockNav1,
   mockUser0, mockUser1,
   mockWorkflow0,
   mockWorkflow1,
@@ -439,4 +439,13 @@ describe('WorkflowComponent', () => {
     fReq.flush(mockFileMetas);
     expect(component.fileMetas).toEqual(mockFileMetas);
   });
+
+  it('should report isOnlyTask', () => {
+    component.workflow.navigation = mockNav0;
+    expect(component.isOnlyTask()).toBeTrue()
+    component.workflow.navigation = mockNav1;
+    expect(component.isOnlyTask()).toBeFalse()
+  });
 });
+
+
