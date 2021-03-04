@@ -13,6 +13,7 @@ import {MatButtonToggleChange} from '@angular/material/button-toggle';
 import {FormlyFieldConfig} from '@ngx-formly/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import { shrink } from '../_util/shrink';
 
 enum IrbHsrStatus {
   NOT_SUBMITTED = 'Not Submitted',
@@ -41,6 +42,7 @@ export class StudiesDashboardComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   currentTab = 0;
+  shrink = shrink;
   displayedColumns: string[] = [
     'id',
     'title',
@@ -165,12 +167,6 @@ export class StudiesDashboardComponent implements OnInit {
     this.currentTab = currentTab
   }
 
-  shrink(len: number, title: string){
-    if (title.length > len){
-      return title.substr(0,len - 4) + ' ...';
-    }
-    return title;
-  }
 
   studyStatusDisplayType(study: Study) {
     if (this.isNewStudy(study)) { return StudyStatusDisplayType.NEW;}

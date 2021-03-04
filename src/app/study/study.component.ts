@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {shrink} from '../_util/shrink'
 import {
   ApiService,
   isNumberDefined,
@@ -23,6 +24,7 @@ export class StudyComponent implements OnInit {
   selectedCategory: WorkflowSpecCategory;
   selectedWorkflowId: number;
   selectedWorkflow: WorkflowStats;
+  shrink = shrink;
 
   constructor(
     private route: ActivatedRoute,
@@ -39,15 +41,6 @@ export class StudyComponent implements OnInit {
   get isWorkflowSelected(): boolean {
     return isNumberDefined(this.selectedWorkflowId);
   }
-
-  shrink(len: number, title: string){
-    if (title.length > len){
-      return title.substr(0,len - 4) + ' ...';
-    }
-    return title;
-  }
-
-
 
   ngOnInit() {
   }
