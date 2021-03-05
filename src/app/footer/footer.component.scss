@@ -1,8 +1,12 @@
 @import "../../_config.scss";
 
 footer {
+  position: fixed;
   background-color: $brand-gray;
+  padding: 20px;
+  left: 0;
+  bottom: 0;
+  width: 100%;
   color: white;
   text-align: center;
-  padding: 20px;
 }
