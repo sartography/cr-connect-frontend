@@ -86,9 +86,6 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   locked = true;
   taskStates = WorkflowTaskState;
 
-  documentationHeaders = Array<string>();
-  documentationBlocks = Array<string>();
-
   constructor(
     private api: ApiService,
     private location: Location,
@@ -116,7 +113,8 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   }
   openDialog(markdown: string) {
     this.dialog.open(WorkflowFormDialogComponent, {
-      data: markdown
+      data: markdown,
+      maxWidth: '600px'
     });
   }
 

@@ -1,13 +1,5 @@
 @import "../../config";
 
-.mdc-button__icon {
-  display: inline-flex;
-  width: 16px;
-  height: 16px;
-  font-size: 16px;
-  vertical-align: bottom;
-  margin-right: 8px;
-}
 
 #lockedMessage {
   width: 100%;
@@ -15,10 +7,11 @@
 }
 
 .documentation {
-  background-color: $brand-primary-tint-4;
   margin: 10px 0 20px 0;
   padding: 10px;
   display: flex;
+  font-size: 20px;
+  border-bottom: 4px solid black;
 }
 
 .documentation > mat-icon {

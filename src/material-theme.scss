@@ -355,6 +355,17 @@
     }
   }
 
+  a.mdc-button {
+    float: right;
+  }
+
+  .mdc-button__icon {
+    cursor: pointer;
+    margin-right: 8px;
+    font-size: 150%;
+  }
+
+
   mat-card.dashboard {
     @include mat-elevation(0);
 
