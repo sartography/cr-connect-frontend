@@ -1,42 +1,38 @@
 
 <div *ngIf="task && form; else loadingMessage">
+  
   <div id="lockedMessage" *ngIf="locked" [@flashTrigger]>
     <mat-icon>lock</mat-icon>
     This task is locked.
     <ng-container [ngSwitch]=task.state>
       <span *ngSwitchCase="taskStates.LOCKED">
-              It must be completed by a different person.
+        It must be completed by a different person.
       </span>
       <span *ngSwitchCase="taskStates.COMPLETED">
-      It was already completed, and is in a read only state.
+        It was already completed, and is in a read only state.
       </span>
       <span *ngSwitchDefault>
-      This is task is not ready.
+        This is task is not ready.
       </span>
     </ng-container>
   </div>
 
   <div id="form-column" [@disableTrigger]="formViewState">
-    <div *ngIf="task.documentation" class="documentation">
-      <markdown [data]="task.documentation"></markdown>
+    <div class="documentation">
+
+      <div markdown [data]="task.documentation">
+        
+      </div>
     </div>
-    <formly-form
-      (keyup)="handleKeyUp($event)"
-      [fields]="fields"
-      [form]="form"
-      [model]="model"
-    ></formly-form>
+    
+    <formly-form (keyup)="handleKeyUp($event)" [fields]="fields" [form]="form" [model]="model"></formly-form>
 
     <button (click)="saveTaskData(task)" [disabled]="form.invalid" color="primary" mat-flat-button>Save</button>
     <button (click)="goBack()" mat-flat-button>Cancel</button>
-    <button
-      title="This will apply the current settings to this task and all remaining tasks"
-      *ngIf="getIncompleteMISiblings(task).length > 1"
-      (click)="saveAllSiblingTaskData(task)"
-      [disabled]="saveDisabled()"
-      color="accent"
-      mat-flat-button
-    >Apply to all {{getIncompleteMISiblings(task).length}} {{workflow.title}}</button>
+    <button title="This will apply the current settings to this task and all remaining tasks"
+      *ngIf="getIncompleteMISiblings(task).length > 1" (click)="saveAllSiblingTaskData(task)"
+      [disabled]="saveDisabled()" color="accent" mat-flat-button>Apply to all {{getIncompleteMISiblings(task).length}}
+      {{workflow.title}}</button>
   </div>
 </div>
 

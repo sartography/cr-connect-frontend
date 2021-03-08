@@ -33,6 +33,7 @@
     "@angular/platform-browser": "~9.1.11",
     "@angular/platform-browser-dynamic": "~9.1.11",
     "@angular/router": "~9.1.11",
+    "@material/icon-button": "^10.0.0",
     "@ngx-formly/core": "^5.8.0",
     "@ngx-formly/material": "^5.8.0",
     "@ngx-progressbar/core": "^5.3.2",
