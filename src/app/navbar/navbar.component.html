@@ -1,4 +1,4 @@
-<ng-container *ngIf="!loading && user; else loadingMessage">
+<ng-container *ngIf="!loading && userService.user; else loadingMessage">
   <nav class="mat-elevation-z6" id="globalHeader">
     <a
       [routerLink]="['/']"
@@ -11,10 +11,10 @@
     </a>
     <div class="flex-spacer"></div>
 
-    <ng-container *ngIf="isAdmin">
+    <ng-container *ngIf="userService.isAdmin">
       <app-nav-links
         [links]="adminNavLinks"
-        [ngClass]="{'viewing-as-user': isImpersonating}"
+        [ngClass]="{'viewing-as-user': userService.isImpersonating}"
         id="adminToolbar"
       ></app-nav-links>
       <div class="flex-spacer"></div>

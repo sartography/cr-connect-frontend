@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Inject, Output} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {filter} from 'rxjs/operators';
-import {ApiService, AppEnvironment, GoogleAnalyticsService, User} from 'sartography-workflow-lib';
+import {ApiService, AppEnvironment, UserService, User} from 'sartography-workflow-lib';
 import {NavItem} from '../_interfaces/nav-item';
 
 
@@ -14,8 +14,6 @@ export class NavbarComponent {
   @Output() userChanged = new EventEmitter<User>();
   navLinks: NavItem[];
   adminNavLinks: NavItem[];
-  private realUser: User;
-  private impersonatedUser: User;
   title: string;
   allUsers: User[];
   loading = true;
@@ -23,64 +21,28 @@ export class NavbarComponent {
   constructor(
     private router: Router,
     private api: ApiService,
+    public userService: UserService,
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
-    private googleAnalyticsService: GoogleAnalyticsService,
+
   ) {
-    this.googleAnalyticsService.init(this.environment.googleAnalyticsKey);
-    this._loadUser();
+    this.userService.googleAnalyticsService.init(this.environment.googleAnalyticsKey);
+    this.loading = true;
+    this.userService.userChanged.subscribe(() => {this.handleCallback()})
+    this.userService._loadUser();
     this.title = environment.title;
   }
 
-  private _loadUser() {
-    this.loading = true;
-    this.impersonatedUser = undefined;
-    const impersonateUid = localStorage.getItem('admin_view_as');
-
-    if (this.isAdmin) {
-      this.api.getUser(impersonateUid || undefined).subscribe(u => {
-        if (this.realUser.uid !== impersonateUid && this.realUser.uid !== u.uid) {
-          this.impersonatedUser = u;
-        } else {
-          this.realUser = u;
-        }
-
-        this._afterUserLoad();
-      }, error => this._onLoginError());
-    } else if (impersonateUid) {
-      // Get the real user first
-      this.api.getUser().subscribe(u => {
-        this.realUser = u;
-
-        // Then impersonate
-        if (this.isAdmin) {
-          this._loadUser();
-        }
-      }, error => this._onLoginError());
-    } else {
-      this.api.getUser().subscribe(u => {
-        this.realUser = u;
-        this._afterUserLoad();
-      }, error => this._onLoginError());
+  private handleCallback() {
+    if (this.userService.user.is_admin){
+      this._loadAdminNavLinks()
     }
-  }
-
-  private _afterUserLoad() {
-    if (this.realUser && this.realUser.uid) {
-      this.googleAnalyticsService.setUser(this.realUser.uid);
-    }
-
-    this._loadNavLinks();
-
-    if (this.isAdmin) {
-      this._loadAdminNavLinks();
-    } else {
-      this.loading = false;
-      this.userChanged.emit(this.user);
+    else {
+      this._loadNavLinks()
     }
   }
 
   private _loadAdminNavLinks() {
-    if (this.isAdmin) {
+    if (this.userService.isAdmin) {
       this.loading = true;
       const isViewingAs = !!localStorage.getItem('admin_view_as');
       this.api.listUsers().subscribe(users => {
@@ -88,7 +50,7 @@ export class NavbarComponent {
         this.adminNavLinks = [
           {
             id: 'nav_admin',
-            label: isViewingAs ? `Viewing as user ${this.user.uid}` : 'View as...',
+            label: isViewingAs ? `Viewing as user ${this.userService.user.uid}` : 'View as...',
             icon: 'preview',
             showLabel: true,
             links: users.map(u => {
@@ -96,22 +58,22 @@ export class NavbarComponent {
                 id: `nav_user_${u.uid}`,
                 label: `${u.display_name} (${u.uid})`,
                 icon: 'person',
-                action: () => this.viewAs(u.uid),
+                action: () => this.userService.viewAs(u.uid),
                 showLabel: true,
-                disabled: u.uid === this.user.uid,
+                disabled: u.uid === this.userService.user.uid,
               } as NavItem;
             })
           }
         ];
         this.loading = false;
-        this.userChanged.emit(this.user);
+        this.userChanged.emit(this.userService.user);
       });
     }
   }
 
   private _loadNavLinks() {
-    if (this.user) {
-      const displayName = this.user.display_name || this.user.first_name || this.user.last_name;
+    if (this.userService.user) {
+      const displayName = this.userService.user.display_name || this.userService.user.first_name || this.userService.user.last_name;
 
       if (this.environment.homeRoute === 'research') {
         this.navLinks = [
@@ -141,7 +103,7 @@ export class NavbarComponent {
           },
           {
             id: 'nav_account',
-            label: `${displayName} (${this.user.email_address})`,
+            label: `${displayName} (${this.userService.user.email_address})`,
             icon: 'account_circle',
             showLabel: true,
             links: [
@@ -168,35 +130,4 @@ export class NavbarComponent {
     }
   }
 
-  get isAdmin(): boolean {
-    return this.realUser && this.realUser.is_admin;
-  }
-
-  get user(): User {
-    if (this.isAdmin) {
-      const isViewingAs = !!localStorage.getItem('admin_view_as') && this.impersonatedUser;
-      return isViewingAs ? this.impersonatedUser : this.realUser;
-    } else {
-      return this.realUser;
-    }
-  }
-
-  get isImpersonating(): boolean {
-    return !!(localStorage.getItem('admin_view_as') && this.impersonatedUser);
-  }
-
-  viewAs(uid: string) {
-    if (this.isAdmin && (uid !== this.realUser.uid)) {
-      localStorage.setItem('admin_view_as', uid);
-    } else {
-      localStorage.removeItem('admin_view_as');
-    }
-
-    this._loadUser();
-  }
-
-  private _onLoginError() {
-    localStorage.removeItem('admin_view_as');
-    localStorage.removeItem('token');
-  }
 }
