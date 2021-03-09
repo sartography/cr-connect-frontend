@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Inject, Output} from '@angular/core';
-import {NavigationEnd, Router} from '@angular/router';
-import {filter} from 'rxjs/operators';
+import {Router} from '@angular/router';
 import {ApiService, AppEnvironment, UserService, User} from 'sartography-workflow-lib';
 import {NavItem} from '../_interfaces/nav-item';
 
@@ -33,12 +32,11 @@ export class NavbarComponent {
   }
 
   private handleCallback() {
+    this._loadNavLinks()
     if (this.userService.user.is_admin){
       this._loadAdminNavLinks()
     }
-    else {
-      this._loadNavLinks()
-    }
+    this.loading = false;
   }
 
   private _loadAdminNavLinks() {
