@@ -1,11 +1,15 @@
+
 <div class="status-{{approvalsByStatus.status.toString().toLowerCase()}}" fxLayout="row wrap" fxLayoutGap="40px">
-  <table
+  <div 
+  *ngIf="(approvalsByStatus.status == approvalStatus.PENDING) && approvalsByStatus.dataSource.data?.length == 0; else approvalsTable">
+    You have no approvals pending at this time. If you received an email regarding an approval, please check for later notifications as that approval might have been cancelled. </div>
+    <ng-template #approvalsTable>
+    <table
     [attr.aria-describedby]="approvalsGroupId(approvalsByStatus)"
     [dataSource]="approvalsByStatus.dataSource"
     class="mat-elevation-z0"
     mat-table
-    matSort
-  >
+    matSort>
     <ng-container matColumnDef="id">
       <th *matHeaderCellDef id="col_approval_id" mat-header-cell mat-sort-header>PI (ID) School Dept</th>
       <td *matCellDef="let approval" mat-cell>
@@ -93,4 +97,7 @@
       mat-row
     ></tr>
   </table>
+
+</ng-template>
 </div>
+
