@@ -19,15 +19,15 @@ export class NavbarComponent {
   public user: User;
   public userIsAdmin: boolean;
   public userIsImpersonating: boolean;
-  @Inject('APP_ENVIRONMENT') private environment: AppEnvironment
 
   constructor(
     private router: Router,
     private api: ApiService,
     private userService: UserService,
+    @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private googleAnalyticsService: GoogleAnalyticsService,
 ) {
-  this.loading = true;
+    this.loading = true;
     this.googleAnalyticsService.init(this.environment.googleAnalyticsKey)
     this.userService.userChanged.subscribe(() => this.handleCallback());
     this.userService.user$.subscribe(u=>this.user = u);

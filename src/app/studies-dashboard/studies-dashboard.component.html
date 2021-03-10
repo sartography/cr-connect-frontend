@@ -33,18 +33,18 @@
     >
       <ng-container matColumnDef="user_display">
         <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header>Waiting On</th>
-        <td *matCellDef="let approval" mat-cell> {{approval.user_display}} </td>
+        <td *matCellDef="let approval" mat-cell [ngClass]="{'waiting-on': approval.user_uid === user.uid}"> {{approval.user_display}} </td>
       </ng-container>
 
 
       <ng-container matColumnDef="study.title">
         <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header> Study</th>
-        <td *matCellDef="let approval" mat-cell title="{{approval.study.title}}"> {{shrink(60,approval.study.title,approval.study.short_title)}} </td>
+        <td *matCellDef="let approval" mat-cell title="{{approval.study.title}}" [ngClass]="{'waiting-on': approval.user_uid === user.uid}"> {{shrink(60,approval.study.title,approval.study.short_title)}} </td>
       </ng-container>
 
       <ng-container matColumnDef="workflow.category_display_name">
         <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header> Workflow</th>
-        <td *matCellDef="let approval" mat-cell>
+        <td *matCellDef="let approval" mat-cell [ngClass]="{'waiting-on': approval.user_uid === user.uid}">
           {{approval.workflow.category_display_name}} >
           {{approval.workflow.display_name}}
         </td>
@@ -52,14 +52,14 @@
 
       <ng-container matColumnDef="task_title">
         <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header> Task</th>
-        <td *matCellDef="let approval" mat-cell>
+        <td *matCellDef="let approval" mat-cell [ngClass]="{'waiting-on': approval.user_uid === user.uid}" >
           {{approval.task_title}}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="date">
         <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header> Last Update</th>
-        <td *matCellDef="let approval" mat-cell>
+        <td *matCellDef="let approval" mat-cell [ngClass]="{'waiting-on': approval.user_uid === user.uid}" >
           {{timeAgo(approval.date)}}
         </td>
       </ng-container>
