@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Inject, Output} from '@angular/core';
 import {Router} from '@angular/router';
-import {ApiService, AppEnvironment, UserService, User} from 'sartography-workflow-lib';
+import {ApiService, AppEnvironment, UserService, User, GoogleAnalyticsService} from 'sartography-workflow-lib';
 import {NavItem} from '../_interfaces/nav-item';
 
 
@@ -16,31 +16,36 @@ export class NavbarComponent {
   title: string;
   allUsers: User[];
   loading = true;
+  public user: User;
+  public userIsAdmin: boolean;
+  public userIsImpersonating: boolean;
+  @Inject('APP_ENVIRONMENT') private environment: AppEnvironment
 
   constructor(
     private router: Router,
     private api: ApiService,
-    public userService: UserService,
-    @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
-
-  ) {
-    this.userService.googleAnalyticsService.init(this.environment.googleAnalyticsKey);
-    this.loading = true;
-    this.userService.userChanged.subscribe(() => {this.handleCallback()})
-    this.userService._loadUser();
-    this.title = environment.title;
+    private userService: UserService,
+    private googleAnalyticsService: GoogleAnalyticsService,
+) {
+  this.loading = true;
+    this.googleAnalyticsService.init(this.environment.googleAnalyticsKey)
+    this.userService.userChanged.subscribe(() => this.handleCallback());
+    this.userService.user$.subscribe(u=>this.user = u);
+    this.userService.isAdmin$.subscribe(a=>this.userIsAdmin = a)
+    this.userService.isImpersonating$.subscribe(a=>this.userIsImpersonating = a)
+    this.title = this.environment.title;
   }
 
   private handleCallback() {
     this._loadNavLinks()
-    if (this.userService.user.is_admin){
+    if (this.user.is_admin){
       this._loadAdminNavLinks()
     }
     this.loading = false;
   }
 
   private _loadAdminNavLinks() {
-    if (this.userService.isAdmin) {
+    if (this.userIsAdmin) {
       this.loading = true;
       const isViewingAs = !!localStorage.getItem('admin_view_as');
       this.api.listUsers().subscribe(users => {
@@ -48,7 +53,7 @@ export class NavbarComponent {
         this.adminNavLinks = [
           {
             id: 'nav_admin',
-            label: isViewingAs ? `Viewing as user ${this.userService.user.uid}` : 'View as...',
+            label: isViewingAs ? `Viewing as user ${this.user.uid}` : 'View as...',
             icon: 'preview',
             showLabel: true,
             links: users.map(u => {
@@ -58,20 +63,20 @@ export class NavbarComponent {
                 icon: 'person',
                 action: () => this.userService.viewAs(u.uid),
                 showLabel: true,
-                disabled: u.uid === this.userService.user.uid,
+                disabled: u.uid === this.user.uid,
               } as NavItem;
             })
           }
         ];
         this.loading = false;
-        this.userChanged.emit(this.userService.user);
+        this.userChanged.emit(this.user);
       });
     }
   }
 
   private _loadNavLinks() {
-    if (this.userService.user) {
-      const displayName = this.userService.user.display_name || this.userService.user.first_name || this.userService.user.last_name;
+    if (this.user) {
+      const displayName = this.user.display_name || this.user.first_name || this.user.last_name;
 
       if (this.environment.homeRoute === 'research') {
         this.navLinks = [
@@ -101,7 +106,7 @@ export class NavbarComponent {
           },
           {
             id: 'nav_account',
-            label: `${displayName} (${this.userService.user.email_address})`,
+            label: `${displayName} (${this.user.email_address})`,
             icon: 'account_circle',
             showLabel: true,
             links: [
