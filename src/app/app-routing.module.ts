@@ -2,13 +2,11 @@ import {Injectable, NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AppEnvironment, SessionRedirectComponent} from 'sartography-workflow-lib';
 import {environment} from '../environments/environment.runtime';
-import {ApprovalsComponent} from './approvals/approvals.component';
 import {HelpComponent} from './help/help.component';
 import {HomeComponent} from './home/home.component';
 import {InboxComponent} from './inbox/inbox.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProfileComponent} from './profile/profile.component';
-import {ResearchComponent} from './research/research.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowComponent} from './workflow/workflow.component';
 
@@ -31,10 +29,6 @@ export const routes: Routes = [
     redirectTo: environment.homeRoute,
   },
   {
-    path: 'research',
-    component: ResearchComponent
-  },
-  {
     path: 'home',
     component: HomeComponent
   },
@@ -49,10 +43,6 @@ export const routes: Routes = [
   {
     path: 'study/:study_id/workflow/:workflow_id/task/:task_id',
     component: WorkflowComponent
-  },
-  {
-    path: 'approvals',
-    component: ApprovalsComponent
   },
   {
     path: 'help',
