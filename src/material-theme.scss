@@ -7,7 +7,7 @@
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
 
-  tr:nth-child(even) {background: #CCC}
+  tr:nth-child(even) {background: $brand-primary-tint-4}
   tr:nth-child(odd) {background: #FFF}
 
   html, body {
