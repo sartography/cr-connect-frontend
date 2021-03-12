@@ -200,7 +200,7 @@ export function markedOptionsFactory(): MarkedOptions {
                 provide: MarkedOptions,
                 useFactory: markedOptionsFactory,
             },
-            sanitize: SecurityContext.URL
+            sanitize: SecurityContext.NONE
         }),
         MatBadgeModule,
         MatBottomSheetModule,
