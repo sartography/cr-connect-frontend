@@ -6,20 +6,19 @@
 }
 
 .divider{
-  min-height: 500px;
+  min-height: 25px;
 }
+
 .task-events {
   color: white;
   background-color : rgba(255,255,255,.25);
   border-radius: 10px;
-  padding: 2rem;
+  padding: 1rem;
   border: 1px solid rgba(255,255,255,.5);
   margin-bottom: 2rem;
-  min-width: 50vw;
-  min-height:440px;
-  position: absolute;
-  left: 350px;
-
+  width: 50vw;
+  height:440px;
+  margin:auto;
 }
 
 
