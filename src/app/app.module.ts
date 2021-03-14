@@ -49,7 +49,6 @@ import {
 import {environment} from '../environments/environment.runtime';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {ApprovalsComponent} from './approvals/approvals.component';
 import {CodeViewerComponent} from './code-viewer/code-viewer.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {FooterComponent} from './footer/footer.component';
@@ -61,9 +60,7 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProcessViewerComponent} from './process-viewer/process-viewer.component';
 import {ProfileComponent} from './profile/profile.component';
-import {ResearchComponent} from './research/research.component';
 import {StudiesDashboardComponent} from './studies-dashboard/studies-dashboard.component';
-import {ApprovalsFilesDashboardComponent} from './studies-files-dashboard/studies-files-dashboard.component';
 import {ApprovalDialogComponent} from './_dialogs/approval-dialog/approval-dialog.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudyProgressComponent} from './study-progress/study-progress.component';
@@ -159,7 +156,6 @@ export function markedOptionsFactory(): MarkedOptions {
     NotificationsComponent,
     ProfileComponent,
     StudiesComponent,
-    ApprovalsComponent,
     StudyComponent,
     StudyProgressComponent,
     StudyEventsComponent,
@@ -171,10 +167,8 @@ export function markedOptionsFactory(): MarkedOptions {
     CodeViewerComponent,
     ProcessViewerComponent,
     StudiesDashboardComponent,
-    ApprovalsFilesDashboardComponent,
     ApprovalDialogComponent,
     WorkflowResetDialogComponent,
-    ResearchComponent,
     WorkflowFormDialogComponent,
     LoadingComponent,
     CategoryComponent,
@@ -200,7 +194,7 @@ export function markedOptionsFactory(): MarkedOptions {
                 provide: MarkedOptions,
                 useFactory: markedOptionsFactory,
             },
-            sanitize: SecurityContext.URL
+            sanitize: SecurityContext.NONE
         }),
         MatBadgeModule,
         MatBottomSheetModule,
