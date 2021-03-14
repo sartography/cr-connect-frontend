@@ -84,6 +84,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   fileParams: FileParams;
   fields: FormlyFieldConfig[];
   locked = true;
+  activelySaving = false;
   taskStates = WorkflowTaskState;
 
   constructor(
@@ -119,6 +120,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   }
 
   saveTaskData(task: WorkflowTask, updateRemaining = false) {
+    this.activelySaving = true;
     const modelData = createClone()(this.model);
 
     // Set value of hidden fields to null
@@ -135,7 +137,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
 
     // Save task data
-    return this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, modelData).subscribe(
+    return this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, modelData, updateRemaining).subscribe(
       updatedWorkflow => {
         this.workflow = updatedWorkflow;
       },
@@ -143,14 +145,12 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
         this.apiError.emit(error);
       },
       () => {
-        if (updateRemaining && this.workflow.next_task) {
-          this.saveAllSiblingTaskData(this.workflow.next_task);
-        } else {
+          this.activelySaving = false;
           this.workflowUpdated.emit(this.workflow);
-        }
       }
     );
   }
+
 
   handleKeyUp($event) {
     const thisEl = ($event.target as HTMLElement);
@@ -196,27 +196,13 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
   }
 
-  saveAllSiblingTaskData(task: WorkflowTask) {
-    const taskModel = createClone()(this.model);
-
-    // Populate form field values with the ones from taskModel, but don't overwrite *everything* in this.model
-    this.model = createClone()(this.workflow.next_task.data);
-
-    for (const field of this.fields) {
-      const val = getObjectProperty(taskModel, field.key);
-      setObjectProperty(this.model, field.key, val);
-    }
-
-    this.saveTaskData(task, this.getIncompleteMISiblings(task).length > 1);
-  }
 
   goBack() {
     this.location.back();
   }
 
   saveDisabled() {
-    console.log('Save Disabled?', (this.form.valid && !this.locked))
-    return (this.locked || this.form.invalid)
+    return (this.locked || this.form.invalid || this.activelySaving)
   }
 
   private _loadModel(task: WorkflowTask) {
