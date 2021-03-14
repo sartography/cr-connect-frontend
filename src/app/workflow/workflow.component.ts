@@ -10,7 +10,7 @@ import {
   ApiService,
   AppEnvironment,
   scrollToTop,
-  Workflow,
+  Workflow, WorkflowNavItem,
   WorkflowTask,
   WorkflowTaskState,
   WorkflowTaskType,
@@ -20,6 +20,8 @@ import {
   WorkflowResetDialogComponent,
   WorkflowResetDialogData
 } from '../workflow-reset-dialog/workflow-reset-dialog.component';
+import {WorkflowNavComponent} from '../workflow-nav/workflow-nav.component';
+import {isOrContainsUserTasks} from '../_util/nav-item';
 
 
 @Component({
@@ -158,7 +160,7 @@ export class WorkflowComponent implements OnInit {
     this.updateTaskList(this.workflow);
   }
 
-  hasIncompleteUserTask() {
+  incompleteTasks(): WorkflowNavItem[]{
     if (this.workflow.navigation && (this.workflow.navigation.length > 0)) {
       const incompleteStates = [
         WorkflowTaskState.READY,
@@ -167,6 +169,19 @@ export class WorkflowComponent implements OnInit {
         WorkflowTaskState.LIKELY,
       ];
       const incompleteTasks = this.workflow.navigation.filter(t => incompleteStates.includes(t.state));
+      return incompleteTasks;
+    }
+    return [];
+}
+
+  isOnlyTask(): boolean{
+    const userTasks = this.workflow.navigation.filter(t => isOrContainsUserTasks(t))
+    return userTasks.length === 1;
+  }
+
+  hasIncompleteUserTask() {
+    const incompleteTasks = this.incompleteTasks();
+    if (incompleteTasks.length > 0){
       return this.currentTask &&
         (this.currentTask.type === WorkflowTaskType.USER_TASK) &&
         ((this.currentTask.state === WorkflowTaskState.READY) || (incompleteTasks.length > 0));
@@ -197,7 +212,7 @@ export class WorkflowComponent implements OnInit {
   }
 
   resetWorkflow(clearData: boolean = false) {
-    this.api.restartWorkflow(this.workflowId, clearData).subscribe(workflow => {
+   this.api.restartWorkflow(this.workflowId, clearData).subscribe(workflow => {
       console.log('resetWorkflow workflow', workflow);
       this.snackBar.open(`Your workflow has been reset successfully.`, 'Ok', {duration: 3000});
       this.workflow = workflow;

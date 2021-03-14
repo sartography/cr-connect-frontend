@@ -20,6 +20,7 @@ import {
   ToFormlyPipe
 } from 'sartography-workflow-lib';
 import {WorkflowFormComponent} from './workflow-form.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 describe('WorkflowFormComponent', () => {
   let httpMock: HttpTestingController;
@@ -42,6 +43,7 @@ describe('WorkflowFormComponent', () => {
         MatProgressSpinnerModule,
         NoopAnimationsModule,
         RouterTestingModule,
+        MatDialogModule,
       ],
       providers: [
         ApiService,

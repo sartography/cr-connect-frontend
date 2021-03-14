@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {ApiService, StudyStatus, StudyStatusLabels, Study, TaskAction, TaskEvent} from 'sartography-workflow-lib';
 import {TaskLane} from '../_interfaces/task-lane';
 import {StudiesByStatus} from '../studies/studies.component';
@@ -11,6 +11,9 @@ import {MatTableDataSource} from '@angular/material/table';
 import * as timeago from 'timeago.js';
 import {MatButtonToggleChange} from '@angular/material/button-toggle';
 import {FormlyFieldConfig} from '@ngx-formly/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import { shrink } from '../_util/shrink';
 
 enum IrbHsrStatus {
   NOT_SUBMITTED = 'Not Submitted',
@@ -36,19 +39,25 @@ export class StudiesDashboardComponent implements OnInit {
   @Input() beforeStudyIds: number[];
   @Input() afterStudyIds: number[];
   @Output() studyUpdated = new EventEmitter<Study>();
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   currentTab = 0;
+  shrink = shrink;
   displayedColumns: string[] = [
     'id',
     'title',
     'status',
     'reviews_complete',
+    'updated',
+    'created',
     'actions',
   ];
   approvalColumns: string[] = [
-    'approval_study',
-    'approval_workflow',
-    'approval_task',
-    'approval_date',
+    'user_display',
+    'study.title',
+    'workflow.category_display_name',
+    'task_title',
+    'date',
   ];
   defaultStudyActionForm: FormlyFieldConfig[] = [
     {
@@ -158,6 +167,7 @@ export class StudiesDashboardComponent implements OnInit {
     this.currentTab = currentTab
   }
 
+
   studyStatusDisplayType(study: Study) {
     if (this.isNewStudy(study)) { return StudyStatusDisplayType.NEW;}
     if (this.getIrbHsrStatus(study) !== IrbHsrStatus.NOT_SUBMITTED) { return StudyStatusDisplayType.IRB;}
@@ -223,12 +233,23 @@ export class StudiesDashboardComponent implements OnInit {
       .getTaskEvents(TaskAction.ASSIGNMENT)
       .subscribe(t => {
         this.approvalsDataSource = new MatTableDataSource(t);
+        this.approvalsDataSource.paginator = this.paginator;
         this.approvalsDataSource.filterPredicate = (taskEvent: TaskEvent, filter) => {
           return this._taskLanesAreEqual(taskEvent.task_lane, this.selectedTaskLane.value);
-        };
+        }
 
         // Sending the filter a non-empty string so it will update.
         this.approvalsDataSource.filter = this.selectedTaskLane.label;
+        this.approvalsDataSource.sortingDataAccessor = (item, property) => {
+          switch(property) {
+            case 'task_title': return item.task_title.toLowerCase();
+            case 'study.title': return item.study.title.toLowerCase();
+            case 'workflow.category_display_name': return item.workflow.category_display_name.toLowerCase() +
+              item.workflow.display_name.toLowerCase();
+            default: return item[property];
+          }
+        };
+        this.approvalsDataSource.sort = this.sort;
       });
   }
 
@@ -252,7 +273,12 @@ export class StudiesDashboardComponent implements OnInit {
   // Returns true if given task lanes are equal.
   // If either value is falsey, use '' for the comparison.
   private _taskLanesAreEqual(a, b): boolean {
-    return ((a || '') === (b || ''))
+    if (((a || '') === '') && ((b || '') === '')) {
+      return true
+    } else {
+      return (((a || '') !== '') && ((b || '') !== ''))
+
+    }
   }
 
   private _updateStudy(data: ConfirmStudyStatusDialogData) {

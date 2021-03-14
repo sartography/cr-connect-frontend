@@ -22,12 +22,12 @@ import { of } from 'rxjs';
 import {
   ApiService,
   MockEnvironment,
-  mockFileMetas,
+  mockFileMetas, mockNav0, mockNav1,
   mockUser0, mockUser1,
   mockWorkflow0,
   mockWorkflow1,
   mockWorkflowTask0,
-  mockWorkflowTask1,
+  mockWorkflowTask1, NavItemType,
   RadioDataFieldComponent,
   ToFormlyPipe,
   WorkflowNavItem,
@@ -439,4 +439,17 @@ describe('WorkflowComponent', () => {
     fReq.flush(mockFileMetas);
     expect(component.fileMetas).toEqual(mockFileMetas);
   });
+
+  it('should report isOnlyTask', () => {
+    component.workflow.navigation = JSON.parse(JSON.stringify(mockNav0));
+    component.workflow.navigation[0] =
+      {
+        spec_id: 0, name: '', spec_type: NavItemType.USER_TASK, indent: 0
+      }
+    expect(component.isOnlyTask()).toBeTrue();
+    component.workflow.navigation = mockNav1;
+    expect(component.isOnlyTask()).toBeFalse();
+  });
 });
+
+

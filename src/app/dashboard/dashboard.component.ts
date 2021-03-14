@@ -10,6 +10,8 @@ import {shouldDisplayWorkflow} from '../_util/nav-item';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
+
+
 export class DashboardComponent implements OnInit {
   @Input() study: Study;
   @Output() categorySelected = new EventEmitter<number>();
@@ -18,6 +20,7 @@ export class DashboardComponent implements OnInit {
   @Input() selectedWorkflowId: number;
   categoryTabs: WorkflowSpecCategory[];
   statuses = WorkflowStatus;
+  states = WorkflowState;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,12 +36,27 @@ export class DashboardComponent implements OnInit {
     return isNumberDefined(this.selectedCategoryId) && !!this.selectedCategory;
   }
 
+
+  requiredItem(wf: WorkflowStats): boolean{
+    return ((wf.state === WorkflowState.REQUIRED)||(wf.state === WorkflowState.DISABLED));
+  }
+
+  assignRandomStuff(wf: WorkflowStats) : WorkflowStats{
+    const enums : WorkflowState[] = [WorkflowState.DISABLED,WorkflowState.HIDDEN,WorkflowState.REQUIRED,WorkflowState.OPTIONAL];
+    const mystate = enums[Math.floor(Math.random() * enums.length)];
+    console.log(mystate);
+    wf.message = mystate;
+    wf.state = mystate;
+    return wf;
+  }
+
   ngOnInit() {
     console.log('this.study', this.study);
     this.categoryTabs = this.study.categories
       .sort((a, b) => (a.display_order < b.display_order) ? -1 : 1)
       .map(cat => {
         cat.workflows = cat.workflows
+      // testing    .map(wf=>this.assignRandomStuff(wf) )
           .filter(wf => wf.state !== WorkflowState.HIDDEN)
           .sort((a, b) => (a.display_order < b.display_order) ? -1 : 1);
         return cat;

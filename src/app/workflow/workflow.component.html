@@ -134,7 +134,7 @@
         (click)="completeManualTask(currentTask)"
         color="primary"
         mat-flat-button
-      >Continue</button>
+      ><span [hidden]="!isOnlyTask()">Acknowledge</span><span [hidden]="isOnlyTask()">Continue</span></button>
       <div *ngIf="!isLocked(currentTask) && !currentTask.documentation && (currentTask.type !== taskTypes.END_EVENT)">
         <h1>{{currentTask.title}}</h1>
         <h2>Task type: {{currentTask.type}}</h2>

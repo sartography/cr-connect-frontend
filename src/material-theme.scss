@@ -7,6 +7,9 @@
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
 
+  tr:nth-child(even) {background: $brand-primary-tint-4}
+  tr:nth-child(odd) {background: #FFF}
+
   html, body {
     height: 100%;
   }
@@ -355,6 +358,17 @@
     }
   }
 
+  a.mdc-button {
+    float: right;
+  }
+
+  .mdc-button__icon {
+    cursor: pointer;
+    margin-right: 8px;
+    font-size: 150%;
+  }
+
+
   mat-card.dashboard {
     @include mat-elevation(0);
 
@@ -380,7 +394,7 @@
         &:hover {
           background-color: $brand-gray-light;
 
-          &.workflow_state--disabled             { opacity: 0.5; pointer-events: none; background-color: white; }
+          &.workflow_state--disabled             { opacity: 0.5; pointer-events: title; background-color: white; }
           &.workflow_state--hidden               { display: none; }
           &.workflow_state--required,
           &.workflow_state--optional {
@@ -398,7 +412,7 @@
         &.workflow_status--complete            { color: $brand-gray; }
 
         &.workflow_state--required             { background-color: $brand-accent-light; }
-        &.workflow_state--disabled             { opacity: 0.5; pointer-events: none; }
+        &.workflow_state--disabled             { opacity: 0.5; pointer-events: title;}
         &.workflow_state--hidden               { display: none; }
         &.workflow_state--optional             { background-color: white; }
       }
