@@ -1,20 +1,23 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {Router, RouterEvent} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {of, ReplaySubject} from 'rxjs';
-import {ApiService, MockEnvironment, mockUser0, mockUsers} from 'sartography-workflow-lib';
+import {ApiService, MockEnvironment, mockUser0, mockUsers, UserService} from 'sartography-workflow-lib';
 import {LoadingComponent} from '../loading/loading.component';
 import {NavbarComponent} from './navbar.component';
+import 'zone.js/dist/zone-testing';
+
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
   let httpMock: HttpTestingController;
+  let user: UserService;
   const eventSubject = new ReplaySubject<RouterEvent>(1)
   const mockRouter = {
     navigate: jasmine.createSpy('navigate'),
@@ -37,6 +40,7 @@ describe('NavbarComponent', () => {
       ],
       providers: [
         ApiService,
+        UserService,
         {
           provide: Router,
           useValue: mockRouter
@@ -49,54 +53,46 @@ describe('NavbarComponent', () => {
   }));
 
   beforeEach(() => {
+    localStorage.removeItem( 'admin_view_as');
     localStorage.setItem('token', 'some_token');
     httpMock = TestBed.inject(HttpTestingController);
+    user = TestBed.inject(UserService);
+
     fixture = TestBed.createComponent(NavbarComponent);
     component = fixture.componentInstance;
+    const _loadNavLinksSpy = spyOn((component as any), '_loadNavLinks').and.callThrough();
+    const _loadAdminNavLinksSpy = spyOn((component as any), '_loadAdminNavLinks').and.callThrough();
     fixture.detectChanges();
-
     const userReq = httpMock.expectOne('apiRoot/user');
     expect(userReq.request.method).toEqual('GET');
     userReq.flush(mockUser0);
-    expect(component.user).toEqual(mockUser0);
-    expect((component as any).realUser).toEqual(mockUser0);
-    expect((component as any).impersonatedUser).toBeUndefined();
-    expect(component.isAdmin).toBeTrue();
-
     const listUsersReq = httpMock.expectOne('apiRoot/list_users');
     expect(listUsersReq.request.method).toEqual('GET');
     listUsersReq.flush(mockUsers);
     expect(component.allUsers).toEqual(mockUsers);
+    expect(_loadNavLinksSpy).toHaveBeenCalled();
+    expect(_loadAdminNavLinksSpy).toHaveBeenCalled();
+
+
+
   });
 
   afterEach(() => {
+
     httpMock.verify();
     fixture.destroy();
   });
 
-  it('should create', () => {
+  it('should create', () =>{
     expect(component).toBeTruthy();
   });
 
+
   it('should load user', () => {
-    const _loadNavLinksSpy = spyOn((component as any), '_loadNavLinks').and.callThrough();
-    const _loadAdminNavLinksSpy = spyOn((component as any), '_loadAdminNavLinks').and.callThrough();
+    expect(!!localStorage.getItem( 'admin_view_as')).toBeFalse();
+    expect(((component as any).userService as any)._realUser.value).toEqual(mockUser0);
+    expect(component.userIsAdmin).toBeTrue();
+    expect((component as any).userIsImpersonating).toBeFalse();
 
-    (component as any)._loadUser();
-
-    const userReq = httpMock.expectOne('apiRoot/user');
-    expect(userReq.request.method).toEqual('GET');
-    userReq.flush(mockUser0);
-    expect(component.user).toEqual(mockUser0);
-    expect((component as any).realUser).toEqual(mockUser0);
-    expect((component as any).impersonatedUser).toBeUndefined();
-    expect(component.isAdmin).toBeTrue();
-    expect(_loadNavLinksSpy).toHaveBeenCalled();
-    expect(_loadAdminNavLinksSpy).toHaveBeenCalled();
-
-    const listUsersReq = httpMock.expectOne('apiRoot/list_users');
-    expect(listUsersReq.request.method).toEqual('GET');
-    listUsersReq.flush(mockUsers);
-    expect(component.allUsers).toEqual(mockUsers);
   });
-});
+ });

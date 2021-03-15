@@ -20,6 +20,7 @@ import {
   mockTaskEvents,
   StudyStatus,
   StudyStatusLabels,
+  mockUser0,
 } from 'sartography-workflow-lib';
 import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
 import {StudyAction} from '../_interfaces/study-action';
@@ -99,6 +100,9 @@ describe('StudiesDashboardComponent', () => {
     const sReq = httpMock.expectOne('apiRoot/task_events?action=ASSIGNMENT');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockTaskEvents);
+    const userReq = httpMock.expectOne('apiRoot/user');
+    expect(userReq.request.method).toEqual('GET');
+    userReq.flush(mockUser0);
 
     expect(component.approvalsDataSource).toBeTruthy();
     expect(component.approvalsDataSource.data).toBeTruthy();
