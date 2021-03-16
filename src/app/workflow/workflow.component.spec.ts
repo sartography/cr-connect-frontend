@@ -29,7 +29,7 @@ import {
   mockWorkflowTask0,
   mockWorkflowTask1,
   RadioDataFieldComponent,
-  ToFormlyPipe,
+  ToFormlyPipe, UserService,
   WorkflowNavItem,
   WorkflowTaskState,
   WorkflowTaskType
@@ -55,12 +55,24 @@ class MockMarkdownService {
   };
 }
 
+function loadDefaultUser(httpMock: HttpTestingController,component: WorkflowComponent): void {
+  const userReq = httpMock.expectOne('apiRoot/user');
+  expect(userReq.request.method).toEqual('GET');
+  userReq.flush(mockUser0);
+  expect(component.isAdmin).toEqual(true);
+  expect(component.showDataPane).toBeTrue();
+}
+
+
 describe('WorkflowComponent', () => {
   let component: WorkflowComponent;
   let fixture: ComponentFixture<WorkflowComponent>;
   let httpMock: HttpTestingController;
+  let user: UserService;
   const mockRouter = {navigate: jasmine.createSpy('navigate')};
   const mockEnvironment = new MockEnvironment();
+
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -97,6 +109,7 @@ describe('WorkflowComponent', () => {
       ],
       providers: [
         ApiService,
+        UserService,
         {
           provide: ActivatedRoute,
           useValue: {paramMap: of(convertToParamMap({study_id: '0', workflow_id: '0', task_id: '0'}))}
@@ -120,17 +133,13 @@ describe('WorkflowComponent', () => {
     localStorage.removeItem('admin_view_as')
     localStorage.setItem('token', 'some_token');
     httpMock = TestBed.inject(HttpTestingController);
+    user = TestBed.inject(UserService);
     fixture = TestBed.createComponent(WorkflowComponent);
     component = fixture.componentInstance;
     mockEnvironment.hideDataPane = true;
 
     fixture.detectChanges();
 
-    const userReq = httpMock.expectOne('apiRoot/user');
-    expect(userReq.request.method).toEqual('GET');
-    userReq.flush(mockUser0);
-    expect(component.isAdmin).toEqual(true);
-    expect(component.showDataPane).toBeTrue();
     const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
 
     expect(wf1Req.request.method).toEqual('GET');
@@ -148,11 +157,15 @@ describe('WorkflowComponent', () => {
     fixture.destroy();
   });
 
+
+
   it('should create', () => {
+    loadDefaultUser(httpMock,component);
     expect(component).toBeTruthy();
   });
 
   it('should change selected task', () => {
+    loadDefaultUser(httpMock,component);
     const updateUrlSpy = spyOn(component, 'updateUrl').and.stub();
     component.setCurrentTask(mockWorkflowTask0.id);
 
@@ -165,6 +178,7 @@ describe('WorkflowComponent', () => {
   });
 
   it('should update workflow', () => {
+    loadDefaultUser(httpMock,component);
     const countdownSpy = spyOn(component, 'countdown').and.stub();
     const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
     component.workflowUpdated(mockWorkflow1);
@@ -175,6 +189,7 @@ describe('WorkflowComponent', () => {
   });
 
   it('should not redirect on end event with documentation', () => {
+    loadDefaultUser(httpMock,component);
     const countdownSpy = spyOn(component, 'countdown').and.stub();
     const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
 
@@ -195,6 +210,7 @@ describe('WorkflowComponent', () => {
   });
 
   it('should redirect on end event without documentation', () => {
+    loadDefaultUser(httpMock,component);
     const countdownSpy = spyOn(component, 'countdown').and.stub();
     const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
 
@@ -215,6 +231,7 @@ describe('WorkflowComponent', () => {
   });
 
   it('should set current task when updating task list', () => {
+    loadDefaultUser(httpMock,component);
     // No currently-selected task
     (component as any).taskId = undefined;
     component.currentTask = undefined;
@@ -243,6 +260,7 @@ describe('WorkflowComponent', () => {
   });
 
   it('should log task data', () => {
+    loadDefaultUser(httpMock,component);
     const consoleGroupSpy = spyOn(console, 'group').and.stub();
     const consoleTableSpy = spyOn(console, 'table').and.stub();
     const consoleGroupEndSpy = spyOn(console, 'groupEnd').and.stub();
@@ -272,6 +290,7 @@ describe('WorkflowComponent', () => {
   });
 
   it('should complete manual task', () => {
+    loadDefaultUser(httpMock,component);
     const updateSpy = spyOn(component, 'workflowUpdated').and.stub();
     component.completeManualTask(mockWorkflowTask0);
 
@@ -283,6 +302,7 @@ describe('WorkflowComponent', () => {
   });
 
   it('should determine whether there are incomplete tasks', () => {
+    loadDefaultUser(httpMock,component);
     const workflowAllComplete = createClone({circles: true})(mockWorkflow0);
     workflowAllComplete.navigation.forEach((n: WorkflowNavItem) => n.state = WorkflowTaskState.COMPLETED);
     component.workflow = workflowAllComplete;
@@ -299,6 +319,7 @@ describe('WorkflowComponent', () => {
   });
 
   it('should toggle task data display', () => {
+    loadDefaultUser(httpMock,component);
     const toggleFilesDisplaySpy = spyOn(component, 'toggleFilesDisplay').and.stub();
     component.toggleDataDisplay(true);
     expect(component.displayData).toBeTrue();
@@ -318,6 +339,7 @@ describe('WorkflowComponent', () => {
   });
 
   it('should toggle task files display', () => {
+    loadDefaultUser(httpMock,component);
     const toggleDataDisplaySpy = spyOn(component, 'toggleDataDisplay').and.stub();
     component.toggleFilesDisplay(true);
     expect(component.displayFiles).toBeTrue();
@@ -337,6 +359,7 @@ describe('WorkflowComponent', () => {
   });
 
   it('should show a confirmation dialog before resetting a workflow', () => {
+    loadDefaultUser(httpMock,component);
     const mockConfirmDeleteData: WorkflowResetDialogData = {
       workflowId: component.workflowId,
       name: component.workflow.title,
@@ -357,6 +380,7 @@ describe('WorkflowComponent', () => {
   });
 
   it('should reset a workflow', () => {
+    loadDefaultUser(httpMock,component);
     const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
     (component as any).resetWorkflow();
     const wfsReq = httpMock.expectOne(`apiRoot/workflow/${component.workflowId}/restart?clear_data=false`);
@@ -442,6 +466,7 @@ describe('WorkflowComponent', () => {
   });
 
   it('should report isOnlyTask', () => {
+    loadDefaultUser(httpMock,component);
     component.workflow.navigation = mockNav0;
     expect(component.isOnlyTask()).toBeTrue()
     component.workflow.navigation = mockNav1;

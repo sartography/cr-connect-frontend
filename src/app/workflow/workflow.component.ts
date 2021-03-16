@@ -9,7 +9,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import {
   ApiService,
   AppEnvironment,
-  scrollToTop,
+  scrollToTop, UserService,
   Workflow, WorkflowNavItem,
   WorkflowTask,
   WorkflowTaskState,
@@ -20,7 +20,6 @@ import {
   WorkflowResetDialogComponent,
   WorkflowResetDialogData
 } from '../workflow-reset-dialog/workflow-reset-dialog.component';
-import {WorkflowNavComponent} from '../workflow-nav/workflow-nav.component';
 import {isOrContainsUserTasks} from '../_util/nav-item';
 
 
@@ -54,12 +53,14 @@ export class WorkflowComponent implements OnInit {
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private location: Location,
     private deviceDetector: DeviceDetectorService,
+    private userService: UserService,
   ) {
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
-
     });
+    this.userService.isAdmin$.subscribe(a => {this.isAdmin = a;
+      this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);})
   }
 
   get numFiles(): number {
@@ -67,25 +68,18 @@ export class WorkflowComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    // fixme: We should have a central user service, not lots of distinct calls.
-    const impersonateUid = localStorage.getItem('admin_view_as');
-    this.api.getUser(impersonateUid || undefined).subscribe(u => {
-      this.isAdmin = u.is_admin;
-      this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);
-
-      this.api.getWorkflow(this.workflowId).subscribe(
-        wf => {
-          console.log('ngOnInit workflow', wf);
-          this.workflow = wf;
-        },
-        error => {
-          this.handleError(error)
-        },
-        () => {
-          this.updateTaskList(this.workflow);
-        }
-      );
-    });
+    this.api.getWorkflow(this.workflowId).subscribe(
+      wf => {
+        console.log('ngOnInit workflow', wf);
+        this.workflow = wf;
+      },
+      error => {
+        this.handleError(error)
+      },
+      () => {
+        this.updateTaskList(this.workflow);
+      }
+    );
   }
 
   handleError(error): void {
@@ -168,8 +162,7 @@ export class WorkflowComponent implements OnInit {
         WorkflowTaskState.WAITING,
         WorkflowTaskState.LIKELY,
       ];
-      const incompleteTasks = this.workflow.navigation.filter(t => incompleteStates.includes(t.state));
-      return incompleteTasks;
+      return this.workflow.navigation.filter(t => incompleteStates.includes(t.state));
     }
     return [];
 }
