@@ -7,7 +7,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {Router, RouterEvent} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {of, ReplaySubject} from 'rxjs';
-import {ApiService, MockEnvironment, mockUser0, mockUsers, UserService} from 'sartography-workflow-lib';
+import {ApiService, MockEnvironment, mockUser0, mockUsers, UserService, mockUser1} from 'sartography-workflow-lib';
 import {LoadingComponent} from '../loading/loading.component';
 import {NavbarComponent} from './navbar.component';
 import 'zone.js/dist/zone-testing';
@@ -81,6 +81,7 @@ describe('NavbarComponent', () => {
 
     httpMock.verify();
     fixture.destroy();
+    localStorage.removeItem('admin_view_as')
   });
 
   it('should create', () =>{
@@ -95,4 +96,26 @@ describe('NavbarComponent', () => {
     expect((component as any).userIsImpersonating).toBeFalse();
 
   });
- });
+
+  it('should impersonate user',fakeAsync(() => {
+    // click on the nav link and then verify user is != realUser
+
+    ((component as any).userService as any).viewAs('rhh8n')
+    // First step - we get back the main user
+    const userReq1 = httpMock.expectOne('apiRoot/user');
+    expect(userReq1.request.method).toEqual('GET');
+    userReq1.flush(mockUser0);
+    // second step - we get back the impersonated user
+    const userReq = httpMock.expectOne('apiRoot/user?admin_impersonate_uid=rhh8n');
+    expect(userReq.request.method).toEqual('GET');
+    userReq.flush(mockUser1);
+
+    // now we should be impersonating but still admin so we can still switch
+    expect(localStorage.getItem( 'admin_view_as')).toEqual('rhh8n')
+    expect(component.userIsAdmin).toBeTrue();
+    expect((component as any).userIsImpersonating).toBeTruthy();
+
+  }));
+
+
+});

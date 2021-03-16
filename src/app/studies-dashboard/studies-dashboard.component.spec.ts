@@ -82,6 +82,7 @@ describe('StudiesDashboardComponent', () => {
   }));
 
   beforeEach(() => {
+    localStorage.removeItem('admin_view_as')
     httpMock = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(StudiesDashboardComponent);
     component = fixture.componentInstance;

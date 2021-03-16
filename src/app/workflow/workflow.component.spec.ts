@@ -117,6 +117,7 @@ describe('WorkflowComponent', () => {
   }));
 
   beforeEach(() => {
+    localStorage.removeItem('admin_view_as')
     localStorage.setItem('token', 'some_token');
     httpMock = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(WorkflowComponent);
