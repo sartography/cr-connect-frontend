@@ -45,10 +45,10 @@ import {
   SartographyPipesModule,
   SartographyWorkflowLibModule
 } from 'sartography-workflow-lib';
+
 import {environment} from '../environments/environment.runtime';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {ApprovalsComponent} from './approvals/approvals.component';
 import {CodeViewerComponent} from './code-viewer/code-viewer.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {FooterComponent} from './footer/footer.component';
@@ -60,16 +60,14 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {NotificationsComponent} from './notifications/notifications.component';
 import {ProcessViewerComponent} from './process-viewer/process-viewer.component';
 import {ProfileComponent} from './profile/profile.component';
-import {ResearchComponent} from './research/research.component';
 import {StudiesDashboardComponent} from './studies-dashboard/studies-dashboard.component';
-import {ApprovalsFilesDashboardComponent} from './studies-files-dashboard/studies-files-dashboard.component';
 import {ApprovalDialogComponent} from './_dialogs/approval-dialog/approval-dialog.component';
 import {StudiesComponent} from './studies/studies.component';
 import {StudyProgressComponent} from './study-progress/study-progress.component';
 import {StudyEventsComponent} from './study-events/study-events.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
-import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
+import {WorkflowFormComponent, WorkflowFormDialogComponent} from './workflow-form/workflow-form.component';
 import {WorkflowResetDialogComponent} from './workflow-reset-dialog/workflow-reset-dialog.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
@@ -87,6 +85,9 @@ import {MatTreeModule} from '@angular/material/tree';
 import { WorkflowProgressMenuComponent } from './workflow-progress-menu/workflow-progress-menu.component';
 import { ReviewProgressComponent } from './review-progress/review-progress.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+
+import { SecurityContext } from '@angular/core';
+
 (document.defaultView as any).hljs = hljs;
 
 
@@ -122,6 +123,14 @@ export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
   const linkRenderer = renderer.link;
 
+  renderer.code = (text, language, escaped) => {
+    if (language === 'info'){
+      return ` <a class="mdc-button mdc-button--raised" onclick="callAngularFunction(\`${text}\`);">
+      <i class="material-icons mdc-button__icon">info</i></a>`;
+    }
+    return new MarkedRenderer().code(text, language, escaped); // Use Default
+  }
+
   renderer.link = (href, title, text) => {
     const html = linkRenderer.call(renderer, href, title, text);
     return html.replace(/^<a /, '<a role="link" tabindex="0" target="_blank" rel="nofollow" noopener noreferrer" ');
@@ -147,7 +156,6 @@ export function markedOptionsFactory(): MarkedOptions {
     NotificationsComponent,
     ProfileComponent,
     StudiesComponent,
-    ApprovalsComponent,
     StudyComponent,
     StudyProgressComponent,
     StudyEventsComponent,
@@ -159,10 +167,9 @@ export function markedOptionsFactory(): MarkedOptions {
     CodeViewerComponent,
     ProcessViewerComponent,
     StudiesDashboardComponent,
-    ApprovalsFilesDashboardComponent,
     ApprovalDialogComponent,
     WorkflowResetDialogComponent,
-    ResearchComponent,
+    WorkflowFormDialogComponent,
     LoadingComponent,
     CategoryComponent,
     NavItemIconComponent,
@@ -187,6 +194,7 @@ export function markedOptionsFactory(): MarkedOptions {
                 provide: MarkedOptions,
                 useFactory: markedOptionsFactory,
             },
+            sanitize: SecurityContext.NONE
         }),
         MatBadgeModule,
         MatBottomSheetModule,

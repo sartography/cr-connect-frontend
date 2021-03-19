@@ -66,7 +66,7 @@ export class CategoryComponent implements OnInit {
     this.loading = true;
 
     if (isNumberDefined(this.workflowId)) {
-      this.api.getWorkflow(this.workflowId, false).subscribe(wf => {
+     this.api.getWorkflow(this.workflowId, false).subscribe(wf => {
         this.selectedWorkflow = wf;
         this.loading = false;
       });
