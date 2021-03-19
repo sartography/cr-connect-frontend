@@ -2,6 +2,8 @@ import {Component, EventEmitter, Inject, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {ApiService, AppEnvironment, UserService, User, GoogleAnalyticsService} from 'sartography-workflow-lib';
 import {NavItem} from '../_interfaces/nav-item';
+import {UserPreferencesService} from "../user-preferences.service";
+import {Preferences} from "../preferences.model";
 
 
 @Component({
@@ -19,21 +21,27 @@ export class NavbarComponent {
   public user: User;
   public userIsAdmin: boolean;
   public userIsImpersonating: boolean;
+  public preferences: Preferences;
 
   constructor(
     private router: Router,
     private api: ApiService,
     private userService: UserService,
+    private userPreferencesService: UserPreferencesService,
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
     private googleAnalyticsService: GoogleAnalyticsService,
 ) {
     this.loading = true;
-    this.googleAnalyticsService.init(this.environment.googleAnalyticsKey)
+    this.googleAnalyticsService.init(this.environment.googleAnalyticsKey);
     this.userService.userChanged.subscribe(() => this.handleCallback());
     this.userService.user$.subscribe(u=>this.user = u);
-    this.userService.isAdmin$.subscribe(a=>this.userIsAdmin = a)
-    this.userService.isImpersonating$.subscribe(a=>this.userIsImpersonating = a)
+    this.userService.isAdmin$.subscribe(a=>this.userIsAdmin = a);
+    this.userService.isImpersonating$.subscribe(a=>this.userIsImpersonating = a);
     this.title = this.environment.title;
+    this.userPreferencesService.preferences$.subscribe(p=> {
+      this.preferences = p
+      console.log('Show Admin Tools altered?', this.preferences.showAdminTools);
+    });
   }
 
   private handleCallback() {
@@ -66,12 +74,30 @@ export class NavbarComponent {
                 disabled: u.uid === this.user.uid,
               } as NavItem;
             })
-          }
+          },
+          {
+            id: 'toggle_admin',
+            label: 'Toggle Admin Tools',
+            icon: 'admin_panel_settings',
+            action: () => this.toggleAdminViewPreference(),
+            toggled: () => this.isAdminView(),
+            showLabel: true,
+          },
         ];
         this.loading = false;
         this.userChanged.emit(this.user);
       });
     }
+  }
+
+  private toggleAdminViewPreference() {
+    this.preferences.showAdminTools = !this.preferences.showAdminTools;
+    console.log('Show Admin Tools?', this.preferences.showAdminTools);
+    this.userPreferencesService.updatePreferences(this.preferences)
+  }
+
+  public isAdminView() {
+    return this.preferences.showAdminTools;
   }
 
   private _loadNavLinks() {

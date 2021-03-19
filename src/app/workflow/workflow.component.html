@@ -18,7 +18,7 @@
         >
           <mat-icon>insert_drive_file</mat-icon>
         </button>
-        <button
+        <button *ngIf="showAdminTools"
           mat-mini-fab
           title="Display collected task data"
           (click)="toggleDataDisplay()"
@@ -71,7 +71,7 @@
       (taskSelected)="setCurrentTask($event)">
     </app-workflow-progress-menu>
 
-    <div class="adminTools">
+    <div class="adminTools" *ngIf="showAdminTools">
       <h4>Advanced Navigation</h4>
       <em>This area is provided to administrative users only.  It allows you to see
       the full navigation to help clarify where you are in the BPMN workflow and why.</em>
