@@ -11,10 +11,10 @@
     </a>
     <div class="flex-spacer"></div>
 
-    <ng-container *ngIf="isAdmin">
+    <ng-container *ngIf="userIsAdmin">
       <app-nav-links
         [links]="adminNavLinks"
-        [ngClass]="{'viewing-as-user': isImpersonating}"
+        [ngClass]="{'viewing-as-user': userIsImpersonating}"
         id="adminToolbar"
       ></app-nav-links>
       <div class="flex-spacer"></div>
