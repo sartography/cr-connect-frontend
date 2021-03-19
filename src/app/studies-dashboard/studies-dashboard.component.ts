@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {ApiService, StudyStatus, StudyStatusLabels, Study, TaskAction, TaskEvent} from 'sartography-workflow-lib';
+import {ApiService, StudyStatus, StudyStatusLabels, Study, TaskAction, TaskEvent, UserService, User} from 'sartography-workflow-lib';
 import {TaskLane} from '../_interfaces/task-lane';
 import {StudiesByStatus} from '../studies/studies.component';
 import {MatDialog} from '@angular/material/dialog';
@@ -43,6 +43,7 @@ export class StudiesDashboardComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   currentTab = 0;
   shrink = shrink;
+  public user: User;
   displayedColumns: string[] = [
     'id',
     'title',
@@ -147,9 +148,11 @@ export class StudiesDashboardComponent implements OnInit {
 
   constructor(
     private api: ApiService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private userService: UserService,
   ) {
     this.loadTaskEvents();
+    this.userService.user$.subscribe(u=>this.user=u);
   }
 
   get hasTaskEvents(): boolean {
