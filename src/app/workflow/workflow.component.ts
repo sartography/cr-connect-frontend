@@ -21,6 +21,7 @@ import {
   WorkflowResetDialogData
 } from '../workflow-reset-dialog/workflow-reset-dialog.component';
 import {isOrContainsUserTasks} from '../_util/nav-item';
+import {UserPreferencesService} from '../user-preferences.service';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class WorkflowComponent implements OnInit {
   currentTask: WorkflowTask;
   studyId: number;
   showDataPane: boolean;
+  showAdminTools: boolean;
   workflowId: number;
   taskTypes = WorkflowTaskType;
   displayData = (localStorage.getItem('displayData') === 'true');
@@ -54,6 +56,7 @@ export class WorkflowComponent implements OnInit {
     private location: Location,
     private deviceDetector: DeviceDetectorService,
     private userService: UserService,
+    private userPreferencesService: UserPreferencesService,
   ) {
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
@@ -61,6 +64,11 @@ export class WorkflowComponent implements OnInit {
     });
     this.userService.isAdmin$.subscribe(a => {this.isAdmin = a;
       this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);})
+    this.userPreferencesService.preferences$.subscribe(p => {
+      this.environment.hideDataPane = !p.showAdminTools
+      this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);
+      this.showAdminTools = p.showAdminTools;
+    });
   }
 
   get numFiles(): number {

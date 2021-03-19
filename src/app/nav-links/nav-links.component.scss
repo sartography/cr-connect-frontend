@@ -1,3 +1,9 @@
+@import "../../config";
+
 mat-icon.with-label {
   margin-right: 0.25em;
+}
+
+.toggledOff {
+  color: $brand-primary-tint-3;
 }

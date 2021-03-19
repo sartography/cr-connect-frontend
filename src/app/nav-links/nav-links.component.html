@@ -1,11 +1,12 @@
 <ng-container *ngFor="let link of links">
   <a *ngIf="!link.links"
      [id]="link.id"
-     [ngClass]="{'active': isLinkActive(link.path)}"
+     [ngClass]="{'active': isLinkActive(link.path), 'toggledOff': link.toggled ? !link.toggled() : false}"
      [routerLink]="link.path"
      mat-button
      [matTooltip]="link.label"
      [disabled]="link.disabled"
+     (click)="link.action ? link.action() : null"
   >
     <mat-icon [ngClass]="{'with-label': link.showLabel}">{{link.icon}}</mat-icon>
     <ng-container *ngIf="link.showLabel">{{link.label}}</ng-container>
