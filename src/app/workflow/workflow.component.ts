@@ -21,7 +21,7 @@ import {
   WorkflowResetDialogData
 } from '../workflow-reset-dialog/workflow-reset-dialog.component';
 import {isOrContainsUserTasks} from '../_util/nav-item';
-import {UserPreferencesService} from "../user-preferences.service";
+import {UserPreferencesService} from '../user-preferences.service';
 
 
 @Component({

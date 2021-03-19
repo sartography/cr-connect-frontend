@@ -2,8 +2,8 @@ import {Component, EventEmitter, Inject, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {ApiService, AppEnvironment, UserService, User, GoogleAnalyticsService} from 'sartography-workflow-lib';
 import {NavItem} from '../_interfaces/nav-item';
-import {UserPreferencesService} from "../user-preferences.service";
-import {Preferences} from "../preferences.model";
+import {UserPreferencesService} from '../user-preferences.service';
+import {Preferences} from '../preferences.model';
 
 
 @Component({
