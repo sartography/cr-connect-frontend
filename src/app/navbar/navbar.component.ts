@@ -19,6 +19,7 @@ export class NavbarComponent {
   allUsers: User[];
   loading = true;
   public user: User;
+  public realUser: User;  // We may be impersonating a different user
   public userIsAdmin: boolean;
   public userIsImpersonating: boolean;
   public preferences: Preferences;
@@ -35,33 +36,30 @@ export class NavbarComponent {
     this.googleAnalyticsService.init(this.environment.googleAnalyticsKey);
     this.userService.userChanged.subscribe(() => this.handleCallback());
     this.userService.user$.subscribe(u=>this.user = u);
+    this.userService.realUser$.subscribe(u=>this.realUser = u);
     this.userService.isAdmin$.subscribe(a=>this.userIsAdmin = a);
     this.userService.isImpersonating$.subscribe(a=>this.userIsImpersonating = a);
     this.title = this.environment.title;
     this.userPreferencesService.preferences$.subscribe(p=> {
-      this.preferences = p
-      console.log('Show Admin Tools altered?', this.preferences.showAdminTools);
+      this.preferences = p;
     });
   }
 
   private handleCallback() {
-    this._loadNavLinks()
-    if (this.user.is_admin){
-      this._loadAdminNavLinks()
-    }
+    this._loadNavLinks();
+    this._loadAdminNavLinks();
     this.loading = false;
   }
 
   private _loadAdminNavLinks() {
     if (this.userIsAdmin) {
       this.loading = true;
-      const isViewingAs = !!localStorage.getItem('admin_view_as');
       this.api.listUsers().subscribe(users => {
         this.allUsers = users;
         this.adminNavLinks = [
           {
             id: 'nav_admin',
-            label: isViewingAs ? `Viewing as user ${this.user.uid}` : 'View as...',
+            label: this.userIsImpersonating ? `Viewing as user ${this.user.uid}` : 'View as...',
             icon: 'preview',
             showLabel: true,
             links: users.map(u => {
@@ -92,7 +90,6 @@ export class NavbarComponent {
 
   private toggleAdminViewPreference() {
     this.preferences.showAdminTools = !this.preferences.showAdminTools;
-    console.log('Show Admin Tools?', this.preferences.showAdminTools);
     this.userPreferencesService.updatePreferences(this.preferences)
   }
 
