@@ -99,7 +99,6 @@ describe('NavbarComponent', () => {
 
   it('should impersonate user',fakeAsync(() => {
     // click on the nav link and then verify user is != realUser
-
     ((component as any).userService as any).viewAs('rhh8n')
     // First step - we get back the main user
     const userReq1 = httpMock.expectOne('apiRoot/user');
@@ -109,6 +108,9 @@ describe('NavbarComponent', () => {
     const userReq = httpMock.expectOne('apiRoot/user?admin_impersonate_uid=rhh8n');
     expect(userReq.request.method).toEqual('GET');
     userReq.flush(mockUser1);
+
+    // At some point it will make a call to list all users that can be impersonated.
+    const userListRequest = httpMock.expectOne('apiRoot/list_users');
 
     // now we should be impersonating but still admin so we can still switch
     expect(localStorage.getItem( 'admin_view_as')).toEqual('rhh8n')
