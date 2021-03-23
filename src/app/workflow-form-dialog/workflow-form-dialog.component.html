@@ -1,0 +1,7 @@
+<div mat-dialog-content>
+    <markdown class="mat-typography" [data]="data">
+    </markdown>
+</div>
+<mat-dialog-actions>
+    <button #OK (click)="close()" color="primary" mat-flat-button [mat-dialog-close]='true' tabindex='-1'>Ok</button>
+</mat-dialog-actions>

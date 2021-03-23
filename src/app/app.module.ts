@@ -67,7 +67,8 @@ import {StudyProgressComponent} from './study-progress/study-progress.component'
 import {StudyEventsComponent} from './study-events/study-events.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
-import {WorkflowFormComponent, WorkflowFormDialogComponent} from './workflow-form/workflow-form.component';
+import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
+import {WorkflowFormDialogComponent} from './workflow-form-dialog/workflow-form-dialog.component';
 import {WorkflowResetDialogComponent} from './workflow-reset-dialog/workflow-reset-dialog.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';

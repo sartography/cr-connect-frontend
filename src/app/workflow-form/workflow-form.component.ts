@@ -29,6 +29,7 @@ import * as getObjectProperty from 'lodash/get';
 import * as setObjectProperty from 'lodash/set';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { WorkflowFormDialogComponent } from '../workflow-form-dialog/workflow-form-dialog.component';
 
 @Component({
   selector: 'app-workflow-form',
@@ -103,7 +104,6 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   }
 
   angularFunctionCalled(mat: string) {
-    console.log(mat);
     this.openDialog(mat);
   }
 
@@ -255,17 +255,4 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
     return parentElement;
   }
-}
-
-@Component({
-  selector: 'app-workflow-form-dialog',
-  templateUrl: 'workflow-form-dialog.html',
-})
-
-export class WorkflowFormDialogComponent {
-  constructor(public dialogRef: MatDialogRef<WorkflowFormDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string) {}
-  close(){
-    this.dialogRef.close();
- }
 }
