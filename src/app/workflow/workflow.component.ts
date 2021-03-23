@@ -43,7 +43,7 @@ export class WorkflowComponent implements OnInit {
   displayFiles = (localStorage.getItem('displayFiles') === 'true');
   fileMetas: FileMeta[];
   loading = true;
-  isAdmin: boolean; 
+  isAdmin: boolean;
   error: object;
 
 
@@ -95,7 +95,7 @@ export class WorkflowComponent implements OnInit {
         return this.angularFunctionCalled(str);
       }
     };
-    
+
   }
   openDialog(markdown: string) {
     this.dialog.open(WorkflowDialogComponent, {

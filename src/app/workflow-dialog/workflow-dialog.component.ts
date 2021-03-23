@@ -17,7 +17,7 @@ export class WorkflowDialogComponent {
     private rd: Renderer2) {
   }
 
-  ngAfterViewInit() {
+  AfterViewInit() {
     document.getElementById('ok').focus();
   }
 }

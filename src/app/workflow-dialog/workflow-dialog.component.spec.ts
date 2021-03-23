@@ -12,13 +12,13 @@ describe('WorkflowDialogComponent', () => {
       declarations: [ WorkflowDialogComponent ],
       imports: [MatDialogModule],
       providers: [
-        { 
+        {
         provide: MatDialogRef,
         useValue: []
-         }, 
-        { 
-        provide: MAT_DIALOG_DATA, 
-        useValue: [] 
+         },
+        {
+        provide: MAT_DIALOG_DATA,
+        useValue: []
         }
         ]
     })
@@ -40,5 +40,5 @@ describe('WorkflowDialogComponent', () => {
   //   const active_element = fixture.nativeElement.querySelector(':focus');
   //   expect(ok_button).toBe(active_element);
   // });
-  
+
 });
