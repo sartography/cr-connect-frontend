@@ -68,7 +68,7 @@ import {StudyEventsComponent} from './study-events/study-events.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
 import {WorkflowFormComponent} from './workflow-form/workflow-form.component';
-import {WorkflowFormDialogComponent} from './workflow-form-dialog/workflow-form-dialog.component';
+import {WorkflowDialogComponent} from './workflow-dialog/workflow-dialog.component';
 import {WorkflowResetDialogComponent} from './workflow-reset-dialog/workflow-reset-dialog.component';
 import {WorkflowSpecListComponent} from './workflow-spec-list/workflow-spec-list.component';
 import {WorkflowStepsMenuListComponent} from './workflow-steps-menu-list/workflow-steps-menu-list.component';
@@ -126,7 +126,7 @@ export function markedOptionsFactory(): MarkedOptions {
 
   renderer.code = (text, language, escaped) => {
     if (language === 'info'){
-      return ` <a class="mdc-button mdc-button--raised" onclick="callAngularFunction(\`${text}\`);">
+      return ` <a onclick="callAngularFunction(\`${text}\`);">
       <i class="material-icons mdc-button__icon">info</i></a>`;
     }
     return new MarkedRenderer().code(text, language, escaped); // Use Default
@@ -170,7 +170,7 @@ export function markedOptionsFactory(): MarkedOptions {
     StudiesDashboardComponent,
     ApprovalDialogComponent,
     WorkflowResetDialogComponent,
-    WorkflowFormDialogComponent,
+    WorkflowDialogComponent,
     LoadingComponent,
     CategoryComponent,
     NavItemIconComponent,

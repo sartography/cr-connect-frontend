@@ -29,7 +29,7 @@ import * as getObjectProperty from 'lodash/get';
 import * as setObjectProperty from 'lodash/set';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { WorkflowFormDialogComponent } from '../workflow-form-dialog/workflow-form-dialog.component';
+import { WorkflowDialogComponent } from '../workflow-dialog/workflow-dialog.component';
 
 @Component({
   selector: 'app-workflow-form',
@@ -90,21 +90,10 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   constructor(
     private api: ApiService,
-    private location: Location,
-    public dialog: MatDialog,
-    private ngZone: NgZone) { }
+    private location: Location) { }
 
   ngOnInit() {
     this._loadModel(this.task);
-    window[`angularComponentReference`] = {
-      component: this, zone: this.ngZone, loadAngularFunction: (str: string) => {
-        return this.angularFunctionCalled(str);
-      }
-    };
-  }
-
-  angularFunctionCalled(mat: string) {
-    this.openDialog(mat);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -112,12 +101,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
       this._loadModel(changes.task.currentValue);
     }
   }
-  openDialog(markdown: string) {
-    this.dialog.open(WorkflowFormDialogComponent, {
-      data: markdown,
-      maxWidth: '600px'
-    });
-  }
+
 
   saveTaskData(task: WorkflowTask, updateRemaining = false) {
     this.activelySaving = true;
