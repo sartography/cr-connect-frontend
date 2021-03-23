@@ -11,7 +11,6 @@ import { HasElementRef } from '@angular/material/core/common-behaviors/color';
 })
 
 export class WorkflowDialogComponent {
-  @ViewChild('OK') OK: ElementRef;
 
   constructor(public dialogRef: MatDialogRef<WorkflowDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string,
@@ -20,6 +19,5 @@ export class WorkflowDialogComponent {
 
   ngAfterViewInit() {
     document.getElementById('ok').focus();
-    this.OK.nativeElement.focus();
   }
 }
