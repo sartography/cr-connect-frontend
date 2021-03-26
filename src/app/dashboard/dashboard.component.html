@@ -15,7 +15,7 @@
             *ngFor="let workflowListItem of workflowsToShow(cat.workflows)"
             [ngClass]="'workflow-list-item workflow_status--' + workflowListItem.status + ' workflow_state--' + workflowListItem.state"
             >
-            <span title="{{workflowListItem.message}}">
+            <span title="{{workflowListItem.state_message}}">
             <div
               mat-line
               fxLayout="row"
@@ -27,8 +27,7 @@
               [ngClass]="{'workflow-action': true,
                           'disable-link':workflowListItem.state===states.DISABLED}"
             >
-
-              <app-nav-item-icon [workflowStats]="workflowListItem"></app-nav-item-icon>
+              <app-nav-item-icon [workflowMeta]="workflowListItem"></app-nav-item-icon>
                <div><strong *ngIf="workflowListItem.is_review">{{workflowListItem.display_name}}</strong>
                  <span *ngIf="! workflowListItem.is_review">{{workflowListItem.display_name}}</span>
                  <span></span>

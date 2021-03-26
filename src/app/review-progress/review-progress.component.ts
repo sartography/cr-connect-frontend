@@ -25,14 +25,16 @@ export class ReviewProgressComponent implements OnInit {
     this.numTotalReviews = 0;
     this.percentComplete = 0;
     this.study.categories.forEach(cat => {
-      cat.workflows.forEach(wf => {
-        if (wf.is_review) {
-          if (wf.status === WorkflowStatus.COMPLETE) {
-            this.numCompletedReviews += 1;
+      if (cat.workflows) {
+        cat.workflows.forEach(wf => {
+          if (wf.is_review) {
+            if (wf.status === WorkflowStatus.COMPLETE) {
+              this.numCompletedReviews += 1;
+            }
+            this.numTotalReviews += 1;
           }
-          this.numTotalReviews += 1;
-        }
-      });
+        });
+      }
     });
 
     this.opacity = .0;
