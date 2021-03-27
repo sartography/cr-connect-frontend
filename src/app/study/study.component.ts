@@ -8,7 +8,7 @@ import {
   StudyStatusLabels,
   Study,
   Workflow,
-  WorkflowSpecCategory, WorkflowStats
+  WorkflowSpecCategory, WorkflowMetadata
 } from 'sartography-workflow-lib';
 
 @Component({
@@ -23,7 +23,7 @@ export class StudyComponent implements OnInit {
   selectedCategoryId: number;
   selectedCategory: WorkflowSpecCategory;
   selectedWorkflowId: number;
-  selectedWorkflow: WorkflowStats;
+  selectedWorkflow: WorkflowMetadata;
   shrink = shrink;
 
   constructor(

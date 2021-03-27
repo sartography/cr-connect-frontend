@@ -3,10 +3,9 @@ import {MatIconModule} from '@angular/material/icon';
 import createClone from 'rfdc';
 import {
   mockNav0, mockTaskEvent0,
-  mockWorkflowStats0, NavItemType, TaskEvent, WorkflowNavItem,
+  mockWorkflowMeta0, NavItemType, TaskEvent, WorkflowNavItem,
   WorkflowStatus,
   WorkflowTaskState,
-  WorkflowTaskType
 } from 'sartography-workflow-lib';
 import {NavItemIconComponent} from './nav-item-icon.component';
 
@@ -34,11 +33,11 @@ describe('NavItemIconComponent', () => {
 
   it('should get icons for all workflow statuses', () => {
     let numPassed = 0;
-    const workflowStats = createClone({circles: true})(mockWorkflowStats0);
+    const workflowMeta = createClone({circles: true})(mockWorkflowMeta0);
     const statuses = Object.values(WorkflowStatus);
-    component.workflowStats = workflowStats;
+    component.workflowMeta = workflowMeta;
     statuses.forEach(s => {
-      workflowStats.status = s;
+      workflowMeta.status = s;
       component.update_icon();
       expect(component.icon).toBeTruthy('no icon for ' + s);
       numPassed++;

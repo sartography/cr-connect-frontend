@@ -5,7 +5,7 @@ import {
   Workflow,
   WorkflowNavItem,
   WorkflowSpecCategory,
-  WorkflowStats,
+  WorkflowMetadata,
   WorkflowStatus,
   WorkflowTaskState
 } from 'sartography-workflow-lib';
@@ -36,7 +36,7 @@ export class CategoryComponent implements OnInit {
     }
   }
 
-  get workflowsToDisplay(): WorkflowStats[] {
+  get workflowsToDisplay(): WorkflowMetadata[] {
     if (this.category && this.category.workflows && this.category.workflows.length > 0) {
       return this.category.workflows.filter(wf => shouldDisplayWorkflow(wf));
     } else {
@@ -48,7 +48,7 @@ export class CategoryComponent implements OnInit {
     this.loadWorkflow();
   }
 
-  isWorkflowComplete(workflow: WorkflowStats): boolean {
+  isWorkflowComplete(workflow: WorkflowMetadata): boolean {
     return workflow.status === WorkflowStatus.COMPLETE;
   }
 

@@ -1,6 +1,6 @@
 
 import { Location } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, NgZone, OnInit } from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,6 +22,7 @@ import {
 } from '../workflow-reset-dialog/workflow-reset-dialog.component';
 import {isOrContainsUserTasks} from '../_util/nav-item';
 import {UserPreferencesService} from '../user-preferences.service';
+import { WorkflowDialogComponent } from '../workflow-dialog/workflow-dialog.component';
 
 
 @Component({
@@ -57,6 +58,7 @@ export class WorkflowComponent implements OnInit {
     private deviceDetector: DeviceDetectorService,
     private userService: UserService,
     private userPreferencesService: UserPreferencesService,
+    private ngZone: NgZone
   ) {
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
@@ -88,6 +90,23 @@ export class WorkflowComponent implements OnInit {
         this.updateTaskList(this.workflow);
       }
     );
+    window[`angularComponentReference`] = {
+      component: this, zone: this.ngZone, loadAngularFunction: (str: string) => {
+        return this.angularFunctionCalled(str);
+      }
+    };
+
+  }
+  openDialog(markdown: string) {
+    this.dialog.open(WorkflowDialogComponent, {
+      data: markdown,
+      maxWidth: '600px',
+      autoFocus: false
+    });
+  }
+
+  angularFunctionCalled(mat: string) {
+    this.openDialog(mat);
   }
 
   handleError(error): void {
