@@ -24,12 +24,14 @@ export class StudyProgressComponent implements OnInit {
     this.numTotalWorkflows = 0;
     this.percentComplete = 0;
     this.study.categories.forEach(cat => {
-      cat.workflows.forEach(wf => {
-        if (wf.status === WorkflowStatus.COMPLETE) {
-          this.numCompletedWorkflows += 1;
-        }
-        this.numTotalWorkflows += 1;
-      });
+      if (cat.workflows) {
+        cat.workflows.forEach(wf => {
+          if (wf.status === WorkflowStatus.COMPLETE) {
+            this.numCompletedWorkflows += 1;
+          }
+          this.numTotalWorkflows += 1;
+        });
+      }
     });
 
     if (this.numCompletedWorkflows > 0) {

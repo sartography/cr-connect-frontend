@@ -1,7 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {isNumberDefined, Study, WorkflowSpecCategory, WorkflowState, WorkflowStatus,} from 'sartography-workflow-lib';
-import {WorkflowStats} from 'sartography-workflow-lib/lib/types/stats';
+import {
+  isNumberDefined,
+  Study,
+  WorkflowMetadata,
+  WorkflowSpecCategory,
+  WorkflowState,
+  WorkflowStatus,
+} from 'sartography-workflow-lib';
 import {shouldDisplayWorkflow} from '../_util/nav-item';
 
 
@@ -37,17 +43,8 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  requiredItem(wf: WorkflowStats): boolean{
+  requiredItem(wf: WorkflowMetadata): boolean{
     return ((wf.state === WorkflowState.REQUIRED)||(wf.state === WorkflowState.DISABLED));
-  }
-
-  assignRandomStuff(wf: WorkflowStats) : WorkflowStats{
-    const enums : WorkflowState[] = [WorkflowState.DISABLED,WorkflowState.HIDDEN,WorkflowState.REQUIRED,WorkflowState.OPTIONAL];
-    const mystate = enums[Math.floor(Math.random() * enums.length)];
-    console.log(mystate);
-    wf.message = mystate;
-    wf.state = mystate;
-    return wf;
   }
 
   ngOnInit() {
@@ -87,7 +84,7 @@ export class DashboardComponent implements OnInit {
     return `${statusLabel} (${stateLabel})`
   }
 
-  getStatusLabel(workflow: WorkflowStats) {
+  getStatusLabel(workflow: WorkflowMetadata) {
     switch (workflow.status) {
       case WorkflowStatus.NOT_STARTED:
         return 'Not started';
@@ -102,7 +99,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  getStateLabel(workflow: WorkflowStats) {
+  getStateLabel(workflow: WorkflowMetadata) {
     switch (workflow.state) {
       case WorkflowState.HIDDEN:
         return '';
@@ -153,7 +150,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  workflowsToShow(workflowListItems: WorkflowStats[]) {
+  workflowsToShow(workflowListItems: WorkflowMetadata[]) {
     return workflowListItems.filter(wf => shouldDisplayWorkflow(wf));
   }
 

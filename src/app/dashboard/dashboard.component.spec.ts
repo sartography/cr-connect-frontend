@@ -8,7 +8,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {
   mockStudies,
   mockWorkflowSpecCategories,
-  mockWorkflowStats0, mockWorkflowStats1,
+  mockWorkflowMeta0, mockWorkflowMeta1,
   WorkflowState,
   WorkflowStatus
 } from 'sartography-workflow-lib';
@@ -49,22 +49,22 @@ describe('DashboardComponent', () => {
   });
 
   it('should get state label', () => {
-    mockWorkflowStats0.state = null;
-    expect(component.getStateLabel(mockWorkflowStats0)).toBeUndefined();
+    mockWorkflowMeta0.state = null;
+    expect(component.getStateLabel(mockWorkflowMeta0)).toBeUndefined();
 
     Object.keys(WorkflowState).forEach(k => {
-      mockWorkflowStats0.state = WorkflowState[k];
-      expect(component.getStateLabel(mockWorkflowStats0)).toBeDefined();
+      mockWorkflowMeta0.state = WorkflowState[k];
+      expect(component.getStateLabel(mockWorkflowMeta0)).toBeDefined();
     });
   });
 
   it('should get status label', () => {
-    mockWorkflowStats1.status = null;
-    expect(component.getStatusLabel(mockWorkflowStats1)).toBeUndefined();
+    mockWorkflowMeta1.status = null;
+    expect(component.getStatusLabel(mockWorkflowMeta1)).toBeUndefined();
 
     Object.keys(WorkflowStatus).forEach(k => {
-      mockWorkflowStats1.status = WorkflowStatus[k];
-      expect(component.getStatusLabel(mockWorkflowStats1)).toBeDefined();
+      mockWorkflowMeta1.status = WorkflowStatus[k];
+      expect(component.getStatusLabel(mockWorkflowMeta1)).toBeDefined();
     });
   });
 });

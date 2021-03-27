@@ -1,5 +1,11 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {NavItemType, TaskEvent, WorkflowNavItem, WorkflowStats, WorkflowStatus} from 'sartography-workflow-lib';
+import {
+  NavItemType,
+  TaskEvent,
+  WorkflowMetadata,
+  WorkflowNavItem,
+  WorkflowStatus
+} from 'sartography-workflow-lib';
 
 @Component({
   selector: 'app-nav-item-icon',
@@ -9,7 +15,7 @@ import {NavItemType, TaskEvent, WorkflowNavItem, WorkflowStats, WorkflowStatus} 
 export class NavItemIconComponent implements OnInit, OnChanges {
   @Input() navItem: WorkflowNavItem;
   @Input() taskEvent: TaskEvent;
-  @Input() workflowStats: WorkflowStats;
+  @Input() workflowMeta: WorkflowMetadata;
 
   icon: string;
   css: string;
@@ -25,8 +31,8 @@ export class NavItemIconComponent implements OnInit, OnChanges {
   }
 
   update_icon(): void {
-    if (this.workflowStats) {
-      switch (this.workflowStats.status) {
+    if (this.workflowMeta) {
+      switch (this.workflowMeta.status) {
         case WorkflowStatus.COMPLETE:
           this.icon = 'check_circle';
           this.css = 'complete';
