@@ -1,7 +1,7 @@
-import {NavItemType, WorkflowNavItem, WorkflowState, WorkflowStats, WorkflowTaskState} from 'sartography-workflow-lib';
+import {NavItemType, WorkflowNavItem, WorkflowState, WorkflowMetadata, WorkflowTaskState} from 'sartography-workflow-lib';
 
 
-export const shouldDisplayWorkflow = (workflowListItem: WorkflowStats): boolean => {
+export const shouldDisplayWorkflow = (workflowListItem: WorkflowMetadata): boolean => {
   const hideTypes = [
     // removed disabled state per Alex - we need to display them and show them as being disabled instead.
     WorkflowState.HIDDEN,
@@ -11,14 +11,8 @@ export const shouldDisplayWorkflow = (workflowListItem: WorkflowStats): boolean 
     workflowListItem.state &&
     !hideTypes.includes(workflowListItem.state)
   );
-}
+};
 
-const groupTypes = [
-  NavItemType.SEQUENCE_FLOW,
-  NavItemType.EXCLUSIVE_GATEWAY,
-  NavItemType.PARALLEL_GATEWAY,
-  NavItemType.CALL_ACTIVITY,
-]
 const userTypes = [
   NavItemType.USER_TASK,
   NavItemType.MANUAL_TASK,
@@ -50,4 +44,4 @@ export const shouldDisableNavItem = (navItem: WorkflowNavItem): boolean => {
     WorkflowTaskState.FUTURE
   ];
   return (disableTypes.includes(navItem.state) || navItem.spec_type !== NavItemType.USER_TASK)
-}
+};
