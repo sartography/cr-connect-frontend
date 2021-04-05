@@ -91,7 +91,7 @@ describe('Clinical Research Coordinator App', () => {
     console.log('studyId', studyId);
     console.log('catId', catId);
     console.log('workflowId', workflowId);
-    const expectedRoute = `/study/${studyId}/workflow/${workflowId}/task/`;
+    const expectedRoute = `/study/${studyId}/workflow/${workflowId}`;
     await page.clickElement(wfSelector);
     const newRoute = await page.getRoute();
     expect(newRoute.slice(0, expectedRoute.length)).toEqual(expectedRoute);
