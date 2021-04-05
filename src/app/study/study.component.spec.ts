@@ -88,22 +88,6 @@ describe('StudyComponent', () => {
     expect(component.allWorkflows.length).toBeGreaterThan(0);
   });
 
-  it('should select category', () => {
-    const catId = component.study.categories[0].id;
-    const loadStudySpy = spyOn(component, 'loadStudy').and.stub();
-    component.selectCategory(catId);
-    expect(component.selectedCategoryId).toEqual(catId);
-    expect(component.isCategorySelected).toBeTrue()
-    expect(loadStudySpy).not.toHaveBeenCalled();
-
-    loadStudySpy.calls.reset();
-
-    component.selectCategory(undefined);
-    expect(component.selectedCategoryId).toBeUndefined();
-    expect(component.selectedWorkflowId).toBeUndefined();
-    expect(component.isCategorySelected).toBeFalse()
-    expect(loadStudySpy).toHaveBeenCalled();
-  });
 
 
   it('should select workflow', () => {

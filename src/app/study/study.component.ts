@@ -34,9 +34,6 @@ export class StudyComponent implements OnInit {
     this.loadStudy();
   }
 
-  get isCategorySelected(): boolean {
-    return isNumberDefined(this.selectedCategoryId);
-  }
 
   get isWorkflowSelected(): boolean {
     return isNumberDefined(this.selectedWorkflowId);

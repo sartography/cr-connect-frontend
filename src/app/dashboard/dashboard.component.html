@@ -1,5 +1,5 @@
 <div class="container" fxLayout="column">
-  <div *ngIf="!isCategorySelected" fxLayout="row" fxLayoutGap="5px">
+  <div fxLayout="row" fxLayoutGap="5px">
     <mat-card
       *ngFor="let cat of categoryTabs; let i = index"
       fxFlex="calc({{100 / categoryTabs.length}}%-30px)"
@@ -38,14 +38,6 @@
         </mat-list>
       </mat-card-content>
     </mat-card>
-  </div>
-  <div *ngIf="isCategorySelected" fxLayout="column">
-    <app-category
-      [category]="selectedCategory"
-      [study]="study"
-      [workflowId]="selectedWorkflowId"
-      (workflowUpdated)="selectWorkflow($event)"
-    ></app-category>
   </div>
 </div>
 
