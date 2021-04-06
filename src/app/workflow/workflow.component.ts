@@ -63,8 +63,6 @@ export class WorkflowComponent implements OnInit {
   ) {
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
-      this.api.getStudy(this.studyId).subscribe(res => {this.studyName = res.title});
-     
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
     });
     this.userService.isAdmin$.subscribe(a => {this.isAdmin = a;
@@ -85,12 +83,15 @@ export class WorkflowComponent implements OnInit {
       wf => {
         console.log('ngOnInit workflow', wf);
         this.workflow = wf;
+        
       },
       error => {
         this.handleError(error)
       },
       () => {
         this.updateTaskList(this.workflow);
+
+    this.api.getStudy(this.workflow.study_id).subscribe(res => {this.studyName = res.title});
       }
     );
     window[`angularComponentReference`] = {
@@ -98,7 +99,7 @@ export class WorkflowComponent implements OnInit {
         return this.angularFunctionCalled(str);
       }
     };
-
+    
   }
   openDialog(markdown: string) {
     this.dialog.open(WorkflowDialogComponent, {
