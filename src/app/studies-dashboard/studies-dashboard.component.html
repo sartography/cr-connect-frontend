@@ -119,7 +119,7 @@
         </ng-container>
 
         <ng-container matColumnDef="status">
-          <th scope="col" *matHeaderCellDef mat-header-cell  id="col_status"> Status</th>
+          <th scope="col" *matHeaderCellDef mat-header-cell id="col_status"> Status</th>
           <td *matCellDef="let study" mat-cell>
             <div *ngIf="studyStatusDisplayType(study)==='New'" class="new-study">
               NEW APPLICATION
@@ -141,14 +141,14 @@
         </ng-container>
 
         <ng-container matColumnDef="reviews_complete">
-          <th  scope="col" *matHeaderCellDef mat-header-cell  id="col_Reviews_complete">Reviews</th>
+          <th  scope="col" *matHeaderCellDef mat-header-cell id="col_Reviews_complete">Reviews</th>
           <td *matCellDef="let study" mat-cell>
             <app-review-progress [study]="study"></app-review-progress>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="updated">
-          <th  scope="col" *matHeaderCellDef mat-header-cell  id="col_updated">Updated</th>
+          <th  scope="col" *matHeaderCellDef mat-header-cell id="col_updated">Updated</th>
           <td *matCellDef="let study" mat-cell>
             <div>
               {{study.last_activity_date | date: 'short'}}

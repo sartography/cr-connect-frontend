@@ -35,6 +35,7 @@ export class WorkflowComponent implements OnInit {
   workflow: Workflow;
   currentTask: WorkflowTask;
   studyId: number;
+  studyName: string;
   showDataPane: boolean;
   showAdminTools: boolean;
   workflowId: number;
@@ -62,6 +63,8 @@ export class WorkflowComponent implements OnInit {
   ) {
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
+      this.api.getStudy(this.studyId).subscribe(res => {this.studyName = res.title});
+     
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
     });
     this.userService.isAdmin$.subscribe(a => {this.isAdmin = a;
