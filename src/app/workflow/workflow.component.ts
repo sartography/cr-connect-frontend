@@ -101,7 +101,7 @@ export class WorkflowComponent implements OnInit {
     this.dialog.open(WorkflowDialogComponent, {
       data: markdown,
       maxWidth: '600px',
-      autoFocus: false
+      autoFocus: true
     });
   }
 
