@@ -32,18 +32,18 @@
       [attr.aria-describedby]="'approvals_title'"
     >
       <ng-container matColumnDef="user_display">
-        <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header>Waiting On</th>
+        <th scope="col"  *matHeaderCellDef mat-header-cell >Waiting On</th>
         <td *matCellDef="let approval" mat-cell [ngClass]="{'waiting-on': approval.user_uid === user.uid}"> {{approval.user_display}} </td>
       </ng-container>
 
 
       <ng-container matColumnDef="study.title">
-        <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header> Study</th>
+        <th scope="col"  *matHeaderCellDef mat-header-cell > Study</th>
         <td *matCellDef="let approval" mat-cell title="{{approval.study.title}}" [ngClass]="{'waiting-on': approval.user_uid === user.uid}"> {{shrink(60,approval.study.title,approval.study.short_title)}} </td>
       </ng-container>
 
       <ng-container matColumnDef="workflow.category_display_name">
-        <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header> Workflow</th>
+        <th scope="col"  *matHeaderCellDef mat-header-cell > Workflow</th>
         <td *matCellDef="let approval" mat-cell [ngClass]="{'waiting-on': approval.user_uid === user.uid}">
           {{approval.workflow.category_display_name}} >
           {{approval.workflow.display_name}}
@@ -51,14 +51,14 @@
       </ng-container>
 
       <ng-container matColumnDef="task_title">
-        <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header> Task</th>
+        <th scope="col"  *matHeaderCellDef mat-header-cell > Task</th>
         <td *matCellDef="let approval" mat-cell [ngClass]="{'waiting-on': approval.user_uid === user.uid}" >
           {{approval.task_title}}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="date">
-        <th scope="col"  *matHeaderCellDef mat-header-cell mat-sort-header> Last Update</th>
+        <th scope="col"  *matHeaderCellDef mat-header-cell > Last Update</th>
         <td *matCellDef="let approval" mat-cell [ngClass]="{'waiting-on': approval.user_uid === user.uid}" >
           {{timeAgo(approval.date)}}
         </td>
@@ -109,17 +109,17 @@
         [attr.aria-describedby]="studiesGroupId(studiesGroup)"
       >
         <ng-container matColumnDef="id">
-          <th scope="col" *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_id"> Study ID</th>
+          <th scope="col" *matHeaderCellDef mat-header-cell  id="col_study_id"> Study ID</th>
           <td *matCellDef="let study" class="study-blue" mat-cell> {{study.id}} </td>
         </ng-container>
 
         <ng-container matColumnDef="title">
-          <th  scope="col" *matHeaderCellDef mat-header-cell mat-sort-header id="col_study_title"> Study Title</th>
+          <th  scope="col" *matHeaderCellDef mat-header-cell  id="col_study_title"> Study Title</th>
           <td *matCellDef="let study" class="study-blue" mat-cell title="{{study.title}}"> {{shrink(120,study.title,study.short_title)}} </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
-          <th scope="col" *matHeaderCellDef mat-header-cell mat-sort-header id="col_status"> Status</th>
+          <th scope="col" *matHeaderCellDef mat-header-cell  id="col_status"> Status</th>
           <td *matCellDef="let study" mat-cell>
             <div *ngIf="studyStatusDisplayType(study)==='New'" class="new-study">
               NEW APPLICATION
@@ -141,14 +141,14 @@
         </ng-container>
 
         <ng-container matColumnDef="reviews_complete">
-          <th  scope="col" *matHeaderCellDef mat-header-cell mat-sort-header id="col_Reviews_complete">Reviews</th>
+          <th  scope="col" *matHeaderCellDef mat-header-cell  id="col_Reviews_complete">Reviews</th>
           <td *matCellDef="let study" mat-cell>
             <app-review-progress [study]="study"></app-review-progress>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="updated">
-          <th  scope="col" *matHeaderCellDef mat-header-cell mat-sort-header id="col_updated">Updated</th>
+          <th  scope="col" *matHeaderCellDef mat-header-cell  id="col_updated">Updated</th>
           <td *matCellDef="let study" mat-cell>
             <div>
               {{study.last_activity_date | date: 'short'}}
@@ -162,7 +162,7 @@
 
 
         <ng-container matColumnDef="created">
-          <th  scope="col" *matHeaderCellDef mat-header-cell mat-sort-header id="col_created">Created</th>
+          <th  scope="col" *matHeaderCellDef mat-header-cell  id="col_created">Created</th>
           <td *matCellDef="let study" mat-cell>
             <div>
             {{study.last_updated | date:'short' }}
