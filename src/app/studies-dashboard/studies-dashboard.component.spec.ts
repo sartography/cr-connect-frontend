@@ -26,6 +26,7 @@ import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
 import {StudyAction} from '../_interfaces/study-action';
 import {StudyProgressComponent} from '../study-progress/study-progress.component';
 import {StudiesDashboardComponent} from './studies-dashboard.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 describe('StudiesDashboardComponent', () => {
   let component: StudiesDashboardComponent;
@@ -71,6 +72,7 @@ describe('StudiesDashboardComponent', () => {
         MatTooltipModule,
         NoopAnimationsModule,
         RouterTestingModule,
+        MatPaginatorModule
       ],
       providers: [
         ApiService,
