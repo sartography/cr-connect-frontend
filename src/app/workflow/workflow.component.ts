@@ -280,7 +280,6 @@ export class WorkflowComponent implements OnInit {
   }
 
   private updateTaskList(wf: Workflow, forceTaskId?: string) {
-    console.log("updating task list.")
     this.loading = true;
     this.workflow = wf;
     this.api.listWorkflowFiles(wf.id).subscribe(fms => {
