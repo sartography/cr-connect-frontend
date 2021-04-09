@@ -26,7 +26,9 @@ import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
 import {StudyAction} from '../_interfaces/study-action';
 import {StudyProgressComponent} from '../study-progress/study-progress.component';
 import {StudiesDashboardComponent} from './studies-dashboard.component';
-import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {ReviewProgressComponent} from "../review-progress/review-progress.component";
+import {MatCard, MatCardModule} from "@angular/material/card";
 
 describe('StudiesDashboardComponent', () => {
   let component: StudiesDashboardComponent;
@@ -58,11 +60,13 @@ describe('StudiesDashboardComponent', () => {
       declarations: [
         StudyProgressComponent,
         StudiesDashboardComponent,
+        ReviewProgressComponent
       ],
       imports: [
         BrowserAnimationsModule,
         HttpClientTestingModule,
         MatButtonToggleModule,
+        MatCardModule,
         MatChipsModule,
         MatDialogModule,
         MatExpansionModule,
