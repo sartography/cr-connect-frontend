@@ -4,6 +4,7 @@ import {AppPage} from './app.po';
 describe('Clinical Research Coordinator App', () => {
   let page: AppPage;
   let http: HttpClient;
+  let newStudyId: number;
 
   beforeEach(() => {
     page = new AppPage();
@@ -38,10 +39,10 @@ describe('Clinical Research Coordinator App', () => {
 
   it('should load new study from Protocol Builder', async () => {
     const numStudiesBefore = await page.getElements('.study-row').count();
-
+    newStudyId = Math.floor(Math.random() * 100000);
     // Add a new study to Protocol Builder.
     http.post('/new_study', '' +
-      `STUDYID=${Math.floor(Math.random() * 100000)}&` +
+      `STUDYID=${newStudyId}&` +
       `TITLE=${encodeURIComponent('New study title')}&` +
       `NETBADGEID=dhf8r&` +
       `DATE_MODIFIED=${encodeURIComponent(new Date().toISOString())}&` +
@@ -51,7 +52,7 @@ describe('Clinical Research Coordinator App', () => {
       `requirements=44&` +
       `requirements=52&` +
       `requirements=53&` +
-      `Q_COMPLETE=y`,
+      `Q_COMPLETE=(\'No Error\', \'Passed validation.\')`,
       {'Content-Type': 'application/x-www-form-urlencoded'}
     ).catch(error => {
       console.error(error);
@@ -91,13 +92,33 @@ describe('Clinical Research Coordinator App', () => {
     console.log('studyId', studyId);
     console.log('catId', catId);
     console.log('workflowId', workflowId);
-    const expectedRoute = `/study/${studyId}/workflow/${workflowId}/task/`;
+    const expectedRoute = `/study/${studyId}/workflow/${workflowId}`;
     await page.clickElement(wfSelector);
     const newRoute = await page.getRoute();
     expect(newRoute.slice(0, expectedRoute.length)).toEqual(expectedRoute);
   });
 
-  // TODO: CATCH 401/403 ERRORS AND VERIFY THAT THEY REDIRECT TO LOGIN
+/*
+  it('should delete test study from Protocol Builder', async () => {
+    page.clickAndExpectRoute('#nav_home', '/home');
+    const numStudiesBeforeDel = await page.getElements('.study-row').count();
+    http.post(`/del_study/${newStudyId}`,
+      `confirm=y`
+    ).catch(error => {
+      console.error(error);
+    });
+    http.failOnHttpError = false;
+
+    await page.clickElement('#cta_reload_studies');
+    await page.waitForNotVisible('.loading');
+    await page.waitForClickable('.study-row');
+
+    const numStudiesAfterDel = await page.getElements('.study-row').count();
+    expect(numStudiesAfterDel).toEqual(numStudiesBeforeDel);
+  });
+*/
+
+    // TODO: CATCH 401/403 ERRORS AND VERIFY THAT THEY REDIRECT TO LOGIN
   // afterEach(async () => {
   //   // Assert that there are no errors emitted from the browser
   //   const logs = await browser.manage().logs().get(logging.Type.BROWSER);
