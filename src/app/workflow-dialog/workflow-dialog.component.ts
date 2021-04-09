@@ -16,8 +16,4 @@ export class WorkflowDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: string,
     private rd: Renderer2) {
   }
-
-  AfterViewInit() {
-    document.getElementById('ok').focus();
-  }
 }
