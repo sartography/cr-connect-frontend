@@ -27,8 +27,8 @@ import {StudyAction} from '../_interfaces/study-action';
 import {StudyProgressComponent} from '../study-progress/study-progress.component';
 import {StudiesDashboardComponent} from './studies-dashboard.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import {ReviewProgressComponent} from "../review-progress/review-progress.component";
-import {MatCard, MatCardModule} from "@angular/material/card";
+import {ReviewProgressComponent} from '../review-progress/review-progress.component';
+import {MatCard, MatCardModule} from '@angular/material/card';
 
 describe('StudiesDashboardComponent', () => {
   let component: StudiesDashboardComponent;
