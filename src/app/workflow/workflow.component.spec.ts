@@ -22,7 +22,7 @@ import { of } from 'rxjs';
 import {
   ApiService,
   MockEnvironment,
-  mockFileMetas, mockNav0, mockNav1,
+  mockFileMetas, mockNav0, mockNav1, mockStudy0,
   mockUser0, mockUser1,
   mockWorkflow0,
   mockWorkflow1,
@@ -141,10 +141,14 @@ describe('WorkflowComponent', () => {
     fixture.detectChanges();
 
     const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
-
     expect(wf1Req.request.method).toEqual('GET');
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
+
+    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id);
+    expect(sReq.request.method).toEqual('GET');
+    sReq.flush(mockStudy0);
+    expect(component.studyId).toEqual(mockStudy0.id);
 
     const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
     expect(fReq.request.method).toEqual('GET');
@@ -409,6 +413,11 @@ describe('WorkflowComponent', () => {
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
 
+    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id);
+    expect(sReq.request.method).toEqual('GET');
+    sReq.flush(mockStudy0);
+    expect(component.studyId).toEqual(mockStudy0.id);
+
     const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
     expect(fReq.request.method).toEqual('GET');
     fReq.flush(mockFileMetas);
@@ -434,6 +443,11 @@ describe('WorkflowComponent', () => {
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
 
+    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id);
+    expect(sReq.request.method).toEqual('GET');
+    sReq.flush(mockStudy0);
+    expect(component.studyId).toEqual(mockStudy0.id);
+
     const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
     expect(fReq.request.method).toEqual('GET');
     fReq.flush(mockFileMetas);
@@ -458,6 +472,11 @@ describe('WorkflowComponent', () => {
     expect(wf1Req.request.method).toEqual('GET');
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
+
+    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id);
+    expect(sReq.request.method).toEqual('GET');
+    sReq.flush(mockStudy0);
+    expect(component.studyId).toEqual(mockStudy0.id);
 
     const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
     expect(fReq.request.method).toEqual('GET');

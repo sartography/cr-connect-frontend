@@ -35,6 +35,7 @@ export class WorkflowComponent implements OnInit {
   workflow: Workflow;
   currentTask: WorkflowTask;
   studyId: number;
+  studyName: string;
   showDataPane: boolean;
   showAdminTools: boolean;
   workflowId: number;
@@ -63,7 +64,20 @@ export class WorkflowComponent implements OnInit {
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
+
+      this.api.getWorkflow(this.workflowId).subscribe(
+        wf => {
+          console.log('ngOnInit workflow', wf);
+          this.workflow = wf;
+          this.api.getStudy(this.workflow.study_id).subscribe(res => this.studyName = res.title);
+        },
+        error => {
+          this.handleError(error)
+        },
+        () => this.updateTaskList(this.workflow)
+      );
     });
+    
     this.userService.isAdmin$.subscribe(a => {this.isAdmin = a;
       this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);})
     this.userPreferencesService.preferences$.subscribe(p => {
@@ -78,18 +92,6 @@ export class WorkflowComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.api.getWorkflow(this.workflowId).subscribe(
-      wf => {
-        console.log('ngOnInit workflow', wf);
-        this.workflow = wf;
-      },
-      error => {
-        this.handleError(error)
-      },
-      () => {
-        this.updateTaskList(this.workflow);
-      }
-    );
     window[`angularComponentReference`] = {
       component: this, zone: this.ngZone, loadAngularFunction: (str: string) => {
         return this.angularFunctionCalled(str);
