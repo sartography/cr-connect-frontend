@@ -1,7 +1,7 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {MatButtonToggleChange, MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatButtonToggleChange, MatButtonToggleGroup, MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
@@ -26,11 +26,16 @@ import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
 import {StudyAction} from '../_interfaces/study-action';
 import {StudyProgressComponent} from '../study-progress/study-progress.component';
 import {StudiesDashboardComponent} from './studies-dashboard.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {ReviewProgressComponent} from '../review-progress/review-progress.component';
+import {MatCard, MatCardModule} from '@angular/material/card';
+import {MatBadgeModule} from '@angular/material/badge';
 
 describe('StudiesDashboardComponent', () => {
   let component: StudiesDashboardComponent;
   let fixture: ComponentFixture<StudiesDashboardComponent>;
   let httpMock: HttpTestingController;
+
   const mockStudyAction: StudyAction = {
     showIf: (study) => this.statusIs(study, [StudyStatus.IN_PROGRESS]),
     buttonIcon: 'pause',
@@ -57,11 +62,13 @@ describe('StudiesDashboardComponent', () => {
       declarations: [
         StudyProgressComponent,
         StudiesDashboardComponent,
+        ReviewProgressComponent
       ],
       imports: [
         BrowserAnimationsModule,
         HttpClientTestingModule,
         MatButtonToggleModule,
+        MatCardModule,
         MatChipsModule,
         MatDialogModule,
         MatExpansionModule,
@@ -71,6 +78,8 @@ describe('StudiesDashboardComponent', () => {
         MatTooltipModule,
         NoopAnimationsModule,
         RouterTestingModule,
+        MatPaginatorModule,
+        MatBadgeModule
       ],
       providers: [
         ApiService,
@@ -83,9 +92,11 @@ describe('StudiesDashboardComponent', () => {
 
   beforeEach(() => {
     localStorage.removeItem('admin_view_as')
+    localStorage.setItem('token','whatevervalueyouwant')
     httpMock = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(StudiesDashboardComponent);
     component = fixture.componentInstance;
+
     component.studiesByStatus = Object.keys(StudyStatus).map(statusKey => {
       return {
         status: StudyStatus[statusKey],

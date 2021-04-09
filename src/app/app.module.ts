@@ -76,7 +76,6 @@ import {WorkflowComponent} from './workflow/workflow.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import * as hljs from 'highlight.js';
 import {ConfirmStudyStatusDialogComponent} from './_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
-import { CategoryComponent } from './category/category.component';
 import { NavItemIconComponent } from './nav-item-icon/nav-item-icon.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
@@ -172,7 +171,6 @@ export function markedOptionsFactory(): MarkedOptions {
     WorkflowResetDialogComponent,
     WorkflowDialogComponent,
     LoadingComponent,
-    CategoryComponent,
     NavItemIconComponent,
     NavLinksComponent,
     WorkflowNavComponent,
