@@ -33,7 +33,7 @@ import { WorkflowDialogComponent } from '../workflow-dialog/workflow-dialog.comp
 
 export class WorkflowComponent implements OnInit {
   workflow: Workflow;
-  currentTask: WorkflowTask;
+  currentTask: WorkflowTask = null;
   studyId: number;
   studyName: string;
   showDataPane: boolean;
@@ -69,7 +69,7 @@ export class WorkflowComponent implements OnInit {
         wf => {
           console.log('ngOnInit workflow', wf);
           this.workflow = wf;
-          this.api.getStudy(this.workflow.study_id).subscribe(res => this.studyName = res.title);
+          this.api.getStudy(this.studyId).subscribe(res => this.studyName = res.title);
         },
         error => {
           this.handleError(error)
