@@ -5,11 +5,11 @@ import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
-
+import {shrink} from '../_util/shrink'
 import {
   ApiService,
   AppEnvironment,
-  scrollToTop, UserService,
+  scrollToTop, Study, UserService,
   Workflow, WorkflowNavItem,
   WorkflowTask,
   WorkflowTaskState,
@@ -35,7 +35,7 @@ export class WorkflowComponent implements OnInit {
   workflow: Workflow;
   currentTask: WorkflowTask;
   studyId: number;
-  studyName: string;
+  study: Study;
   showDataPane: boolean;
   showAdminTools: boolean;
   workflowId: number;
@@ -44,6 +44,7 @@ export class WorkflowComponent implements OnInit {
   displayFiles = (localStorage.getItem('displayFiles') === 'true');
   fileMetas: FileMeta[];
   loading = true;
+  shrink = shrink;
   isAdmin: boolean;
   error: object;
 
@@ -69,7 +70,7 @@ export class WorkflowComponent implements OnInit {
         wf => {
           console.log('ngOnInit workflow', wf);
           this.workflow = wf;
-          this.api.getStudy(this.workflow.study_id).subscribe(res => this.studyName = res.title);
+          this.api.getStudy(this.workflow.study_id).subscribe(res => this.study = res);
         },
         error => {
           this.handleError(error)
