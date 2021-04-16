@@ -1,9 +1,10 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
 export interface WorkflowResetDialogData {
   confirm?: boolean;
   clearData?: boolean;
+  deleteFiles?: boolean;
   workflowId: number;
   name?: string;
 }
@@ -16,6 +17,7 @@ export interface WorkflowResetDialogData {
 export class WorkflowResetDialogComponent {
 
   clearData = false;
+  deleteFiles = false;
 
   constructor(
     public dialogRef: MatDialogRef<WorkflowResetDialogComponent>,
@@ -25,7 +27,15 @@ export class WorkflowResetDialogComponent {
 
   toggleClearData() {
     this.clearData = !this.clearData;
+    if(!this.clearData) {
+      this.deleteFiles = false;
+    }
   }
+
+  toggleDeleteFiles() {
+    this.deleteFiles = !this.deleteFiles;
+  }
+
 
   onNoClick() {
     this.data.confirm = false;
@@ -36,6 +46,7 @@ export class WorkflowResetDialogComponent {
   onSubmit() {
     this.data.confirm = true;
     this.data.clearData = this.clearData;
+    this.data.deleteFiles = this.deleteFiles;
     this.dialogRef.close(this.data);
   }
 }

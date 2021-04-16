@@ -387,7 +387,7 @@ describe('WorkflowComponent', () => {
     loadDefaultUser(httpMock,component);
     const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
     (component as any).resetWorkflow();
-    const wfsReq = httpMock.expectOne(`apiRoot/workflow/${component.workflowId}/restart?clear_data=false`);
+    const wfsReq = httpMock.expectOne(`apiRoot/workflow/${component.workflowId}/restart?clear_data=false&delete_files=false`);
     expect(wfsReq.request.method).toEqual('GET');
     wfsReq.flush(null);
 
