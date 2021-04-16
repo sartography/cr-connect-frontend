@@ -232,8 +232,8 @@ export class WorkflowComponent implements OnInit {
     }
   }
 
-  resetWorkflow(clearData: boolean = false) {
-   this.api.restartWorkflow(this.workflowId, clearData).subscribe(workflow => {
+  resetWorkflow(clearData: boolean = false, deleteFiles = false) {
+   this.api.restartWorkflow(this.workflowId, clearData, deleteFiles).subscribe(workflow => {
       console.log('resetWorkflow workflow', workflow);
       this.snackBar.open(`Your workflow has been reset successfully.`, 'Ok', {duration: 3000});
       this.workflow = workflow;
@@ -255,7 +255,7 @@ export class WorkflowComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((dialogData: WorkflowResetDialogData) => {
       if (dialogData && dialogData.confirm) {
-        this.resetWorkflow(dialogData.clearData);
+        this.resetWorkflow(dialogData.clearData, dialogData.deleteFiles);
       }
     });
   }
