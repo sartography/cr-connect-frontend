@@ -22,7 +22,6 @@ export class WorkflowFilesComponent implements OnInit,OnChanges,AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges){
-    console.log('something changed');
     this.dataSource.data = this.directory;
     this.treeControl.dataNodes = this.directory;
     setTimeout(()=>this.expandNodes(this.directory), 10);
@@ -35,9 +34,7 @@ export class WorkflowFilesComponent implements OnInit,OnChanges,AfterViewInit {
   }
 
   expandNodes(nodes: DocumentDirectory[]): void{
-    console.log('in expandNodes');
     nodes.forEach(node=>{
-      console.log(node);
       if (node.expanded) {
         this.treeControl.expand(node);
         this.expandNodes(node.children);

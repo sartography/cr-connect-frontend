@@ -1,14 +1,14 @@
 @import "../../config";
 .mat-tree-node{
-  min-height: 20px;
-  height: 20px;
+  min-height: 25px;
+  height: 25px;
 }
 .example-tree-invisible {
   display: none;
 }
 
 .activeFile{
-  background-color: #ffeeee;
+  background-color: $brand-accent-light;
 }
 
 .example-tree ul,
@@ -31,30 +31,33 @@
     .mat-list-text {
       padding-left: 0.25rem !important;
     }
+  }
+}
+.file {
+
+    color: $brand-accent;
+    font-size: 1rem;
+    text-decoration: underline;
+    padding-left: 0;
+    padding-top: 4px;
 
 
+  mat-icon {
+    opacity: 0;
+  }
 }
 
-  &:hover {
-    background-color: $brand-accent-light;
+.file {
 
-    .file mat-icon {
-      opacity: 1;
-      color: $brand-gray;
-    }
+    &:hover {
+      background-color: $brand-accent-light;
+
+      mat-icon {
+        opacity: 1;
+        color: $brand-gray;
+      }
+
+
   }
-
-
-  .file {
-    .name {
-      color: $brand-accent;
-      font-size: 1rem;
-      text-decoration: underline;
-      padding-left: 0;
-      padding-top: 4px;
-    }
-
-    mat-icon { opacity: 0; }
-  }
-
 }
+
