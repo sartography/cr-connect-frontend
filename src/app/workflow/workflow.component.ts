@@ -8,14 +8,14 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 
 import {
   ApiService,
-  AppEnvironment,
-  scrollToTop, UserService,
+  AppEnvironment, DocumentDirectory,
+  scrollToTop, Study, UserService,
   Workflow, WorkflowNavItem,
   WorkflowTask,
   WorkflowTaskState,
   WorkflowTaskType,
 } from 'sartography-workflow-lib';
-import { FileMeta } from 'sartography-workflow-lib/lib/types/file';
+
 import {
   WorkflowResetDialogComponent,
   WorkflowResetDialogData
@@ -36,13 +36,15 @@ export class WorkflowComponent implements OnInit {
   currentTask: WorkflowTask = null;
   studyId: number;
   studyName: string;
+  study : Study;
   showDataPane: boolean;
   showAdminTools: boolean;
   workflowId: number;
   taskTypes = WorkflowTaskType;
   displayData = (localStorage.getItem('displayData') === 'true');
   displayFiles = (localStorage.getItem('displayFiles') === 'true');
-  fileMetas: FileMeta[];
+  // fileMetas: FileMeta[];
+  dataDictionary: DocumentDirectory[];
   loading = true;
   isAdmin: boolean;
   error: object;
@@ -64,12 +66,11 @@ export class WorkflowComponent implements OnInit {
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
-
       this.api.getWorkflow(this.workflowId).subscribe(
         wf => {
           console.log('ngOnInit workflow', wf);
           this.workflow = wf;
-          this.api.getStudy(this.studyId).subscribe(res => this.studyName = res.title);
+          this.api.getStudy(this.studyId).subscribe(res => {this.studyName = res.title; this.study = res});
         },
         error => {
           this.handleError(error)
@@ -87,7 +88,7 @@ export class WorkflowComponent implements OnInit {
   }
 
   get numFiles(): number {
-    return this.fileMetas ? this.fileMetas.length : 0;
+    return this.dataDictionary ? this.dataDictionary.length : 0;
   };
 
   ngOnInit(): void {
@@ -282,9 +283,12 @@ export class WorkflowComponent implements OnInit {
   private updateTaskList(wf: Workflow, forceTaskId?: string) {
     this.loading = true;
     this.workflow = wf;
-    this.api.listWorkflowFiles(wf.id).subscribe(fms => {
-      this.fileMetas = fms;
-    });
+    this.api.getDocumentDirectory(this.studyId,this.workflowId).subscribe(dd => {
+      this.dataDictionary = dd;
+    })
+//    this.api.getFileMetas({study_id:this.studyId}).subscribe(fms => {
+//     this.fileMetas = fms;
+//    });
 
     // The current task will be set by the backend, unless specifically forced.
     if (forceTaskId) {
