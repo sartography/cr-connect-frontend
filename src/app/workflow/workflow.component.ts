@@ -78,7 +78,7 @@ export class WorkflowComponent implements OnInit {
         () => this.updateTaskList(this.workflow)
       );
     });
-    
+
     this.userService.isAdmin$.subscribe(a => {this.isAdmin = a;
       this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);})
     this.userPreferencesService.preferences$.subscribe(p => {
