@@ -35,10 +35,10 @@ describe('WorkflowDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should autofocus on the OK button', () => {
-  //   const ok_button = fixture.nativeElement.querySelector('#ok');
-  //   const active_element = fixture.nativeElement.querySelector(':focus');
-  //   expect(ok_button).toBe(active_element);
-  // });
+  it('should autofocus on the OK button', () => {
+    const okButton = fixture.nativeElement.querySelector('#ok');
+    const activeElement = fixture.nativeElement.querySelector(':focus');
+    expect(okButton).toBe(activeElement);
+  });
 
 });

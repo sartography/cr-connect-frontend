@@ -20,9 +20,7 @@ import {shouldDisplayWorkflow} from '../_util/nav-item';
 
 export class DashboardComponent implements OnInit {
   @Input() study: Study;
-  @Output() categorySelected = new EventEmitter<number>();
   @Output() workflowSelected = new EventEmitter<number>();
-  @Input() selectedCategoryId: number;
   @Input() selectedWorkflowId: number;
   categoryTabs: WorkflowSpecCategory[];
   statuses = WorkflowStatus;
@@ -32,14 +30,6 @@ export class DashboardComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) {
-  }
-
-  get selectedCategory(): WorkflowSpecCategory {
-    return this.categoryTabs.find(c => c.id === this.selectedCategoryId);
-  }
-
-  get isCategorySelected(): boolean {
-    return isNumberDefined(this.selectedCategoryId) && !!this.selectedCategory;
   }
 
 
@@ -125,9 +115,7 @@ export class DashboardComponent implements OnInit {
           relativeTo: this.route,
           queryParams: {category: categoryId, workflow: workflowId},
         }).then(() => {
-          this.selectedCategoryId = categoryId;
           this.selectedWorkflowId = workflowId;
-          this.categorySelected.emit(this.selectedCategoryId);
         });
       }
     } else if (isNumberDefined(categoryId)) {
@@ -136,16 +124,12 @@ export class DashboardComponent implements OnInit {
           relativeTo: this.route,
           queryParams: {category: categoryId},
         }).then(() => {
-          this.selectedCategoryId = categoryId;
-          this.categorySelected.emit(this.selectedCategoryId);
         });
       }
     } else {
       this.router.navigate([], {
         relativeTo: this.route,
       }).then(() => {
-        this.selectedCategoryId = undefined;
-        this.categorySelected.emit(undefined);
       });
     }
   }

@@ -33,7 +33,7 @@ import { WorkflowDialogComponent } from '../workflow-dialog/workflow-dialog.comp
 
 export class WorkflowComponent implements OnInit {
   workflow: Workflow;
-  currentTask: WorkflowTask;
+  currentTask: WorkflowTask = null;
   studyId: number;
   study: Study;
   showDataPane: boolean;
@@ -70,7 +70,7 @@ export class WorkflowComponent implements OnInit {
         wf => {
           console.log('ngOnInit workflow', wf);
           this.workflow = wf;
-          this.api.getStudy(this.workflow.study_id).subscribe(res => this.study = res);
+          this.api.getStudy(this.studyId).subscribe(res => this.studyName = res.title);
         },
         error => {
           this.handleError(error)
@@ -78,7 +78,6 @@ export class WorkflowComponent implements OnInit {
         () => this.updateTaskList(this.workflow)
       );
     });
-
     this.userService.isAdmin$.subscribe(a => {this.isAdmin = a;
       this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);})
     this.userPreferencesService.preferences$.subscribe(p => {
@@ -104,7 +103,7 @@ export class WorkflowComponent implements OnInit {
     this.dialog.open(WorkflowDialogComponent, {
       data: markdown,
       maxWidth: '600px',
-      autoFocus: false
+      autoFocus: true
     });
   }
 
@@ -234,8 +233,8 @@ export class WorkflowComponent implements OnInit {
     }
   }
 
-  resetWorkflow(clearData: boolean = false) {
-   this.api.restartWorkflow(this.workflowId, clearData).subscribe(workflow => {
+  resetWorkflow(clearData: boolean = false, deleteFiles = false) {
+   this.api.restartWorkflow(this.workflowId, clearData, deleteFiles).subscribe(workflow => {
       console.log('resetWorkflow workflow', workflow);
       this.snackBar.open(`Your workflow has been reset successfully.`, 'Ok', {duration: 3000});
       this.workflow = workflow;
@@ -257,7 +256,7 @@ export class WorkflowComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((dialogData: WorkflowResetDialogData) => {
       if (dialogData && dialogData.confirm) {
-        this.resetWorkflow(dialogData.clearData);
+        this.resetWorkflow(dialogData.clearData, dialogData.deleteFiles);
       }
     });
   }

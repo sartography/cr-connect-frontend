@@ -1,8 +1,7 @@
 <div *ngIf="!loading && study; else loadingMessage" class="study-container">
   <div class="class" fxLayout="row">
     <button
-      [routerLink]="!isCategorySelected ? '/' : '/study/' + study.id"
-      (click)="selectCategory(undefined)"
+      [routerLink]="'/'"
       mat-flat-button
       ngClass="back"
     >
@@ -25,9 +24,7 @@
   <app-dashboard
     *ngIf="allWorkflows.length > 0"
     [study]="study"
-    [selectedCategoryId]="selectedCategoryId"
     [selectedWorkflowId]="selectedWorkflowId"
-    (categorySelected)="selectCategory($event)"
     (workflowSelected)="selectWorkflow($event)"
   ></app-dashboard>
 
