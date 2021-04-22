@@ -1,6 +1,32 @@
 @import "../../config";
+.mat-tree-node{
+  min-height: 25px;
+  height: 25px;
+}
+.example-tree-invisible {
+  display: none;
+}
+
+.activeFile{
+  background-color: $brand-accent-light;
+}
+
+.example-tree {
+  margin-top: 10px;
+
+   ul, li {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    list-style-type: none;
+  }
+
+}
+
 
 ::ng-deep app-workflow-files {
+  .mat-tree,
+  .mat-tree-node,
+  .mat-nested-tree-node,
   .mat-list-base .mat-list-item .mat-list-item-content,
   .mat-list-base .mat-list-option .mat-list-item-content {
     cursor: pointer;
@@ -10,27 +36,32 @@
     .mat-list-text {
       padding-left: 0.25rem !important;
     }
+  }
+}
+.file {
+
+    color: $brand-accent;
+    font-size: 1rem;
+    text-decoration: underline;
+    padding-left: 0;
+    padding-top: 4px;
+
+
+  mat-icon {
+    opacity: 0;
+  }
+}
+
+.file {
 
     &:hover {
       background-color: $brand-accent-light;
 
-      .file mat-icon {
+      mat-icon {
         opacity: 1;
         color: $brand-gray;
       }
-    }
 
-    .file {
-      .name {
-        color: $brand-accent;
-        font-size: 1rem;
-        text-decoration: underline;
-        padding-left: 0;
-        padding-top: 4px;
-      }
-
-      mat-icon { opacity: 0; }
-    }
 
   }
 }
