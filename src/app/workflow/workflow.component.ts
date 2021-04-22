@@ -1,6 +1,6 @@
 
 import { Location } from '@angular/common';
-import { Component, Inject, NgZone, OnInit } from '@angular/core';
+import {Component, ElementRef, Inject, NgZone, OnInit} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -61,7 +61,7 @@ export class WorkflowComponent implements OnInit {
     private deviceDetector: DeviceDetectorService,
     private userService: UserService,
     private userPreferencesService: UserPreferencesService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
   ) {
     this.route.paramMap.subscribe(paramMap => {
       this.studyId = parseInt(paramMap.get('study_id'), 10);
@@ -99,13 +99,21 @@ export class WorkflowComponent implements OnInit {
     };
 
   }
-  openDialog(markdown: string) {
+
+  openDialog(id: string) {
+    const element = document.getElementById(id);
+    let markdown = 'No information found for this footnote.';
+    if(element != null) {
+      markdown = element.getAttribute('value');
+    }
+
     this.dialog.open(WorkflowDialogComponent, {
       data: markdown,
       maxWidth: '600px',
       autoFocus: true
     });
   }
+
 
   angularFunctionCalled(mat: string) {
     this.openDialog(mat);
