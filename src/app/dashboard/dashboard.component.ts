@@ -20,7 +20,6 @@ import {shouldDisplayWorkflow} from '../_util/nav-item';
 
 export class DashboardComponent implements OnInit {
   @Input() study: Study;
-  @Output() workflowSelected = new EventEmitter<number>();
   @Input() selectedWorkflowId: number;
   categoryTabs: WorkflowSpecCategory[];
   statuses = WorkflowStatus;
@@ -57,21 +56,6 @@ export class DashboardComponent implements OnInit {
       const wfId = wfIdStr ? parseInt(wfIdStr, 10) : undefined;
       this.selectCategory(null, catId, wfId);
     });
-  }
-
-  workflowLabel(workflow) {
-    const stateLabel = this.getStateLabel(workflow);
-    const statusLabel = this.getStatusLabel(workflow);
-
-    if (workflow.state === WorkflowState.HIDDEN) {
-      return '';
-    }
-
-    if (workflow.state === WorkflowState.DISABLED) {
-      return 'Not available';
-    }
-
-    return `${statusLabel} (${stateLabel})`
   }
 
   getStatusLabel(workflow: WorkflowMetadata) {
@@ -140,10 +124,5 @@ export class DashboardComponent implements OnInit {
 
   allComplete(cat: WorkflowSpecCategory) {
     return cat.workflows.every(wf => wf.status === WorkflowStatus.COMPLETE);
-  }
-
-  selectWorkflow(workflowId: number) {
-    this.selectedWorkflowId = workflowId;
-    this.workflowSelected.emit(this.selectedWorkflowId);
   }
 }

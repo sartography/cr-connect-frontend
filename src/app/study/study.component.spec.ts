@@ -63,7 +63,7 @@ describe('StudyComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('apiRoot/study/0');
+    const sReq = httpMock.expectOne('apiRoot/study/0?update_status=true');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
     expect(component.study).toBeTruthy();

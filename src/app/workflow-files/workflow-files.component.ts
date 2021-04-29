@@ -34,11 +34,13 @@ export class WorkflowFilesComponent implements OnInit,OnChanges,AfterViewInit {
   }
 
   expandNodes(nodes: DocumentDirectory[]): void{
-    nodes.forEach(node=>{
-      if (node.expanded) {
-        this.treeControl.expand(node);
-        this.expandNodes(node.children);
-      }});
+    if(nodes) {
+      nodes.forEach(node=>{
+        if (node.expanded) {
+          this.treeControl.expand(node);
+          this.expandNodes(node.children);
+        }});
+    }
   }
 
   ngOnInit(): void {

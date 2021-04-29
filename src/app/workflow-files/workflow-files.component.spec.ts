@@ -77,8 +77,8 @@ describe('WorkflowFilesComponent', () => {
 
     const f1Req = httpMock.expectOne(`apiRoot/file/${mockFileMeta0.id}/data`);
     const f1ReqHeaders = new HttpHeaders()
-      .append('last-modified', mockFileMeta0.file.lastModified.toString())
-      .append('content-type', mockFileMeta0.file.type);
+      .append('last-modified', mockFileMeta0.last_modified.toString())
+      .append('content-type', mockFileMeta0.type);
     f1Req.flush(new ArrayBuffer(8), {headers: f1ReqHeaders});
     expect(f1Req.request.method).toEqual('GET');
 
@@ -89,8 +89,8 @@ describe('WorkflowFilesComponent', () => {
 
     const f2Req = httpMock.expectOne(`apiRoot/file/${mockFileMeta1.id}/data`);
     const f2ReqHeaders = new HttpHeaders()
-      .append('last-modified', mockFileMeta1.file.lastModified.toString())
-      .append('content-type', mockFileMeta1.file.type);
+      .append('last-modified', mockFileMeta1.last_modified.toString())
+      .append('content-type', mockFileMeta1.type);
     f2Req.flush(new ArrayBuffer(8), {headers: f2ReqHeaders});
     expect(f2Req.request.method).toEqual('GET');
     expect(msSaveOrOpenBlobSpy).toHaveBeenCalled();

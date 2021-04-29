@@ -145,7 +145,7 @@ describe('WorkflowComponent', () => {
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
 
-    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id);
+    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id + '?update_status=false');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
     expect(component.studyId).toEqual(mockStudy0.id);
@@ -410,7 +410,7 @@ describe('WorkflowComponent', () => {
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
 
-    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id);
+    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id +  '?update_status=false');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
     expect(component.studyId).toEqual(mockStudy0.id);
@@ -439,7 +439,7 @@ describe('WorkflowComponent', () => {
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
 
-    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id);
+    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id + '?update_status=false');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
     expect(component.studyId).toEqual(mockStudy0.id);
@@ -468,7 +468,7 @@ describe('WorkflowComponent', () => {
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
 
-    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id);
+    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id + '?update_status=false');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
     expect(component.studyId).toEqual(mockStudy0.id);
