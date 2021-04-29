@@ -45,6 +45,14 @@ export const routes: Routes = [
     component: WorkflowComponent
   },
   {
+    path: 'workflow/:workflow_id',
+    component: WorkflowComponent
+  },
+  {
+    path: 'workflow/:workflow_id/task/:task_id',
+    component: WorkflowComponent
+  },
+  {
     path: 'help',
     component: HelpComponent
   },
