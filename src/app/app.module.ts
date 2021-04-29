@@ -87,6 +87,7 @@ import { ReviewProgressComponent } from './review-progress/review-progress.compo
 import {MatPaginatorModule} from '@angular/material/paginator';
 
 import { SecurityContext } from '@angular/core';
+import { StandaloneComponent } from './standalone/standalone.component';
 
 (document.defaultView as any).hljs = hljs;
 
@@ -217,6 +218,7 @@ export function markedOptionsFactory(): MarkedOptions {
     WorkflowNavComponent,
     WorkflowProgressMenuComponent,
     ReviewProgressComponent,
+    StandaloneComponent,
   ],
     imports: [
         BrowserAnimationsModule,
