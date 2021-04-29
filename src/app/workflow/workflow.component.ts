@@ -72,7 +72,6 @@ export class WorkflowComponent implements OnInit {
           this.studyId = null;
           if (this.workflow.study_id) {
             this.studyId = this.workflow.study_id;
-            console.log('ngOnInit workflow.studyId', this.studyId)
             this.api.getStudy(this.studyId).subscribe(res => {
               this.studyName = res.title;
               this.study = res
