@@ -64,19 +64,27 @@ export class WorkflowComponent implements OnInit {
     private ngZone: NgZone,
   ) {
     this.route.paramMap.subscribe(paramMap => {
-      this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
       this.api.getWorkflow(this.workflowId).subscribe(
         wf => {
           console.log('ngOnInit workflow', wf);
           this.workflow = wf;
-          this.api.getStudy(this.studyId).subscribe(res => {this.studyName = res.title; this.study = res});
+          this.studyId = null;
+          if (this.workflow.study_id) {
+            this.studyId = this.workflow.study_id;
+            console.log('ngOnInit workflow.studyId', this.studyId)
+            this.api.getStudy(this.studyId).subscribe(res => {
+              this.studyName = res.title;
+              this.study = res
+            });
+          }
         },
         error => {
           this.handleError(error)
         },
         () => this.updateTaskList(this.workflow)
       );
+
     });
     this.userService.isAdmin$.subscribe(a => {this.isAdmin = a;
       this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);})
@@ -139,7 +147,7 @@ export class WorkflowComponent implements OnInit {
   updateUrl() {
     if (this.currentTask) {
       window.history.replaceState({}, '',
-        `study/${this.studyId}/workflow/${this.workflowId}/task/${this.currentTask.id}`);
+        `workflow/${this.workflowId}/task/${this.currentTask.id}`);
     }
   }
 
@@ -291,9 +299,11 @@ export class WorkflowComponent implements OnInit {
   private updateTaskList(wf: Workflow, forceTaskId?: string) {
     this.loading = true;
     this.workflow = wf;
-    this.api.getDocumentDirectory(this.studyId,this.workflowId).subscribe(dd => {
-      this.dataDictionary = dd;
-    })
+    if (this.workflow.study_id) {
+      this.api.getDocumentDirectory(this.workflow.study_id, this.workflowId).subscribe(dd => {
+        this.dataDictionary = dd;
+      })
+    }
 //    this.api.getFileMetas({study_id:this.studyId}).subscribe(fms => {
 //     this.fileMetas = fms;
 //    });
