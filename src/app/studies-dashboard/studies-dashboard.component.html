@@ -21,6 +21,8 @@
           >{{taskLane.label}}</span>
         </mat-button-toggle>
       </mat-button-toggle-group>
+      <app-standalone></app-standalone>
+
     </div>
 
     <table
@@ -70,7 +72,7 @@
         *matRowDef="let approval; columns: approvalColumns;"
         [attr.data-approval-id]="approval.id"
         [ngClass]="{'approval-row': true}"
-        [routerLink]="['/study', approval.study.id, 'workflow', approval.workflow.id]"
+        [routerLink]="['/workflow', approval.workflow.id]"
       ></tr>
 
     </table>
