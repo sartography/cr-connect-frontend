@@ -70,7 +70,8 @@ export class WorkflowComponent implements OnInit {
           console.log('ngOnInit workflow', wf);
           this.workflow = wf;
           this.studyId = null;
-          if (this.workflow.study_id) {
+          console.log(this.workflow);
+          if (this.workflow.study_id != null) {
             this.studyId = this.workflow.study_id;
             this.api.getStudy(this.studyId).subscribe(res => {
               this.studyName = res.title;
@@ -298,14 +299,11 @@ export class WorkflowComponent implements OnInit {
   private updateTaskList(wf: Workflow, forceTaskId?: string) {
     this.loading = true;
     this.workflow = wf;
-    if (this.workflow.study_id) {
+    if (this.workflow.study_id != null) {
       this.api.getDocumentDirectory(this.workflow.study_id, this.workflowId).subscribe(dd => {
         this.dataDictionary = dd;
       })
     }
-//    this.api.getFileMetas({study_id:this.studyId}).subscribe(fms => {
-//     this.fileMetas = fms;
-//    });
 
     // The current task will be set by the backend, unless specifically forced.
     if (forceTaskId) {
