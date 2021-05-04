@@ -1,6 +1,5 @@
 import {HttpClient} from 'protractor-http-client';
 import {AppPage} from './app.po';
-import {by, element} from "protractor";
 
 describe('Clinical Research Coordinator App', () => {
   let page: AppPage;
