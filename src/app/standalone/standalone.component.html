@@ -1,0 +1,6 @@
+<p>Standalone workflows</p>
+<mat-nav-list>
+  <mat-list-item *ngFor="let workflowSpec of workflowSpecs">
+    <button  (click)="getWorkflowFromSpec(workflowSpec)" >{{workflowSpec.name}}</button>
+  </mat-list-item>
+</mat-nav-list>
