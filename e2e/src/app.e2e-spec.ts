@@ -3,12 +3,13 @@ import {AppPage} from './app.po';
 
 describe('Clinical Research Coordinator App', () => {
   let page: AppPage;
-  let http: HttpClient;
-  let newStudyId: number;
+  let httpPB: HttpClient;
+  let httpCRC: HttpClient;
 
   beforeEach(() => {
     page = new AppPage();
-    http = new HttpClient('http://localhost:5001');
+    httpPB = new HttpClient('http://localhost:5001');
+    httpCRC = new HttpClient('http://localhost:5000');
   });
 
   it('should automatically sign-in and redirect to home screen', () => {
@@ -39,10 +40,8 @@ describe('Clinical Research Coordinator App', () => {
 
   it('should load new study from Protocol Builder', async () => {
     const numStudiesBefore = await page.getElements('.study-row').count();
-    newStudyId = Math.floor(Math.random() * 100000);
     // Add a new study to Protocol Builder.
-    http.post('/new_study', '' +
-      `STUDYID=${newStudyId}&` +
+    httpPB.post('/new_study', '' +
       `TITLE=${encodeURIComponent('New study title')}&` +
       `NETBADGEID=dhf8r&` +
       `DATE_MODIFIED=${encodeURIComponent(new Date().toISOString())}&` +
@@ -57,7 +56,7 @@ describe('Clinical Research Coordinator App', () => {
     ).catch(error => {
       console.error(error);
     });
-    http.failOnHttpError = false;
+    httpPB.failOnHttpError = false;
 
     // Reload the list of studies.
     await page.clickElement('#cta_reload_studies');
@@ -98,25 +97,6 @@ describe('Clinical Research Coordinator App', () => {
     expect(newRoute.slice(0, expectedRoute.length)).toEqual(expectedRoute);
   });
 
-/*
-  it('should delete test study from Protocol Builder', async () => {
-    page.clickAndExpectRoute('#nav_home', '/home');
-    const numStudiesBeforeDel = await page.getElements('.study-row').count();
-    http.post(`/del_study/${newStudyId}`,
-      `confirm=y`
-    ).catch(error => {
-      console.error(error);
-    });
-    http.failOnHttpError = false;
-
-    await page.clickElement('#cta_reload_studies');
-    await page.waitForNotVisible('.loading');
-    await page.waitForClickable('.study-row');
-
-    const numStudiesAfterDel = await page.getElements('.study-row').count();
-    expect(numStudiesAfterDel).toEqual(numStudiesBeforeDel);
-  });
-*/
 
     // TODO: CATCH 401/403 ERRORS AND VERIFY THAT THEY REDIRECT TO LOGIN
   // afterEach(async () => {

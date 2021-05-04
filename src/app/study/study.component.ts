@@ -7,8 +7,7 @@ import {
   StudyStatus,
   StudyStatusLabels,
   Study,
-  Workflow,
-  WorkflowSpecCategory, WorkflowMetadata
+  Workflow
 } from 'sartography-workflow-lib';
 
 @Component({
@@ -20,10 +19,7 @@ export class StudyComponent implements OnInit {
   study: Study;
   allWorkflows: Workflow[] = [];
   loading = true;
-  selectedCategoryId: number;
-  selectedCategory: WorkflowSpecCategory;
   selectedWorkflowId: number;
-  selectedWorkflow: WorkflowMetadata;
   shrink = shrink;
 
   constructor(
@@ -31,7 +27,6 @@ export class StudyComponent implements OnInit {
     private router: Router,
     private api: ApiService,
   ) {
-    this.loadStudy();
   }
 
 
@@ -40,12 +35,16 @@ export class StudyComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('Init Called');
+    this.loadStudy();
   }
 
   loadStudy() {
+    console.log('Loading Study ...');
     this.route.paramMap.subscribe(paramMap => {
       const studyId = parseInt(paramMap.get('study_id'), 10);
-      this.api.getStudy(studyId).subscribe(s => {
+      // On this rare occasion, we want to force a status check on all the workflows.
+      this.api.getStudy(studyId, true).subscribe(s => {
         this.study = s;
         this.allWorkflows = this.study.categories.reduce((accumulator, cat) => {
           return accumulator.concat(cat.workflows);
@@ -59,20 +58,7 @@ export class StudyComponent implements OnInit {
     return StudyStatusLabels[status.toUpperCase()];
   }
 
-  selectCategory(categoryId: number) {
-    this.selectedCategoryId = categoryId;
-
-    if (!isNumberDefined(categoryId)) {
-      this.selectWorkflow(undefined);
-      // this.loadStudy(); # this calls selectWorkflow which will call loadStudy anyhow . . .
-    }
-  }
-
   selectWorkflow(workflowId: number) {
     this.selectedWorkflowId = workflowId;
-
-    if (!isNumberDefined(workflowId)) {
-      this.loadStudy();
-    }
   }
 }
