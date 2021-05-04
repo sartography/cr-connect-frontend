@@ -1,6 +1,11 @@
-<p>Standalone workflows</p>
-<mat-nav-list>
-  <mat-list-item *ngFor="let workflowSpec of workflowSpecs">
-    <button  (click)="getWorkflowFromSpec(workflowSpec)" >{{workflowSpec.name}}</button>
-  </mat-list-item>
-</mat-nav-list>
+<a *ngFor="let workflowSpec of workflowSpecs"
+  (click)="getWorkflowFromSpec(workflowSpec)"
+  class="contrast-button"
+  color="accent"
+  id="cta_reload_studies"
+  mat-button
+  target="_blank"
+>
+  <mat-icon>open_in_new</mat-icon>
+  {{workflowSpec.display_name}}
+</a>
