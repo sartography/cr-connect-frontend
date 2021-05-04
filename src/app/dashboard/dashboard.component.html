@@ -23,7 +23,7 @@
               [attr.data-study-id]="study.id"
               [attr.data-category-id]="cat.id"
               [attr.data-workflow-id]="workflowListItem.id"
-              [routerLink]="['/study', study.id, 'workflow', workflowListItem.id]"
+              [routerLink]="['/workflow', workflowListItem.id]"
               [ngClass]="{'workflow-action': true,
                           'disable-link':workflowListItem.state===states.DISABLED}"
             >

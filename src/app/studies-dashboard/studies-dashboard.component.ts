@@ -6,6 +6,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmStudyStatusDialogComponent} from '../_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
 import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
 import {StudyAction} from '../_interfaces/study-action';
+import {StandaloneComponent} from '../standalone/standalone.component';
 // @ts-ignore
 import createClone from 'rfdc';
 import {MatTableDataSource} from '@angular/material/table';
