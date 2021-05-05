@@ -6,8 +6,12 @@ describe('Clinical Research Coordinator App', () => {
   let httpPB: HttpClient;
   let httpCRC: HttpClient;
 
-  beforeEach(() => {
+  beforeAll(async () => {
     page = new AppPage();
+    await page.waitForAngularEnabled(true);
+    await page.navigateTo();
+    await page.refreshAndRedirectToReturnUrl();
+
     httpPB = new HttpClient('http://localhost:5001');
     httpCRC = new HttpClient('http://localhost:5000');
   });
