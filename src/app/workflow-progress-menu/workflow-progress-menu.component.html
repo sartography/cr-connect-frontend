@@ -5,7 +5,7 @@
   </div>
   <div *ngIf="readyTasks.length === 1">
     <ng-container *ngTemplateOutlet="navItemTemplate; context: {nav: readyTasks}"></ng-container>
-    <em>Only the current task (displayed to the left) can be completed at this time.
+    <em>Only the current task (displayed above) can be completed at this time.
       If a choice of tasks becomes available, those options will be displayed here.</em>
   </div>
   <div *ngIf="readyTasks.length === 0">
@@ -27,7 +27,7 @@
   <ng-template #navItemTemplate let-nav='nav'>
     <div class="navSection">
       <ng-container *ngFor="let navItem of nav">
-        <div [ngClass]="{'task': true, 'selectable': selectable(navItem)}" mat-line fxLayout="row" fxLayoutAlign="start center"
+        <div [ngClass]="{'task': true, 'selectable': selectable(navItem), 'current': isCurrent(navItem)}" mat-line fxLayout="row" fxLayoutAlign="start center"
              (click)="selectTask(navItem)">
           <app-nav-item-icon [navItem]="navItem"></app-nav-item-icon>
           <div>{{ navItem.description }}</div>
