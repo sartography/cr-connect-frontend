@@ -148,7 +148,7 @@ describe('WorkflowComponent', () => {
     const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id + '?update_status=false');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
-    expect(component.studyId).toEqual(mockStudy0.id);
+    expect(component.study.id).toEqual(mockStudy0.id);
     const fReq = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
     expect(fReq.request.method).toEqual('GET');
     fReq.flush(mockDocumentDirectory);
@@ -413,7 +413,7 @@ describe('WorkflowComponent', () => {
     const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id +  '?update_status=false');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
-    expect(component.studyId).toEqual(mockStudy0.id);
+    expect(component.study.id).toEqual(mockStudy0.id);
     const fReq = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
     expect(fReq.request.method).toEqual('GET');
     fReq.flush(mockDocumentDirectory);
@@ -442,7 +442,7 @@ describe('WorkflowComponent', () => {
     const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id + '?update_status=false');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
-    expect(component.studyId).toEqual(mockStudy0.id);
+    expect(component.study.id).toEqual(mockStudy0.id);
     const fReq = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
     expect(fReq.request.method).toEqual('GET');
     fReq.flush(mockDocumentDirectory);
@@ -471,7 +471,7 @@ describe('WorkflowComponent', () => {
     const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id + '?update_status=false');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
-    expect(component.studyId).toEqual(mockStudy0.id);
+    expect(component.study.id).toEqual(mockStudy0.id);
     const fReq = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
     expect(fReq.request.method).toEqual('GET');
     fReq.flush(mockDocumentDirectory);
