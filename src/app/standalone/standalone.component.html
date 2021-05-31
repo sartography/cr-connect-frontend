@@ -1,0 +1,11 @@
+<a *ngFor="let workflowSpec of workflowSpecs"
+  (click)="getWorkflowFromSpec(workflowSpec)"
+  class="contrast-button"
+  color="accent"
+  id="cta_reload_studies"
+  mat-button
+  target="_blank"
+>
+  <mat-icon>open_in_new</mat-icon>
+  {{workflowSpec.display_name}}
+</a>

@@ -4,6 +4,8 @@
 
 const { SpecReporter } = require('jasmine-spec-reporter');
 
+process.env.CHROME_BIN = require('puppeteer').executablePath()
+
 /**
  * @type { import("protractor").Config }
  */
@@ -14,6 +16,14 @@ exports.config = {
     './src/**/*.e2e-spec.ts'
   ],
   capabilities: {
+    chromeOptions: {
+      args: [
+        '--headless',
+        '--window-size=1440x900',
+        '--dev-server-target='
+      ],
+      binary: process.env.CHROME_BIN
+    },
     browserName: 'chrome'
   },
   directConnect: true,

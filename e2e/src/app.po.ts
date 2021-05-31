@@ -1,6 +1,33 @@
 import {browser, by, element, ElementArrayFinder, ElementFinder, ExpectedConditions} from 'protractor';
 
 export class AppPage {
+  constructor() {
+    browser.driver.manage().window().setSize(1440, 900).then(() => {
+      console.log('Browser window resized.');
+      browser.driver.executeScript(() => {
+        return {width: window.innerWidth, height: window.innerHeight};
+      }).then(dimensions => {
+        console.log('window dimensions', dimensions);
+      })
+    });
+  }
+
+  waitForAngularEnabled(enabled: boolean) {
+    return browser.waitForAngularEnabled(enabled);
+  }
+
+  refresh() {
+    return browser.refresh();
+  }
+
+  async refreshAndRedirectToReturnUrl() {
+    const previousRoute = await this.getRoute();
+    await this.waitFor(1000);
+    await this.refresh();
+    await this.waitFor(1000);
+    expect(await this.getRoute()).toEqual(previousRoute);
+  }
+
   navigateTo() {
     return browser.get(browser.baseUrl) as Promise<any>;
   }

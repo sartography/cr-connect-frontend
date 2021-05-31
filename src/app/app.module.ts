@@ -87,6 +87,7 @@ import { ReviewProgressComponent } from './review-progress/review-progress.compo
 import {MatPaginatorModule} from '@angular/material/paginator';
 
 import { SecurityContext } from '@angular/core';
+import { StandaloneComponent } from './standalone/standalone.component';
 
 (document.defaultView as any).hljs = hljs;
 
@@ -119,17 +120,58 @@ export function getBaseHref(platformLocation: PlatformLocation): string {
   return platformLocation.getBaseHrefFromDOM();
 }
 
+/**
+ * This mess does a bit of hakery to our markdown so it can display footnotes in a popup
+ * window.  It comes close to many of the proposals for a footnote addition to markdown,
+ * using the syntax [^1] to create a link to footnote #1.  To set the content that is displayed
+ * for that footnote, we are using a code block where the language parameter is also [^1] such as
+ * ```[1] This is the footnote
+ * ```
+ * The "1" here can be any string.
+ * The content within the code block can contain any markdown.
+ *
+ * This also contains some changes to links, so they open in a new window.
+ */
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
   const linkRenderer = renderer.link;
+  const referenceMatch = /\[\^([^\]]+)\](?!\()/g;
+  const contentMatch = /\[\^([^\]]+)\]/;
+  const referencePrefix = 'marked-fnref';
+
+  const referenceTemplate = ref => {
+    return ` <a onclick="callAngularFunction(\`${referencePrefix}${ref}\`);">
+      <i class="material-icons mdc-button__icon">info</i></a>`;
+  };
+  const interpolateReferences = (text) => {
+    return text.replace(referenceMatch, (_, ref) => {
+      return referenceTemplate(ref);
+    });
+  };
+
+  renderer.paragraph = (text) => {
+    return new MarkedRenderer().paragraph.apply(null, [
+        interpolateReferences(text)
+      ]);
+    };
+  renderer.text = (text) => {
+    return new MarkedRenderer().text.apply(null, [
+        interpolateReferences(text)
+      ]);
+    };
+
+  renderer.heading = (text, level, raw, slugger) => {
+    text = interpolateReferences(text);
+    return new MarkedRenderer().heading(text, level, raw, slugger);
+  };
 
   renderer.code = (text, language, escaped) => {
-    if (language === 'info'){
-      return ` <a onclick="callAngularFunction(\`${text}\`);">
-      <i class="material-icons mdc-button__icon">info</i></a>`;
+    if (language.match(contentMatch)) {
+      const referenceId = language.match(contentMatch)[1];
+      return `<input id='${referencePrefix}${referenceId}' type="hidden" value="${text}"/>`
     }
     return new MarkedRenderer().code(text, language, escaped); // Use Default
-  }
+  };
 
   renderer.link = (href, title, text) => {
     const html = linkRenderer.call(renderer, href, title, text);
@@ -176,6 +218,7 @@ export function markedOptionsFactory(): MarkedOptions {
     WorkflowNavComponent,
     WorkflowProgressMenuComponent,
     ReviewProgressComponent,
+    StandaloneComponent,
   ],
     imports: [
         BrowserAnimationsModule,

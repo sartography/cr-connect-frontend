@@ -51,7 +51,9 @@
       <mat-icon>chevron_left</mat-icon>
       Back
     </button>
-    <h4 *ngIf="study">Study #{{studyId}}: {{shrink(160,study.title,study.short_title)}}
+    <<<<<<< HEAD
+    <!-- <h4 *ngIf="study">Study #{{studyId}}: {{shrink(160,study.title,study.short_title)}} -->
+    <h4>Study #{{studyId}}: {{studyName}}
       <span fxFlex></span>
     </h4>
 
@@ -101,7 +103,7 @@
       <button mat-icon-button (click)="closePane()"><mat-icon>close</mat-icon></button>
     </div>
     <div *ngIf="displayFiles && !displayData" id="files-display-column">
-      <app-workflow-files *ngIf="workflow" [workflow]="workflow" [fileMetas]="fileMetas"></app-workflow-files>
+      <app-workflow-files *ngIf="workflow" [study]="study" [directory]="dataDictionary"></app-workflow-files>
     </div>
     <div *ngIf="!displayFiles && displayData" id="data-display-column">
       <p>This feature shows the information that you've entered that will be used to generate the Research Ramp-up Plan.

@@ -9,11 +9,10 @@ import {ActivatedRoute, convertToParamMap, Router} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {of} from 'rxjs';
 import {
-  ApiService,
+  ApiService, mockDocumentDirectory,
   MockEnvironment,
   mockFileMeta0,
   mockFileMeta1,
-  mockFileMetas,
   mockWorkflow0
 } from 'sartography-workflow-lib';
 
@@ -57,9 +56,9 @@ describe('WorkflowFilesComponent', () => {
     fixture = TestBed.createComponent(WorkflowFilesComponent);
     component = fixture.componentInstance;
     component.workflow = mockWorkflow0;
-    component.fileMetas = mockFileMetas;
+    component.directory = mockDocumentDirectory;
     fixture.detectChanges();
-    expect(component.fileMetas).toEqual(mockFileMetas);
+    expect(component.directory).toEqual(mockDocumentDirectory);
   });
 
   it('should create', () => {
@@ -67,8 +66,8 @@ describe('WorkflowFilesComponent', () => {
   });
 
   it('should update file list on change', () => {
-    component.fileMetas = mockFileMetas;
-    expect(component.fileMetas).toEqual(mockFileMetas);
+    component.directory = mockDocumentDirectory;
+    expect(component.directory).toEqual(mockDocumentDirectory);
   });
 
   it('should download file', () => {
@@ -78,8 +77,8 @@ describe('WorkflowFilesComponent', () => {
 
     const f1Req = httpMock.expectOne(`apiRoot/file/${mockFileMeta0.id}/data`);
     const f1ReqHeaders = new HttpHeaders()
-      .append('last-modified', mockFileMeta0.file.lastModified.toString())
-      .append('content-type', mockFileMeta0.file.type);
+      .append('last-modified', mockFileMeta0.last_modified.toString())
+      .append('content-type', mockFileMeta0.type);
     f1Req.flush(new ArrayBuffer(8), {headers: f1ReqHeaders});
     expect(f1Req.request.method).toEqual('GET');
 
@@ -90,8 +89,8 @@ describe('WorkflowFilesComponent', () => {
 
     const f2Req = httpMock.expectOne(`apiRoot/file/${mockFileMeta1.id}/data`);
     const f2ReqHeaders = new HttpHeaders()
-      .append('last-modified', mockFileMeta1.file.lastModified.toString())
-      .append('content-type', mockFileMeta1.file.type);
+      .append('last-modified', mockFileMeta1.last_modified.toString())
+      .append('content-type', mockFileMeta1.type);
     f2Req.flush(new ArrayBuffer(8), {headers: f2ReqHeaders});
     expect(f2Req.request.method).toEqual('GET');
     expect(msSaveOrOpenBlobSpy).toHaveBeenCalled();

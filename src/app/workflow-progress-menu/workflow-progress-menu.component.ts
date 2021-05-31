@@ -56,11 +56,16 @@ export class WorkflowProgressMenuComponent implements OnInit, OnChanges {
     }
   }
 
-  selectable(navItem: WorkflowNavItem) {
+  isCurrent(navItem: WorkflowNavItem) {
     let isCurrent = false;
     if(this.currentTask !== undefined && this.currentTask !== null && this.currentTask.id === navItem.task_id) {
       isCurrent = true;
     }
+    return isCurrent;
+  }
+
+  selectable(navItem: WorkflowNavItem) {
+    const isCurrent = this.isCurrent(navItem)
     return (navItem.state === WorkflowTaskState.READY ||
       navItem.state === WorkflowTaskState.COMPLETED) &&
       !isCurrent;

@@ -20,9 +20,9 @@ import { MarkdownModule, MarkdownService, MarkedOptions } from 'ngx-markdown';
 import createClone from 'rfdc';
 import { of } from 'rxjs';
 import {
-  ApiService,
+  ApiService, mockDocumentDirectory,
   MockEnvironment,
-  mockFileMetas, mockNav0, mockNav1, mockStudy0,
+  mockNav0, mockNav1, mockStudy0,
   mockUser0, mockUser1,
   mockWorkflow0,
   mockWorkflow1,
@@ -145,15 +145,14 @@ describe('WorkflowComponent', () => {
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
 
-    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id);
+    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id + '?update_status=false');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
     expect(component.studyId).toEqual(mockStudy0.id);
-
-    const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
+    const fReq = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
     expect(fReq.request.method).toEqual('GET');
-    fReq.flush(mockFileMetas);
-    expect(component.fileMetas).toEqual(mockFileMetas);
+    fReq.flush(mockDocumentDirectory);
+    expect(component.dataDictionary).toEqual(mockDocumentDirectory);
   });
 
   afterEach(() => {
@@ -241,11 +240,10 @@ describe('WorkflowComponent', () => {
     component.currentTask = undefined;
 
     (component as any).updateTaskList(mockWorkflow1);
-
-    const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow1.id);
-    expect(fReq.request.method).toEqual('GET');
-    fReq.flush(mockFileMetas);
-    expect(component.fileMetas).toEqual(mockFileMetas);
+    const f2Req = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
+    expect(f2Req.request.method).toEqual('GET');
+    f2Req.flush(mockDocumentDirectory);
+    expect(component.dataDictionary).toEqual(mockDocumentDirectory);
 
     // Should select a task
     expect(component.currentTask).toBeTruthy();
@@ -253,11 +251,10 @@ describe('WorkflowComponent', () => {
     // Delete all tasks from workflow
     mockWorkflow0.next_task = undefined;
     (component as any).updateTaskList(mockWorkflow0);
-
-    const f2Req = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
-    expect(f2Req.request.method).toEqual('GET');
-    f2Req.flush(mockFileMetas);
-    expect(component.fileMetas).toEqual(mockFileMetas);
+    const f3Req = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
+    expect(f3Req.request.method).toEqual('GET');
+    f3Req.flush(mockDocumentDirectory);
+    expect(component.dataDictionary).toEqual(mockDocumentDirectory);
 
     // Should be no task to select.
     expect(component.currentTask).toBeUndefined();
@@ -413,15 +410,14 @@ describe('WorkflowComponent', () => {
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
 
-    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id);
+    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id +  '?update_status=false');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
     expect(component.studyId).toEqual(mockStudy0.id);
-
-    const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
+    const fReq = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
     expect(fReq.request.method).toEqual('GET');
-    fReq.flush(mockFileMetas);
-    expect(component.fileMetas).toEqual(mockFileMetas);
+    fReq.flush(mockDocumentDirectory);
+    expect(component.dataDictionary).toEqual(mockDocumentDirectory);
   });
 
   it('AdminUser with hideDataPane=false should show button', () => {
@@ -443,15 +439,14 @@ describe('WorkflowComponent', () => {
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
 
-    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id);
+    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id + '?update_status=false');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
     expect(component.studyId).toEqual(mockStudy0.id);
-
-    const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
+    const fReq = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
     expect(fReq.request.method).toEqual('GET');
-    fReq.flush(mockFileMetas);
-    expect(component.fileMetas).toEqual(mockFileMetas);
+    fReq.flush(mockDocumentDirectory);
+    expect(component.dataDictionary).toEqual(mockDocumentDirectory);
   });
 
   it('Non-admin user with hideDataPane=false should hide button', () => {
@@ -473,15 +468,14 @@ describe('WorkflowComponent', () => {
     wf1Req.flush(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
 
-    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id);
+    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id + '?update_status=false');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
     expect(component.studyId).toEqual(mockStudy0.id);
-
-    const fReq = httpMock.expectOne('apiRoot/file?workflow_id=' + mockWorkflow0.id);
+    const fReq = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
     expect(fReq.request.method).toEqual('GET');
-    fReq.flush(mockFileMetas);
-    expect(component.fileMetas).toEqual(mockFileMetas);
+    fReq.flush(mockDocumentDirectory);
+    expect(component.dataDictionary).toEqual(mockDocumentDirectory);
   });
 
   it('should report isOnlyTask', () => {

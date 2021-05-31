@@ -63,7 +63,7 @@ describe('StudyComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('apiRoot/study/0');
+    const sReq = httpMock.expectOne('apiRoot/study/0?update_status=true');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
     expect(component.study).toBeTruthy();
@@ -92,18 +92,13 @@ describe('StudyComponent', () => {
 
   it('should select workflow', () => {
     const workflowId = component.study.categories[0].workflows[0].id;
-    const loadStudySpy = spyOn(component, 'loadStudy').and.stub();
     component.selectWorkflow(workflowId);
     expect(component.isWorkflowSelected).toBeTrue()
     expect(component.selectedWorkflowId).toEqual(workflowId);
-    expect(loadStudySpy).not.toHaveBeenCalled();
-
-    loadStudySpy.calls.reset();
 
     component.selectWorkflow(undefined);
     expect(component.isWorkflowSelected).toBeFalse()
     expect(component.selectedWorkflowId).toBeUndefined();
-    expect(loadStudySpy).toHaveBeenCalled();
   });
 
 });

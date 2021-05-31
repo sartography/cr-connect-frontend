@@ -1,6 +1,6 @@
 
 import { Location } from '@angular/common';
-import { Component, Inject, NgZone, OnInit } from '@angular/core';
+import {Component, ElementRef, Inject, NgZone, OnInit} from '@angular/core';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,14 +8,14 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import {shrink} from '../_util/shrink'
 import {
   ApiService,
-  AppEnvironment,
+  AppEnvironment, DocumentDirectory,
   scrollToTop, Study, UserService,
   Workflow, WorkflowNavItem,
   WorkflowTask,
   WorkflowTaskState,
   WorkflowTaskType,
 } from 'sartography-workflow-lib';
-import { FileMeta } from 'sartography-workflow-lib/lib/types/file';
+
 import {
   WorkflowResetDialogComponent,
   WorkflowResetDialogData
@@ -35,14 +35,16 @@ export class WorkflowComponent implements OnInit {
   workflow: Workflow;
   currentTask: WorkflowTask = null;
   studyId: number;
-  study: Study;
+  studyName: string;
+  study : Study;
   showDataPane: boolean;
   showAdminTools: boolean;
   workflowId: number;
   taskTypes = WorkflowTaskType;
   displayData = (localStorage.getItem('displayData') === 'true');
   displayFiles = (localStorage.getItem('displayFiles') === 'true');
-  fileMetas: FileMeta[];
+  // fileMetas: FileMeta[];
+  dataDictionary: DocumentDirectory[];
   loading = true;
   shrink = shrink;
   isAdmin: boolean;
@@ -60,23 +62,30 @@ export class WorkflowComponent implements OnInit {
     private deviceDetector: DeviceDetectorService,
     private userService: UserService,
     private userPreferencesService: UserPreferencesService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
   ) {
     this.route.paramMap.subscribe(paramMap => {
-      this.studyId = parseInt(paramMap.get('study_id'), 10);
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
-
       this.api.getWorkflow(this.workflowId).subscribe(
         wf => {
           console.log('ngOnInit workflow', wf);
           this.workflow = wf;
-          this.api.getStudy(this.studyId).subscribe(res => this.studyName = res.title);
+          this.studyId = null;
+          console.log(this.workflow);
+          if (this.workflow.study_id != null) {
+            this.studyId = this.workflow.study_id;
+            this.api.getStudy(this.studyId).subscribe(res => {
+              this.studyName = res.title;
+              this.study = res
+            });
+          }
         },
         error => {
           this.handleError(error)
         },
         () => this.updateTaskList(this.workflow)
       );
+
     });
     this.userService.isAdmin$.subscribe(a => {this.isAdmin = a;
       this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);})
@@ -88,7 +97,7 @@ export class WorkflowComponent implements OnInit {
   }
 
   get numFiles(): number {
-    return this.fileMetas ? this.fileMetas.length : 0;
+    return this.dataDictionary ? this.dataDictionary.length : 0;
   };
 
   ngOnInit(): void {
@@ -99,13 +108,21 @@ export class WorkflowComponent implements OnInit {
     };
 
   }
-  openDialog(markdown: string) {
+
+  openDialog(id: string) {
+    const element = document.getElementById(id);
+    let markdown = 'No information found for this footnote.';
+    if(element != null) {
+      markdown = element.getAttribute('value');
+    }
+
     this.dialog.open(WorkflowDialogComponent, {
       data: markdown,
       maxWidth: '600px',
       autoFocus: true
     });
   }
+
 
   angularFunctionCalled(mat: string) {
     this.openDialog(mat);
@@ -131,7 +148,7 @@ export class WorkflowComponent implements OnInit {
   updateUrl() {
     if (this.currentTask) {
       window.history.replaceState({}, '',
-        `study/${this.studyId}/workflow/${this.workflowId}/task/${this.currentTask.id}`);
+        `workflow/${this.workflowId}/task/${this.currentTask.id}`);
     }
   }
 
@@ -283,9 +300,11 @@ export class WorkflowComponent implements OnInit {
   private updateTaskList(wf: Workflow, forceTaskId?: string) {
     this.loading = true;
     this.workflow = wf;
-    this.api.listWorkflowFiles(wf.id).subscribe(fms => {
-      this.fileMetas = fms;
-    });
+    if (this.workflow.study_id != null) {
+      this.api.getDocumentDirectory(this.workflow.study_id, this.workflowId).subscribe(dd => {
+        this.dataDictionary = dd;
+      })
+    }
 
     // The current task will be set by the backend, unless specifically forced.
     if (forceTaskId) {

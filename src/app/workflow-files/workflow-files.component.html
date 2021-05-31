@@ -1,18 +1,71 @@
-<mat-list *ngIf="fileMetas; else loadingMessage">
-  <h3>Files for this {{typeLabel}}</h3>
-  <em *ngIf="fileMetas.length > 0">The following files were created or uploaded as a part of this {{typeLabel}}.</em>
-  <em *ngIf="fileMetas.length == 0">No files are currently associated with this {{typeLabel}}.</em>
+<h3>Files for this {{typeLabel}}</h3>
+<div *ngIf="directory">
+<em *ngIf="directory.length > 0">The following files were created or uploaded as a part of this {{typeLabel}}.</em>
+<em *ngIf="directory.length == 0">No files are currently associated with this {{typeLabel}}.</em>
 
-  <mat-list-item class="file-list" *ngFor="let fileMeta of fileMetas" (click)="downloadFile(fileMeta)">
-    <mat-icon mat-list-icon [svgIcon]="'crc:' + fileMeta.type"></mat-icon>
-    <div mat-line class="file">
-      <span class="name">{{ fileMeta.name }} ({{fileMeta.id}})</span>
-      <span fxFlex></span>
-      <mat-icon>save_alt</mat-icon>
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+  <!-- This is the tree node template for leaf nodes -->
+  <mat-tree-node *matTreeNodeDef="let node;" >
+    <div [class.activeFile]="node.expanded">
+      <div mat-line class="file" (click)="downloadFile(node.file)">
+        <mat-icon mat-list-icon [svgIcon]="'crc:' + node.file.type"></mat-icon>
+        <span class="name">{{ node.file.name }} ({{node.file.id}})</span>
+        <span fxFlex></span>
+        <mat-icon>save_alt</mat-icon>
+      </div>
     </div>
-  </mat-list-item>
-</mat-list>
+  </mat-tree-node>
+  <!-- This is the tree node template for expandable nodes -->
+  <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+      <div class="mat-tree-node">
+        <button mat-icon-button matTreeNodeToggle
+                [attr.aria-label]="'Toggle ' + node.level"
+        >
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+          <span [matBadge] = "node.filecount"
+                matBadgeColor="primary"
+                [matBadgeHidden]="node.filecount <= 0"
+                matBadgeOverlap="false"
+          > {{node.level}}</span>
+        </button>
+      </div>
+      <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+        <ng-container matTreeNodeOutlet></ng-container>
+      </ul>
+  </mat-nested-tree-node>
 
+</mat-tree>
+</div>
+<app-loading *ngIf="!directory"></app-loading>
+
+<!--
+
+
+<mat-list *ngIf="directory; else loadingMessage">
+  <h3>Files for this {{typeLabel}}</h3>
+  <em *ngIf="directory.length > 0">The following files were created or uploaded as a part of this {{typeLabel}}.</em>
+  <em *ngIf="directory.length == 0">No files are currently associated with this {{typeLabel}}.</em>
+
+  <ng-container *ngTemplateOutlet="directoryList; context:{dir: directory}">
+  </ng-container>
+</mat-list>
 <ng-template #loadingMessage>
   <app-loading></app-loading>
 </ng-template>
+  <ng-template #directoryList let-dir="dir">
+    <mat-list>
+      <mat-list-item class="file-list" *ngFor="let item of dir">
+        <div *ngIf="item.level">
+          <h1>{{item.level}}</h1>
+          <ng-container *ngIf="item.children.length > 0">
+            <ng-container *ngTemplateOutlet="directoryList; context:{dir: item.children}">
+          </ng-container>
+          </ng-container>
+        </div>
+
+      </mat-list-item>
+    </mat-list>
+  </ng-template>
+-->
