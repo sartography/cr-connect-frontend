@@ -51,7 +51,7 @@
       <mat-icon>chevron_left</mat-icon>
       Back
     </button>
-    <h4>Study #{{studyId}}: {{studyName}}
+    <h4 *ngIf="study">#{{study.id}}: {{shrink(160,study.title, study.short_title)}}
       <span fxFlex></span>
     </h4>
 
