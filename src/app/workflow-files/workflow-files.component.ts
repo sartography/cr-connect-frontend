@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {ApiService, DocumentDirectory, FileMeta, Study, Workflow} from 'sartography-workflow-lib';
+import {ApiService, DocumentDirectory, FileMeta, MultiInstanceType, Study, Workflow} from 'sartography-workflow-lib';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 
@@ -18,6 +18,8 @@ export class WorkflowFilesComponent implements OnInit,OnChanges,AfterViewInit {
   typeLabel: string;
   treeControl = new NestedTreeControl<DocumentDirectory>(node => node.children);
   dataSource = new MatTreeNestedDataSource<DocumentDirectory>();
+  hoverFile: FileMeta;
+
   constructor(private api: ApiService) {
   }
 
@@ -47,7 +49,6 @@ export class WorkflowFilesComponent implements OnInit,OnChanges,AfterViewInit {
     this.typeLabel = this.workflow ? 'workflow' : (this.study ? 'study' : 'context');
     this.dataSource.data = this.directory;
   }
-
 
   public downloadFile(fileMeta: FileMeta): void {
     this.api.getFileData(fileMeta.id).subscribe(response => {

@@ -26,11 +26,10 @@ import {
 } from 'sartography-workflow-lib';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Location } from '@angular/common';
-import * as getObjectProperty from 'lodash/get';
 import * as setObjectProperty from 'lodash/set';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { WorkflowDialogComponent } from '../workflow-dialog/workflow-dialog.component';
+
+
 
 @Component({
   selector: 'app-workflow-form',
@@ -81,6 +80,8 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   form = new FormGroup({});
   model: any = {};
   formViewState = 'enabled';
+  multiInstanceTypes = MultiInstanceType;
+
 
   @ViewChild('#jsonCode') jsonCodeElement: ElementRef;
   fileParams: FileParams;
@@ -104,7 +105,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   }
 
 
-  saveTaskData(task: WorkflowTask, updateRemaining = false) {
+  saveTaskData(task: WorkflowTask, updateRemaining = false, terminateLoop = false) {
     this.activelySaving = true;
     const modelData = createClone()(this.model);
 
@@ -122,7 +123,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
 
     // Save task data
-    return this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, modelData, updateRemaining).subscribe(
+    return this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, modelData, updateRemaining, terminateLoop).subscribe(
       updatedWorkflow => {
         this.workflow = updatedWorkflow;
       },
