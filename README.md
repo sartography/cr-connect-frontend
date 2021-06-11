@@ -23,6 +23,9 @@ committing your code
 ```
 to your angular.json file in build/options.
 
+FYI: I ran into lots of library issues when switching to this, and switching back.  Deleting node_modules in BOTH the frontend and sartography libraries
+fixed the problems for me, but it is a real hassle.
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
