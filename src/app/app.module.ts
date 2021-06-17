@@ -276,7 +276,7 @@ export function markedOptionsFactory(): MarkedOptions {
         // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
     ],
   providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
     ApiService,
     {provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

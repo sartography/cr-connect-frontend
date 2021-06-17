@@ -29,7 +29,6 @@
   }
 
   formly-field mat-form-field {
-    margin-bottom: 2rem;
   }
 
   formly-field.textarea-cols {
@@ -49,9 +48,8 @@
 
     input.mat-input-element::placeholder { color: $brand-gray; }
 
-    .mat-form-field-outline,
+    .mat-form-field,
     .mat-form-field-outline.mat-form-field-outline-thick {
-      background-color: $brand-gray-tint-3;
       border-radius: 5px;
       border: none;
       outline: none;
@@ -60,6 +58,9 @@
       .mat-form-field-outline-gap,
       .mat-form-field-outline-end {
         border: none;
+      }
+      .mat-form-field-underline {
+        display: none;
       }
     }
   }
@@ -292,7 +293,7 @@
     }
 
     mat-dialog-container.mat-dialog-container {
-      width: 70vw;
+      width: 50vw;
     }
   }
 
@@ -304,15 +305,6 @@
     height: calc(100vh - 64px);
   }
 
-  mat-form-field {
-    &.mat-form-field, &.mat-form-field-should-float label {
-      font-size: 20px;
-    }
-  }
-
-  .mat-form-field-wrapper .mat-form-field-subscript-wrapper {
-    position: static;
-  }
 
   markdown {
     a {
