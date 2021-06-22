@@ -24,7 +24,10 @@ committing your code
 to your angular.json file in build/options.
 
 FYI: I ran into lots of library issues when switching to this, and switching back.  Deleting node_modules in BOTH the frontend and sartography libraries
-fixed the problems for me, but it is a real hassle.
+fixed the problems for me, but it is a real hassle.  I've found that running tests requires me to stop the front end, delete the node modules in the sartopgrahy library, reinstall with nom instll, then restart the front end. 
+
+FTW: Once you have done all of the above, you can run 'npm build --watch' on the sartography libraries, and it will live load any changes and pick them
+up when running debug on the front end, saving you insane hours of time and frustration.  Try it!
 
 ## Code scaffolding
 
