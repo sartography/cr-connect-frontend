@@ -27,7 +27,7 @@
 
     <button *ngIf="task.multi_instance_type == multiInstanceTypes.LOOPING" (click)="saveTaskData(task, false, false)" [disabled]="saveDisabled()" color="primary" mat-flat-button>Save and Add Another</button>
     <button (click)="saveTaskData(task, false, true)" [disabled]="saveDisabled()" color="primary" mat-flat-button>Save</button>
-    <button (click)="goBack()" mat-flat-button>Cancel</button>
+    <button [disabled]="saveDisabled()" (click)="goBack()" mat-flat-button>Cancel</button>
     <button title="This will apply the current settings to this task and all remaining tasks"
       *ngIf="getIncompleteMISiblings(task).length > 1" (click)="saveTaskData(task, true)"
       [disabled]="saveDisabled()" color="accent" mat-flat-button>Apply to all {{getIncompleteMISiblings(task).length}}
