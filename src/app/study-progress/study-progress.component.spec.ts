@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {mockStudy0, WorkflowStatus} from 'sartography-workflow-lib';
 import {StudyProgressComponent} from './study-progress.component';
@@ -7,7 +7,7 @@ describe('StudyProgressComponent', () => {
   let component: StudyProgressComponent;
   let fixture: ComponentFixture<StudyProgressComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StudyProgressComponent],
       imports: [

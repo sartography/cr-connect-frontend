@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
 import createClone from 'rfdc';
 import {
@@ -13,7 +13,7 @@ describe('NavItemIconComponent', () => {
   let component: NavItemIconComponent;
   let fixture: ComponentFixture<NavItemIconComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [NavItemIconComponent],
       imports: [MatIconModule],
