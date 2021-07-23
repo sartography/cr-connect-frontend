@@ -200,30 +200,15 @@ export class WorkflowComponent implements OnInit {
     this.updateTaskList(this.workflow);
   }
 
-  incompleteTasks(): WorkflowNavItem[]{
-    if (this.workflow.navigation && (this.workflow.navigation.length > 0)) {
-      const incompleteStates = [
-        WorkflowTaskState.READY,
-        WorkflowTaskState.FUTURE,
-        WorkflowTaskState.WAITING,
-        WorkflowTaskState.LIKELY,
-      ];
-      return this.workflow.navigation.filter(t => incompleteStates.includes(t.state));
-    }
-    return [];
-}
-
   isOnlyTask(): boolean{
     const userTasks = this.workflow.navigation.filter(t => isOrContainsUserTasks(t))
     return userTasks.length === 1;
   }
 
   hasIncompleteUserTask() {
-    const incompleteTasks = this.incompleteTasks();
-    if (incompleteTasks.length > 0){
+    if (this.currentTask) {
       return this.currentTask &&
-        (this.currentTask.type === WorkflowTaskType.USER_TASK) &&
-        ((this.currentTask.state === WorkflowTaskState.READY) || (incompleteTasks.length > 0));
+        (this.currentTask.type === WorkflowTaskType.USER_TASK) && (this.currentTask.state === WorkflowTaskState.READY);
     } else {
       return false;
     }
