@@ -10,7 +10,7 @@ import {of, ReplaySubject} from 'rxjs';
 import {ApiService, MockEnvironment, mockUser0, mockUsers, UserService, mockUser1} from 'sartography-workflow-lib';
 import {LoadingComponent} from '../loading/loading.component';
 import {NavbarComponent} from './navbar.component';
-import 'zone.js/dist/zone-testing';
+import 'zone.js/testing';
 
 
 describe('NavbarComponent', () => {
