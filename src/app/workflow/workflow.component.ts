@@ -34,8 +34,6 @@ import { WorkflowDialogComponent } from '../workflow-dialog/workflow-dialog.comp
 export class WorkflowComponent implements OnInit {
   workflow: Workflow;
   currentTask: WorkflowTask = null;
-  studyId: number;
-  studyName: string;
   study : Study;
   showDataPane: boolean;
   showAdminTools: boolean;
@@ -43,7 +41,6 @@ export class WorkflowComponent implements OnInit {
   taskTypes = WorkflowTaskType;
   displayData = (localStorage.getItem('displayData') === 'true');
   displayFiles = (localStorage.getItem('displayFiles') === 'true');
-  // fileMetas: FileMeta[];
   dataDictionary: DocumentDirectory[];
   loading = true;
   shrink = shrink;
@@ -69,14 +66,10 @@ export class WorkflowComponent implements OnInit {
       this.api.getWorkflow(this.workflowId).subscribe(
         wf => {
           this.workflow = wf;
-          console.log('ngOnInit workflow', this.workflow);
-          console.log(this.workflow);
           if (this.workflow.study_id != null) {
-            console.log('Fetching Study Information...')
             this.api.getStudy(this.workflow.study_id).subscribe(res => {
               res.id = this.workflow.study_id;
               this.study = res;
-              console.log(this.study);
             });
           }
         },
@@ -207,8 +200,7 @@ export class WorkflowComponent implements OnInit {
 
   hasIncompleteUserTask() {
     if (this.currentTask) {
-      return this.currentTask &&
-        (this.currentTask.type === WorkflowTaskType.USER_TASK) && (this.currentTask.state === WorkflowTaskState.READY);
+      return this.currentTask.type === WorkflowTaskType.USER_TASK;
     } else {
       return false;
     }
