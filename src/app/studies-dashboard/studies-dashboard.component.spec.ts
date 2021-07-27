@@ -37,7 +37,7 @@ describe('StudiesDashboardComponent', () => {
   let httpMock: HttpTestingController;
 
   const mockStudyAction: StudyAction = {
-    showIf: (study) => this.statusIs(study, [StudyStatus.IN_PROGRESS]),
+    showIf: (study) => component.statusIs(study, [StudyStatus.IN_PROGRESS]),
     buttonIcon: 'pause',
     buttonLabel: 'Place study on hold...',
     tooltipText: 'Set the status of <study_title> to "Hold"',
@@ -92,7 +92,7 @@ describe('StudiesDashboardComponent', () => {
 
   beforeEach(() => {
     localStorage.removeItem('admin_view_as')
-    localStorage.setItem('token','whatevervalueyouwant')
+    localStorage.setItem('token', 'whatevervalueyouwant')
     httpMock = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(StudiesDashboardComponent);
     component = fixture.componentInstance;
