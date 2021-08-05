@@ -43,6 +43,7 @@
           },
           "configurations": {
             "production": {
+              "preserveSymlinks": true,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -64,6 +65,7 @@
               ]
             },
             "staging": {
+              "preserveSymlinks": true,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -85,6 +87,7 @@
               ]
             },
             "test": {
+              "preserveSymlinks": true,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
