@@ -6,14 +6,12 @@ import {
   OnChanges,
   OnInit,
   Output,
-  Inject,
   SimpleChanges,
   ViewChild,
-  NgZone
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 // @ts-ignore
-import createClone from 'rfdc';
+import * as cloneDeep from "lodash/cloneDeep";
 import {
   ApiService,
   FileParams,
@@ -107,7 +105,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   saveTaskData(task: WorkflowTask, updateRemaining = false, terminateLoop = false) {
     this.activelySaving = true;
-    const modelData = createClone()(this.model);
+    const modelData = cloneDeep(this.model);
 
     // Set value of hidden fields to null
     const controls = (this.form as any)._formlyControls;
@@ -167,13 +165,14 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     if (task.multi_instance_type === MultiInstanceType.NONE) {
       return [];
     } else {
-      const navlist = this.flattenNavList(this.workflow.navigation, [])
+      const navlist = this.flattenNavList(this.workflow.navigation, []);
       return navlist.filter(navItem => {
-        if (navItem.name === null) // some sequence flows may have no name
-          return false;
-        const re = /(.+?)(_[0-9]+)*$/
-        const matcha = navItem.name.match(re)[1]
-        const matchb = task.name.match(re)[1]
+        if (navItem.name === null) {
+          return false; // some sequence flows may have no name
+        }
+        const re = /(.+?)(_[0-9]+)*$/;
+        const matcha = navItem.name.match(re)[1];
+        const matchb = task.name.match(re)[1];
         return (
           matcha === matchb &&
           navItem.state === WorkflowTaskState.READY
@@ -194,7 +193,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   private _loadModel(task: WorkflowTask) {
     this.form = new FormGroup({});
     if (task && task.data && task.form && task.form.fields) {
-      this.model = createClone()(task.data);
+      this.model = cloneDeep(task.data);
       this.fileParams = {
         workflow_id: this.workflow.id,
         task_spec_name: task.name

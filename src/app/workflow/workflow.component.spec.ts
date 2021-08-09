@@ -17,7 +17,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { MarkdownModule, MarkdownService, MarkedOptions } from 'ngx-markdown';
-import createClone from 'rfdc';
+import * as cloneDeep from "lodash/cloneDeep";
 import { of } from 'rxjs';
 import {
   ApiService, mockDocumentDirectory,
@@ -130,7 +130,7 @@ describe('WorkflowComponent', () => {
   }));
 
   beforeEach(() => {
-    localStorage.removeItem('admin_view_as')
+    localStorage.removeItem('admin_view_as');
     localStorage.setItem('token', 'some_token');
     httpMock = TestBed.inject(HttpTestingController);
     user = TestBed.inject(UserService);
@@ -197,10 +197,10 @@ describe('WorkflowComponent', () => {
     const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
 
     // Set the next task to be an end event with documentation
-    const updatedWorkflow = createClone()(mockWorkflow1);
-    const endEvent = createClone()(mockWorkflowTask1);
+    const updatedWorkflow = cloneDeep(mockWorkflow1);
+    const endEvent = cloneDeep(mockWorkflowTask1);
     endEvent.type = WorkflowTaskType.END_EVENT;
-    endEvent.documentation = 'The Restaurant at the End of the Universe.'
+    endEvent.documentation = 'The Restaurant at the End of the Universe.';
     updatedWorkflow.next_task = endEvent;
 
     // Next task should be end event now, but countdown to redirect should not start
@@ -218,10 +218,10 @@ describe('WorkflowComponent', () => {
     const updateTaskListSpy = spyOn((component as any), 'updateTaskList').and.stub();
 
     // Set the next task to be an end event with no documentation
-    const updatedWorkflow = createClone()(mockWorkflow1);
-    const endEvent = createClone()(mockWorkflowTask1);
+    const updatedWorkflow = cloneDeep(mockWorkflow1);
+    const endEvent = cloneDeep(mockWorkflowTask1);
     endEvent.type = WorkflowTaskType.END_EVENT;
-    endEvent.documentation = ''
+    endEvent.documentation = '';
     updatedWorkflow.next_task = endEvent;
 
     // Next task should be end event now, but should not redirect
@@ -267,7 +267,7 @@ describe('WorkflowComponent', () => {
     const consoleGroupEndSpy = spyOn(console, 'groupEnd').and.stub();
     const consoleLogSpy = spyOn(console, 'log').and.stub();
 
-    const taskWithData = createClone()(mockWorkflowTask0);
+    const taskWithData = cloneDeep(mockWorkflowTask0);
     taskWithData.data = {
       favorite_color: 'blue',
       favorite_number: '13',
@@ -304,13 +304,13 @@ describe('WorkflowComponent', () => {
 
   it('should determine whether there are incomplete tasks', () => {
     loadDefaultUser(httpMock,component);
-    const workflowAllComplete = createClone({circles: true})(mockWorkflow0);
+    const workflowAllComplete = cloneDeep(mockWorkflow0);
     workflowAllComplete.navigation.forEach((n: WorkflowNavItem) => n.state = WorkflowTaskState.COMPLETED);
     component.workflow = workflowAllComplete;
     component.currentTask = undefined;
     expect(component.hasIncompleteUserTask()).toBeFalsy();
 
-    const workflowNoneComplete = createClone({circles: true})(mockWorkflow0);
+    const workflowNoneComplete = cloneDeep(mockWorkflow0);
     workflowNoneComplete.navigation.forEach((n: WorkflowNavItem) => n.state = WorkflowTaskState.FUTURE);
     component.workflow = workflowNoneComplete;
     component.currentTask = mockWorkflowTask0;
@@ -484,7 +484,7 @@ describe('WorkflowComponent', () => {
     component.workflow.navigation[0] =
       {
         spec_id: 0, name: '', spec_type: NavItemType.USER_TASK, indent: 0
-      }
+      };
     expect(component.isOnlyTask()).toBeTrue();
     component.workflow.navigation = mockNav1;
     expect(component.isOnlyTask()).toBeFalse();

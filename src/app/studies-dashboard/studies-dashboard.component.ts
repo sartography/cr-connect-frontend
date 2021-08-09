@@ -6,9 +6,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmStudyStatusDialogComponent} from '../_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
 import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
 import {StudyAction} from '../_interfaces/study-action';
-import {StandaloneComponent} from '../standalone/standalone.component';
-// @ts-ignore
-import createClone from 'rfdc';
+import * as cloneDeep from "lodash/cloneDeep";
 import {MatTableDataSource} from '@angular/material/table';
 import * as timeago from 'timeago.js';
 import {MatButtonToggleChange} from '@angular/material/button-toggle';
@@ -193,7 +191,7 @@ export class StudiesDashboardComponent {
   }
 
   openConfirmationDialog(study: Study, selectedAction: StudyAction) {
-    const action: StudyAction = createClone()(selectedAction);
+    const action: StudyAction = cloneDeep(selectedAction);
     action.dialogTitle = this.insertStudyTitle(action.dialogTitle, study);
     action.dialogDescription = this.insertStudyTitle(action.dialogDescription, study);
     const dialogData: ConfirmStudyStatusDialogData = {
@@ -238,7 +236,7 @@ export class StudiesDashboardComponent {
         this.approvalsDataSource.paginator = this.paginator;
         this.approvalsDataSource.filterPredicate = (taskEvent: TaskEvent, filter) => {
           return this._taskLanesAreEqual(taskEvent.task_lane, this.selectedTaskLane.value);
-        }
+        };
 
         // Sending the filter a non-empty string so it will update.
         this.approvalsDataSource.filter = this.selectedTaskLane.label;
@@ -293,7 +291,7 @@ export class StudiesDashboardComponent {
   }
 
   private enrollmentDateForm() {
-    const formFields: FormlyFieldConfig[] = createClone()(this.defaultStudyActionForm) as FormlyFieldConfig[];
+    const formFields: FormlyFieldConfig[] = cloneDeep(this.defaultStudyActionForm) as FormlyFieldConfig[];
     formFields.push({
       key: 'enrollmentDate',
       type: 'datepicker',
