@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-process-viewer',
   templateUrl: './process-viewer.component.html',
   styleUrls: ['./process-viewer.component.scss']
 })
-export class ProcessViewerComponent implements OnInit {
+export class ProcessViewerComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

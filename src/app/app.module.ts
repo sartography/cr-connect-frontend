@@ -32,7 +32,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormlyModule} from '@ngx-formly/core';
 import {NgProgressModule} from '@ngx-progressbar/core';
 import {ChartsModule} from 'ng2-charts';
-import {DeviceDetectorModule} from 'ngx-device-detector';
 import {NgxFileDropModule} from 'ngx-file-drop';
 import {HIGHLIGHT_OPTIONS, HighlightModule} from 'ngx-highlightjs';
 import {MarkdownModule, MarkedOptions, MarkedRenderer} from 'ngx-markdown';
@@ -225,7 +224,6 @@ export function markedOptionsFactory(): MarkedOptions {
         BrowserModule,
         ChartsModule,
         ClipboardModule,
-        DeviceDetectorModule.forRoot(),
         FlexLayoutModule,
         FormlyModule,
         FormsModule,
