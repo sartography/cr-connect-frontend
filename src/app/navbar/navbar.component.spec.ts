@@ -91,7 +91,7 @@ describe('NavbarComponent', () => {
 
   it('should load user', () => {
     expect(!!localStorage.getItem( 'admin_view_as')).toBeFalse();
-    expect(((component as any).userService as any)._realUser.value).toEqual(mockUser0);
+    expect(((component as any).userService as any).realUser.value).toEqual(mockUser0);
     expect(component.userIsAdmin).toBeTrue();
     expect((component as any).userIsImpersonating).toBeFalse();
 

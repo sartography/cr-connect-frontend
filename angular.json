@@ -153,15 +153,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ]
           }
         },
@@ -182,6 +178,7 @@
   },
   "defaultProject": "cr-connect-frontend",
   "cli": {
-    "analytics": "39bf12a6-4921-4c8d-bd17-8df6300cf98a"
+    "analytics": "39bf12a6-4921-4c8d-bd17-8df6300cf98a",
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }

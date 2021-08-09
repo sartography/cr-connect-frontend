@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {ApiService, StudyStatus, StudyStatusLabels, Study, TaskAction, TaskEvent, UserService, User} from 'sartography-workflow-lib';
 import {TaskLane} from '../_interfaces/task-lane';
 import {StudiesByStatus} from '../studies/studies.component';
@@ -36,7 +36,7 @@ enum StudyStatusDisplayType {
   templateUrl: './studies-dashboard.component.html',
   styleUrls: ['./studies-dashboard.component.scss']
 })
-export class StudiesDashboardComponent implements OnInit {
+export class StudiesDashboardComponent {
   @Input() studiesByStatus: StudiesByStatus[];
   @Input() beforeStudyIds: number[];
   @Input() afterStudyIds: number[];
@@ -163,9 +163,6 @@ export class StudiesDashboardComponent implements OnInit {
       this.approvalsDataSource.filteredData &&
       this.approvalsDataSource.filteredData.length > 0
     );
-  }
-
-  ngOnInit(): void {
   }
 
   changeTab(currentTab: number){
