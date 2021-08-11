@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StandaloneComponent } from './standalone.component';
 import {ApiService, MockEnvironment} from 'sartography-workflow-lib';
@@ -14,7 +14,7 @@ describe('StandaloneComponent', () => {
   const mockRouter = {navigate: jasmine.createSpy('navigate')};
 
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ StandaloneComponent ],
       imports: [

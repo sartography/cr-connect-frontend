@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
@@ -6,13 +6,10 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   templateUrl: './code-viewer.component.html',
   styleUrls: ['./code-viewer.component.scss']
 })
-export class CodeViewerComponent implements OnInit {
+export class CodeViewerComponent {
   @Input() data: any;
 
   constructor(private snackBar: MatSnackBar) { }
-
-  ngOnInit(): void {
-  }
 
   confirmCopy() {
     this.snackBar.open('Data copied to clipboard.', 'Ok', {duration: 2000});

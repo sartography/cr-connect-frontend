@@ -1,5 +1,5 @@
 import {CdkCopyToClipboard} from '@angular/cdk/clipboard';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {MatIcon, MatIconModule} from '@angular/material/icon';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {HighlightModule} from 'ngx-highlightjs';
@@ -10,7 +10,7 @@ describe('CodeViewerComponent', () => {
   let component: CodeViewerComponent;
   let fixture: ComponentFixture<CodeViewerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         CdkCopyToClipboard,

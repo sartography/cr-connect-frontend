@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input} from '@angular/core';
 import {NavItem} from '../_interfaces/nav-item';
 import {Router} from '@angular/router';
 import {ApiService, AppEnvironment} from 'sartography-workflow-lib';
@@ -8,7 +8,7 @@ import {ApiService, AppEnvironment} from 'sartography-workflow-lib';
   templateUrl: './nav-links.component.html',
   styleUrls: ['./nav-links.component.scss']
 })
-export class NavLinksComponent implements OnInit {
+export class NavLinksComponent {
   @Input() links: NavItem[];
 
   constructor(
@@ -16,9 +16,6 @@ export class NavLinksComponent implements OnInit {
     private api: ApiService,
     @Inject('APP_ENVIRONMENT') private environment: AppEnvironment,
   ) {
-  }
-
-  ngOnInit(): void {
   }
 
   isLinkActive(path: string) {

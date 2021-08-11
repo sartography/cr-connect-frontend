@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ProcessViewerComponent } from './process-viewer.component';
 
@@ -6,7 +6,7 @@ describe('ProcessViewerComponent', () => {
   let component: ProcessViewerComponent;
   let fixture: ComponentFixture<ProcessViewerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ProcessViewerComponent ]
     })
