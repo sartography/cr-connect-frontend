@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Study, StudyEventType, StudyEvent, StudyEventTypeLabels, StudyStatus, StudyStatusLabels} from 'sartography-workflow-lib';
 
 @Component({
@@ -6,7 +6,7 @@ import {Study, StudyEventType, StudyEvent, StudyEventTypeLabels, StudyStatus, St
   templateUrl: './study-events.component.html',
   styleUrls: ['./study-events.component.scss']
 })
-export class StudyEventsComponent implements OnInit {
+export class StudyEventsComponent {
   @Input() study: Study;
   displayedColumns: string[] = [
     'create_date',
@@ -18,9 +18,6 @@ export class StudyEventsComponent implements OnInit {
   studyEventTypeLabels = StudyEventTypeLabels;
 
   constructor() {
-  }
-
-  ngOnInit(): void {
   }
 
   getStatusLabel(status) {

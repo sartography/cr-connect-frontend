@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {Router } from '@angular/router';
 import {WorkflowSpec, ApiService} from 'sartography-workflow-lib';
 
@@ -7,16 +7,13 @@ import {WorkflowSpec, ApiService} from 'sartography-workflow-lib';
   templateUrl: './standalone.component.html',
   styleUrls: ['./standalone.component.scss']
 })
-export class StandaloneComponent implements OnInit {
+export class StandaloneComponent {
   workflowSpecs: WorkflowSpec[];
 
   constructor(
     private api: ApiService,
     private router: Router) {
     this.getStandalone();
-  }
-
-  ngOnInit() {
   }
 
   getStandalone() {

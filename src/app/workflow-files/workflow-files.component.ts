@@ -10,10 +10,9 @@ import {MatTreeNestedDataSource} from '@angular/material/tree';
   styleUrls: ['./workflow-files.component.scss']
 })
 
-export class WorkflowFilesComponent implements OnInit,OnChanges,AfterViewInit {
+export class WorkflowFilesComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() workflow?: Workflow;
   @Input() study?: Study;
-//  @Input() fileMetas: FileMeta[];
   @Input() directory: DocumentDirectory[];
   typeLabel: string;
   treeControl = new NestedTreeControl<DocumentDirectory>(node => node.children);
@@ -26,18 +25,18 @@ export class WorkflowFilesComponent implements OnInit,OnChanges,AfterViewInit {
   ngOnChanges(changes: SimpleChanges){
     this.dataSource.data = this.directory;
     this.treeControl.dataNodes = this.directory;
-    setTimeout(()=>this.expandNodes(this.directory), 10);
+    setTimeout(() => this.expandNodes(this.directory), 10);
   }
 
   hasChild = (_: number, node: DocumentDirectory) => node.children.length > 0;
 
   ngAfterViewInit() {
-    this.expandNodes(this.directory)
+    this.expandNodes(this.directory);
   }
 
   expandNodes(nodes: DocumentDirectory[]): void{
-    if(nodes) {
-      nodes.forEach(node=>{
+    if (nodes) {
+      nodes.forEach(node => {
         if (node.expanded) {
           this.treeControl.expand(node);
           this.expandNodes(node.children);

@@ -45,7 +45,7 @@ describe('Clinical Research Coordinator App', () => {
   it('should load new study from Protocol Builder', async () => {
     const numStudiesBefore = await page.getElements('.study-row').count();
     // Add a new study to Protocol Builder.
-    httpPB.post('/new_study', '' +
+    httpPB.post('/new_test_study?valid=true', '' +
       `TITLE=${encodeURIComponent('New study title')}&` +
       `NETBADGEID=dhf8r&` +
       `DATE_MODIFIED=${encodeURIComponent(new Date().toISOString())}&` +

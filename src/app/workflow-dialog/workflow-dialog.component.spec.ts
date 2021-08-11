@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { WorkflowDialogComponent } from './workflow-dialog.component';
@@ -7,7 +7,7 @@ describe('WorkflowDialogComponent', () => {
   let component: WorkflowDialogComponent;
   let fixture: ComponentFixture<WorkflowDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ WorkflowDialogComponent ],
       imports: [MatDialogModule],
