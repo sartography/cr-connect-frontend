@@ -90,7 +90,7 @@ export class WorkflowComponent implements OnInit {
   }
 
   get numFiles(): number {
-    return this.dataDictionary ? this.dataDictionary.length : 0;
+    return this.study ? this.study.files.length : 0;
   };
 
   ngOnInit(): void {
@@ -99,7 +99,6 @@ export class WorkflowComponent implements OnInit {
         return this.angularFunctionCalled(str);
       }
     };
-
   }
 
   openDialog(id: string) {
