@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
-import * as cloneDeep from "lodash/cloneDeep";
+import { cloneDeep } from 'lodash';
 
 import {
   mockNav0, mockTaskEvent0,

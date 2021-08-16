@@ -17,7 +17,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { MarkdownModule, MarkdownService, MarkedOptions } from 'ngx-markdown';
-import * as cloneDeep from "lodash/cloneDeep";
+import { cloneDeep } from 'lodash';
 import { of } from 'rxjs';
 import {
   ApiService, mockDocumentDirectory,

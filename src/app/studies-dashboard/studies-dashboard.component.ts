@@ -6,7 +6,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmStudyStatusDialogComponent} from '../_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
 import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
 import {StudyAction} from '../_interfaces/study-action';
-import * as cloneDeep from "lodash/cloneDeep";
+import { cloneDeep } from 'lodash';
 import {MatTableDataSource} from '@angular/material/table';
 import * as timeago from 'timeago.js';
 import {MatButtonToggleChange} from '@angular/material/button-toggle';
@@ -234,9 +234,7 @@ export class StudiesDashboardComponent {
       .subscribe(t => {
         this.approvalsDataSource = new MatTableDataSource(t);
         this.approvalsDataSource.paginator = this.paginator;
-        this.approvalsDataSource.filterPredicate = (taskEvent: TaskEvent, filter) => {
-          return this._taskLanesAreEqual(taskEvent.task_lane, this.selectedTaskLane.value);
-        };
+        this.approvalsDataSource.filterPredicate = (taskEvent: TaskEvent, filter) => this._taskLanesAreEqual(taskEvent.task_lane, this.selectedTaskLane.value);
 
         // Sending the filter a non-empty string so it will update.
         this.approvalsDataSource.filter = this.selectedTaskLane.label;
@@ -262,9 +260,7 @@ export class StudiesDashboardComponent {
 
   numTasksInTaskLane(taskLane: TaskLane): number {
     if (this.approvalsDataSource && this.approvalsDataSource.data && this.approvalsDataSource.data.length > 0) {
-      return this.approvalsDataSource.data.filter(taskEvent => {
-        return this._taskLanesAreEqual(taskEvent.task_lane, taskLane.value)
-      }).length;
+      return this.approvalsDataSource.data.filter(taskEvent => this._taskLanesAreEqual(taskEvent.task_lane, taskLane.value)).length;
     }
 
     return 0;

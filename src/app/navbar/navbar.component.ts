@@ -62,16 +62,14 @@ export class NavbarComponent {
             label: this.userIsImpersonating ? `Viewing as user ${this.user.uid}` : 'View as...',
             icon: 'preview',
             showLabel: true,
-            links: users.map(u => {
-              return {
+            links: users.map(u => ({
                 id: `nav_user_${u.uid}`,
                 label: `${u.display_name} (${u.uid})`,
                 icon: 'person',
                 action: () => this.userService.viewAs(u.uid),
                 showLabel: true,
                 disabled: u.uid === this.user.uid,
-              } as NavItem;
-            })
+              } as NavItem))
           },
           {
             id: 'toggle_admin',

@@ -97,14 +97,12 @@ describe('StudiesDashboardComponent', () => {
     fixture = TestBed.createComponent(StudiesDashboardComponent);
     component = fixture.componentInstance;
 
-    component.studiesByStatus = Object.keys(StudyStatus).map(statusKey => {
-      return {
+    component.studiesByStatus = Object.keys(StudyStatus).map(statusKey => ({
         status: StudyStatus[statusKey],
         statusLabel: StudyStatusLabels[statusKey],
         studies: mockStudies,
         dataSource: new MatTableDataSource(mockStudies),
-      };
-    });
+      }));
     component.beforeStudyIds = mockStudies.map(study => study.id);
     component.afterStudyIds = mockStudies.map(study => study.id);
     fixture.detectChanges();
