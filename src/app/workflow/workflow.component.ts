@@ -1,16 +1,18 @@
-
 import { Location } from '@angular/common';
-import {Component, ElementRef, Inject, NgZone, OnInit} from '@angular/core';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import { Component, Inject, NgZone, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import {shrink} from '../_util/shrink'
+import { shrink } from '../_util/shrink';
 import {
   ApiService,
-  AppEnvironment, DocumentDirectory,
-  scrollToTop, Study, UserService,
-  Workflow, WorkflowNavItem,
+  AppEnvironment,
+  DocumentDirectory,
+  scrollToTop,
+  Study,
+  UserService,
+  Workflow,
   WorkflowTask,
   WorkflowTaskState,
   WorkflowTaskType,
@@ -18,23 +20,23 @@ import {
 
 import {
   WorkflowResetDialogComponent,
-  WorkflowResetDialogData
+  WorkflowResetDialogData,
 } from '../workflow-reset-dialog/workflow-reset-dialog.component';
-import {isOrContainsUserTasks} from '../_util/nav-item';
-import {UserPreferencesService} from '../user-preferences.service';
+import { isOrContainsUserTasks } from '../_util/nav-item';
+import { UserPreferencesService } from '../user-preferences.service';
 import { WorkflowDialogComponent } from '../workflow-dialog/workflow-dialog.component';
 
 
 @Component({
   selector: 'app-workflow',
   templateUrl: './workflow.component.html',
-  styleUrls: ['./workflow.component.scss']
+  styleUrls: ['./workflow.component.scss'],
 })
 
 export class WorkflowComponent implements OnInit {
   workflow: Workflow;
   currentTask: WorkflowTask = null;
-  study : Study;
+  study: Study;
   showDataPane: boolean;
   showAdminTools: boolean;
   workflowId: number;
@@ -74,16 +76,18 @@ export class WorkflowComponent implements OnInit {
           }
         },
         error => {
-          this.handleError(error)
+          this.handleError(error);
         },
-        () => this.updateTaskList(this.workflow)
+        () => this.updateTaskList(this.workflow),
       );
 
     });
-    this.userService.isAdmin$.subscribe(a => {this.isAdmin = a;
-      this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);})
+    this.userService.isAdmin$.subscribe(a => {
+      this.isAdmin = a;
+      this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);
+    });
     this.userPreferencesService.preferences$.subscribe(p => {
-      this.environment.hideDataPane = !p.showAdminTools
+      this.environment.hideDataPane = !p.showAdminTools;
       this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);
       this.showAdminTools = p.showAdminTools;
     });
@@ -95,23 +99,21 @@ export class WorkflowComponent implements OnInit {
 
   ngOnInit(): void {
     window[`angularComponentReference`] = {
-      component: this, zone: this.ngZone, loadAngularFunction: (str: string) => {
-        return this.angularFunctionCalled(str);
-      }
+      component: this, zone: this.ngZone, loadAngularFunction: (str: string) => this.angularFunctionCalled(str),
     };
   }
 
   openDialog(id: string) {
     const element = document.getElementById(id);
     let markdown = 'No information found for this footnote.';
-    if(element != null) {
+    if (element != null) {
       markdown = element.getAttribute('value');
     }
 
     this.dialog.open(WorkflowDialogComponent, {
       data: markdown,
       maxWidth: '600px',
-      autoFocus: true
+      autoFocus: true,
     });
   }
 
@@ -149,7 +151,7 @@ export class WorkflowComponent implements OnInit {
       updatedWorkflow => {
         console.log('completeManualTask workflow', updatedWorkflow);
         this.workflowUpdated(updatedWorkflow);
-      }
+      },
     );
   }
 
@@ -157,12 +159,10 @@ export class WorkflowComponent implements OnInit {
     if (task) {
       const label = `Data for Workflow Task: '${task.name} (${task.id})'`;
       console.group(label);
-      console.table(Object.entries(task.data).map(e => {
-        return {
-          'Form Field Name': e[0],
-          'Stored Value': e[1]
-        };
-      }));
+      console.table(Object.entries(task.data).map(e => ({
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        'Form Field Name': e[0], 'Stored Value': e[1],
+      })));
       console.groupEnd();
       console.log('Task:', task);
     }
@@ -192,8 +192,8 @@ export class WorkflowComponent implements OnInit {
     this.updateTaskList(this.workflow);
   }
 
-  isOnlyTask(): boolean{
-    const userTasks = this.workflow.navigation.filter(t => isOrContainsUserTasks(t))
+  isOnlyTask(): boolean {
+    const userTasks = this.workflow.navigation.filter(t => isOrContainsUserTasks(t));
     return userTasks.length === 1;
   }
 
@@ -227,7 +227,7 @@ export class WorkflowComponent implements OnInit {
   }
 
   resetWorkflow(clearData: boolean = false, deleteFiles = false) {
-   this.api.restartWorkflow(this.workflowId, clearData, deleteFiles).subscribe(workflow => {
+    this.api.restartWorkflow(this.workflowId, clearData, deleteFiles).subscribe(workflow => {
       console.log('resetWorkflow workflow', workflow);
       this.snackBar.open(`Your workflow has been reset successfully.`, 'Ok', {duration: 3000});
       this.workflow = workflow;
@@ -279,7 +279,7 @@ export class WorkflowComponent implements OnInit {
     if (this.workflow.study_id != null) {
       this.api.getDocumentDirectory(this.workflow.study_id, this.workflowId).subscribe(dd => {
         this.dataDictionary = dd;
-      })
+      });
     }
 
     // The current task will be set by the backend, unless specifically forced.

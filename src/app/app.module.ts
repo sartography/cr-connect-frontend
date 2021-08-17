@@ -138,26 +138,16 @@ export function markedOptionsFactory(): MarkedOptions {
   const contentMatch = /\[\^([^\]]+)\]/;
   const referencePrefix = 'marked-fnref';
 
-  const referenceTemplate = ref => {
-    return ` <a onclick="callAngularFunction(\`${referencePrefix}${ref}\`);">
+  const referenceTemplate = ref => ` <a onclick="callAngularFunction(\`${referencePrefix}${ref}\`);">
       <i class="material-icons mdc-button__icon">info</i></a>`;
-  };
-  const interpolateReferences = (text) => {
-    return text.replace(referenceMatch, (_, ref) => {
-      return referenceTemplate(ref);
-    });
-  };
+  const interpolateReferences = (text) => text.replace(referenceMatch, (_, ref) => referenceTemplate(ref));
 
-  renderer.paragraph = (text) => {
-    return new MarkedRenderer().paragraph.apply(null, [
+  renderer.paragraph = (text) => new MarkedRenderer().paragraph.apply(null, [
         interpolateReferences(text)
       ]);
-    };
-  renderer.text = (text) => {
-    return new MarkedRenderer().text.apply(null, [
+  renderer.text = (text) => new MarkedRenderer().text.apply(null, [
         interpolateReferences(text)
       ]);
-    };
 
   renderer.heading = (text, level, raw, slugger) => {
     text = interpolateReferences(text);

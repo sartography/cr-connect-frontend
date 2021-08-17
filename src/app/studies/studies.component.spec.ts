@@ -48,9 +48,7 @@ describe('StudiesComponent', () => {
 
     expect(component.studiesByStatus).toBeTruthy();
 
-    const numStudies = component.studiesByStatus.reduce((memo, s) => {
-      return memo + s.studies.length;
-    }, 0);
+    const numStudies = component.studiesByStatus.reduce((memo, s) => memo + s.studies.length, 0);
 
     expect(numStudies).toEqual(mockStudies.length);
   });

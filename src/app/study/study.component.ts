@@ -46,9 +46,7 @@ export class StudyComponent implements OnInit {
       // On this rare occasion, we want to force a status check on all the workflows.
       this.api.getStudy(studyId, true).subscribe(s => {
         this.study = s;
-        this.allWorkflows = this.study.categories.reduce((accumulator, cat) => {
-          return accumulator.concat(cat.workflows);
-        }, []);
+        this.allWorkflows = this.study.categories.reduce((accumulator, cat) => accumulator.concat(cat.workflows), []);
         this.loading = false;
       });
     });
