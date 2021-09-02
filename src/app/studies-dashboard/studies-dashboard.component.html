@@ -2,30 +2,12 @@
 
   <div class="task-events">
     <div fxLayout="row" class="task-events-header">
-      <h1 id="approvals_title">In Progress</h1>
+      <h1 id="approvals_title">Approvals</h1>
       <span fxFlex></span>
-      <mat-button-toggle-group
-        [(ngModel)]="selectedTaskLane"
-        (change)="toggleTaskLane($event)"
-        aria-label="Filter Tasks by Role Type"
-      >
-        <mat-button-toggle
-          *ngFor="let taskLane of taskLanes"
-          [value]="taskLane"
-        >
-          <span
-            [matBadge]="numTasksInTaskLane(taskLane)"
-            [matBadgeHidden]="numTasksInTaskLane(taskLane) === 0"
-            matBadgeOverlap="false"
-            matBadgeColor="accent"
-          >{{taskLane.label}}</span>
-        </mat-button-toggle>
-      </mat-button-toggle-group>
-
     </div>
 
     <table
-      [hidden]="!hasTaskEvents"
+      [hidden]="true"
       [dataSource]="approvalsDataSource"
       class="mat-elevation-z0 in-progress-box"
       mat-table
