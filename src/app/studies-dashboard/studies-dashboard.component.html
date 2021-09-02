@@ -7,7 +7,7 @@
     </div>
 
     <table
-      [hidden]="true"
+      [hidden]="!hasTaskEvents"
       [dataSource]="approvalsDataSource"
       class="mat-elevation-z0 in-progress-box"
       mat-table
