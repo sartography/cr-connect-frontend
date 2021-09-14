@@ -142,7 +142,6 @@ export class StudiesDashboardComponent {
   approvalsDataSource: MatTableDataSource<TaskEvent>;
   taskLanes: TaskLane[] = [
     {value: 'supervisor', label: 'Approvals'},
-    {value: '', label: 'Data Entry'},
   ];
   selectedTaskLane: TaskLane = this.taskLanes[0];
 

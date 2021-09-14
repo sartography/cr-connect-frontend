@@ -161,6 +161,7 @@ describe('StudiesDashboardComponent', () => {
     expect(studyUpdatedEmitSpy).toHaveBeenCalled();
   });
 
+  /** Deprecated
   it('should toggle task lane', () => {
     expect(component.taskLanes).toBeDefined();
     expect(component.taskLanes.length).toBeGreaterThan(1);
@@ -172,4 +173,5 @@ describe('StudiesDashboardComponent', () => {
       expect(component.numTasksInTaskLane(taskLane)).toBeGreaterThan(0);
     }
   });
+   */
 });

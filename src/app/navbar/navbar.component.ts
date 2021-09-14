@@ -111,6 +111,9 @@ export class NavbarComponent {
         ];
       } else {
         this.navLinks = [
+          /**
+           * Help Guide + Inbox
+           *
           {
             path: '/help',
             id: 'nav_help',
@@ -125,11 +128,15 @@ export class NavbarComponent {
             icon: 'notifications',
             showLabel: false,
           },
+           **/
           {
             id: 'nav_account',
             label: `${displayName} (${this.user.email_address})`,
             icon: 'account_circle',
             showLabel: true,
+            /**
+             *  Profile + Notifications submenu
+             *
             links: [
               {
                 path: '/profile',
@@ -147,6 +154,7 @@ export class NavbarComponent {
                 showLabel: true,
               },
             ]
+             **/
           }
         ];
       }

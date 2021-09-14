@@ -79,10 +79,12 @@ describe('Clinical Research Coordinator App', () => {
     page.clickAndExpectRoute('.study-row', '/study/' + studyId);
   });
 
+  /** Deprecated
   it('should display workflow spec categories in tiles', async () => {
     const numTiles = await page.getElements('.workflow-list-item').count();
     expect(numTiles).toBeGreaterThan(0);
   });
+
 
   it('should navigate to a workflow', async () => {
     const wfSelector = '.workflow-list-item .workflow-action';
@@ -91,6 +93,7 @@ describe('Clinical Research Coordinator App', () => {
     const studyId = await workflow.getAttribute('data-study-id');
     const catId = await workflow.getAttribute('data-category-id');
     const workflowId = await workflow.getAttribute('data-workflow-id');
+
 
     console.log('studyId', studyId);
     console.log('catId', catId);
@@ -101,6 +104,7 @@ describe('Clinical Research Coordinator App', () => {
     expect(newRoute.slice(0, expectedRoute.length)).toEqual(expectedRoute);
   });
 
+  */
 
     // TODO: CATCH 401/403 ERRORS AND VERIFY THAT THEY REDIRECT TO LOGIN
   // afterEach(async () => {
