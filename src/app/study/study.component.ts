@@ -7,7 +7,7 @@ import {
   StudyStatus,
   StudyStatusLabels,
   Study,
-  Workflow
+  Workflow, StudyAssociate
 } from 'sartography-workflow-lib';
 
 @Component({
@@ -20,6 +20,7 @@ export class StudyComponent implements OnInit {
   allWorkflows: Workflow[] = [];
   loading = true;
   selectedWorkflowId: number;
+  associates: StudyAssociate[];
   shrink = shrink;
 
   constructor(
@@ -49,8 +50,12 @@ export class StudyComponent implements OnInit {
         this.allWorkflows = this.study.categories.reduce((accumulator, cat) => accumulator.concat(cat.workflows), []);
         this.loading = false;
       });
+      this.api.getStudyAssociates(studyId).subscribe(associates => {
+        this.associates = associates;
+      })
     });
   }
+
 
   getStatusLabel(status: StudyStatus) {
     return StudyStatusLabels[status.toUpperCase()];
