@@ -21,6 +21,7 @@ export class StudyComponent implements OnInit {
   loading = true;
   selectedWorkflowId: number;
   associates: StudyAssociate[];
+  PI: StudyAssociate;
   shrink = shrink;
 
   constructor(
@@ -52,6 +53,8 @@ export class StudyComponent implements OnInit {
       });
       this.api.getStudyAssociates(studyId).subscribe(associates => {
         this.associates = associates;
+        console.log(associates);
+        this.PI = associates.find(function (el) {return el.role = "Primary Investigator";});
       })
     });
   }
