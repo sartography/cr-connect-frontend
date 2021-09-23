@@ -64,7 +64,7 @@ export class NavbarComponent {
             showLabel: true,
             links: users.map(u => ({
                 id: `nav_user_${u.uid}`,
-                label: `${u.display_name} (${u.uid})`,
+                label: `${u.ldap_info.display_name} (${u.uid})`,
                 icon: 'person',
                 action: () => this.userService.viewAs(u.uid),
                 showLabel: true,
@@ -97,7 +97,7 @@ export class NavbarComponent {
 
   private _loadNavLinks() {
     if (this.user) {
-      const displayName = this.user.display_name || this.user.first_name || this.user.last_name;
+      const displayName = this.user.ldap_info.display_name;
 
       if (this.environment.homeRoute === 'research') {
         this.navLinks = [
@@ -131,7 +131,7 @@ export class NavbarComponent {
            **/
           {
             id: 'nav_account',
-            label: `${displayName} (${this.user.email_address})`,
+            label: `${displayName} (${this.user.ldap_info.email_address})`,
             icon: 'account_circle',
             showLabel: true,
             /**

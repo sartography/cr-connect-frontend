@@ -12,10 +12,14 @@
     <div class="study-metadata">
       <h1 title="{{shrink(160,study.title,study.short_title)}}" class="study-metadata-title"></h1>
       <dl fxLayout="row">
-        <dt>ID:</dt>
-        <dd>{{study.id}}</dd>
-        <dt>PI:</dt>
-        <dd>{{study.primary_investigator_id || 'None'}}</dd>
+        <dt>ID:</dt><dd>{{study.id}}</dd>
+<!--        TODO: Use Filter Pipe Instead-->
+        <ng-container *ngIf="PI">
+        <dt>PI:</dt><dd >{{PI.ldap_info.display_name}}</dd>
+        </ng-container>
+        <ng-container *ngIf="study.short_title">
+          <dt>Short Title:</dt><dd>{{study.short_title}}</dd>
+        </ng-container>
       </dl>
     </div>
   </div>
