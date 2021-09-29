@@ -28,6 +28,16 @@
   margin-bottom: 0px;
 }
 
+.mat-card-title-admin {
+  color: orange;
+  border-radius: 10px 10px 0px 0px;
+  background-color: $brand-primary;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 5px;
+  margin-bottom: 0px;
+}
+
 .workflow-status {
   background-color: $brand-gray-light;
   color: $brand-gray;

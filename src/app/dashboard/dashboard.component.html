@@ -4,12 +4,18 @@
       *ngFor="let cat of categoryTabs; let i = index"
       fxFlex="calc({{100 / categoryTabs.length}}%-30px)"
       [ngClass]="'dashboard'"
+      [style.display]="cat.admin===true && !showAdminTools? 'none' : 'block'"
       class="lcldashboard">
       <mat-card-title *ngIf="cat.workflows && cat.workflows.length > 0">
-        <div class="mat-card-title-main">{{cat.display_name}}</div>
+         <div *ngIf="cat.admin">
+           <div class="mat-card-title-admin">{{cat.display_name}}</div>
+         </div>
+        <div *ngIf="!cat.admin">
+          <div class="mat-card-title-main">{{cat.display_name}}</div>
+        </div>
         <div class="workflow-status">{{allComplete(cat) ? 'COMPLETE' : 'IN PROGRESS'}}</div>
       </mat-card-title>
-      <mat-card-content>
+      <mat-card-content >
         <mat-list>
           <mat-list-item
             *ngFor="let workflowListItem of workflowsToShow(cat.workflows)"
