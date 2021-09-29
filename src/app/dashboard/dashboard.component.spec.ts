@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { APP_BASE_HREF } from '@angular/common';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
@@ -6,22 +8,25 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterTestingModule} from '@angular/router/testing';
 import {
-  mockStudies,
+  mockStudies, UserService,
   mockWorkflowSpecCategories,
   mockWorkflowMeta0, mockWorkflowMeta1,
   WorkflowState,
-  WorkflowStatus
+  WorkflowStatus, ApiService, MockEnvironment
 } from 'sartography-workflow-lib';
 import {DashboardComponent} from './dashboard.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
+  const mockEnvironment = new MockEnvironment();
+
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [DashboardComponent],
       imports: [
+        HttpClientTestingModule,
         BrowserAnimationsModule,
         MatCardModule,
         MatIconModule,
@@ -30,6 +35,12 @@ describe('DashboardComponent', () => {
         NoopAnimationsModule,
         RouterTestingModule,
       ],
+      providers: [
+        ApiService,
+        UserService,
+        {provide: 'APP_ENVIRONMENT', useValue: mockEnvironment},
+        {provide: APP_BASE_HREF, useValue: '/'},
+      ]
     })
       .compileComponents();
   }));
