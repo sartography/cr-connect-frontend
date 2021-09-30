@@ -42,11 +42,6 @@ env:
     - PORT0=4200
     - PRODUCTION=false
 
-before_script:
-  - wget https://chromedriver.storage.googleapis.com/93.0.4577.15/chromedriver_linux64.zip
-  - unzip chromedriver_linux64.zip -d /home/travis/virtualenv/python3/bin/
-  - export CHROME_BIN=chromium-browser
-
 script:
   - npm run ci
 
