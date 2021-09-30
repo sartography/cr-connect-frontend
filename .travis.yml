@@ -28,7 +28,9 @@ install:
   - npm install
 
 addons:
-  chrome: stable
+  apt:
+    packages:
+      - google-chrome-stable
 
 env:
   global:
@@ -39,6 +41,7 @@ env:
     - IRB_URL=http://localhost:5001/
     - PORT0=4200
     - PRODUCTION=false
+
 script:
   - npm run ci
 
