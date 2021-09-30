@@ -28,7 +28,9 @@ install:
   - npm install
 
 addons:
-  chrome: stable
+  apt:
+    packages:
+      - google-chrome-stable
 
 env:
   global:
