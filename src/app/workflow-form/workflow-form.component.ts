@@ -206,7 +206,19 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     } else {
       this.locked = true;
       this.formViewState = 'disabled';
+      try {
+        this.fields.forEach(f => f.templateOptions.disabled = true);
+      } catch(e) {
+        console.log(e);
+      }
     }
+  }
+
+  ensure<T>(argument: T | undefined | null, message: string = 'Template not found!'): T {
+    if (argument === undefined || argument === null) {
+      throw new TypeError(message);
+    }
+    return argument;
   }
 
   private _focusNextPrevCheckbox(thisEl: HTMLElement, keyCode: string) {
