@@ -214,13 +214,6 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
   }
 
-  ensure<T>(argument: T | undefined | null, message: string = 'Template not found!'): T {
-    if (argument === undefined || argument === null) {
-      throw new TypeError(message);
-    }
-    return argument;
-  }
-
   private _focusNextPrevCheckbox(thisEl: HTMLElement, keyCode: string) {
     const inputEls = this._getInputEls(thisEl);
     const thisIndex = inputEls.findIndex(el => el.id === thisEl.id);
