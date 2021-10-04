@@ -16,8 +16,9 @@
     <app-standalone></app-standalone>
   </nav>
 
-  <div *ngIf="!loading; else loadingMessage">
+  <div *ngIf="!loading; else loadingMessage" fxLayout="row" fxLayoutAlign="start center" style="margin-bottom: 4em;">
     <app-studies-dashboard
+      fxFlex="100%"
       *ngIf="view === 'dashboard'"
       [studiesByStatus]="studiesByStatus"
       [beforeStudyIds]="beforeStudyIds"

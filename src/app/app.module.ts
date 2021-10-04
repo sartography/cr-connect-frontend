@@ -32,7 +32,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormlyModule} from '@ngx-formly/core';
 import {NgProgressModule} from '@ngx-progressbar/core';
 import {ChartsModule} from 'ng2-charts';
-import {DeviceDetectorModule} from 'ngx-device-detector';
 import {NgxFileDropModule} from 'ngx-file-drop';
 import {HIGHLIGHT_OPTIONS, HighlightModule} from 'ngx-highlightjs';
 import {MarkdownModule, MarkedOptions, MarkedRenderer} from 'ngx-markdown';
@@ -139,26 +138,16 @@ export function markedOptionsFactory(): MarkedOptions {
   const contentMatch = /\[\^([^\]]+)\]/;
   const referencePrefix = 'marked-fnref';
 
-  const referenceTemplate = ref => {
-    return ` <a onclick="callAngularFunction(\`${referencePrefix}${ref}\`);">
+  const referenceTemplate = ref => ` <a onclick="callAngularFunction(\`${referencePrefix}${ref}\`);">
       <i class="material-icons mdc-button__icon">info</i></a>`;
-  };
-  const interpolateReferences = (text) => {
-    return text.replace(referenceMatch, (_, ref) => {
-      return referenceTemplate(ref);
-    });
-  };
+  const interpolateReferences = (text) => text.replace(referenceMatch, (_, ref) => referenceTemplate(ref));
 
-  renderer.paragraph = (text) => {
-    return new MarkedRenderer().paragraph.apply(null, [
+  renderer.paragraph = (text) => new MarkedRenderer().paragraph.apply(null, [
         interpolateReferences(text)
       ]);
-    };
-  renderer.text = (text) => {
-    return new MarkedRenderer().text.apply(null, [
+  renderer.text = (text) => new MarkedRenderer().text.apply(null, [
         interpolateReferences(text)
       ]);
-    };
 
   renderer.heading = (text, level, raw, slugger) => {
     text = interpolateReferences(text);
@@ -225,7 +214,6 @@ export function markedOptionsFactory(): MarkedOptions {
         BrowserModule,
         ChartsModule,
         ClipboardModule,
-        DeviceDetectorModule.forRoot(),
         FlexLayoutModule,
         FormlyModule,
         FormsModule,

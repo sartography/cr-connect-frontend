@@ -1,6 +1,6 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatIconModule} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -13,7 +13,7 @@ import {of} from 'rxjs';
 import {
   ApiService,
   MockEnvironment,
-  mockStudy0,
+  mockStudy0, mockUsers, StudyAssociate,
   StudyStatus,
   StudyStatusLabels
 } from 'sartography-workflow-lib';
@@ -21,12 +21,39 @@ import {DashboardComponent} from '../dashboard/dashboard.component';
 import {LoadingComponent} from '../loading/loading.component';
 import {StudyComponent} from './study.component';
 
+
+export const studyAssociateOne: StudyAssociate = {
+  uid: 'bb8',
+  access: true,
+  role: 'Cute Robot',
+  ldap_info: {
+    uid: 'bb8',
+    given_name: 'BB8',
+    email_address: 'bb8@starwars.corp',
+    display_name: 'BeeBee Eight',
+  }
+};
+
+export const studyAssociateTwo: StudyAssociate = {
+  uid: 'c3p0',
+  access: true,
+  role: 'Comic Relief Robot',
+  ldap_info: {
+    uid: 'c3p0',
+    given_name: 'Human Cyborg Relations',
+    email_address: 'c3p0@starwars.corp',
+    display_name: 'Cyborg',
+  }
+};
+
+
+
 describe('StudyComponent', () => {
   let component: StudyComponent;
   let fixture: ComponentFixture<StudyComponent>;
   let httpMock: HttpTestingController;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         DashboardComponent,
@@ -66,6 +93,11 @@ describe('StudyComponent', () => {
     const sReq = httpMock.expectOne('apiRoot/study/0?update_status=true');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
+
+    const associatesMock = httpMock.expectOne('apiRoot/study/0/associates');
+    expect(associatesMock.request.method).toEqual('GET');
+    associatesMock.flush([studyAssociateOne, studyAssociateTwo]);
+
     expect(component.study).toBeTruthy();
     expect(component.study.id).toEqual(mockStudy0.id);
   });
@@ -88,7 +120,9 @@ describe('StudyComponent', () => {
     expect(component.allWorkflows.length).toBeGreaterThan(0);
   });
 
-
+  it('should have Associates', () => {
+    expect(component.associates.length).toBeGreaterThan(0);
+  });
 
   it('should select workflow', () => {
     const workflowId = component.study.categories[0].workflows[0].id;

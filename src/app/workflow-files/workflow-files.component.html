@@ -1,7 +1,7 @@
 <h3>Files for this {{typeLabel}}</h3>
 <div *ngIf="directory">
 <em *ngIf="directory.length > 0">The following files were created or uploaded as a part of this {{typeLabel}}.</em>
-<em *ngIf="directory.length == 0">No files are currently associated with this {{typeLabel}}.</em>
+<em *ngIf="directory.length === 0">No files are currently associated with this {{typeLabel}}.</em>
 
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
   <!-- This is the tree node template for leaf nodes -->
@@ -14,7 +14,7 @@
         <mat-icon>save_alt</mat-icon>
       </div>
     </div>
-    <mat-nested-tree-node *ngIf="hoverFile == node.file">
+    <mat-nested-tree-node *ngIf="hoverFile === node.file">
       <p *ngFor="let item of node.file.data_store | keyvalue">
         {{item.key}}: {{item.value}}
       </p>

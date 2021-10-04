@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { WorkflowProgressMenuComponent } from './workflow-progress-menu.component';
 
@@ -6,7 +6,7 @@ describe('WorkflowProgressMenuComponent', () => {
   let component: WorkflowProgressMenuComponent;
   let fixture: ComponentFixture<WorkflowProgressMenuComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ WorkflowProgressMenuComponent ]
     })

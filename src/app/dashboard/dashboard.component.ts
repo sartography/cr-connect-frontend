@@ -2,13 +2,14 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   isNumberDefined,
-  Study,
+  Study, UserService,
   WorkflowMetadata,
   WorkflowSpecCategory,
   WorkflowState,
   WorkflowStatus,
 } from 'sartography-workflow-lib';
 import {shouldDisplayWorkflow} from '../_util/nav-item';
+import {UserPreferencesService} from "../user-preferences.service";
 
 
 @Component({
@@ -21,14 +22,24 @@ import {shouldDisplayWorkflow} from '../_util/nav-item';
 export class DashboardComponent implements OnInit {
   @Input() study: Study;
   @Input() selectedWorkflowId: number;
+  showAdminTools: boolean;
   categoryTabs: WorkflowSpecCategory[];
   statuses = WorkflowStatus;
   states = WorkflowState;
+  isAdmin: boolean;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private userService: UserService,
+    private userPreferencesService: UserPreferencesService,
   ) {
+    this.userService.isAdmin$.subscribe(a => {
+      this.isAdmin = a;
+    });
+    this.userPreferencesService.preferences$.subscribe(p => {
+      this.showAdminTools = p.showAdminTools;
+    });
   }
 
 

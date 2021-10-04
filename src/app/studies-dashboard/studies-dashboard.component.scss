@@ -21,7 +21,6 @@
   border: 1px solid rgba(255,255,255,.5);
   margin: 0 auto 2rem auto;
   width: 50vw;
-  height:440px;
 }
 
 
@@ -108,8 +107,9 @@ mat-panel-title.mat-h2 {
 }
 
 .no-task-events {
-  padding: 4rem;
+  padding: 1rem;
   text-align: center;
+  margin-top:16px;
 }
 
 ::ng-deep button.study-action-button {

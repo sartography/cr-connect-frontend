@@ -6,14 +6,11 @@ import {
   OnChanges,
   OnInit,
   Output,
-  Inject,
   SimpleChanges,
   ViewChild,
-  NgZone
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-// @ts-ignore
-import createClone from 'rfdc';
+import { cloneDeep } from 'lodash';
 import {
   ApiService,
   FileParams,
@@ -22,13 +19,12 @@ import {
   Workflow,
   WorkflowNavItem,
   WorkflowTask,
-  WorkflowTaskState
+  WorkflowTaskState,
 } from 'sartography-workflow-lib';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Location } from '@angular/common';
 import * as setObjectProperty from 'lodash/set';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
-
 
 
 @Component({
@@ -41,13 +37,13 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
         'default',
         style({
           opacity: 1,
-        })
+        }),
       ),
       state(
         'disabled',
         style({
           opacity: 0.5,
-        })
+        }),
       ),
       transition('* => *', animate('1000ms ease-out')),
     ]),
@@ -55,22 +51,22 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
       state('in', style({
         height: '200px',
         opacity: 1,
-        color: 'red'
+        color: 'red',
       })),
       transition('* => *', [
         animate('2s', keyframes([
-          style({ opacity: 0.1, color: '000000', offset: 0.1 }),
-          style({ opacity: 0.3, color: 'red', offset: 0.2 }),
-          style({ opacity: 0.7, color: 'red', offset: 0.3 }),
-          style({ opacity: 1.0, color: 'red', offset: 0.4 }),
-          style({ opacity: 0.3, color: 'red', offset: 0.5 }),
-          style({ opacity: 0.5, color: 'red', offset: 0.6 }),
-          style({ opacity: 0.7, color: 'red', offset: 0.7 }),
-          style({ opacity: 1.0, color: '000000', offset: 0.8 })
-        ]))
-      ])
-    ])
-  ]
+          style({opacity: 0.1, color: '000000', offset: 0.1}),
+          style({opacity: 0.3, color: 'red', offset: 0.2}),
+          style({opacity: 0.7, color: 'red', offset: 0.3}),
+          style({opacity: 1.0, color: 'red', offset: 0.4}),
+          style({opacity: 0.3, color: 'red', offset: 0.5}),
+          style({opacity: 0.5, color: 'red', offset: 0.6}),
+          style({opacity: 0.7, color: 'red', offset: 0.7}),
+          style({opacity: 1.0, color: '000000', offset: 0.8}),
+        ])),
+      ]),
+    ]),
+  ],
 })
 export class WorkflowFormComponent implements OnInit, OnChanges {
   @Input() task: WorkflowTask;
@@ -92,7 +88,8 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   constructor(
     private api: ApiService,
-    private location: Location) { }
+    private location: Location) {
+  }
 
   ngOnInit() {
     this._loadModel(this.task);
@@ -107,7 +104,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   saveTaskData(task: WorkflowTask, updateRemaining = false, terminateLoop = false) {
     this.activelySaving = true;
-    const modelData = createClone()(this.model);
+    const modelData = cloneDeep(this.model);
 
     // Set value of hidden fields to null
     const controls = (this.form as any)._formlyControls;
@@ -131,9 +128,9 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
         this.apiError.emit(error);
       },
       () => {
-          this.activelySaving = false;
-          this.workflowUpdated.emit(this.workflow);
-      }
+        this.activelySaving = false;
+        this.workflowUpdated.emit(this.workflow);
+      },
     );
   }
 
@@ -167,13 +164,14 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     if (task.multi_instance_type === MultiInstanceType.NONE) {
       return [];
     } else {
-      const navlist = this.flattenNavList(this.workflow.navigation, [])
+      const navlist = this.flattenNavList(this.workflow.navigation, []);
       return navlist.filter(navItem => {
-        if (navItem.name === null) // some sequence flows may have no name
-          return false;
-        const re = /(.+?)(_[0-9]+)*$/
-        const matcha = navItem.name.match(re)[1]
-        const matchb = task.name.match(re)[1]
+        if (navItem.name === null) {
+          return false; // some sequence flows may have no name
+        }
+        const re = /(.+?)(_[0-9]+)*$/;
+        const matcha = navItem.name.match(re)[1];
+        const matchb = task.name.match(re)[1];
         return (
           matcha === matchb &&
           navItem.state === WorkflowTaskState.READY
@@ -188,25 +186,25 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   }
 
   saveDisabled() {
-    return (this.locked || this.form.invalid || this.activelySaving)
+    return (this.locked || this.form.invalid || this.activelySaving);
   }
 
   private _loadModel(task: WorkflowTask) {
     this.form = new FormGroup({});
     if (task && task.data && task.form && task.form.fields) {
-      this.model = createClone()(task.data);
+      this.model = cloneDeep(task.data);
       this.fileParams = {
         workflow_id: this.workflow.id,
-        task_spec_name: task.name
+        task_spec_name: task.name,
       };
       this.fields = new ToFormlyPipe(this.api).transform(task.form.fields, this.fileParams);
     }
     if (task && task.state === WorkflowTaskState.READY) {
       this.locked = false;
-      this.formViewState = 'enabled'
+      this.formViewState = 'enabled';
     } else {
       this.locked = true;
-      this.formViewState = 'disabled'
+      this.formViewState = 'disabled';
     }
   }
 

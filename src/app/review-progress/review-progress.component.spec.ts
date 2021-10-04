@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {mockStudy0, WorkflowStatus} from 'sartography-workflow-lib';
 import { ReviewProgressComponent } from './review-progress.component';
 
@@ -6,7 +6,7 @@ describe('ReviewProgressComponent', () => {
   let component: ReviewProgressComponent;
   let fixture: ComponentFixture<ReviewProgressComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ReviewProgressComponent ]
     })

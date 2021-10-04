@@ -133,7 +133,7 @@
       </ng-container>
 
       <button
-        *ngIf="currentTask.type == taskTypes.MANUAL_TASK"
+        *ngIf="currentTask.type === taskTypes.MANUAL_TASK"
         (click)="completeManualTask(currentTask)"
         color="primary"
         mat-flat-button

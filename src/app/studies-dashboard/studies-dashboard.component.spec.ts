@@ -1,6 +1,6 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {MatButtonToggleChange, MatButtonToggleGroup, MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -37,7 +37,7 @@ describe('StudiesDashboardComponent', () => {
   let httpMock: HttpTestingController;
 
   const mockStudyAction: StudyAction = {
-    showIf: (study) => this.statusIs(study, [StudyStatus.IN_PROGRESS]),
+    showIf: (study) => component.statusIs(study, [StudyStatus.IN_PROGRESS]),
     buttonIcon: 'pause',
     buttonLabel: 'Place study on hold...',
     tooltipText: 'Set the status of <study_title> to "Hold"',
@@ -57,7 +57,7 @@ describe('StudiesDashboardComponent', () => {
     model: {},
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         StudyProgressComponent,
@@ -92,19 +92,17 @@ describe('StudiesDashboardComponent', () => {
 
   beforeEach(() => {
     localStorage.removeItem('admin_view_as')
-    localStorage.setItem('token','whatevervalueyouwant')
+    localStorage.setItem('token', 'whatevervalueyouwant')
     httpMock = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(StudiesDashboardComponent);
     component = fixture.componentInstance;
 
-    component.studiesByStatus = Object.keys(StudyStatus).map(statusKey => {
-      return {
+    component.studiesByStatus = Object.keys(StudyStatus).map(statusKey => ({
         status: StudyStatus[statusKey],
         statusLabel: StudyStatusLabels[statusKey],
         studies: mockStudies,
         dataSource: new MatTableDataSource(mockStudies),
-      };
-    });
+      }));
     component.beforeStudyIds = mockStudies.map(study => study.id);
     component.afterStudyIds = mockStudies.map(study => study.id);
     fixture.detectChanges();
@@ -163,6 +161,7 @@ describe('StudiesDashboardComponent', () => {
     expect(studyUpdatedEmitSpy).toHaveBeenCalled();
   });
 
+  /** Deprecated
   it('should toggle task lane', () => {
     expect(component.taskLanes).toBeDefined();
     expect(component.taskLanes.length).toBeGreaterThan(1);
@@ -174,4 +173,5 @@ describe('StudiesDashboardComponent', () => {
       expect(component.numTasksInTaskLane(taskLane)).toBeGreaterThan(0);
     }
   });
+   */
 });

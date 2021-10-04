@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ApiService, WorkflowSpec} from 'sartography-workflow-lib';
 
 @Component({
@@ -6,14 +6,11 @@ import {ApiService, WorkflowSpec} from 'sartography-workflow-lib';
   templateUrl: './workflow-spec-list.component.html',
   styleUrls: ['./workflow-spec-list.component.scss']
 })
-export class WorkflowSpecListComponent implements OnInit {
+export class WorkflowSpecListComponent  {
   workflowSpecs: WorkflowSpec[];
 
   constructor(private api: ApiService) {
     this.loadWorkflowSpecs();
-  }
-
-  ngOnInit() {
   }
 
   loadWorkflowSpecs() {
