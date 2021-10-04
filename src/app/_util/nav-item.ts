@@ -18,12 +18,10 @@ const userTypes = [
   NavItemType.MANUAL_TASK,
 ];
 
-export const shouldDisplayNavItem = (navItem: WorkflowNavItem): boolean => {
-  return (
+export const shouldDisplayNavItem = (navItem: WorkflowNavItem): boolean => (
       navItem &&
       isOrContainsUserTasks(navItem)
   );
-};
 
 export const isOrContainsUserTasks = (navItem: WorkflowNavItem): boolean => {
   if (userTypes.includes(navItem.spec_type)) {

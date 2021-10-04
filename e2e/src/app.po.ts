@@ -32,9 +32,9 @@ export class AppPage {
     return browser.get(browser.baseUrl) as Promise<any>;
   }
 
-  clickAndExpectRoute(clickSelector: string, expectedRoute: string | RegExp) {
-    this.waitForClickable(clickSelector);
-    this.clickElement(clickSelector);
+  async clickAndExpectRoute(clickSelector: string, expectedRoute: string | RegExp) {
+    await this.waitForClickable(clickSelector);
+    await this.clickElement(clickSelector);
     if (typeof expectedRoute === 'string') {
       expect(this.getRoute()).toEqual(expectedRoute);
     } else {
@@ -42,10 +42,10 @@ export class AppPage {
     }
   }
 
-  clickElement(selector: string) {
-    this.waitForClickable(selector);
-    this.scrollTo(selector);
-    this.focus(selector);
+  async clickElement(selector: string) {
+    await this.waitForClickable(selector);
+    await this.scrollTo(selector);
+    await this.focus(selector);
     return this.getElement(selector).click();
   }
 
@@ -91,8 +91,15 @@ export class AppPage {
   }
 
   scrollTo(selector: string) {
-    browser.controlFlow().execute(() => {
-      browser.executeScript('arguments[0].scrollIntoView(false)', this.getElement(selector).getWebElement());
+    return new Promise<boolean>(resolve => {
+      browser.controlFlow().execute(() => {
+        const script = 'arguments[0].scrollIntoView({block: "center", inline: "center"})';
+        browser
+          .executeScript(script, this.getElement(selector).getWebElement())
+          .then(() => {
+            resolve(true);
+          });
+      });
     });
   }
 

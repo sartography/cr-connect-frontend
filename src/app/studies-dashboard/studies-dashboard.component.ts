@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {ApiService, StudyStatus, StudyStatusLabels, Study, TaskAction, TaskEvent, UserService, User} from 'sartography-workflow-lib';
 import {TaskLane} from '../_interfaces/task-lane';
 import {StudiesByStatus} from '../studies/studies.component';
@@ -6,9 +6,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ConfirmStudyStatusDialogComponent} from '../_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
 import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
 import {StudyAction} from '../_interfaces/study-action';
-import {StandaloneComponent} from '../standalone/standalone.component';
-// @ts-ignore
-import createClone from 'rfdc';
+import { cloneDeep } from 'lodash';
 import {MatTableDataSource} from '@angular/material/table';
 import * as timeago from 'timeago.js';
 import {MatButtonToggleChange} from '@angular/material/button-toggle';
@@ -36,7 +34,7 @@ enum StudyStatusDisplayType {
   templateUrl: './studies-dashboard.component.html',
   styleUrls: ['./studies-dashboard.component.scss']
 })
-export class StudiesDashboardComponent implements OnInit {
+export class StudiesDashboardComponent {
   @Input() studiesByStatus: StudiesByStatus[];
   @Input() beforeStudyIds: number[];
   @Input() afterStudyIds: number[];
@@ -144,7 +142,6 @@ export class StudiesDashboardComponent implements OnInit {
   approvalsDataSource: MatTableDataSource<TaskEvent>;
   taskLanes: TaskLane[] = [
     {value: 'supervisor', label: 'Approvals'},
-    {value: '', label: 'Data Entry'},
   ];
   selectedTaskLane: TaskLane = this.taskLanes[0];
 
@@ -163,9 +160,6 @@ export class StudiesDashboardComponent implements OnInit {
       this.approvalsDataSource.filteredData &&
       this.approvalsDataSource.filteredData.length > 0
     );
-  }
-
-  ngOnInit(): void {
   }
 
   changeTab(currentTab: number){
@@ -196,7 +190,7 @@ export class StudiesDashboardComponent implements OnInit {
   }
 
   openConfirmationDialog(study: Study, selectedAction: StudyAction) {
-    const action: StudyAction = createClone()(selectedAction);
+    const action: StudyAction = cloneDeep(selectedAction);
     action.dialogTitle = this.insertStudyTitle(action.dialogTitle, study);
     action.dialogDescription = this.insertStudyTitle(action.dialogDescription, study);
     const dialogData: ConfirmStudyStatusDialogData = {
@@ -239,9 +233,7 @@ export class StudiesDashboardComponent implements OnInit {
       .subscribe(t => {
         this.approvalsDataSource = new MatTableDataSource(t);
         this.approvalsDataSource.paginator = this.paginator;
-        this.approvalsDataSource.filterPredicate = (taskEvent: TaskEvent, filter) => {
-          return this._taskLanesAreEqual(taskEvent.task_lane, this.selectedTaskLane.value);
-        }
+        this.approvalsDataSource.filterPredicate = (taskEvent: TaskEvent, filter) => this._taskLanesAreEqual(taskEvent.task_lane, this.selectedTaskLane.value);
 
         // Sending the filter a non-empty string so it will update.
         this.approvalsDataSource.filter = this.selectedTaskLane.label;
@@ -267,9 +259,7 @@ export class StudiesDashboardComponent implements OnInit {
 
   numTasksInTaskLane(taskLane: TaskLane): number {
     if (this.approvalsDataSource && this.approvalsDataSource.data && this.approvalsDataSource.data.length > 0) {
-      return this.approvalsDataSource.data.filter(taskEvent => {
-        return this._taskLanesAreEqual(taskEvent.task_lane, taskLane.value)
-      }).length;
+      return this.approvalsDataSource.data.filter(taskEvent => this._taskLanesAreEqual(taskEvent.task_lane, taskLane.value)).length;
     }
 
     return 0;
@@ -296,7 +286,7 @@ export class StudiesDashboardComponent implements OnInit {
   }
 
   private enrollmentDateForm() {
-    const formFields: FormlyFieldConfig[] = createClone()(this.defaultStudyActionForm) as FormlyFieldConfig[];
+    const formFields: FormlyFieldConfig[] = cloneDeep(this.defaultStudyActionForm) as FormlyFieldConfig[];
     formFields.push({
       key: 'enrollmentDate',
       type: 'datepicker',

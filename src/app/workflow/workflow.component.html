@@ -49,7 +49,7 @@
       [ngClass]="'back'"
     >
       <mat-icon>chevron_left</mat-icon>
-      Back
+      Return to Study Dashboard
     </button>
     <h4 *ngIf="study">#{{study.id}}: {{shrink(160,study.title, study.short_title)}}
       <span fxFlex></span>
@@ -133,7 +133,7 @@
       </ng-container>
 
       <button
-        *ngIf="currentTask.type == taskTypes.MANUAL_TASK"
+        *ngIf="currentTask.type === taskTypes.MANUAL_TASK"
         (click)="completeManualTask(currentTask)"
         color="primary"
         mat-flat-button

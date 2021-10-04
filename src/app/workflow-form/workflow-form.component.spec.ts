@@ -1,7 +1,7 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {SimpleChanges} from '@angular/core';
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {BrowserAnimationsModule, NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {Router} from '@angular/router';
@@ -28,7 +28,7 @@ describe('WorkflowFormComponent', () => {
   let fixture: ComponentFixture<WorkflowFormComponent>;
   const mockRouter = {navigate: jasmine.createSpy('navigate')};
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         ToFormlyPipe,

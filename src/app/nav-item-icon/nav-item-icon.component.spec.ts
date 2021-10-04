@@ -1,6 +1,7 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
-import createClone from 'rfdc';
+import { cloneDeep } from 'lodash';
+
 import {
   mockNav0, mockTaskEvent0,
   mockWorkflowMeta0, NavItemType, TaskEvent, WorkflowNavItem,
@@ -13,7 +14,7 @@ describe('NavItemIconComponent', () => {
   let component: NavItemIconComponent;
   let fixture: ComponentFixture<NavItemIconComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [NavItemIconComponent],
       imports: [MatIconModule],
@@ -33,7 +34,7 @@ describe('NavItemIconComponent', () => {
 
   it('should get icons for all workflow statuses', () => {
     let numPassed = 0;
-    const workflowMeta = createClone({circles: true})(mockWorkflowMeta0);
+    const workflowMeta = cloneDeep(mockWorkflowMeta0);
     const statuses = Object.values(WorkflowStatus);
     component.workflowMeta = workflowMeta;
     statuses.forEach(s => {
@@ -48,7 +49,7 @@ describe('NavItemIconComponent', () => {
 
   it('should get icons for all task event statuses', () => {
     let numPassed = 0;
-    const taskEvent: TaskEvent = createClone({circles: true})(mockTaskEvent0);
+    const taskEvent: TaskEvent = cloneDeep(mockTaskEvent0);
     const states = Object.values(WorkflowTaskState);
     component.taskEvent = taskEvent;
     states.forEach(s => {
@@ -63,7 +64,7 @@ describe('NavItemIconComponent', () => {
 
   it('should get icons for workflow nav item statuses', () => {
     let numPassed = 0;
-    const navItem: WorkflowNavItem = createClone({circles: true})(mockNav0[0]);
+    const navItem: WorkflowNavItem = cloneDeep(mockNav0[0]);
     const states = Object.values(WorkflowTaskState);
     component.navItem = navItem;
     states.forEach(s => {

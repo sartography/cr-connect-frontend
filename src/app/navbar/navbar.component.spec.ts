@@ -1,6 +1,6 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -10,7 +10,7 @@ import {of, ReplaySubject} from 'rxjs';
 import {ApiService, MockEnvironment, mockUser0, mockUsers, UserService, mockUser1} from 'sartography-workflow-lib';
 import {LoadingComponent} from '../loading/loading.component';
 import {NavbarComponent} from './navbar.component';
-import 'zone.js/dist/zone-testing';
+import 'zone.js/testing';
 
 
 describe('NavbarComponent', () => {
@@ -25,7 +25,7 @@ describe('NavbarComponent', () => {
     url: 'test/url'
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
         LoadingComponent,
@@ -91,7 +91,7 @@ describe('NavbarComponent', () => {
 
   it('should load user', () => {
     expect(!!localStorage.getItem( 'admin_view_as')).toBeFalse();
-    expect(((component as any).userService as any)._realUser.value).toEqual(mockUser0);
+    expect(((component as any).userService as any).realUser.value).toEqual(mockUser0);
     expect(component.userIsAdmin).toBeTrue();
     expect((component as any).userIsImpersonating).toBeFalse();
 

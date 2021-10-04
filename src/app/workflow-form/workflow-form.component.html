@@ -25,7 +25,7 @@
 
     <formly-form (keyup)="handleKeyUp($event)" [fields]="fields" [form]="form" [model]="model"></formly-form>
 
-    <button *ngIf="task.multi_instance_type == multiInstanceTypes.LOOPING" (click)="saveTaskData(task, false, false)" [disabled]="saveDisabled()" color="primary" mat-flat-button>Save and Add Another</button>
+    <button *ngIf="task.multi_instance_type === multiInstanceTypes.LOOPING" (click)="saveTaskData(task, false, false)" [disabled]="saveDisabled()" color="primary" mat-flat-button>Save and Add Another</button>
     <button (click)="saveTaskData(task, false, true)" [disabled]="saveDisabled()" color="primary" mat-flat-button>Save</button>
     <button [disabled]="saveDisabled()" (click)="goBack()" mat-flat-button>Cancel</button>
     <button title="This will apply the current settings to this task and all remaining tasks"
