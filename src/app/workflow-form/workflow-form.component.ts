@@ -199,12 +199,18 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
       };
       this.fields = new ToFormlyPipe(this.api).transform(task.form.fields, this.fileParams);
     }
+
     if (task && task.state === WorkflowTaskState.READY) {
       this.locked = false;
       this.formViewState = 'enabled';
     } else {
       this.locked = true;
       this.formViewState = 'disabled';
+      try {
+        this.fields.forEach(f => f.templateOptions.disabled = true);
+      } catch(e) {
+        console.log(e);
+      }
     }
   }
 
