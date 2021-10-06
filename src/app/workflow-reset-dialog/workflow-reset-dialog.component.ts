@@ -30,12 +30,10 @@ export class WorkflowResetDialogComponent {
     if(!this.clearData) {
       this.deleteFiles = false;
     }
+    if (this.clearData) {
+      this.deleteFiles = true;
+    }
   }
-
-  toggleDeleteFiles() {
-    this.deleteFiles = !this.deleteFiles;
-  }
-
 
   onNoClick() {
     this.data.confirm = false;

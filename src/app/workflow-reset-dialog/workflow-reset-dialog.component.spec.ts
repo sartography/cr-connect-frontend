@@ -52,15 +52,8 @@ describe('WorkflowResetDialogComponent', () => {
     expect(component.clearData).toBeTrue();
   });
 
-  it('should toggle delete Files', () => {
-    expect(component.deleteFiles).toBeFalse();
-    component.toggleDeleteFiles();
-    expect(component.deleteFiles).toBeTrue();
-  });
-
-  it('should disable delete Files if not clearing data', () => {
+  it('should delete all files and entered data', () => {
     component.toggleClearData();
-    component.toggleDeleteFiles();
     expect(component.deleteFiles).toBeTrue();
     component.toggleClearData();
     expect(component.deleteFiles).toBeFalse();

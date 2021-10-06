@@ -20,16 +20,11 @@
     <label>
       <input type="checkbox" (change)="toggleClearData()" [checked]="clearData">Clear previously entered information.
     </label>
-    <div>
-      <label>
-        <input [disabled]="!clearData" type="checkbox" (change)="toggleDeleteFiles()" [checked]="deleteFiles">Remove Documents.
-      </label>
-    </div>
     <p>
       In rare cases you may wish to clear out all of your previous answers for this workflow, and start over.  This will
       make the original default answers to questions available, and your previous answers to these questions will not
-      be displayed as you re-complete the forms.  If clearing the data, you may also choose to remove any documents
-      that were generated or uploaded as a part of the workflow as well.
+      be displayed as you re-complete the forms.  If clearing the data, all documents
+      that were generated or uploaded as a part of the workflow will be cleared as well.
     </p>
   </div>
 </div>
