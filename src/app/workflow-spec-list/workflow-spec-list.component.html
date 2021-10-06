@@ -1,7 +1,7 @@
 <mat-nav-list>
   <mat-list-item *ngFor="let workflowSpec of workflowSpecs">
     <a fxLayout="row" fxLayoutAlign="start center" href="?workflowSpecId={{workflowSpec.id}}" matLine>
-      {{ workflowSpec.name }}
+      {{ workflowSpec.display_name }}
       <span fxFlex></span>
     </a>
   </mat-list-item>
