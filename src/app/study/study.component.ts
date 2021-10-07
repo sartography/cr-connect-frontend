@@ -7,8 +7,9 @@ import {
   StudyStatus,
   StudyStatusLabels,
   Study,
-  Workflow, StudyAssociate
+  Workflow, StudyAssociate, UserService
 } from 'sartography-workflow-lib';
+import {UserPreferencesService} from '../user-preferences.service';
 
 @Component({
   selector: 'app-study',
@@ -22,12 +23,16 @@ export class StudyComponent implements OnInit {
   selectedWorkflowId: number;
   associates: StudyAssociate[];
   PI: StudyAssociate;
+  isAdmin: boolean;
+  showAdminTools: boolean;
   shrink = shrink;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private api: ApiService,
+    private userService: UserService,
+    private userPreferencesService: UserPreferencesService,
   ) {
   }
 
@@ -39,6 +44,13 @@ export class StudyComponent implements OnInit {
   ngOnInit() {
     console.log('Init Called');
     this.loadStudy();
+
+    this.userService.isAdmin$.subscribe(a => {
+      this.isAdmin = a;
+    });
+    this.userPreferencesService.preferences$.subscribe(p => {
+      this.showAdminTools = p.showAdminTools;
+    });
   }
 
   loadStudy() {

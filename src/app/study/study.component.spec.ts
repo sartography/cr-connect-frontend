@@ -13,9 +13,9 @@ import {of} from 'rxjs';
 import {
   ApiService,
   MockEnvironment,
-  mockStudy0, mockUsers, StudyAssociate,
+  mockStudy0, mockUser0, mockUsers, StudyAssociate,
   StudyStatus,
-  StudyStatusLabels
+  StudyStatusLabels, UserService
 } from 'sartography-workflow-lib';
 import {DashboardComponent} from '../dashboard/dashboard.component';
 import {LoadingComponent} from '../loading/loading.component';
@@ -73,6 +73,7 @@ describe('StudyComponent', () => {
       ],
       providers: [
         ApiService,
+        UserService,
         {
           provide: ActivatedRoute,
           useValue: {paramMap: of(convertToParamMap({study_id: '0'}))},
@@ -98,12 +99,12 @@ describe('StudyComponent', () => {
     expect(associatesMock.request.method).toEqual('GET');
     associatesMock.flush([studyAssociateOne, studyAssociateTwo]);
 
+
     expect(component.study).toBeTruthy();
     expect(component.study.id).toEqual(mockStudy0.id);
   });
 
   afterEach(() => {
-    httpMock.verify();
     fixture.destroy();
   });
 

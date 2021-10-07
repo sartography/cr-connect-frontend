@@ -241,7 +241,7 @@ export class StudiesDashboardComponent {
           switch(property) {
             case 'task_title': return item.task_title.toLowerCase();
             case 'study.title': return item.study.title.toLowerCase();
-            case 'workflow.category_display_name': return item.workflow.category_display_name.toLowerCase() +
+            case 'workflow.category_display_name': return item.workflow.display_name.toLowerCase() +
               item.workflow.display_name.toLowerCase();
             default: return item[property];
           }

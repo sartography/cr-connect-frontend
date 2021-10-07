@@ -35,9 +35,19 @@
     *ngIf="study.events_history.length > 0"
     [study]="study"
   ></app-study-events>
+
+  <app-study-warnings
+    *ngIf="study.warnings.length > 0 && isAdmin && showAdminTools"
+    [study]="study"
+  ></app-study-warnings>
+
+
   <div *ngIf="!(allWorkflows.length > 0)">
     No active workflows for this study.
   </div>
+
+
+
 </div>
 
 <ng-template #loadingMessage>

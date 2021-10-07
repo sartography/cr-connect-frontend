@@ -87,6 +87,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 
 import { SecurityContext } from '@angular/core';
 import { StandaloneComponent } from './standalone/standalone.component';
+import { StudyWarningsComponent } from './study-warnings/study-warnings.component';
 
 (document.defaultView as any).hljs = hljs;
 
@@ -208,6 +209,7 @@ export function markedOptionsFactory(): MarkedOptions {
     WorkflowProgressMenuComponent,
     ReviewProgressComponent,
     StandaloneComponent,
+    StudyWarningsComponent,
   ],
     imports: [
         BrowserAnimationsModule,
