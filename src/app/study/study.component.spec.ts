@@ -91,10 +91,6 @@ describe('StudyComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    const userReq = httpMock.expectOne('apiRoot/user');
-    expect(userReq.request.method).toEqual('GET');
-    userReq.flush(mockUser0);
-
     const sReq = httpMock.expectOne('apiRoot/study/0?update_status=true');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockStudy0);
@@ -102,6 +98,11 @@ describe('StudyComponent', () => {
     const associatesMock = httpMock.expectOne('apiRoot/study/0/associates');
     expect(associatesMock.request.method).toEqual('GET');
     associatesMock.flush([studyAssociateOne, studyAssociateTwo]);
+
+    const userReq = httpMock.expectOne('apiRoot/user');
+    expect(userReq.request.method).toEqual('GET');
+    userReq.flush(mockUser0);
+
 
     expect(component.study).toBeTruthy();
     expect(component.study.id).toEqual(mockStudy0.id);
