@@ -99,17 +99,12 @@ describe('StudyComponent', () => {
     expect(associatesMock.request.method).toEqual('GET');
     associatesMock.flush([studyAssociateOne, studyAssociateTwo]);
 
-    const userReq = httpMock.expectOne('apiRoot/user');
-    expect(userReq.request.method).toEqual('GET');
-    userReq.flush(mockUser0);
-
 
     expect(component.study).toBeTruthy();
     expect(component.study.id).toEqual(mockStudy0.id);
   });
 
   afterEach(() => {
-    httpMock.verify();
     fixture.destroy();
   });
 
