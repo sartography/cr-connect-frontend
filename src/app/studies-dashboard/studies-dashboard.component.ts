@@ -1,19 +1,34 @@
-import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {ApiService, StudyStatus, StudyStatusLabels, Study, TaskAction, TaskEvent, UserService, User} from 'sartography-workflow-lib';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild
+} from '@angular/core';
+import {
+  ApiService,
+  Study,
+  StudyStatus,
+  StudyStatusLabels,
+  TaskAction,
+  TaskEvent,
+  User,
+  UserService
+} from 'sartography-workflow-lib';
 import {TaskLane} from '../_interfaces/task-lane';
 import {StudiesByStatus} from '../studies/studies.component';
 import {MatDialog} from '@angular/material/dialog';
 import {ConfirmStudyStatusDialogComponent} from '../_dialogs/confirm-study-status-dialog/confirm-study-status-dialog.component';
 import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
 import {StudyAction} from '../_interfaces/study-action';
-import { cloneDeep } from 'lodash';
+import {cloneDeep} from 'lodash';
 import {MatTableDataSource} from '@angular/material/table';
 import * as timeago from 'timeago.js';
 import {MatButtonToggleChange} from '@angular/material/button-toggle';
 import {FormlyFieldConfig} from '@ngx-formly/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import { shrink } from '../_util/shrink';
+import {shrink} from '../_util/shrink';
 
 enum IrbHsrStatus {
   NOT_SUBMITTED = 'Not Submitted',
@@ -247,7 +262,10 @@ export class StudiesDashboardComponent {
           }
         };
         this.approvalsDataSource.sort = this.sort;
+        this.approvalsDataSource.data = this.filterGroupApproval(this.approvalsDataSource.data);
+        this.approvalsDataSource.data.push();
       });
+
   }
 
   toggleTaskLane($event: MatButtonToggleChange) {
@@ -255,6 +273,19 @@ export class StudiesDashboardComponent {
 
     // Sending the filter a non-empty string so it will update.
     this.approvalsDataSource.filter = this.selectedTaskLane.label;
+  }
+
+  filterGroupApproval(events: TaskEvent[]) {
+    let filtered = [];
+    for (let e=0; e<events.length; e++) {
+      if (!filtered.find(x => x.task_id == events[e]['task_id'])) {
+        filtered.push(events[e]);
+      } else if (filtered.find(x => x.task_id == events[e]['task_id'])) {
+        let foundIndex = filtered.findIndex(x => x.task_id == events[e]['task_id']);
+        filtered[foundIndex]['user_display'] = 'GROUP';
+      }
+    }
+    return filtered;
   }
 
   numTasksInTaskLane(taskLane: TaskLane): number {
