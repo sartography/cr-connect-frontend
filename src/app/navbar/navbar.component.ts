@@ -4,7 +4,8 @@ import {ApiService, AppEnvironment, UserService, User, GoogleAnalyticsService} f
 import {NavItem} from '../_interfaces/nav-item';
 import {UserPreferencesService} from '../user-preferences.service';
 import {Preferences} from '../preferences.model';
-
+import {FormGroup} from "@angular/forms";
+import {FormlyFieldConfig} from "@ngx-formly/core";
 
 @Component({
   selector: 'app-navbar',
@@ -23,6 +24,18 @@ export class NavbarComponent {
   public userIsAdmin: boolean;
   public userIsImpersonating: boolean;
   public preferences: Preferences;
+  form = new FormGroup({});
+  model = {};
+  fields: FormlyFieldConfig[] = [
+    {
+      key: 'lookup',
+      type: 'autocomplete',
+      templateOptions: {
+        type: 'autocomplete',
+        label: 'Test'
+      }
+    },
+    ];
 
   constructor(
     private router: Router,
