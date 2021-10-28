@@ -7,3 +7,11 @@ mat-icon.with-label {
 .toggledOff {
   color: $brand-primary-tint-3;
 }
+
+.mat-menu-item {
+  width: 400px;
+}
+
+::ng-deep .mat-input-element {
+  width: 100%;
+}

@@ -12,27 +12,6 @@
     <div class="flex-spacer"></div>
 
     <ng-container *ngIf="userIsAdmin">
-      <div [ngClass]="{'viewing-as-user': userIsImpersonating}" fxLayout="row" fxLayoutGap=".3em">
-        <mat-icon>preview</mat-icon>
-        <div *ngIf="userIsImpersonating">Viewing as user {{this.user.uid}}</div>
-        <div *ngIf="!userIsImpersonating">View as...</div>
-        <div>
-          <button mat-button [matMenuTriggerFor]="menu">
-            <mat-icon>arrow_drop_down</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item class="search-text" disabled [disableRipple]="true"> Search for Users </button>
-            <button mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()">
-            <div class="ldap-search">
-              <form [formGroup]="form">
-                <formly-form [form]="form" [fields]="fields" [model]="model" (modelChange)="viewAs(form.value)">
-                </formly-form>
-              </form>
-            </div>
-            </button>
-          </mat-menu>
-        </div>
-      </div>
       <app-nav-links
         [links]="adminNavLinks"
         [ngClass]="{'viewing-as-user': userIsImpersonating}"

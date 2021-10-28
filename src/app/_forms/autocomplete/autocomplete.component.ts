@@ -29,10 +29,6 @@ export class AutocompleteComponent extends FieldType implements OnInit {
   ngOnInit(): void {
     super.ngOnInit();
 
-    if(this.value) {
-      this.setSelectionFromValue(this.value);
-    }
-
     this.filter = this.textInputControl.valueChanges.pipe(
       debounceTime(500),
       startWith(''),
@@ -50,18 +46,6 @@ export class AutocompleteComponent extends FieldType implements OnInit {
       this.loading = false;
       this.numResults = results.length;
       this.selectedObject = null;
-    })
-  }
-
-  setSelectionFromValue(value: string) {
-    this.api.lookupFieldOptions('', null, value, 1).subscribe(hits => {
-      if(hits.length > 0) {
-        this.selectedObject = hits[0]
-        this.label = hits[0][this.to.label_column];
-        this.value = value;
-      } else {
-        console.error("Failed to locate previous selection for auto-complete, leaving blank.")
-      }
     })
   }
 

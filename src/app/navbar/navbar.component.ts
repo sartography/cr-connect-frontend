@@ -4,8 +4,6 @@ import {ApiService, AppEnvironment, UserService, User, GoogleAnalyticsService} f
 import {NavItem} from '../_interfaces/nav-item';
 import {UserPreferencesService} from '../user-preferences.service';
 import {Preferences} from '../preferences.model';
-import {FormGroup} from "@angular/forms";
-import {FormlyFieldConfig} from "@ngx-formly/core";
 
 @Component({
   selector: 'app-navbar',
@@ -18,22 +16,12 @@ export class NavbarComponent {
   adminNavLinks: NavItem[];
   title: string;
   allUsers: User[];
-  loading = true;
+  loading: boolean = true;
   public user: User;
   public realUser: User;  // We may be impersonating a different user
   public userIsAdmin: boolean;
   public userIsImpersonating: boolean;
   public preferences: Preferences;
-  form = new FormGroup({});
-  model = {};
-  fields: FormlyFieldConfig[] = [
-    {
-      key: 'lookup',
-      type: 'autocomplete_ldap',
-      templateOptions: {
-      }
-    },
-    ];
 
   constructor(
     private router: Router,
@@ -60,13 +48,6 @@ export class NavbarComponent {
     this._loadNavLinks();
     this._loadAdminNavLinks();
     this.loading = false;
-  }
-
-  viewAs(uid?: any) {
-    console.log('uid', uid);
-    if ('lookup' in uid && uid['lookup'] !== 'invalid') {
-      this.userService.viewAs(uid['lookup']);
-    }
   }
 
   private _loadAdminNavLinks() {
@@ -152,6 +133,7 @@ export class NavbarComponent {
             label: `${displayName} (${this.user.ldap_info.email_address})`,
             icon: 'account_circle',
             showLabel: true,
+          },
             /**
              *  Profile + Notifications submenu
              *
@@ -173,10 +155,8 @@ export class NavbarComponent {
               },
             ]
              **/
-          }
         ];
       }
-
     }
   }
 }
