@@ -8,8 +8,35 @@ mat-icon.with-label {
   color: $brand-primary-tint-3;
 }
 
+::ng-deep .mat-menu-content {
+  width: 400px;
+}
+
+.menu-overflow-hidden {
+  overflow: hidden !important;
+}
+
+::ng-deep .mat-menu-panel {
+  overflow: hidden!important;
+  padding: 0 10px!important;
+  width: 100%!important;
+  max-width: fit-content!important;
+}
+
+::ng-deep .mat-menu {
+    overflow: hidden !important;
+}
+
 .mat-menu-item {
   width: 400px;
+}
+
+.mat-autocomplete-panel {
+  width: 400px;
+}
+
+.cdk-overlay-pane.mat-menu-panel {
+    max-width: 400px;
 }
 
 ::ng-deep .mat-input-element {

@@ -25,7 +25,7 @@
       <ng-container *ngIf="link.showLabel">{{link.label}}</ng-container>
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
-    <mat-menu #menu="matMenu" xPosition="before">
+    <mat-menu class="menu-overflow-hidden" #menu="matMenu">
       <button mat-menu-item class="search-text" disabled [disableRipple]="true">Search for Users </button>
       <button mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()">
         <div class="ldap-search">
