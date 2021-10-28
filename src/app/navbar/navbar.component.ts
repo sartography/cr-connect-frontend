@@ -29,10 +29,8 @@ export class NavbarComponent {
   fields: FormlyFieldConfig[] = [
     {
       key: 'lookup',
-      type: 'autocomplete',
+      type: 'autocomplete_ldap',
       templateOptions: {
-        type: 'autocomplete',
-        label: 'Test'
       }
     },
     ];
@@ -62,6 +60,13 @@ export class NavbarComponent {
     this._loadNavLinks();
     this._loadAdminNavLinks();
     this.loading = false;
+  }
+
+  viewAs(uid?: any) {
+    console.log('uid', uid);
+    if ('lookup' in uid && uid['lookup'] !== 'invalid') {
+      this.userService.viewAs(uid['lookup']);
+    }
   }
 
   private _loadAdminNavLinks() {
@@ -174,5 +179,4 @@ export class NavbarComponent {
 
     }
   }
-
 }
