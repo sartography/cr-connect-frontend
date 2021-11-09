@@ -1,4 +1,5 @@
 import {
+  AfterContentChecked, ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -78,7 +79,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   options: FormlyFormOptions = {};
   formViewState = 'enabled';
   multiInstanceTypes = MultiInstanceType;
-
+  showForm = false;
 
   @ViewChild('#jsonCode') jsonCodeElement: ElementRef;
   fileParams: FileParams;
@@ -89,7 +90,8 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   constructor(
     private api: ApiService,
-    private location: Location) {
+    private location: Location,
+    private cdref: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -102,6 +104,13 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
     }
   }
 
+  /*
+  DO NOT Turn this on.  Detecting changes here causes a hell storm of extra calls
+  to formly, turning hundreds of calls into thousands for complex forms.
+  ngAfterContentChecked() {
+    this.cdref.detectChanges();
+  }
+  */
 
   saveTaskData(task: WorkflowTask, updateRemaining = false, terminateLoop = false) {
     this.activelySaving = true;
@@ -191,9 +200,9 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   }
 
   private _loadModel(task: WorkflowTask) {
+    this.showForm = false;
     this.form = new FormGroup({});
     if (task && task.data && task.form && task.form.fields) {
-      this.model = cloneDeep(task.data);
       this.fileParams = {
         workflow_id: this.workflow.id,
         task_spec_name: task.name,
@@ -202,7 +211,9 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
        * we end up getting a polluted form state that has nothing to do with the current
        * form, or that still contains values from a previous form.  */
       this.options.formState = {};
+      this.model = cloneDeep(task.data);
       this.fields = new ToFormlyPipe(this.api).transform(task.form.fields, this.fileParams);
+      this.showForm = true;
     }
 
     if (task && task.state === WorkflowTaskState.READY) {
