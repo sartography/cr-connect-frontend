@@ -62,6 +62,16 @@ mat-list-item.disabled {
   }
 }
 
+::ng-deep.button .mat-button-wrapper {
+  font-weight: bold;
+  font-size: larger;
+}
+
+::ng-deep .mat-tooltip.return {
+  margin-top: 1em;
+  font-size: 14px;
+}
+
 .task-data {
   background-color: $brand-gray-shade-3;
   padding: 0;
