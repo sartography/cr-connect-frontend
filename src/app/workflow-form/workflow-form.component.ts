@@ -21,7 +21,7 @@ import {
   WorkflowTask,
   WorkflowTaskState,
 } from 'sartography-workflow-lib';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import {FormlyFieldConfig, FormlyFormOptions} from '@ngx-formly/core';
 import { Location } from '@angular/common';
 import * as setObjectProperty from 'lodash/set';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
@@ -75,6 +75,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
   @Output() apiError = new EventEmitter();
   form = new FormGroup({});
   model: any = {};
+  options: FormlyFormOptions = {};
   formViewState = 'enabled';
   multiInstanceTypes = MultiInstanceType;
 
@@ -197,6 +198,10 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
         workflow_id: this.workflow.id,
         task_spec_name: task.name,
       };
+      /** The formState persists, unless we manually clear it out.  If it persists then
+       * we end up getting a polluted form state that has nothing to do with the current
+       * form, or that still contains values from a previous form.  */
+      this.options.formState = {};
       this.fields = new ToFormlyPipe(this.api).transform(task.form.fields, this.fileParams);
     }
 
