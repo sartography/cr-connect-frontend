@@ -30,6 +30,11 @@
   }
 }
 
+::ng-deep .mat-tooltip.tooltip {
+  margin-top: -1em;
+  font-size: 18px;
+}
+
 .flex-spacer {
   flex-grow: 1;
 }
