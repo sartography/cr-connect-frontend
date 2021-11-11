@@ -1,13 +1,5 @@
 <div *ngIf="!loading && study; else loadingMessage" class="study-container">
   <div class="class" fxLayout="row">
-    <button
-      [routerLink]="'/'"
-      mat-flat-button
-      ngClass="back"
-    >
-      <mat-icon>chevron_left</mat-icon>
-      Back
-    </button>
     <mat-divider vertical></mat-divider>
     <div class="study-metadata">
       <h1 title="{{shrink(160,study.title,study.short_title)}}" class="study-metadata-title"></h1>

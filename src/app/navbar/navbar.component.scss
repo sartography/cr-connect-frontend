@@ -8,12 +8,31 @@
   z-index: 2;
 }
 
+.ldap-search {
+  max-width: fit-content;
+}
+
+.mat-menu-item {
+  width: 400px;
+}
+
+::ng-deep .mat-input-element {
+  width: 100%;
+}
+
+.search-text {}
+
 #adminToolbar {
   border-radius: 5px;
 
   &.viewing-as-user {
     background-color: $brand-accent;
   }
+}
+
+::ng-deep .mat-tooltip.tooltip {
+  margin-top: -1em;
+  font-size: 18px;
 }
 
 .flex-spacer {

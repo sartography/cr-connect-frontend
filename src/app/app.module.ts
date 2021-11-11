@@ -88,6 +88,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { SecurityContext } from '@angular/core';
 import { StandaloneComponent } from './standalone/standalone.component';
 import { StudyWarningsComponent } from './study-warnings/study-warnings.component';
+import { AutocompleteComponent } from './_forms/autocomplete/autocomplete.component';
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 (document.defaultView as any).hljs = hljs;
 
@@ -210,6 +212,7 @@ export function markedOptionsFactory(): MarkedOptions {
     ReviewProgressComponent,
     StandaloneComponent,
     StudyWarningsComponent,
+    AutocompleteComponent,
   ],
     imports: [
         BrowserAnimationsModule,
@@ -217,7 +220,11 @@ export function markedOptionsFactory(): MarkedOptions {
         ChartsModule,
         ClipboardModule,
         FlexLayoutModule,
-        FormlyModule,
+        FormlyModule.forRoot({
+          types: [
+            { name: 'autocomplete_ldap', component: AutocompleteComponent }
+          ],
+        }),
         FormsModule,
         HighlightModule,
         HttpClientModule,
@@ -263,6 +270,7 @@ export function markedOptionsFactory(): MarkedOptions {
         MatCheckboxModule,
         MatButtonToggleModule,
         MatTreeModule,
+        MatAutocompleteModule,
         // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
     ],
   providers: [

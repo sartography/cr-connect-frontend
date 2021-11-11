@@ -43,17 +43,26 @@
 
   </mat-sidenav-content>
   <mat-sidenav opened mode="side" position="start" [fixedInViewport]="true" [fixedTopGap]="64">
-    <button
-      mat-button
-      (click)="goBack()"
-      [ngClass]="'back'"
-    >
-      <mat-icon>chevron_left</mat-icon>
-      Return to Study Dashboard
-    </button>
-    <h4 *ngIf="study">#{{study.id}}: {{shrink(160,study.title, study.short_title)}}
-      <span fxFlex></span>
-    </h4>
+    <div *ngIf="(study===undefined || study.short_title===null)">
+      <button
+        mat-button
+        (click)="goBack()"
+        [ngClass]="'back'"
+      >
+        <mat-icon>chevron_left</mat-icon>
+        Return to Study Dashboard
+      </button>
+    </div>
+    <div class="button" *ngIf="(study!==undefined && study.short_title!==null)" matTooltip="Return to Study Dashboard" matTooltipClass="return">
+      <button
+        mat-button
+        (click)="goBack()"
+        [ngClass]="'back'"
+        >
+        <mat-icon>chevron_left</mat-icon>
+        #{{study.id}}: {{study.short_title}}
+      </button>
+    </div>
 
     <h3>
       Tasks
@@ -129,7 +138,7 @@
           mat-flat-button
           (click)="goBack()"
           color="accent"
-        >Return to Study menu</button>
+        >Return to Study Dashboard</button>
       </ng-container>
 
       <button

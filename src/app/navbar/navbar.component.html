@@ -1,14 +1,16 @@
 <ng-container *ngIf="!loading && user; else loadingMessage">
   <nav class="mat-elevation-z6" id="globalHeader">
-    <a
-      [routerLink]="['/']"
-      class="site-title mat-title"
-      id="nav_home"
-      mat-button
-    >
-      <img alt="University of Virginia" class="logo" src="assets/logo/uva_rotunda.svg">
-      {{title}}
-    </a>
+    <div matTooltip="Main Dashboard" matTooltipClass="tooltip">
+      <a
+        [routerLink]="['/']"
+        class="site-title mat-title"
+        id="nav_home"
+        mat-button
+      >
+        <img alt="University of Virginia" class="logo" src="assets/logo/uva_rotunda.svg">
+        {{title}}
+      </a>
+    </div>
     <div class="flex-spacer"></div>
 
     <ng-container *ngIf="userIsAdmin">
@@ -23,6 +25,8 @@
     <app-nav-links [links]="navLinks"></app-nav-links>
   </nav>
 </ng-container>
+
+
 
 <ng-template #loadingMessage>
   <nav class="mat-elevation-z6" id="loadingHeader">

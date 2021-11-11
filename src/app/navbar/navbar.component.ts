@@ -5,7 +5,6 @@ import {NavItem} from '../_interfaces/nav-item';
 import {UserPreferencesService} from '../user-preferences.service';
 import {Preferences} from '../preferences.model';
 
-
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -17,7 +16,7 @@ export class NavbarComponent {
   adminNavLinks: NavItem[];
   title: string;
   allUsers: User[];
-  loading = true;
+  loading: boolean = true;
   public user: User;
   public realUser: User;  // We may be impersonating a different user
   public userIsAdmin: boolean;
@@ -134,6 +133,7 @@ export class NavbarComponent {
             label: `${displayName} (${this.user.ldap_info.email_address})`,
             icon: 'account_circle',
             showLabel: true,
+          },
             /**
              *  Profile + Notifications submenu
              *
@@ -155,11 +155,8 @@ export class NavbarComponent {
               },
             ]
              **/
-          }
         ];
       }
-
     }
   }
-
 }
