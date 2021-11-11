@@ -3,8 +3,10 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {Router} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
-import {ApiService, MockEnvironment} from 'sartography-workflow-lib';
+import {ApiService, MockEnvironment, mockUser0, mockUsers, UserService} from 'sartography-workflow-lib';
 import {NavLinksComponent} from './nav-links.component';
+import {NavbarComponent} from "../navbar/navbar.component";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 describe('NavLinksComponent', () => {
   let component: NavLinksComponent;
@@ -18,9 +20,10 @@ describe('NavLinksComponent', () => {
       imports: [
         HttpClientTestingModule,
         RouterTestingModule,
+        MatAutocompleteModule,
       ],
       providers: [
-        ApiService,
+        ApiService, UserService,
         {
           provide: Router,
           useValue: mockRouter
@@ -37,6 +40,9 @@ describe('NavLinksComponent', () => {
     fixture = TestBed.createComponent(NavLinksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    const userReq = httpMock.expectOne('apiRoot/user');
+    expect(userReq.request.method).toEqual('GET');
+
   });
 
   afterEach(() => {
