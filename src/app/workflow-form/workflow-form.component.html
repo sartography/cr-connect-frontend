@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <formly-form
+    <formly-form *ngIf="showForm"
       (keyup)="handleKeyUp($event)"
       [fields]="fields"
       [form]="form"
