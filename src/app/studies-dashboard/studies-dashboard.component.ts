@@ -57,6 +57,7 @@ export class StudiesDashboardComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   currentTab = 0;
+  searchTerm = '';
   shrink = shrink;
   public user: User;
   displayedColumns: string[] = [
@@ -267,6 +268,21 @@ export class StudiesDashboardComponent {
       });
 
   }
+
+  searchStudies(search: string) {
+      for (let study of this.studiesByStatus) {
+        // Set filter predicate (how we choose to filter data)
+        study.dataSource.filterPredicate = function (data: Study, str:string) {
+          // Concat a string to search against
+          let datastring = data.title + data.id + data.short_title;
+          return datastring
+            .trim()
+            .toLocaleLowerCase().indexOf(str.trim().toLocaleLowerCase()) >= 0;
+        }
+        // Actually filter the data
+        study.dataSource.filter = search;
+      }
+    }
 
   toggleTaskLane($event: MatButtonToggleChange) {
     this.selectedTaskLane = $event.value;

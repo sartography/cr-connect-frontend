@@ -161,6 +161,23 @@ describe('StudiesDashboardComponent', () => {
     expect(studyUpdatedEmitSpy).toHaveBeenCalled();
   });
 
+  it('should filter studies on a given search term', () => {
+    const search = 'Phase III';
+    const searchSpy = spyOn((component as any), 'searchStudies').and.callThrough();
+    component.searchStudies(search);
+    expect(searchSpy).toHaveBeenCalled();
+    expect(component.approvalsDataSource.data.length).toBeGreaterThan(0);
+    expect(component.studiesByStatus[0].dataSource.filter).toEqual(search);
+    expect(component.studiesByStatus[0].dataSource.filteredData.length).toBeGreaterThan(0);
+
+    const bad_search = 'Apple Pie';
+    component.searchStudies(bad_search);
+    expect(searchSpy).toHaveBeenCalled();
+    expect(component.approvalsDataSource.data.length).toBeGreaterThan(0);
+    expect(component.studiesByStatus[0].dataSource.filter).toEqual(bad_search);
+    expect(component.studiesByStatus[0].dataSource.filteredData.length).toEqual(0);
+  });
+
   /** Deprecated
   it('should toggle task lane', () => {
     expect(component.taskLanes).toBeDefined();
