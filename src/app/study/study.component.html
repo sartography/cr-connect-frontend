@@ -12,6 +12,9 @@
         <ng-container *ngIf="study.short_title">
           <dt>Short Title:</dt><dd>{{study.short_title}}</dd>
         </ng-container>
+        <ng-container *ngIf="!study.short_title && study.title">
+          <dt>Title:</dt><dd>{{study.title}}</dd>
+        </ng-container>
       </dl>
     </div>
   </div>
