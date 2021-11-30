@@ -38,6 +38,20 @@ mat-panel-title.mat-h2 {
   }
 }
 
+.study-search-field {
+  width: 500px;
+  height: 30px;
+  background-color: white;
+  opacity: .7;
+  color: black;
+  border-radius: 7px;
+  border-style: none;
+  outline: none;
+  padding-left: 1em;
+  font-size: medium;
+  padding-top: .3em;
+}
+
 .study-row, .approval-row {
   cursor: pointer;
 

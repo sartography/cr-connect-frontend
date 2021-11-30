@@ -67,17 +67,26 @@
 </div>
 <div class="divider"></div>
 <div class="study-tab-div">
-<mat-chip-list aria-label="Study Type Selection">
-  <mat-chip [selected]="currentTab===i"
-            color="accent"
-            class="study-tab-chip"
-            (click)="this.changeTab(i)"
-            *ngFor="let studiesGroup of studiesByStatus; let i = index">
-  {{studiesGroup.statusLabel}}
-    <mat-chip [ngClass]="studiesGroup.status.toString().toLowerCase()"
-              [selectable]="false">{{studiesGroup.studies.length}}</mat-chip>
-  </mat-chip>
-</mat-chip-list>
+  <div class="chips" fxLayout="row" fxLayoutGap="2em" fxLayoutAlign="space-between">
+    <mat-chip-list aria-label="Study Type Selection">
+      <mat-chip [selected]="currentTab===i"
+                color="accent"
+                class="study-tab-chip"
+                (click)="this.changeTab(i)"
+                *ngFor="let studiesGroup of studiesByStatus; let i = index">
+      {{studiesGroup.statusLabel}}
+        <mat-chip [ngClass]="studiesGroup.status.toString().toLowerCase()"
+                  [selectable]="false">{{studiesGroup.studies.length}}</mat-chip>
+      </mat-chip>
+    </mat-chip-list>
+    <div>
+      <input [(ngModel)]="searchTerm"
+             (input)="searchStudies(searchTerm)"
+             type="text"
+             class="study-search-field"
+             placeholder=" Search by study name or study ID">
+    </div>
+  </div>
 <div class="study-tab-group">
   <mat-card
     class="tab"
