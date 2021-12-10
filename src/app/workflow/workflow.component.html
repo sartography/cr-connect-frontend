@@ -43,7 +43,7 @@
 
   </mat-sidenav-content>
   <mat-sidenav opened mode="side" position="start" [fixedInViewport]="true" [fixedTopGap]="64">
-    <div class="button" *ngIf="study!==undefined"
+    <div class="button" *ngIf="study!==undefined && !error"
          matTooltip="Return to Study Dashboard" matTooltipClass="return">
       <button
         mat-button
