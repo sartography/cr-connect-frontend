@@ -122,7 +122,7 @@
             </div>
             <div *ngIf="studyStatusDisplayType(study)==='Progress'">
               <div class="in-progress-study">
-                {{getStudyStatus(study).toUpperCase()}}
+                {{getProgressStatus(study).toUpperCase()}}
               </div>
               <app-study-progress [study]="study"></app-study-progress>
             </div>

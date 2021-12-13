@@ -178,17 +178,4 @@ describe('StudiesDashboardComponent', () => {
     expect(component.studiesByStatus[0].dataSource.filteredData.length).toEqual(0);
   });
 
-  /** Deprecated
-  it('should toggle task lane', () => {
-    expect(component.taskLanes).toBeDefined();
-    expect(component.taskLanes.length).toBeGreaterThan(1);
-
-    for (const taskLane of component.taskLanes) {
-      component.toggleTaskLane(new MatButtonToggleChange(null, taskLane));
-      expect(component.selectedTaskLane).toEqual(taskLane);
-      expect(component.approvalsDataSource.filter).toEqual(taskLane.label);
-      expect(component.numTasksInTaskLane(taskLane)).toBeGreaterThan(0);
-    }
-  });
-   */
 });

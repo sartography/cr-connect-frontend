@@ -6,7 +6,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {
-  ApiService,
+  ApiService, ProgressStatusLabels,
   Study,
   StudyStatus,
   StudyStatusLabels,
@@ -199,6 +199,13 @@ export class StudiesDashboardComponent {
 
   getStudyStatus(study: Study) {
     return StudyStatusLabels[study.status.toUpperCase()];
+  }
+
+  getProgressStatus(study: Study) {
+    if (ProgressStatusLabels[study.progress_status.toUpperCase()]) {
+       return ProgressStatusLabels[study.progress_status.toUpperCase()];
+    }
+    else return this.getStudyStatus(study);
   }
 
   studiesGroupId(studiesGroup: StudiesByStatus) {

@@ -5,7 +5,7 @@ import {
   AppEnvironment,
   StudyStatus,
   StudyStatusLabels,
-  Study
+  Study,
 } from 'sartography-workflow-lib';
 
 
