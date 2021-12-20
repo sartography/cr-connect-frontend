@@ -202,7 +202,7 @@ export class StudiesDashboardComponent {
   }
 
   getProgressStatus(study: Study) {
-    if (ProgressStatusLabels[study.progress_status.toUpperCase()]) {
+    if (study.progress_status !== null) {
        return ProgressStatusLabels[study.progress_status.toUpperCase()];
     }
     else return this.getStudyStatus(study);
