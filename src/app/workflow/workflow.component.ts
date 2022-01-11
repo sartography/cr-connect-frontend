@@ -48,6 +48,7 @@ export class WorkflowComponent implements OnInit {
   shrink = shrink;
   isAdmin: boolean;
   error: object;
+  errCounter: 0;
 
 
   constructor(
@@ -276,7 +277,14 @@ export class WorkflowComponent implements OnInit {
       this.navigateUrl();
       this.loading = false;
     },
-      (err) => this.setCurrentTask(this.workflow.next_task.id),
+      (error) => {
+        this.errCounter++;
+        if (this.errCounter < 2) {
+          this.setCurrentTask(this.workflow.next_task.id)
+        } else {
+          this.handleError(error);
+        }
+      }
     );
   }
 
