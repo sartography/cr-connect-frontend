@@ -1,4 +1,4 @@
-<div *ngIf="!loading && study; else loadingMessage" class="study-container">
+<div *ngIf="!loading && study; else loadingMessage" class="study-container"><
   <div class="class" fxLayout="row">
     <mat-divider vertical></mat-divider>
     <div class="study-metadata">
@@ -20,29 +20,34 @@
   </div>
   <mat-divider></mat-divider>
 
+
   <app-dashboard
     *ngIf="allWorkflows.length > 0"
     [study]="study"
     [selectedWorkflowId]="selectedWorkflowId"
   ></app-dashboard>
 
-  <app-study-events
-    *ngIf="study.events_history.length > 0"
-    [study]="study"
-  ></app-study-events>
-
-  <app-study-warnings
-    *ngIf="study.warnings.length > 0 && isAdmin && showAdminTools"
-    [study]="study"
-  ></app-study-warnings>
-
+  <mat-tab-group>
+    <mat-tab label="Events">
+      <app-study-events
+        *ngIf="study.events_history.length > 0"
+        [study]="study"
+      ></app-study-events>
+    </mat-tab>
+    <mat-tab label="Logs">
+      <app-task-logs [studyId]="study.id"></app-task-logs>
+    </mat-tab>
+    <mat-tab label="Admin Warnings">
+      <app-study-warnings
+        *ngIf="study.warnings.length > 0 && isAdmin && showAdminTools"
+        [study]="study"
+      ></app-study-warnings>
+    </mat-tab>
+  </mat-tab-group>
 
   <div *ngIf="!(allWorkflows.length > 0)">
     No active workflows for this study.
   </div>
-
-
-
 </div>
 
 <ng-template #loadingMessage>

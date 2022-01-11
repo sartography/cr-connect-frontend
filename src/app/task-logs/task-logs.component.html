@@ -1,0 +1,62 @@
+<h1>Task Logs</h1>
+
+<div class="logs">
+
+  <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <mat-form-field>
+    <input matInput placeholder="Filter on Level" #level>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Filter on Code" #code>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Filter on User" #user>
+  </mat-form-field>
+
+  <mat-table class="task-log-table" [dataSource]="dataSource"
+             matSort matSortActive="timestamp" matSortDirection="desc" matSortDisableClear>
+  >
+
+    <ng-container matColumnDef="level">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Level</mat-header-cell>
+      <mat-cell *matCellDef="let log">{{log.level}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="code">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Code</mat-header-cell>
+      <mat-cell *matCellDef="let log">{{log.code}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="workflow_id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Workflow #</mat-header-cell>
+      <mat-cell *matCellDef="let log">{{log.workflow_id}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="user_uid">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>User</mat-header-cell>
+      <mat-cell *matCellDef="let log">{{log.user_uid}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="timestamp">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
+      <mat-cell *matCellDef="let log">{{log.timestamp | date: 'short'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="message">
+      <mat-header-cell *matHeaderCellDef>Message</mat-header-cell>
+      <mat-cell class="message-cell" *matCellDef="let log">{{log.message}}</mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+  </mat-table>
+
+
+  <mat-paginator *ngIf="query" [length]="query.total" [pageSize]="query.per_page" [pageSizeOptions]="[3, 5, 10]"></mat-paginator>
+
+</div>
