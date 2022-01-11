@@ -1,8 +1,8 @@
-import { Location } from '@angular/common';
+import {Location, LocationStrategy} from '@angular/common';
 import { Component, Inject, NgZone, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { shrink } from '../_util/shrink';
 import {
@@ -25,7 +25,7 @@ import {
 import { isOrContainsUserTasks } from '../_util/nav-item';
 import { UserPreferencesService } from '../user-preferences.service';
 import { WorkflowDialogComponent } from '../workflow-dialog/workflow-dialog.component';
-
+import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-workflow',
@@ -62,9 +62,11 @@ export class WorkflowComponent implements OnInit {
     private userService: UserService,
     private userPreferencesService: UserPreferencesService,
     private ngZone: NgZone,
+
   ) {
     this.route.paramMap.subscribe(paramMap => {
       this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
+      let urlTaskId = paramMap.get('task_id');
       this.api.getWorkflow(this.workflowId).subscribe(
         wf => {
           this.workflow = wf;
@@ -78,9 +80,8 @@ export class WorkflowComponent implements OnInit {
         error => {
           this.handleError(error);
         },
-        () => this.updateTaskList(this.workflow),
+        () => this.loadCurrentTask(this.workflow, urlTaskId),
       );
-
     });
     this.userService.isAdmin$.subscribe(a => {
       this.isAdmin = a;
@@ -128,21 +129,9 @@ export class WorkflowComponent implements OnInit {
     console.log('Encountered an error:' + error);
   }
 
-  setCurrentTask(taskId: string) {
-    this.loading = true;
-    this.api.setCurrentTaskForWorkflow(this.workflowId, taskId).subscribe(wf => {
-      console.log('setCurrentTask workflow', wf);
-      this.workflow = wf;
-      this.currentTask = wf.next_task;
-      this.updateUrl();
-      this.loading = false;
-    });
-  }
-
-  updateUrl() {
+  navigateUrl() {
     if (this.currentTask) {
-      window.history.replaceState({}, '',
-        `workflow/${this.workflowId}/task/${this.currentTask.id}`);
+      this.router.navigate(['workflow', this.workflowId, "task", this.currentTask.id]);
     }
   }
 
@@ -189,7 +178,7 @@ export class WorkflowComponent implements OnInit {
     }
 
     this.currentTask = undefined;
-    this.updateTaskList(this.workflow);
+    this.changeCurrentTask(this.workflow);
   }
 
   isOnlyTask(): boolean {
@@ -231,7 +220,7 @@ export class WorkflowComponent implements OnInit {
       console.log('resetWorkflow workflow', workflow);
       this.snackBar.open(`Your workflow has been reset successfully.`, 'Ok', {duration: 3000});
       this.workflow = workflow;
-      this.updateTaskList(workflow);
+      this.loadCurrentTask(workflow);
     });
   }
 
@@ -260,7 +249,11 @@ export class WorkflowComponent implements OnInit {
   }
 
   goBack() {
-    this.location.back();
+    if (this.study) {
+      this.router.navigate(['study', this.study.id]);
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   countdown() {
@@ -273,7 +266,33 @@ export class WorkflowComponent implements OnInit {
     return currentTask.state === WorkflowTaskState.LOCKED;
   }
 
-  private updateTaskList(wf: Workflow, forceTaskId?: string) {
+  // Manually set the current task (force it).
+  setCurrentTask(taskId: string) {
+    this.loading = true;
+    this.api.setCurrentTaskForWorkflow(this.workflowId, taskId).subscribe(wf => {
+      console.log('setCurrentTask workflow', wf);
+      this.workflow = wf;
+      this.currentTask = wf.next_task;
+      this.navigateUrl();
+      this.loading = false;
+    },
+      (err) => this.setCurrentTask(this.workflow.next_task.id),
+    );
+  }
+
+  // Change the current task.
+  changeCurrentTask(wf: Workflow) {
+    this.loading = true;
+    this.workflow = wf;
+    this.currentTask = wf.next_task;
+    this.logTaskData(this.currentTask);
+    scrollToTop(this.deviceDetector);
+    this.loading = false;
+    this.navigateUrl();
+  }
+
+  // Load the current task from an initial load.
+  loadCurrentTask(wf: Workflow, forceTaskId?: string) {
     this.loading = true;
     this.workflow = wf;
     if (this.workflow.study_id != null) {
@@ -281,28 +300,17 @@ export class WorkflowComponent implements OnInit {
         this.dataDictionary = dd;
       });
     }
-
-    // The current task will be set by the backend, unless specifically forced.
+    // You are trying to forcibly move to some task
     if (forceTaskId) {
-      const navItem = this.workflow.navigation.filter(t => t.task_id === forceTaskId)[0];
-
-      // If it's a valid task and not the current workflow task,
-      // reset the token to the selected task.
-      if (navItem && (forceTaskId !== wf.next_task.id)) {
+      console.log('trying to force task');
+      if (forceTaskId !== wf.next_task.id) {
         this.setCurrentTask(forceTaskId);
       } else {
-        // The given task ID is no longer part of this workflow.
-        // Just set the current task to the workflow's next task.
-        this.currentTask = wf.next_task;
+        this.changeCurrentTask(wf);
       }
+      // You are loading into a task from init
     } else {
-      this.currentTask = wf.next_task;
+      this.changeCurrentTask(wf);
     }
-    console.log('Update Task Executed', this.currentTask);
-
-    this.logTaskData(this.currentTask);
-    this.updateUrl();
-    scrollToTop(this.deviceDetector);
-    this.loading = false;
   }
 }
