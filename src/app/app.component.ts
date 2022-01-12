@@ -23,7 +23,6 @@ export class AppComponent {
   ) {
     // const navEnd = this.router.events.pipe(filter(e => e instanceof NavigationEnd));
     // navEnd.subscribe(_ => this.googleAnalyticsService.init(this.environment.googleAnalyticsKey));
-
     const fileTypes = Object.values(FileType);
     fileTypes.forEach(t => {
       const url = this.domSanitizer.bypassSecurityTrustResourceUrl(`assets/icons/file_types/${t}.svg`)
@@ -36,4 +35,5 @@ export class AppComponent {
     this.loading = true;
     setTimeout(() => this.loading = false, 300);
   }
+
 }
