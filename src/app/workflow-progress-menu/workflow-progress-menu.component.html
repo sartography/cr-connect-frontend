@@ -12,10 +12,16 @@
     You have no open tasks in this workflow at this time.
   </div>
 
-  <div *ngIf="completedTasks.length > 0">
+  <div *ngIf="completedTasks.length > 0 && readyTasks.length > 0">
     <h4 class="navHeading">Previously Completed</h4>
     <em>You may jump back in time to complete any of these tasks, but you will need to re-progress
       through this workflow in case the changes you make impact later steps.</em>
+    <ng-container *ngTemplateOutlet="navItemTemplate; context: {nav: completedTasks}"></ng-container>
+  </div>
+
+  <div *ngIf="completedTasks.length > 0 && readyTasks.length === 0">
+    <h4 class="navHeading">Previously Completed</h4>
+    <em> You have completed every task in this workflow. To restart, please use the 'Start over' button. </em>
     <ng-container *ngTemplateOutlet="navItemTemplate; context: {nav: completedTasks}"></ng-container>
   </div>
 
