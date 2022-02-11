@@ -31,9 +31,6 @@
               "src/styles.scss",
               "node_modules/highlight.js/styles/monokai-sublime.css"
             ],
-            "scripts": [
-              "node_modules/marked/lib/marked.js"
-            ],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
@@ -145,9 +142,6 @@
             ],
             "styles": [
               "src/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/marked/lib/marked.js"
             ],
             "codeCoverageExclude": [
               "src/polyfills.ts",
