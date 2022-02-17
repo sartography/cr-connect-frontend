@@ -65,6 +65,10 @@ export class WorkflowProgressMenuComponent implements OnInit, OnChanges {
   }
 
   selectable(navItem: WorkflowNavItem) {
+    // If the workflow is completed, lock the nav.
+    if (this.readyTasks.length == 0) {
+      return false;
+    }
     const isCurrent = this.isCurrent(navItem)
     return (navItem.state === WorkflowTaskState.READY ||
       navItem.state === WorkflowTaskState.COMPLETED) &&
