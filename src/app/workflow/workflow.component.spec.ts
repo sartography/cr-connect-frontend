@@ -339,7 +339,7 @@ describe('WorkflowComponent', () => {
     loadDefaultUser(httpMock,component);
     component.resetWorkflow();
     expect (mockRouter.navigate).toHaveBeenCalledWith( [ '/workflow', undefined ],
-      Object({ queryParams: Object({ restart: 'true', clear_data: false, delete_files: false }) }));
+      Object({ queryParams: Object({ restart: 'true', clear_data: false}) }));
   });
 
   it('AdminUser with hideDataPane=true should show button', () => {

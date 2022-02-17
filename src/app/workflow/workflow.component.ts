@@ -2,7 +2,7 @@ import {Location, LocationStrategy} from '@angular/common';
 import { Component, Inject, NgZone, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
+import {ActivatedRoute, NavigationStart, ParamMap, Router} from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { shrink } from '../_util/shrink';
 import {
@@ -25,8 +25,8 @@ import {
 import { isOrContainsUserTasks } from '../_util/nav-item';
 import { UserPreferencesService } from '../user-preferences.service';
 import { WorkflowDialogComponent } from '../workflow-dialog/workflow-dialog.component';
-import {filter, map} from "rxjs/operators";
-import {combineLatest} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, map} from "rxjs/operators";
+import {combineLatest, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-workflow',
@@ -66,40 +66,6 @@ export class WorkflowComponent implements OnInit {
     private ngZone: NgZone,
 
   ) {
-
-    combineLatest([this.route.paramMap, this.route.queryParamMap])
-      .pipe(map(results => ({paramMap: results[0], queryParamMap: results[1]}))).subscribe(results => {
-
-      console.log("I AM RUNNING THE PARAM MAP SUBSCRIPTION!!!!!")
-
-      let paramMap = results.paramMap
-      let queryParamMap = results.queryParamMap
-
-      this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
-      let urlTaskId = paramMap.get('task_id');
-      let restart = queryParamMap.get('restart')
-
-      // Make a different api call, depending on the information provided.
-      let apiRequest = this.api.getWorkflow(this.workflowId)
-      if(restart) {
-        let clearData = queryParamMap.get('clear_data').toLocaleLowerCase() == 'true'
-        let deleteFiles = queryParamMap.get('delete_files').toLocaleLowerCase() == 'true'
-        apiRequest = this.api.restartWorkflow(this.workflowId, clearData, deleteFiles)
-      } else if(urlTaskId) {
-        apiRequest = this.api.setCurrentTaskForWorkflow(this.workflowId, urlTaskId)
-      }
-      this.loading = true;
-      apiRequest.subscribe(
-        wf => {
-          this.updateWorkflow(wf)
-        },
-        error => {
-          this.handleError(error);
-          this.loading = false;
-        },
-      );
-    });
-
     this.userService.isAdmin$.subscribe(a => {
       this.isAdmin = a;
       this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);
@@ -115,6 +81,51 @@ export class WorkflowComponent implements OnInit {
     window[`angularComponentReference`] = {
       component: this, zone: this.ngZone, loadAngularFunction: (str: string) => this.angularFunctionCalled(str),
     };
+
+    this.route.paramMap
+      .pipe(filter((p: ParamMap) => p.has('workflow_id')))
+      .pipe(distinctUntilChanged())
+      .subscribe( paramMap => {
+        console.log("ROUTE UPDATED!!!!")
+        this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
+        let urlTaskId = paramMap.get('task_id');
+
+        // Make a different api call, depending on the information provided.
+        let apiRequest = this.api.getWorkflow(this.workflowId)
+        if(urlTaskId) {
+          apiRequest = this.api.setCurrentTaskForWorkflow(this.workflowId, urlTaskId)
+        }
+        this.makeWorkflowRequest(apiRequest, urlTaskId)
+      });
+  }
+
+  resetWorkflow(clearData: boolean = false) {
+    this.makeWorkflowRequest(this.api.restartWorkflow(this.workflowId, clearData, clearData))
+  }
+
+  // Manually set the current task (force it).
+  setCurrentTask(taskId: string) {
+    this.makeWorkflowRequest(this.api.setCurrentTaskForWorkflow(this.workflowId, taskId))
+  }
+
+  makeWorkflowRequest(apiRequest:Observable<Workflow>, urlTaskId = null) {
+    this.loading = true
+    apiRequest.subscribe(
+      wf => {
+        this.updateWorkflow(wf)
+      },
+      error => {
+        this.handleError(error);
+        console.log("Do we have a workflow?", this.workflowId)
+        // If this was a reset or specific task request, try just going to the workflow
+        if(urlTaskId){
+          this.router.navigate(['/workflow', this.workflowId])
+        }
+      },
+      () => {
+        this.loading = false;
+      }
+    );
   }
 
   updateWorkflow(wf: Workflow) {
@@ -125,7 +136,10 @@ export class WorkflowComponent implements OnInit {
     this.loading = false;
     this.logTaskData(this.currentTask);
     scrollToTop(this.deviceDetector);
-    this.location.go("workflow/" + this.workflowId + "/task/" + this.currentTask.id);
+    let path = "/workflow/" + this.workflowId + "/task/" + this.currentTask.id
+    if (!this.location.isCurrentPathEqualTo(path)) { // Only add to the path if we are going someplace new.
+      this.location.go(path);
+    }
     // Always refresh the document list, as we might have added files in the last task.
     if (this.workflow.study_id != null) {
       this.api.getStudy(this.workflow.study_id).subscribe(res => {
@@ -195,7 +209,6 @@ export class WorkflowComponent implements OnInit {
     );
   }
 
-
   logTaskData(task) {
     if (task) {
       const label = `Data for Workflow Task: '${task.name} (${task.id})'`;
@@ -243,16 +256,6 @@ export class WorkflowComponent implements OnInit {
     }
   }
 
-  resetWorkflow(clearData: boolean = false, deleteFiles = false) {
-    this.router.navigate(['/workflow', this.workflowId],
-      {queryParams: {restart: 'true', clear_data:clearData, delete_files:deleteFiles}});
-  }
-
-  // Manually set the current task (force it).
-  setCurrentTask(taskId: string) {
-    this.router.navigate(['/workflow', this.workflowId, 'task', taskId]);
-  }
-
   confirmResetWorkflow() {
     const data: WorkflowResetDialogData = {
       workflowId: this.workflowId,
@@ -267,7 +270,7 @@ export class WorkflowComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((dialogData: WorkflowResetDialogData) => {
       if (dialogData && dialogData.confirm) {
-        this.resetWorkflow(dialogData.clearData, dialogData.deleteFiles);
+        this.resetWorkflow(dialogData.clearData);
       }
     });
   }
