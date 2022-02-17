@@ -137,28 +137,8 @@ describe('WorkflowComponent', () => {
     fixture = TestBed.createComponent(WorkflowComponent);
     component = fixture.componentInstance;
     mockEnvironment.hideDataPane = true;
-
     fixture.detectChanges();
-
-    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
-    expect(wf1Req.request.method).toEqual('GET');
-    wf1Req.flush(mockWorkflow0);
-    expect(component.workflow).toEqual(mockWorkflow0);
-
-    const specReq = httpMock.expectOne(`apiRoot/workflow/${mockWorkflow0.id}/task/${mockWorkflowTask0.id}/set_token`);
-    expect(specReq.request.method).toEqual('PUT');
-    specReq.flush(mockWorkflow0);
-    expect(component.workflow).toEqual(mockWorkflow0);
-
-    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id + '?update_status=false');
-    expect(sReq.request.method).toEqual('GET');
-    sReq.flush(mockStudy0);
-    expect(component.study.id).toEqual(mockStudy0.id);
-
-    const fReq = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
-    expect(fReq.request.method).toEqual('GET');
-    fReq.flush(mockDocumentDirectory);
-    expect(component.dataDictionary).toEqual(mockDocumentDirectory);
+    httpMock.expectOne('apiRoot/workflow/0/task/0/set_token')
 
   });
 
@@ -176,29 +156,23 @@ describe('WorkflowComponent', () => {
 
   it('should change selected task', () => {
     loadDefaultUser(httpMock,component);
-    const setTaskSpy = spyOn(component, 'setCurrentTask').and.stub();
     component.setCurrentTask(mockWorkflowTask0.id);
-
-    expect(component.workflow).toEqual(mockWorkflow0);
-    expect(component.currentTask).toEqual(mockWorkflow0.next_task);
-    expect(setTaskSpy).toHaveBeenCalled();
+    httpMock.expectOne('apiRoot/workflow/0/task/0/set_token')
   });
 
   it('should update workflow', () => {
     loadDefaultUser(httpMock,component);
     const countdownSpy = spyOn(component, 'countdown').and.stub();
-    const changeTaskSpy = spyOn((component as any), 'changeCurrentTask').and.stub();
-    component.workflowUpdated(mockWorkflow0);
-
+    component.updateWorkflow(mockWorkflow0);
     expect(component.workflow).toEqual(mockWorkflow0);
-    expect(changeTaskSpy).toHaveBeenCalledWith(mockWorkflow0);
     expect(countdownSpy).not.toHaveBeenCalled();
+    httpMock.expectOne('apiRoot/study/0?update_status=false')
+    httpMock.expectOne('apiRoot/document_directory/0')
   });
 
   it('should not redirect on end event with documentation', () => {
     loadDefaultUser(httpMock,component);
     const countdownSpy = spyOn(component, 'countdown').and.stub();
-    const taskSpy = spyOn((component as any), 'changeCurrentTask').and.stub();
 
     // Set the next task to be an end event with documentation
     const updatedWorkflow = cloneDeep(mockWorkflow1);
@@ -208,18 +182,18 @@ describe('WorkflowComponent', () => {
     updatedWorkflow.next_task = endEvent;
 
     // Next task should be end event now, but countdown to redirect should not start
-    component.workflowUpdated(updatedWorkflow);
+    component.updateWorkflow(updatedWorkflow);
     expect(component.workflow).toEqual(updatedWorkflow);
     expect(component.workflow.next_task).toEqual(endEvent, 'next task should be an end event');
     expect(component.workflow.redirect).toBeUndefined('workflow redirect seconds should not be set');
     expect(countdownSpy).not.toHaveBeenCalled();
-    expect(taskSpy).toHaveBeenCalledWith(updatedWorkflow);
+    httpMock.expectOne('apiRoot/study/0?update_status=false')
+    httpMock.expectOne('apiRoot/document_directory/0')
   });
 
   it('should redirect on end event without documentation', () => {
     loadDefaultUser(httpMock,component);
     const countdownSpy = spyOn(component, 'countdown').and.stub();
-    const taskSpy = spyOn((component as any), 'changeCurrentTask').and.stub();
 
     // Set the next task to be an end event with no documentation
     const updatedWorkflow = cloneDeep(mockWorkflow1);
@@ -228,13 +202,15 @@ describe('WorkflowComponent', () => {
     endEvent.documentation = '';
     updatedWorkflow.next_task = endEvent;
 
+    component.workflow = mockWorkflow1
     // Next task should be end event now, but should not redirect
-    component.workflowUpdated(updatedWorkflow);
+    component.workflowUpdatedInForm(updatedWorkflow);
     expect(component.workflow).toEqual(updatedWorkflow);
     expect(component.workflow.next_task).toEqual(endEvent, 'next task should be an end event');
     expect(component.workflow.redirect).toEqual(1, 'workflow redirect seconds should be set');
     expect(countdownSpy).toHaveBeenCalled();
-    expect(taskSpy).toHaveBeenCalledWith(updatedWorkflow);
+    httpMock.expectOne('apiRoot/study/0?update_status=false')
+    httpMock.expectOne('apiRoot/document_directory/0')
   });
 
   it('should log task data', () => {
@@ -269,7 +245,8 @@ describe('WorkflowComponent', () => {
 
   it('should complete manual task', () => {
     loadDefaultUser(httpMock,component);
-    const updateSpy = spyOn(component, 'workflowUpdated').and.stub();
+    const updateSpy = spyOn(component, 'updateWorkflow').and.stub();
+    component.workflow = mockWorkflow0
     component.completeManualTask(mockWorkflowTask0);
 
     const tReq = httpMock.expectOne(`apiRoot/workflow/${mockWorkflow0.id}/task/${mockWorkflowTask0.id}/data`);
@@ -338,6 +315,7 @@ describe('WorkflowComponent', () => {
 
   it('should show a confirmation dialog before resetting a workflow', () => {
     loadDefaultUser(httpMock,component);
+    component.workflow = mockWorkflow0
     const mockConfirmDeleteData: WorkflowResetDialogData = {
       workflowId: component.workflowId,
       name: component.workflow.title,
@@ -359,11 +337,8 @@ describe('WorkflowComponent', () => {
 
   it('should reset a workflow', () => {
     loadDefaultUser(httpMock,component);
-    (component as any).resetWorkflow();
-
-    const wfsReq = httpMock.expectOne(`apiRoot/workflow/${component.workflowId}/restart?clear_data=false&delete_files=false`);
-    expect(wfsReq.request.method).toEqual('GET');
-    wfsReq.flush(null);
+    component.resetWorkflow();
+    httpMock.expectOne('apiRoot/workflow/0/restart?clear_data=false&delete_files=false')
   });
 
   it('AdminUser with hideDataPane=true should show button', () => {
@@ -379,25 +354,7 @@ describe('WorkflowComponent', () => {
     userReq.flush(mockUser0);
     expect(component.isAdmin).toEqual(true);
     expect(component.showDataPane).toBeTrue();
-
-    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
-    expect(wf1Req.request.method).toEqual('GET');
-    wf1Req.flush(mockWorkflow0);
-    expect(component.workflow).toEqual(mockWorkflow0);
-
-    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id +  '?update_status=false');
-    expect(sReq.request.method).toEqual('GET');
-    sReq.flush(mockStudy0);
-
-    expect(component.study.id).toEqual(mockStudy0.id);
-    const fReq = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
-    expect(fReq.request.method).toEqual('GET');
-    fReq.flush(mockDocumentDirectory);
-
-    const specReq = httpMock.expectOne(`apiRoot/workflow/${mockWorkflow0.id}/task/${mockWorkflowTask0.id}/set_token`);
-    expect(specReq.request.method).toEqual('PUT');
-    specReq.flush(mockWorkflow0);
-    expect(component.dataDictionary).toEqual(mockDocumentDirectory);
+    httpMock.expectOne('apiRoot/workflow/0/task/0/set_token')
   });
 
   it('AdminUser with hideDataPane=false should show button', () => {
@@ -413,26 +370,7 @@ describe('WorkflowComponent', () => {
     userReq.flush(mockUser0);
     expect(component.isAdmin).toEqual(true);
     expect(component.showDataPane).toBeTrue();
-
-    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
-    expect(wf1Req.request.method).toEqual('GET');
-    wf1Req.flush(mockWorkflow0);
-    expect(component.workflow).toEqual(mockWorkflow0);
-
-    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id + '?update_status=false');
-    expect(sReq.request.method).toEqual('GET');
-    sReq.flush(mockStudy0);
-
-    expect(component.study.id).toEqual(mockStudy0.id);
-    const fReq = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
-    expect(fReq.request.method).toEqual('GET');
-
-    const specReq = httpMock.expectOne(`apiRoot/workflow/${mockWorkflow0.id}/task/${mockWorkflowTask0.id}/set_token`);
-    expect(specReq.request.method).toEqual('PUT');
-    specReq.flush(mockWorkflow0);
-
-    fReq.flush(mockDocumentDirectory);
-    expect(component.dataDictionary).toEqual(mockDocumentDirectory);
+    httpMock.expectOne('apiRoot/workflow/0/task/0/set_token')
   });
 
   it('Non-admin user with hideDataPane=false should hide button', () => {
@@ -448,29 +386,12 @@ describe('WorkflowComponent', () => {
     userReq.flush(mockUser1);
     expect(component.isAdmin).toEqual(false);
     expect(component.showDataPane).toBeTrue();
-
-    const wf1Req = httpMock.expectOne('apiRoot/workflow/' + mockWorkflow0.id + '?do_engine_steps=true');
-    expect(wf1Req.request.method).toEqual('GET');
-    wf1Req.flush(mockWorkflow0);
-    expect(component.workflow).toEqual(mockWorkflow0);
-
-    const sReq = httpMock.expectOne('apiRoot/study/' + mockStudy0.id + '?update_status=false');
-    expect(sReq.request.method).toEqual('GET');
-    sReq.flush(mockStudy0);
-
-    const specReq = httpMock.expectOne(`apiRoot/workflow/${mockWorkflow0.id}/task/${mockWorkflowTask0.id}/set_token`);
-    expect(specReq.request.method).toEqual('PUT');
-    specReq.flush(mockWorkflow0);
-
-    expect(component.study.id).toEqual(mockStudy0.id);
-    const fReq = httpMock.expectOne('apiRoot/document_directory/' + mockStudy0.id);
-    expect(fReq.request.method).toEqual('GET');
-    fReq.flush(mockDocumentDirectory);
-    expect(component.dataDictionary).toEqual(mockDocumentDirectory);
+    httpMock.expectOne('apiRoot/workflow/0/task/0/set_token')
   });
 
   it('should report isOnlyTask', () => {
     loadDefaultUser(httpMock,component);
+    component.workflow = mockWorkflow0
     component.workflow.navigation = JSON.parse(JSON.stringify(mockNav0));
     component.workflow.navigation[0] =
       {

@@ -2,7 +2,7 @@ import {Location, LocationStrategy} from '@angular/common';
 import { Component, Inject, NgZone, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {ActivatedRoute, NavigationStart, Router} from '@angular/router';
+import {ActivatedRoute, NavigationStart, ParamMap, Router} from '@angular/router';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { shrink } from '../_util/shrink';
 import {
@@ -25,7 +25,8 @@ import {
 import { isOrContainsUserTasks } from '../_util/nav-item';
 import { UserPreferencesService } from '../user-preferences.service';
 import { WorkflowDialogComponent } from '../workflow-dialog/workflow-dialog.component';
-import {filter} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged, filter, map} from "rxjs/operators";
+import {combineLatest, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-workflow',
@@ -65,25 +66,6 @@ export class WorkflowComponent implements OnInit {
     private ngZone: NgZone,
 
   ) {
-    this.route.paramMap.subscribe(paramMap => {
-      this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
-      let urlTaskId = paramMap.get('task_id');
-      this.api.getWorkflow(this.workflowId).subscribe(
-        wf => {
-          this.workflow = wf;
-          if (this.workflow.study_id != null) {
-            this.api.getStudy(this.workflow.study_id).subscribe(res => {
-              res.id = this.workflow.study_id;
-              this.study = res;
-            });
-          }
-        },
-        error => {
-          this.handleError(error);
-        },
-        () => this.loadCurrentTask(this.workflow, urlTaskId),
-      );
-    });
     this.userService.isAdmin$.subscribe(a => {
       this.isAdmin = a;
       this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);
@@ -95,15 +77,103 @@ export class WorkflowComponent implements OnInit {
     });
   }
 
-  get numFiles(): number {
-    return this.study ? this.study.files.length : 0;
-  };
-
   ngOnInit(): void {
     window[`angularComponentReference`] = {
       component: this, zone: this.ngZone, loadAngularFunction: (str: string) => this.angularFunctionCalled(str),
     };
+
+    this.route.paramMap
+      .pipe(filter((p: ParamMap) => p.has('workflow_id')))
+      .pipe(distinctUntilChanged())
+      .subscribe( paramMap => {
+        console.log("ROUTE UPDATED!!!!")
+        this.workflowId = parseInt(paramMap.get('workflow_id'), 10);
+        let urlTaskId = paramMap.get('task_id');
+
+        // Make a different api call, depending on the information provided.
+        let apiRequest = this.api.getWorkflow(this.workflowId)
+        if(urlTaskId) {
+          apiRequest = this.api.setCurrentTaskForWorkflow(this.workflowId, urlTaskId)
+        }
+        this.makeWorkflowRequest(apiRequest, urlTaskId)
+      });
   }
+
+  resetWorkflow(clearData: boolean = false) {
+    this.makeWorkflowRequest(this.api.restartWorkflow(this.workflowId, clearData, clearData))
+  }
+
+  // Manually set the current task (force it).
+  setCurrentTask(taskId: string) {
+    this.makeWorkflowRequest(this.api.setCurrentTaskForWorkflow(this.workflowId, taskId))
+  }
+
+  makeWorkflowRequest(apiRequest:Observable<Workflow>, urlTaskId = null) {
+    this.loading = true
+    apiRequest.subscribe(
+      wf => {
+        this.updateWorkflow(wf)
+      },
+      error => {
+        this.handleError(error);
+        console.log("Do we have a workflow?", this.workflowId)
+        // If this was a reset or specific task request, try just going to the workflow
+        if(urlTaskId){
+          this.router.navigate(['/workflow', this.workflowId])
+        }
+      },
+      () => {
+        this.loading = false;
+      }
+    );
+  }
+
+  updateWorkflow(wf: Workflow) {
+    // Do these things whenever the workflow changes due to an API call
+    // For instance, when completeing a form (as a call back) or loading the page for first time, or resetting ...
+    this.workflow = wf;
+    this.currentTask = this.workflow.next_task;
+    this.loading = false;
+    this.logTaskData(this.currentTask);
+    scrollToTop(this.deviceDetector);
+    let path = "/workflow/" + this.workflowId + "/task/" + this.currentTask.id
+    if (!this.location.isCurrentPathEqualTo(path)) { // Only add to the path if we are going someplace new.
+      this.location.go(path);
+    }
+    // Always refresh the document list, as we might have added files in the last task.
+    if (this.workflow.study_id != null) {
+      this.api.getStudy(this.workflow.study_id).subscribe(res => {
+        res.id = this.workflow.study_id;
+        this.study = res;
+      });
+      this.api.getDocumentDirectory(this.workflow.study_id, this.workflowId).subscribe(dd => {
+        this.dataDictionary = dd;
+      });
+    }
+  }
+
+  workflowUpdatedInForm(wf: Workflow) {
+    this.updateWorkflow(wf)
+    this.redirect_to_study_dashboard_if_we_should()
+  }
+
+  redirect_to_study_dashboard_if_we_should() {
+    // If this is the end of the workflow, redirect to the study menu in 5 seconds
+    if (
+      this.workflow.next_task &&
+      this.workflow.next_task.type === WorkflowTaskType.END_EVENT &&
+      !this.workflow.next_task.documentation) {
+      const redirectSecs = 1;
+      this.workflow.redirect = redirectSecs;
+      setTimeout(() => this.location.back(), redirectSecs * 1000);
+      // Start the countdown
+      this.countdown();
+    }
+  }
+
+  get numFiles(): number {
+    return this.study ? this.study.files.length : 0;
+  };
 
   openDialog(id: string) {
     const element = document.getElementById(id);
@@ -119,7 +189,6 @@ export class WorkflowComponent implements OnInit {
     });
   }
 
-
   angularFunctionCalled(mat: string) {
     this.openDialog(mat);
   }
@@ -130,17 +199,12 @@ export class WorkflowComponent implements OnInit {
     console.log('Encountered an error:' + error);
   }
 
-  navigateUrl() {
-    if (this.currentTask) {
-      this.router.navigate(['workflow', this.workflowId, "task", this.currentTask.id]);
-    }
-  }
-
   completeManualTask(task: WorkflowTask) {
     this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, {}).subscribe(
       updatedWorkflow => {
         console.log('completeManualTask workflow', updatedWorkflow);
-        this.workflowUpdated(updatedWorkflow);
+        this.updateWorkflow(updatedWorkflow)
+        this.redirect_to_study_dashboard_if_we_should()
       },
     );
   }
@@ -156,30 +220,6 @@ export class WorkflowComponent implements OnInit {
       console.groupEnd();
       console.log('Task:', task);
     }
-  }
-
-  workflowUpdated(wf: Workflow) {
-    console.log('workflowUpdated workflow', wf);
-    this.workflow = wf;
-
-    // If this is the end of the workflow, redirect to the study menu in 5 seconds
-    if (
-      this.workflow.next_task &&
-      this.workflow.next_task.type === WorkflowTaskType.END_EVENT &&
-      !this.workflow.next_task.documentation
-    ) {
-      const redirectSecs = 1;
-      this.workflow.redirect = redirectSecs;
-      setTimeout(() => this.location.back(), redirectSecs * 1000);
-
-      // Start the countdown
-      this.countdown();
-    } else {
-      delete this.workflow.redirect;
-    }
-
-    this.currentTask = undefined;
-    this.changeCurrentTask(this.workflow);
   }
 
   isOnlyTask(): boolean {
@@ -216,15 +256,6 @@ export class WorkflowComponent implements OnInit {
     }
   }
 
-  resetWorkflow(clearData: boolean = false, deleteFiles = false) {
-    this.api.restartWorkflow(this.workflowId, clearData, deleteFiles).subscribe(workflow => {
-      console.log('resetWorkflow workflow', workflow);
-      this.snackBar.open(`Your workflow has been reset successfully.`, 'Ok', {duration: 3000});
-      this.workflow = workflow;
-      this.loadCurrentTask(workflow);
-    });
-  }
-
   confirmResetWorkflow() {
     const data: WorkflowResetDialogData = {
       workflowId: this.workflowId,
@@ -239,7 +270,7 @@ export class WorkflowComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((dialogData: WorkflowResetDialogData) => {
       if (dialogData && dialogData.confirm) {
-        this.resetWorkflow(dialogData.clearData, dialogData.deleteFiles);
+        this.resetWorkflow(dialogData.clearData);
       }
     });
   }
@@ -267,58 +298,4 @@ export class WorkflowComponent implements OnInit {
     return currentTask.state === WorkflowTaskState.LOCKED;
   }
 
-  // Manually set the current task (force it).
-  setCurrentTask(taskId: string) {
-    this.loading = true;
-    this.api.setCurrentTaskForWorkflow(this.workflowId, taskId).subscribe(wf => {
-      console.log('setCurrentTask workflow', wf);
-      this.workflow = wf;
-      this.currentTask = wf.next_task;
-      this.navigateUrl();
-      this.loading = false;
-    },
-      (error) => {
-        this.errCounter++;
-        if (this.errCounter < 2) {
-          this.setCurrentTask(this.workflow.next_task.id)
-        } else {
-          this.handleError(error);
-        }
-      }
-    );
-  }
-
-  // Change the current task.
-  changeCurrentTask(wf: Workflow) {
-    this.loading = true;
-    this.workflow = wf;
-    this.currentTask = wf.next_task;
-    this.logTaskData(this.currentTask);
-    scrollToTop(this.deviceDetector);
-    this.loading = false;
-    this.navigateUrl();
-  }
-
-  // Load the current task from an initial load.
-  loadCurrentTask(wf: Workflow, forceTaskId?: string) {
-    this.loading = true;
-    this.workflow = wf;
-    if (this.workflow.study_id != null) {
-      this.api.getDocumentDirectory(this.workflow.study_id, this.workflowId).subscribe(dd => {
-        this.dataDictionary = dd;
-      });
-    }
-    // You are trying to forcibly move to some task
-    if (forceTaskId) {
-      console.log('trying to force task');
-      if (forceTaskId !== wf.next_task.id) {
-        this.setCurrentTask(forceTaskId);
-      } else {
-        this.changeCurrentTask(wf);
-      }
-      // You are loading into a task from init
-    } else {
-      this.changeCurrentTask(wf);
-    }
-  }
 }
