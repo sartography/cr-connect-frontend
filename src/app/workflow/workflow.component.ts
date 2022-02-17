@@ -116,7 +116,6 @@ export class WorkflowComponent implements OnInit {
       },
       error => {
         this.handleError(error);
-        console.log("Do we have a workflow?", this.workflowId)
         // If this was a reset or specific task request, try just going to the workflow
         if(urlTaskId){
           this.router.navigate(['/workflow', this.workflowId])
