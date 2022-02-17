@@ -212,7 +212,7 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
        * form, or that still contains values from a previous form.  */
       this.options.formState = {};
       this.model = cloneDeep(task.data);
-      this.fields = new ToFormlyPipe(this.api).transform(task.form.fields, this.fileParams);
+      this.fields = new ToFormlyPipe(this.api).transform(task.form.fields, this.fileParams, this.model);
       this.showForm = true;
     }
 
