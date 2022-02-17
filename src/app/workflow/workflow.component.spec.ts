@@ -137,8 +137,8 @@ describe('WorkflowComponent', () => {
     fixture = TestBed.createComponent(WorkflowComponent);
     component = fixture.componentInstance;
     mockEnvironment.hideDataPane = true;
-
     fixture.detectChanges();
+    httpMock.expectOne('apiRoot/workflow/0/task/0/set_token')
 
   });
 
@@ -157,7 +157,7 @@ describe('WorkflowComponent', () => {
   it('should change selected task', () => {
     loadDefaultUser(httpMock,component);
     component.setCurrentTask(mockWorkflowTask0.id);
-    expect (mockRouter.navigate).toHaveBeenCalledWith( [ '/workflow', undefined, 'task', '0' ])
+    httpMock.expectOne('apiRoot/workflow/0/task/0/set_token')
   });
 
   it('should update workflow', () => {
@@ -338,8 +338,7 @@ describe('WorkflowComponent', () => {
   it('should reset a workflow', () => {
     loadDefaultUser(httpMock,component);
     component.resetWorkflow();
-    expect (mockRouter.navigate).toHaveBeenCalledWith( [ '/workflow', undefined ],
-      Object({ queryParams: Object({ restart: 'true', clear_data: false}) }));
+    httpMock.expectOne('apiRoot/workflow/0/restart?clear_data=false&delete_files=false')
   });
 
   it('AdminUser with hideDataPane=true should show button', () => {
@@ -355,6 +354,7 @@ describe('WorkflowComponent', () => {
     userReq.flush(mockUser0);
     expect(component.isAdmin).toEqual(true);
     expect(component.showDataPane).toBeTrue();
+    httpMock.expectOne('apiRoot/workflow/0/task/0/set_token')
   });
 
   it('AdminUser with hideDataPane=false should show button', () => {
@@ -370,6 +370,7 @@ describe('WorkflowComponent', () => {
     userReq.flush(mockUser0);
     expect(component.isAdmin).toEqual(true);
     expect(component.showDataPane).toBeTrue();
+    httpMock.expectOne('apiRoot/workflow/0/task/0/set_token')
   });
 
   it('Non-admin user with hideDataPane=false should hide button', () => {
@@ -385,6 +386,7 @@ describe('WorkflowComponent', () => {
     userReq.flush(mockUser1);
     expect(component.isAdmin).toEqual(false);
     expect(component.showDataPane).toBeTrue();
+    httpMock.expectOne('apiRoot/workflow/0/task/0/set_token')
   });
 
   it('should report isOnlyTask', () => {
