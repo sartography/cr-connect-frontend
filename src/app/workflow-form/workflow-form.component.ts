@@ -1,5 +1,5 @@
 import {
-  AfterContentChecked, ChangeDetectorRef,
+  AfterContentChecked, ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -30,6 +30,7 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 
 @Component({
   selector: 'app-workflow-form',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './workflow-form.component.html',
   styleUrls: ['./workflow-form.component.scss'],
   animations: [
