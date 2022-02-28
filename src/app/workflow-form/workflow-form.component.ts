@@ -1,5 +1,5 @@
 import {
-  AfterContentChecked, ChangeDetectorRef,
+  AfterContentChecked, AfterViewInit, ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -69,7 +69,7 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
     ]),
   ],
 })
-export class WorkflowFormComponent implements OnInit, OnChanges {
+export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() task: WorkflowTask;
   @Input() workflow: Workflow;
   @Output() workflowUpdated: EventEmitter<Workflow> = new EventEmitter();
@@ -96,6 +96,10 @@ export class WorkflowFormComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this._loadModel(this.task);
+  }
+
+  ngAfterViewInit() {
+    this.cdref.detectChanges()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
