@@ -6,22 +6,27 @@
 }
 
 .mat-column-level {
-  flex: 0 0 10%;
+  flex: 0 0 5%;
   text-align: center;
 }
 
 .mat-column-code {
-  flex: 0 0 10%;
+  flex: 0 0 5%;
   text-align: center;
 }
 
-.mat-column-workflow_id {
-  flex: 0 0 10%;
+.mat-column-workflow {
+  flex: 0 0 15%;
+  text-align: center;
+}
+
+.mat-column-category {
+  flex: 0 0 15%;
   text-align: center;
 }
 
 .mat-column-message {
-  flex: 0 0 40%;
+  flex: 0 0 30%;
   text-align: left;
   font-weight: bold;
 }

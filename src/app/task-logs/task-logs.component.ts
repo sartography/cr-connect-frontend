@@ -15,7 +15,7 @@ import {fromEvent, merge} from 'rxjs';
 export class TaskLogsComponent implements OnInit, AfterViewInit {
 
   // This determines the columns in our table, and their order.
-  displayedColumns = ["level", "code", "message", "workflow_id",
+  displayedColumns = ["category", "workflow", "level", "code", "message",
   "user_uid", "timestamp"];
   dataSource: TaskLogDataSource;
   query: TaskLogQuery;

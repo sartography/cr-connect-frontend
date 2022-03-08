@@ -28,9 +28,14 @@
       <mat-cell *matCellDef="let log">{{log.code}}</mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="workflow_id">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Workflow #</mat-header-cell>
-      <mat-cell *matCellDef="let log">{{log.workflow_id}}</mat-cell>
+    <ng-container matColumnDef="workflow">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Workflow</mat-header-cell>
+      <mat-cell *matCellDef="let log">{{log.workflow}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="category">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Category</mat-header-cell>
+      <mat-cell *matCellDef="let log">{{log.category}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="user_uid">
