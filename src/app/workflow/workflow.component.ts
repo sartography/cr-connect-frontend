@@ -207,7 +207,7 @@ export class WorkflowComponent implements OnInit {
       !this.workflow.next_task.documentation) {
       const redirectSecs = 1;
       this.workflow.redirect = redirectSecs;
-      setTimeout(() => this.location.back(), redirectSecs * 1000);
+      setTimeout(() => this.goBack(), redirectSecs * 1000);
       // Start the countdown
       this.countdown();
     }
