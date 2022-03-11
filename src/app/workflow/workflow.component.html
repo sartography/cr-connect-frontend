@@ -46,18 +46,20 @@
       </ng-container>
     </div>
 
-    <ng-container *ngIf="!loading; else loadingMessage">
-      <ng-container *ngIf="hasIncompleteUserTask(); else noTask">
-        <app-workflow-form *ngIf="currentTask; else loadingMessage"
-                           [task]="currentTask"
-                           [workflow]="workflow"
-                           [study]="study"
-                           [locked]="isLocked(currentTask)"
-                           (workflowUpdated)="workflowUpdatedInForm($event)"
-                           (apiError)="handleError($event)"
-        ></app-workflow-form>
+    <div [@disableTrigger]="disabledState(currentTask)">
+      <ng-container *ngIf="!loading else loadingMessage">
+        <ng-container *ngIf="hasIncompleteUserTask(); else noTask">
+          <app-workflow-form *ngIf="currentTask; else loadingMessage"
+                             [task]="currentTask"
+                             [workflow]="workflow"
+                             [study]="study"
+                             [locked]="isLocked(currentTask)"
+                             (workflowUpdated)="workflowUpdatedInForm($event)"
+                             (apiError)="handleError($event)"
+          ></app-workflow-form>
+        </ng-container>
       </ng-container>
-    </ng-container>
+    </div>
 
   </mat-sidenav-content>
   <mat-sidenav opened mode="side" position="start" [fixedInViewport]="true" [fixedTopGap]="64">

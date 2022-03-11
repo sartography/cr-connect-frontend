@@ -326,6 +326,14 @@ export class WorkflowComponent implements OnInit {
     }, 1000);
   }
 
+  disabledState(currentTask: WorkflowTask) {
+    if (this.isLocked(currentTask)) {
+      return "disabled"
+    }  else {
+      return "default"
+    }
+  }
+
   isLocked(currentTask: WorkflowTask): boolean {
     if (this.study) {
       if (this.study.status === 'abandoned' ||

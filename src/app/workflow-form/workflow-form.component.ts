@@ -32,42 +32,6 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
   selector: 'app-workflow-form',
   templateUrl: './workflow-form.component.html',
   styleUrls: ['./workflow-form.component.scss'],
-  animations: [
-    trigger('disableTrigger', [
-      state(
-        'default',
-        style({
-          opacity: 1,
-        }),
-      ),
-      state(
-        'disabled',
-        style({
-          opacity: 0.5,
-        }),
-      ),
-      transition('* => *', animate('1000ms ease-out')),
-    ]),
-    trigger('flashTrigger', [
-      state('in', style({
-        height: '200px',
-        opacity: 1,
-        color: 'red',
-      })),
-      transition('* => *', [
-        animate('2s', keyframes([
-          style({opacity: 0.1, color: '000000', offset: 0.1}),
-          style({opacity: 0.3, color: 'red', offset: 0.2}),
-          style({opacity: 0.7, color: 'red', offset: 0.3}),
-          style({opacity: 1.0, color: 'red', offset: 0.4}),
-          style({opacity: 0.3, color: 'red', offset: 0.5}),
-          style({opacity: 0.5, color: 'red', offset: 0.6}),
-          style({opacity: 0.7, color: 'red', offset: 0.7}),
-          style({opacity: 1.0, color: '000000', offset: 0.8}),
-        ])),
-      ]),
-    ]),
-  ],
 })
 export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() task: WorkflowTask;
