@@ -1,22 +1,6 @@
 
 <div *ngIf="task && form; else loadingMessage">
 
-  <div id="lockedMessage" *ngIf="locked" [@flashTrigger]>
-    <mat-icon>lock</mat-icon>
-    This task is locked.
-    <ng-container [ngSwitch]=task.state>
-      <span *ngSwitchCase="taskStates.LOCKED">
-        It must be completed by a different person.
-      </span>
-      <span *ngSwitchCase="taskStates.COMPLETED">
-        It was already completed, and is in a read only state.
-      </span>
-      <span *ngSwitchDefault>
-        This task is not able to be completed.
-      </span>
-    </ng-container>
-  </div>
-
   <div id="form-column" [@disableTrigger]="formViewState">
     <div class="documentation">
       <div markdown [data]="task.documentation">

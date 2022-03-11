@@ -73,6 +73,7 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() task: WorkflowTask;
   @Input() workflow: Workflow;
   @Input() study: Study;
+  @Input() locked: boolean;
   @Output() workflowUpdated: EventEmitter<Workflow> = new EventEmitter();
   @Output() apiError = new EventEmitter();
   form = new FormGroup({});
@@ -85,7 +86,6 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('#jsonCode') jsonCodeElement: ElementRef;
   fileParams: FileParams;
   fields: FormlyFieldConfig[];
-  locked = true;
   activelySaving = false;
   taskStates = WorkflowTaskState;
 
@@ -226,6 +226,7 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
       this.locked = false;
       this.formViewState = 'enabled';
     } else {
+      this.locked = true;
       this.lockForm();
     }
   }
@@ -263,17 +264,12 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   lockForm() {
-    if (this.study) {
-      if (this.study.status === 'abandoned' ||
-      this.study.status === 'cr_connect_complete' ||
-      this.study.status === 'hold') {
-        this.locked = true;
-        this.formViewState = 'disabled';
-        try {
-          this.fields.forEach(f => f.templateOptions.disabled = true);
-        } catch (e) {
-          console.log(e);
-        }
+    if (this.locked) {
+      this.formViewState = 'disabled';
+      try {
+        this.fields.forEach(f => f.templateOptions.disabled = true);
+      } catch (e) {
+        console.log(e);
       }
     }
   }
