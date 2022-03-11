@@ -115,7 +115,7 @@ export class StudiesDashboardComponent {
       showIf: (study) => this.statusIs(study, [StudyStatus.IN_PROGRESS]),
       buttonIcon: 'send',
       buttonLabel: 'Open study to enrollment...',
-      tooltipText: 'Set the status of <study_title> to "Open To Enrollment"',
+      tooltipText: 'Set the status of <study_title> to "IRB Open To Enrollment"',
       dialogTitle: 'Really open <study_title> to enrollment?',
       dialogDescription: `This will open the study to enrollment on the specified launch date.`,
       dialogFormFields: this.enrollmentDateForm(),

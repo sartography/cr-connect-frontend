@@ -27,17 +27,55 @@ import { UserPreferencesService } from '../user-preferences.service';
 import { WorkflowDialogComponent } from '../workflow-dialog/workflow-dialog.component';
 import {debounceTime, distinctUntilChanged, filter, map} from "rxjs/operators";
 import {combineLatest, Observable} from 'rxjs';
+import {animate, keyframes, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-workflow',
   templateUrl: './workflow.component.html',
   styleUrls: ['./workflow.component.scss'],
+  animations: [
+    trigger('disableTrigger', [
+      state(
+        'default',
+        style({
+          opacity: 1,
+        }),
+      ),
+      state(
+        'disabled',
+        style({
+          opacity: 0.5,
+        }),
+      ),
+      transition('* => *', animate('1000ms ease-out')),
+    ]),
+    trigger('flashTrigger', [
+      state('in', style({
+        height: '200px',
+        opacity: 1,
+        color: 'red',
+      })),
+      transition(':enter', [
+        animate('2s', keyframes([
+          style({opacity: 0.1, color: '000000', offset: 0.1}),
+          style({opacity: 0.3, color: 'red', offset: 0.2}),
+          style({opacity: 0.7, color: 'red', offset: 0.3}),
+          style({opacity: 1.0, color: 'red', offset: 0.4}),
+          style({opacity: 0.3, color: 'red', offset: 0.5}),
+          style({opacity: 0.5, color: 'red', offset: 0.6}),
+          style({opacity: 0.7, color: 'red', offset: 0.7}),
+          style({opacity: 1.0, color: '000000', offset: 0.8}),
+        ])),
+      ]),
+    ]),
+  ],
 })
 
 export class WorkflowComponent implements OnInit {
   workflow: Workflow;
   currentTask: WorkflowTask = null;
   study: Study;
+  taskStates = WorkflowTaskState;
   showDataPane: boolean;
   showAdminTools: boolean;
   workflowId: number;
@@ -50,7 +88,6 @@ export class WorkflowComponent implements OnInit {
   isAdmin: boolean;
   error: object;
   errCounter: 0;
-
 
   constructor(
     private route: ActivatedRoute,
@@ -108,8 +145,12 @@ export class WorkflowComponent implements OnInit {
     this.makeWorkflowRequest(this.api.setCurrentTaskForWorkflow(this.workflowId, taskId))
   }
 
+  completeManualTask(task: WorkflowTask) {
+    this.makeWorkflowRequest(this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, {}));
+  }
+
   makeWorkflowRequest(apiRequest:Observable<Workflow>, urlTaskId = null) {
-    this.loading = true
+    this.loading = true;
     apiRequest.subscribe(
       wf => {
         this.updateWorkflow(wf)
@@ -132,7 +173,6 @@ export class WorkflowComponent implements OnInit {
     // For instance, when completeing a form (as a call back) or loading the page for first time, or resetting ...
     this.workflow = wf;
     this.currentTask = this.workflow.next_task;
-    this.loading = false;
     this.logTaskData(this.currentTask);
     scrollToTop(this.deviceDetector);
     let path = "/workflow/" + this.workflowId + "/task/" + this.currentTask.id
@@ -145,10 +185,13 @@ export class WorkflowComponent implements OnInit {
         res.id = this.workflow.study_id;
         this.study = res;
       });
+    }
+    if (this.workflow.study_id != null) {
       this.api.getDocumentDirectory(this.workflow.study_id, this.workflowId).subscribe(dd => {
         this.dataDictionary = dd;
       });
     }
+    this.loading = false;
   }
 
   workflowUpdatedInForm(wf: Workflow) {
@@ -196,16 +239,6 @@ export class WorkflowComponent implements OnInit {
     this.error = error;
     this.currentTask = null;
     console.log('Encountered an error:' + error);
-  }
-
-  completeManualTask(task: WorkflowTask) {
-    this.api.updateTaskDataForWorkflow(this.workflow.id, task.id, {}).subscribe(
-      updatedWorkflow => {
-        console.log('completeManualTask workflow', updatedWorkflow);
-        this.updateWorkflow(updatedWorkflow)
-        this.redirect_to_study_dashboard_if_we_should()
-      },
-    );
   }
 
   logTaskData(task) {
@@ -293,8 +326,23 @@ export class WorkflowComponent implements OnInit {
     }, 1000);
   }
 
+  disabledState(currentTask: WorkflowTask) {
+    if (this.isLocked(currentTask)) {
+      return "disabled"
+    }  else {
+      return "default"
+    }
+  }
+
   isLocked(currentTask: WorkflowTask): boolean {
-    return currentTask.state === WorkflowTaskState.LOCKED;
+    if (this.study) {
+      if (this.study.status === 'abandoned' ||
+        this.study.status === 'cr_connect_complete' ||
+        this.study.status === 'hold' ||
+        currentTask.state === WorkflowTaskState.LOCKED) {
+        return true;
+      } else return false;
+    }
   }
 
 }

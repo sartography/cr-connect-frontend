@@ -30,16 +30,36 @@
       </div>
     </div>
 
-    <ng-container *ngIf="!loading; else loadingMessage">
-      <ng-container *ngIf="hasIncompleteUserTask(); else noTask">
-        <app-workflow-form *ngIf="currentTask; else loadingMessage"
-                           [task]="currentTask"
-                           [workflow]="workflow"
-                           (workflowUpdated)="workflowUpdatedInForm($event)"
-                           (apiError)="handleError($event)"
-        ></app-workflow-form>
+    <div id="lockedMessage" *ngIf="currentTask && isLocked(currentTask)" [@flashTrigger]>
+      <mat-icon>lock</mat-icon>
+      This task is locked.
+      <ng-container [ngSwitch]=currentTask.state>
+        <span *ngSwitchCase="taskStates.LOCKED">
+          It must be completed by a different person.
+        </span>
+        <span *ngSwitchCase="taskStates.COMPLETED">
+          It was already completed, and is in a read only state.
+        </span>
+        <span *ngSwitchDefault>
+          This task is not able to be completed.
+        </span>
       </ng-container>
-    </ng-container>
+    </div>
+
+    <div [@disableTrigger]="disabledState(currentTask)">
+      <ng-container *ngIf="!loading else loadingMessage">
+        <ng-container *ngIf="hasIncompleteUserTask(); else noTask">
+          <app-workflow-form *ngIf="currentTask; else loadingMessage"
+                             [task]="currentTask"
+                             [workflow]="workflow"
+                             [study]="study"
+                             [locked]="isLocked(currentTask)"
+                             (workflowUpdated)="workflowUpdatedInForm($event)"
+                             (apiError)="handleError($event)"
+          ></app-workflow-form>
+        </ng-container>
+      </ng-container>
+    </div>
 
   </mat-sidenav-content>
   <mat-sidenav opened mode="side" position="start" [fixedInViewport]="true" [fixedTopGap]="64">
@@ -143,6 +163,7 @@
       </ng-container>
 
       <button
+        [disabled]="isLocked(currentTask)"
         *ngIf="currentTask.type === taskTypes.MANUAL_TASK"
         (click)="completeManualTask(currentTask)"
         color="primary"
