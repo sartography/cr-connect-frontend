@@ -222,18 +222,11 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
       this.showForm = true;
     }
 
-    if (task && task.state === WorkflowTaskState.READY)
-    {
+    if (task && task.state === WorkflowTaskState.READY) {
       this.locked = false;
       this.formViewState = 'enabled';
     } else {
-      this.locked = true;
-      this.formViewState = 'disabled';
-      try {
-        this.fields.forEach(f => f.templateOptions.disabled = true);
-      } catch(e) {
-        console.log(e);
-      }
+      this.lockForm();
     }
   }
 

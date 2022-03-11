@@ -144,6 +144,7 @@
       </ng-container>
 
       <button
+        [disabled]="isLocked(currentTask)"
         *ngIf="currentTask.type === taskTypes.MANUAL_TASK"
         (click)="completeManualTask(currentTask)"
         color="primary"
