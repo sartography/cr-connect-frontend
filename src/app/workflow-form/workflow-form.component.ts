@@ -15,7 +15,7 @@ import { cloneDeep } from 'lodash';
 import {
   ApiService,
   FileParams,
-  MultiInstanceType,
+  MultiInstanceType, Study,
   ToFormlyPipe,
   Workflow,
   WorkflowNavItem,
@@ -72,6 +72,7 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() task: WorkflowTask;
   @Input() workflow: Workflow;
+  @Input() study: Study;
   @Output() workflowUpdated: EventEmitter<Workflow> = new EventEmitter();
   @Output() apiError = new EventEmitter();
   form = new FormGroup({});
@@ -106,6 +107,7 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
     if (changes.task && changes.task.currentValue) {
       this._loadModel(changes.task.currentValue);
     }
+    this.lockForm();
   }
 
   /*
@@ -220,7 +222,8 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
       this.showForm = true;
     }
 
-    if (task && task.state === WorkflowTaskState.READY) {
+    if (task && task.state === WorkflowTaskState.READY)
+    {
       this.locked = false;
       this.formViewState = 'enabled';
     } else {
@@ -264,5 +267,21 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
       parentElement = parentElement.parentElement;
     }
     return parentElement;
+  }
+
+  lockForm() {
+    if (this.study) {
+      if (this.study.status === 'abandoned' ||
+      this.study.status === 'cr_connect_complete' ||
+      this.study.status === 'hold') {
+        this.locked = true;
+        this.formViewState = 'disabled';
+        try {
+          this.fields.forEach(f => f.templateOptions.disabled = true);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
   }
 }

@@ -35,6 +35,7 @@
         <app-workflow-form *ngIf="currentTask; else loadingMessage"
                            [task]="currentTask"
                            [workflow]="workflow"
+                           [study]="study"
                            (workflowUpdated)="workflowUpdatedInForm($event)"
                            (apiError)="handleError($event)"
         ></app-workflow-form>

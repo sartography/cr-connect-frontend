@@ -145,6 +145,8 @@ export class WorkflowComponent implements OnInit {
         res.id = this.workflow.study_id;
         this.study = res;
       });
+    }
+    if (this.workflow.study_id != null) {
       this.api.getDocumentDirectory(this.workflow.study_id, this.workflowId).subscribe(dd => {
         this.dataDictionary = dd;
       });
