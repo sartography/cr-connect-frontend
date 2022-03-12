@@ -13,6 +13,7 @@
   <mat-form-field>
     <input matInput placeholder="Filter on User" #user>
   </mat-form-field>
+  <button mat-raised-button>Download</button>
 
   <mat-table class="task-log-table" [dataSource]="dataSource"
              matSort matSortActive="timestamp" matSortDirection="desc" matSortDisableClear>

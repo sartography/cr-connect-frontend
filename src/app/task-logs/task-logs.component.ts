@@ -6,6 +6,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {debounceTime, distinctUntilChanged, tap} from 'rxjs/operators';
 import {MatSort} from '@angular/material/sort';
 import {fromEvent, merge} from 'rxjs';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-task-logs',
