@@ -6,6 +6,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {debounceTime, distinctUntilChanged, tap} from 'rxjs/operators';
 import {MatSort} from '@angular/material/sort';
 import {fromEvent, merge} from 'rxjs';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-task-logs',
@@ -15,16 +16,18 @@ import {fromEvent, merge} from 'rxjs';
 export class TaskLogsComponent implements OnInit, AfterViewInit {
 
   // This determines the columns in our table, and their order.
-  displayedColumns = ["level", "code", "message", "workflow_id",
+  displayedColumns = ["category", "workflow", "level", "code", "message",
   "user_uid", "timestamp"];
   dataSource: TaskLogDataSource;
   query: TaskLogQuery;
+  spreadsheetUrl: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('level') filter_level: ElementRef;
   @ViewChild('code') filter_code: ElementRef;
   @ViewChild('user') filter_user: ElementRef;
+
 
   @Input()
   studyId: number;
@@ -80,5 +83,8 @@ export class TaskLogsComponent implements OnInit, AfterViewInit {
     this.dataSource.loadTaskLogs(this.studyId, this.query);
   }
 
+  downloadSpreadsheet() {
+    window.location.href=this.query.download_url
+  }
 }
 
