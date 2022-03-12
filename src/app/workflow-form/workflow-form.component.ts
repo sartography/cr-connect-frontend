@@ -15,7 +15,7 @@ import { cloneDeep } from 'lodash';
 import {
   ApiService,
   FileParams,
-  MultiInstanceType,
+  MultiInstanceType, Study,
   ToFormlyPipe,
   Workflow,
   WorkflowNavItem,
@@ -32,46 +32,12 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
   selector: 'app-workflow-form',
   templateUrl: './workflow-form.component.html',
   styleUrls: ['./workflow-form.component.scss'],
-  animations: [
-    trigger('disableTrigger', [
-      state(
-        'default',
-        style({
-          opacity: 1,
-        }),
-      ),
-      state(
-        'disabled',
-        style({
-          opacity: 0.5,
-        }),
-      ),
-      transition('* => *', animate('1000ms ease-out')),
-    ]),
-    trigger('flashTrigger', [
-      state('in', style({
-        height: '200px',
-        opacity: 1,
-        color: 'red',
-      })),
-      transition('* => *', [
-        animate('2s', keyframes([
-          style({opacity: 0.1, color: '000000', offset: 0.1}),
-          style({opacity: 0.3, color: 'red', offset: 0.2}),
-          style({opacity: 0.7, color: 'red', offset: 0.3}),
-          style({opacity: 1.0, color: 'red', offset: 0.4}),
-          style({opacity: 0.3, color: 'red', offset: 0.5}),
-          style({opacity: 0.5, color: 'red', offset: 0.6}),
-          style({opacity: 0.7, color: 'red', offset: 0.7}),
-          style({opacity: 1.0, color: '000000', offset: 0.8}),
-        ])),
-      ]),
-    ]),
-  ],
 })
 export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() task: WorkflowTask;
   @Input() workflow: Workflow;
+  @Input() study: Study;
+  @Input() locked: boolean;
   @Output() workflowUpdated: EventEmitter<Workflow> = new EventEmitter();
   @Output() apiError = new EventEmitter();
   form = new FormGroup({});
@@ -84,7 +50,6 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('#jsonCode') jsonCodeElement: ElementRef;
   fileParams: FileParams;
   fields: FormlyFieldConfig[];
-  locked = true;
   activelySaving = false;
   taskStates = WorkflowTaskState;
 
@@ -106,6 +71,7 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
     if (changes.task && changes.task.currentValue) {
       this._loadModel(changes.task.currentValue);
     }
+    this.lockForm();
   }
 
   /*
@@ -225,12 +191,7 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
       this.formViewState = 'enabled';
     } else {
       this.locked = true;
-      this.formViewState = 'disabled';
-      try {
-        this.fields.forEach(f => f.templateOptions.disabled = true);
-      } catch(e) {
-        console.log(e);
-      }
+      this.lockForm();
     }
   }
 
@@ -264,5 +225,16 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
       parentElement = parentElement.parentElement;
     }
     return parentElement;
+  }
+
+  lockForm() {
+    if (this.locked) {
+      this.formViewState = 'disabled';
+      try {
+        this.fields.forEach(f => f.templateOptions.disabled = true);
+      } catch (e) {
+        console.log(e);
+      }
+    }
   }
 }
