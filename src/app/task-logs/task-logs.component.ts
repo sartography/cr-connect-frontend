@@ -20,12 +20,14 @@ export class TaskLogsComponent implements OnInit, AfterViewInit {
   "user_uid", "timestamp"];
   dataSource: TaskLogDataSource;
   query: TaskLogQuery;
+  spreadsheetUrl: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('level') filter_level: ElementRef;
   @ViewChild('code') filter_code: ElementRef;
   @ViewChild('user') filter_user: ElementRef;
+
 
   @Input()
   studyId: number;
@@ -81,5 +83,8 @@ export class TaskLogsComponent implements OnInit, AfterViewInit {
     this.dataSource.loadTaskLogs(this.studyId, this.query);
   }
 
+  downloadSpreadsheet() {
+    window.location.href=this.query.download_url
+  }
 }
 

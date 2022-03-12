@@ -4,16 +4,18 @@
     <mat-spinner></mat-spinner>
   </div>
 
-  <mat-form-field>
-    <input matInput placeholder="Filter on Level" #level>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Filter on Code" #code>
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Filter on User" #user>
-  </mat-form-field>
-  <button mat-raised-button>Download</button>
+  <div class="buttons">
+    <mat-form-field>
+      <input matInput placeholder="Filter on Level" #level>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Filter on Code" #code>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Filter on User" #user>
+    </mat-form-field>
+    <button mat-raised-button (click)="downloadSpreadsheet()">Download</button>
+  </div>
 
   <mat-table class="task-log-table" [dataSource]="dataSource"
              matSort matSortActive="timestamp" matSortDirection="desc" matSortDisableClear>

@@ -289,9 +289,13 @@ export class WorkflowComponent implements OnInit {
   }
 
   confirmResetWorkflow() {
+    let name = ""
+    if(this.workflow) {
+      name = this.workflow.title
+    }
     const data: WorkflowResetDialogData = {
       workflowId: this.workflowId,
-      name: this.workflow.title,
+      name: name,
     };
 
     const config = new MatDialogConfig();
@@ -339,7 +343,7 @@ export class WorkflowComponent implements OnInit {
       if (this.study.status === 'abandoned' ||
         this.study.status === 'cr_connect_complete' ||
         this.study.status === 'hold' ||
-        currentTask.state === WorkflowTaskState.LOCKED) {
+        (currentTask && currentTask.state === WorkflowTaskState.LOCKED)) {
         return true;
       } else return false;
     }
