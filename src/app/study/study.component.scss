@@ -11,6 +11,7 @@
 }
 
 .study-metadata-title{
+  margin: 0;
   max-width: 1400px;
 }
 
@@ -18,7 +19,7 @@
 .study-metadata {
   color: white;
   padding: 0;
-  margin: 0rem 2rem;
+  margin: 0 2rem 0;
 
   h1,
   ::ng-deep .mat-list-base[dense] .mat-list-item .mat-list-item-content,
@@ -33,6 +34,7 @@
 
   dl {
     list-style: none;
+    margin-top: 0;
 
     dt {
       margin-right: 0.5rem;
