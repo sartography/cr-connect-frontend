@@ -25,7 +25,6 @@ import {
 import {FormlyFieldConfig, FormlyFormOptions} from '@ngx-formly/core';
 import { Location } from '@angular/common';
 import * as setObjectProperty from 'lodash/set';
-import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 
 
 @Component({

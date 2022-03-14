@@ -1,7 +1,7 @@
 
 <div *ngIf="task && form; else loadingMessage">
 
-  <div id="form-column" [@disableTrigger]="formViewState">
+  <div id="form-column">
     <div class="documentation">
       <div markdown [data]="task.documentation">
       </div>
