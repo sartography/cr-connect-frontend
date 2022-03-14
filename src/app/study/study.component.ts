@@ -7,7 +7,7 @@ import {
   StudyStatus,
   StudyStatusLabels,
   Study,
-  Workflow, StudyAssociate, UserService
+  Workflow, StudyAssociate, UserService, ProgressStatusLabels, ProgressStatus
 } from 'sartography-workflow-lib';
 import {UserPreferencesService} from '../user-preferences.service';
 
@@ -73,6 +73,10 @@ export class StudyComponent implements OnInit {
 
   getStatusLabel(status: StudyStatus) {
     return StudyStatusLabels[status.toUpperCase()];
+  }
+
+  getProgressStatusLabel(status: ProgressStatus) {
+    return ProgressStatusLabels[status.toUpperCase()];
   }
 
   selectWorkflow(workflowId: number) {

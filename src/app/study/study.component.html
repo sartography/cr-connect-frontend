@@ -1,11 +1,15 @@
-<div *ngIf="!loading && study; else loadingMessage" class="study-container"><
+<div *ngIf="!loading && study; else loadingMessage" class="study-container">
+  <div class="study-metadata">
+    <dl fxLayout="row">
+      <dt>Study Progress:</dt><dd>{{getProgressStatusLabel(study.progress_status)}}</dd>
+    </dl>
+  </div>
   <div class="class" fxLayout="row">
     <mat-divider vertical></mat-divider>
     <div class="study-metadata">
       <h1 title="{{shrink(160,study.title,study.short_title)}}" class="study-metadata-title"></h1>
       <dl fxLayout="row">
         <dt>ID:</dt><dd>{{study.id}}</dd>
-<!--        TODO: Use Filter Pipe Instead-->
         <ng-container *ngIf="PI">
         <dt>PI:</dt><dd >{{PI.ldap_info.display_name}}</dd>
         </ng-container>
