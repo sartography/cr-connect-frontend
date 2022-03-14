@@ -18,6 +18,11 @@
 .disable-link{
   pointer-events: none;
 }
+
+.mat-card-title {
+  margin-bottom: 0;
+}
+
 .mat-card-title-main {
   color: white;
   border-radius: 10px 10px 0px 0px;
