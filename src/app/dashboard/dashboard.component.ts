@@ -2,13 +2,13 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   isNumberDefined,
-  Study, UserService,
+  Study, UserService, WorkflowCategoryMetadata,
   WorkflowMetadata,
   WorkflowSpecCategory,
   WorkflowState,
   WorkflowStatus,
 } from 'sartography-workflow-lib';
-import {shouldDisplayWorkflow} from '../_util/nav-item';
+import {shouldDisplayItem} from '../_util/nav-item';
 import {UserPreferencesService} from "../user-preferences.service";
 
 
@@ -129,8 +129,8 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  workflowsToShow(workflowListItems: WorkflowMetadata[]) {
-    return workflowListItems.filter(wf => shouldDisplayWorkflow(wf));
+  workflowsToShow(listItem: (WorkflowMetadata | WorkflowCategoryMetadata)[]) {
+    return listItem.filter(i => shouldDisplayItem(i));
   }
 
   allComplete(cat: WorkflowSpecCategory) {

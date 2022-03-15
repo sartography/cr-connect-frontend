@@ -340,12 +340,10 @@ export class WorkflowComponent implements OnInit {
 
   isLocked(currentTask: WorkflowTask): boolean {
     if (this.study) {
-      if (this.study.status === 'abandoned' ||
+      return this.study.status === 'abandoned' ||
         this.study.status === 'cr_connect_complete' ||
         this.study.status === 'hold' ||
-        (currentTask && currentTask.state === WorkflowTaskState.LOCKED)) {
-        return true;
-      } else return false;
+        (currentTask && currentTask.state === WorkflowTaskState.LOCKED);
     }
   }
 
