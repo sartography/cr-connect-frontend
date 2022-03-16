@@ -1,8 +1,9 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-  isNumberDefined,
-  Study, UserService, WorkflowCategoryMetadata,
+  Study,
+  UserService,
+  WorkflowCategoryMetadata,
   WorkflowMetadata,
   WorkflowSpecCategory,
   WorkflowState,
@@ -58,6 +59,7 @@ export class DashboardComponent implements OnInit {
           .sort((a, b) => (a.display_order < b.display_order) ? -1 : 1);
         return cat;
       })
+      .filter(cat=> cat.meta.state !== WorkflowState.HIDDEN)
       .filter(cat => cat.workflows.length > 0);
 
     this.route.queryParamMap.subscribe(qParams => {
@@ -65,7 +67,6 @@ export class DashboardComponent implements OnInit {
       const wfIdStr = qParams.get('workflow');
       const catId = catIdStr ? parseInt(catIdStr, 10) : undefined;
       const wfId = wfIdStr ? parseInt(wfIdStr, 10) : undefined;
-      this.selectCategory(null, catId, wfId);
     });
   }
 
@@ -99,36 +100,6 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  selectCategory($event?: MouseEvent, categoryId?: number, workflowId?: number) {
-    if ($event && $event instanceof (MouseEvent)) {
-      $event.stopPropagation();
-    }
-
-    if (isNumberDefined(categoryId) && isNumberDefined(workflowId)) {
-      if (this.categoryTabs && this.categoryTabs.length > 0) {
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: {category: categoryId, workflow: workflowId},
-        }).then(() => {
-          this.selectedWorkflowId = workflowId;
-        });
-      }
-    } else if (isNumberDefined(categoryId)) {
-      if (this.categoryTabs && this.categoryTabs.length > 0) {
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: {category: categoryId},
-        }).then(() => {
-        });
-      }
-    } else {
-      this.router.navigate([], {
-        relativeTo: this.route,
-      }).then(() => {
-      });
-    }
-  }
-
   workflowsToShow(listItem: (WorkflowMetadata | WorkflowCategoryMetadata)[]) {
     return listItem.filter(i => shouldDisplayItem(i));
   }
@@ -136,4 +107,5 @@ export class DashboardComponent implements OnInit {
   allComplete(cat: WorkflowSpecCategory) {
     return cat.workflows.every(wf => wf.status === WorkflowStatus.COMPLETE);
   }
+
 }
