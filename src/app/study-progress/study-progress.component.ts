@@ -6,36 +6,10 @@ import {Study, WorkflowStatus} from 'sartography-workflow-lib';
   templateUrl: './study-progress.component.html',
   styleUrls: ['./study-progress.component.scss']
 })
-export class StudyProgressComponent implements OnInit {
+export class StudyProgressComponent {
   @Input() study: Study;
   numCompletedWorkflows: number;
-  numTotalWorkflows: number;
-  percentComplete: number;
 
   constructor() {
-  }
-
-  ngOnInit() {
-    this.calculatePercentComplete();
-  }
-
-  calculatePercentComplete() {
-    this.numCompletedWorkflows = 0;
-    this.numTotalWorkflows = 0;
-    this.percentComplete = 0;
-    this.study.categories.forEach(cat => {
-      if (cat.workflows) {
-        cat.workflows.forEach(wf => {
-          if (wf.status === WorkflowStatus.COMPLETE) {
-            this.numCompletedWorkflows += 1;
-          }
-          this.numTotalWorkflows += 1;
-        });
-      }
-    });
-
-    if (this.numCompletedWorkflows > 0) {
-      this.percentComplete = Math.floor(this.numCompletedWorkflows / this.numTotalWorkflows * 100);
-    }
   }
 }

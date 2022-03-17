@@ -1,11 +1,10 @@
-<div *ngIf="numTotalWorkflows > 0; else loadingMessage" fxLayout="column" class="tasks-complete">
+<div fxLayout="column" class="tasks-complete">
 
   <div fxFlex="100">
     <div
       class="percent-complete"
-      [ngStyle]="{width: percentComplete + '%'}"
+      [ngStyle]="{width: this.study.progress + '%'}"
     >&nbsp;</div>
   </div>
 </div>
 
-<ng-template #loadingMessage><app-loading [showSpinner]="false"></app-loading></ng-template>
