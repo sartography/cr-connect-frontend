@@ -67,13 +67,6 @@ export class DashboardComponent implements OnInit {
           }
           return meta;
         });
-
-    this.route.queryParamMap.subscribe(qParams => {
-      const catIdStr = qParams.get('category');
-      const wfIdStr = qParams.get('workflow');
-      const catId = catIdStr ? parseInt(catIdStr, 10) : undefined;
-      const wfId = wfIdStr ? parseInt(wfIdStr, 10) : undefined;
-    });
   }
 
   workflowsToShow(listItem: WorkflowMetadata[]) {
