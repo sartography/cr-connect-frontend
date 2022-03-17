@@ -53,7 +53,8 @@ describe('DashboardComponent', () => {
     fixture.detectChanges();
 
     expect(component.categoryTabs).toBeTruthy();
-    expect(component.categoryTabs.length).toEqual(mockWorkflowSpecCategories.length);
+    // Subtract one because the last category is hidden
+    expect(component.categoryTabs.length).toEqual(mockWorkflowSpecCategories.length - 1);
   });
 
   it('should create', () => {
@@ -62,12 +63,8 @@ describe('DashboardComponent', () => {
 
   it('should filter out hidden categories', () => {
     expect(component.categoryTabs).toBeDefined();
-    mockWorkflowSpecCategory0.meta = mockCategoryMetaData;
-    fixture.detectChanges();
-    console.log(component.categoryTabs[0].meta.state);
-    fixture.whenStable().then(() => {
-      expect(component.categoryTabs.length).toEqual(3);
-    });
+    expect(component.categoryTabs.length).toEqual(3);
+    expect(component.categoryTabs[3]).toEqual(undefined);
   })
 
 });
