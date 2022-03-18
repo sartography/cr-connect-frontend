@@ -12,9 +12,10 @@ import {
   mockWorkflowSpecCategories,
   mockWorkflowMeta0, mockWorkflowMeta1,
   WorkflowState,
-  WorkflowStatus, ApiService, MockEnvironment
+  WorkflowStatus, ApiService, MockEnvironment, mockWorkflowSpecCategory0, mockCategoryMetaData
 } from 'sartography-workflow-lib';
 import {DashboardComponent} from './dashboard.component';
+import {browser} from "protractor";
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -52,30 +53,18 @@ describe('DashboardComponent', () => {
     fixture.detectChanges();
 
     expect(component.categoryTabs).toBeTruthy();
-    expect(component.categoryTabs.length).toEqual(mockWorkflowSpecCategories.length);
+    // Subtract one because the last category is hidden
+    expect(component.categoryTabs.length).toEqual(mockWorkflowSpecCategories.length - 1);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get state label', () => {
-    mockWorkflowMeta0.state = null;
-    expect(component.getStateLabel(mockWorkflowMeta0)).toBeUndefined();
+  it('should filter out hidden categories', () => {
+    expect(component.categoryTabs).toBeDefined();
+    expect(component.categoryTabs.length).toEqual(3);
+    expect(component.categoryTabs[3]).toEqual(undefined);
+  })
 
-    Object.keys(WorkflowState).forEach(k => {
-      mockWorkflowMeta0.state = WorkflowState[k];
-      expect(component.getStateLabel(mockWorkflowMeta0)).toBeDefined();
-    });
-  });
-
-  it('should get status label', () => {
-    mockWorkflowMeta1.status = null;
-    expect(component.getStatusLabel(mockWorkflowMeta1)).toBeUndefined();
-
-    Object.keys(WorkflowStatus).forEach(k => {
-      mockWorkflowMeta1.status = WorkflowStatus[k];
-      expect(component.getStatusLabel(mockWorkflowMeta1)).toBeDefined();
-    });
-  });
 });

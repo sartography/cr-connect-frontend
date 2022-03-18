@@ -1,14 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-  isNumberDefined,
-  Study, UserService,
+  Study,
+  UserService,
   WorkflowMetadata,
   WorkflowSpecCategory,
   WorkflowState,
   WorkflowStatus,
 } from 'sartography-workflow-lib';
-import {shouldDisplayWorkflow} from '../_util/nav-item';
+import {shouldDisplayItem} from '../_util/nav-item';
 import {UserPreferencesService} from "../user-preferences.service";
 
 
@@ -53,87 +53,23 @@ export class DashboardComponent implements OnInit {
       .sort((a, b) => (a.display_order < b.display_order) ? -1 : 1)
       .map(cat => {
         cat.workflows = cat.workflows
-      // testing    .map(wf=>this.assignRandomStuff(wf) )
+          // testing    .map(wf=>this.assignRandomStuff(wf) )
           .filter(wf => wf.state !== WorkflowState.HIDDEN)
           .sort((a, b) => (a.display_order < b.display_order) ? -1 : 1);
         return cat;
       })
-      .filter(cat => cat.workflows.length > 0);
-
-    this.route.queryParamMap.subscribe(qParams => {
-      const catIdStr = qParams.get('category');
-      const wfIdStr = qParams.get('workflow');
-      const catId = catIdStr ? parseInt(catIdStr, 10) : undefined;
-      const wfId = wfIdStr ? parseInt(wfIdStr, 10) : undefined;
-      this.selectCategory(null, catId, wfId);
-    });
-  }
-
-  getStatusLabel(workflow: WorkflowMetadata) {
-    switch (workflow.status) {
-      case WorkflowStatus.NOT_STARTED:
-        return 'Not started';
-      case WorkflowStatus.USER_INPUT_REQUIRED:
-        return `${workflow.completed_tasks} / ${workflow.total_tasks} tasks complete`;
-      case WorkflowStatus.COMPLETE:
-        return 'Complete';
-      case WorkflowStatus.WAITING:
-        return 'Waiting...';
-      default:
-        return;
-    }
-  }
-
-  getStateLabel(workflow: WorkflowMetadata) {
-    switch (workflow.state) {
-      case WorkflowState.HIDDEN:
-        return '';
-      case WorkflowState.OPTIONAL:
-        return 'Optional';
-      case WorkflowState.REQUIRED:
-        return 'Required';
-      case WorkflowState.DISABLED:
-        return 'Waiting...';
-      default:
-        return;
-    }
-  }
-
-  selectCategory($event?: MouseEvent, categoryId?: number, workflowId?: number) {
-    if ($event && $event instanceof (MouseEvent)) {
-      $event.stopPropagation();
-    }
-
-    if (isNumberDefined(categoryId) && isNumberDefined(workflowId)) {
-      if (this.categoryTabs && this.categoryTabs.length > 0) {
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: {category: categoryId, workflow: workflowId},
-        }).then(() => {
-          this.selectedWorkflowId = workflowId;
+      .filter(cat => cat.workflows.length > 0)
+      // If a category metadata is provided, filter out the hidden categories
+      .filter(cat => {
+          let meta = true;
+          if (cat.meta) {
+            meta = cat.meta.state !== WorkflowState.HIDDEN
+          }
+          return meta;
         });
-      }
-    } else if (isNumberDefined(categoryId)) {
-      if (this.categoryTabs && this.categoryTabs.length > 0) {
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: {category: categoryId},
-        }).then(() => {
-        });
-      }
-    } else {
-      this.router.navigate([], {
-        relativeTo: this.route,
-      }).then(() => {
-      });
-    }
   }
 
-  workflowsToShow(workflowListItems: WorkflowMetadata[]) {
-    return workflowListItems.filter(wf => shouldDisplayWorkflow(wf));
-  }
-
-  allComplete(cat: WorkflowSpecCategory) {
-    return cat.workflows.every(wf => wf.status === WorkflowStatus.COMPLETE);
+  workflowsToShow(listItem: WorkflowMetadata[]) {
+    return listItem.filter(i => shouldDisplayItem(i));
   }
 }
