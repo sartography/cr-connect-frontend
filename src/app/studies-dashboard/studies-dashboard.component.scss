@@ -194,3 +194,23 @@ mat-panel-title.mat-h2 {
   border: 1px solid $brand-accent-muted;
 
 }
+
+.tasks-complete {
+  border-bottom: 4px solid $brand-gray-light;
+  position: relative;
+
+}
+
+.percent-complete {
+  display: block;
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  background-color: $brand-accent;
+  height: 4px;
+  font-weight: 700;
+  color: white;
+  line-height: 20px;
+  text-align: right;
+  padding-right: 4px;
+}

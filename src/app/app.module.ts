@@ -62,7 +62,6 @@ import {ProfileComponent} from './profile/profile.component';
 import {StudiesDashboardComponent} from './studies-dashboard/studies-dashboard.component';
 import {ApprovalDialogComponent} from './_dialogs/approval-dialog/approval-dialog.component';
 import {StudiesComponent} from './studies/studies.component';
-import {StudyProgressComponent} from './study-progress/study-progress.component';
 import {StudyEventsComponent} from './study-events/study-events.component';
 import {StudyComponent} from './study/study.component';
 import {WorkflowFilesComponent} from './workflow-files/workflow-files.component';
@@ -192,7 +191,6 @@ export function markedOptionsFactory(): MarkedOptions {
     ProfileComponent,
     StudiesComponent,
     StudyComponent,
-    StudyProgressComponent,
     StudyEventsComponent,
     WorkflowComponent,
     WorkflowFilesComponent,
