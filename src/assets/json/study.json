@@ -5,7 +5,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -14,7 +14,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -23,7 +23,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -32,7 +32,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -41,7 +41,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -50,7 +50,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -59,7 +59,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -68,7 +68,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -77,7 +77,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -86,7 +86,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -95,7 +95,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -104,7 +104,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -113,7 +113,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -122,7 +122,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -131,7 +131,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -140,7 +140,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -149,7 +149,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -158,7 +158,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -167,7 +167,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -176,7 +176,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -185,7 +185,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -194,7 +194,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -203,7 +203,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -212,7 +212,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -221,7 +221,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -230,7 +230,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -239,7 +239,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -248,7 +248,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -257,7 +257,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -266,7 +266,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -275,7 +275,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -284,7 +284,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -293,7 +293,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -302,7 +302,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -311,7 +311,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -320,7 +320,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -329,7 +329,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -338,7 +338,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -347,7 +347,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -356,7 +356,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -365,7 +365,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -374,7 +374,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -383,7 +383,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -392,7 +392,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -401,7 +401,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -410,7 +410,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   },
   {
@@ -419,7 +419,7 @@
     "protocol_builder_status": "in_process",
     "ind_number": "12345",
     "last_updated": "2019-12-06T17:42:40.429Z",
-    "primary_investigator_id": "PIComputingId",
+    "primary_investigator": "PIComputingId",
     "sponsor": "Sponsor Name"
   }
 ]

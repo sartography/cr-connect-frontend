@@ -113,6 +113,10 @@
           <th  scope="col" *matHeaderCellDef mat-header-cell  id="col_study_title"> Study Title</th>
           <td *matCellDef="let study" class="study-blue" mat-cell title="{{study.title}}"> {{shrink(120,study.title,study.short_title)}} </td>
         </ng-container>
+        <ng container matColumnDef="investigator">
+          <th scope="col" *matHeaderCellDef mat-header-cell id="col_study_title"> Principal Investigator</th>
+          <td *matCellDef="let study" class="study-blue" mat-cell>{{study.primary_investigator}}</td>
+        </ng>
 
         <ng-container matColumnDef="status">
           <th scope="col" *matHeaderCellDef mat-header-cell id="col_status"> Status</th>
@@ -124,25 +128,31 @@
               <div class="in-progress-study">
                 {{getProgressStatus(study).toUpperCase()}}
               </div>
-              <app-study-progress [study]="study"></app-study-progress>
+                <div fxLayout="column" class="tasks-complete">
+                  <div fxFlex="100">
+                    <div
+                      class="percent-complete"
+                      [ngStyle]="{width: study.progress + '%'}">&nbsp;
+                    </div>
+              </div>
+            </div>
             </div>
             <div *ngIf="studyStatusDisplayType(study)==='Irb'">
               <div class = "irb-study">
                 {{getIrbHsrStatus(study).toUpperCase()}}
               </div>
-              <app-study-progress [study]="study"></app-study-progress>
+              <div fxLayout="column" class="tasks-complete">
+                  <div fxFlex="100">
+                    <div
+                      class="percent-complete"
+                      [ngStyle]="{width: study.progress + '%'}">&nbsp;
+                    </div>
+                </div>
+            </div>
             </div>
 
           </td>
         </ng-container>
-
-        <ng-container matColumnDef="reviews_complete">
-          <th  scope="col" *matHeaderCellDef mat-header-cell id="col_Reviews_complete">Reviews</th>
-          <td *matCellDef="let study" mat-cell>
-            <app-review-progress [study]="study"></app-review-progress>
-          </td>
-        </ng-container>
-
         <ng-container matColumnDef="updated">
           <th  scope="col" *matHeaderCellDef mat-header-cell id="col_updated">Updated</th>
           <td *matCellDef="let study" mat-cell>

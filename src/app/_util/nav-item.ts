@@ -1,15 +1,22 @@
-import {NavItemType, WorkflowNavItem, WorkflowState, WorkflowMetadata, WorkflowTaskState} from 'sartography-workflow-lib';
+import {
+  NavItemType,
+  WorkflowNavItem,
+  WorkflowState,
+  WorkflowMetadata,
+  WorkflowTaskState,
+  WorkflowCategoryMetadata
+} from 'sartography-workflow-lib';
 
-
-export const shouldDisplayWorkflow = (workflowListItem: WorkflowMetadata): boolean => {
+// Decides which categories and workflows to display
+export const shouldDisplayItem= (listItem: WorkflowMetadata|WorkflowCategoryMetadata): boolean => {
   const hideTypes = [
     // removed disabled state per Alex - we need to display them and show them as being disabled instead.
     WorkflowState.HIDDEN,
   ];
   return (
-    workflowListItem &&
-    workflowListItem.state &&
-    !hideTypes.includes(workflowListItem.state)
+    listItem &&
+    listItem.state &&
+    !hideTypes.includes(<WorkflowState>listItem.state)
   );
 };
 
