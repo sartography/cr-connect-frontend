@@ -252,7 +252,7 @@ export class StudiesDashboardComponent {
 
   loadTaskEvents() {
     this.api
-      .getTaskEvents(TaskAction.ASSIGNMENT)
+      .getTaskEvents(TaskAction.ASSIGNMENT, true)
       .subscribe(t => {
         this.approvalsDataSource = new MatTableDataSource(t);
         this.approvalsDataSource.paginator = this.paginator;
