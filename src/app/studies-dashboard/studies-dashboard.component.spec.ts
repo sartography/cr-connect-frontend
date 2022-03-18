@@ -105,7 +105,7 @@ describe('StudiesDashboardComponent', () => {
     component.afterStudyIds = mockStudies.map(study => study.id);
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('apiRoot/task_events?action=ASSIGNMENT');
+    const sReq = httpMock.expectOne('apiRoot/task_events?action=ASSIGNMENT&onlylanes=true');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockTaskEvents);
     const userReq = httpMock.expectOne('apiRoot/user');
