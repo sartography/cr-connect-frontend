@@ -63,8 +63,8 @@ export class StudiesDashboardComponent {
   displayedColumns: string[] = [
     'id',
     'title',
+    'investigator',
     'status',
-    'reviews_complete',
     'updated',
     'created',
     'actions',
@@ -281,7 +281,7 @@ export class StudiesDashboardComponent {
         // Set filter predicate (how we choose to filter data)
         study.dataSource.filterPredicate = function (data: Study, str:string) {
           // Concat a string to search against
-          let datastring = data.title + data.id + data.short_title;
+          let datastring = data.title + data.id + data.short_title + data.primary_investigator;
           return datastring
             .trim()
             .toLocaleLowerCase().indexOf(str.trim().toLocaleLowerCase()) >= 0;
