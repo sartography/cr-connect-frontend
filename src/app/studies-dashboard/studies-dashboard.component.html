@@ -84,7 +84,7 @@
              (input)="searchStudies(searchTerm)"
              type="text"
              class="study-search-field"
-             placeholder=" Search by study name or study ID">
+             placeholder=" Search by study name, study ID, or Principal Investigator">
     </div>
   </div>
 <div class="study-tab-group">
@@ -111,7 +111,7 @@
 
         <ng-container matColumnDef="title">
           <th  scope="col" *matHeaderCellDef mat-header-cell  id="col_study_title"> Study Title</th>
-          <td *matCellDef="let study" class="study-blue" mat-cell title="{{study.title}}"> {{shrink(120,study.title,study.short_title)}} </td>
+          <td *matCellDef="let study" class="study-blue" mat-cell title="{{study.title}}"> {{shrink(50,study.title,study.short_title)}} </td>
         </ng-container>
         <ng container matColumnDef="investigator">
           <th scope="col" *matHeaderCellDef mat-header-cell id="col_study_title"> Principal Investigator</th>
