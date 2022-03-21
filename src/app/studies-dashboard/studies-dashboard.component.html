@@ -128,13 +128,27 @@
               <div class="in-progress-study">
                 {{getProgressStatus(study).toUpperCase()}}
               </div>
-              <app-study-progress [study]="study"></app-study-progress>
+                <div fxLayout="column" class="tasks-complete">
+                  <div fxFlex="100">
+                    <div
+                      class="percent-complete"
+                      [ngStyle]="{width: study.progress + '%'}">&nbsp;
+                    </div>
+              </div>
+            </div>
             </div>
             <div *ngIf="studyStatusDisplayType(study)==='Irb'">
               <div class = "irb-study">
                 {{getIrbHsrStatus(study).toUpperCase()}}
               </div>
-              <app-study-progress [study]="study"></app-study-progress>
+              <div fxLayout="column" class="tasks-complete">
+                  <div fxFlex="100">
+                    <div
+                      class="percent-complete"
+                      [ngStyle]="{width: study.progress + '%'}">&nbsp;
+                    </div>
+                </div>
+            </div>
             </div>
 
           </td>

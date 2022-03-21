@@ -24,7 +24,6 @@ import {
 } from 'sartography-workflow-lib';
 import {ConfirmStudyStatusDialogData} from '../_interfaces/dialog-data';
 import {StudyAction} from '../_interfaces/study-action';
-import {StudyProgressComponent} from '../study-progress/study-progress.component';
 import {StudiesDashboardComponent} from './studies-dashboard.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {ReviewProgressComponent} from '../review-progress/review-progress.component';
@@ -60,7 +59,6 @@ describe('StudiesDashboardComponent', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [
-        StudyProgressComponent,
         StudiesDashboardComponent,
         ReviewProgressComponent
       ],
@@ -107,7 +105,7 @@ describe('StudiesDashboardComponent', () => {
     component.afterStudyIds = mockStudies.map(study => study.id);
     fixture.detectChanges();
 
-    const sReq = httpMock.expectOne('apiRoot/task_events?action=ASSIGNMENT');
+    const sReq = httpMock.expectOne('apiRoot/task_events?action=ASSIGNMENT&onlylanes=true');
     expect(sReq.request.method).toEqual('GET');
     sReq.flush(mockTaskEvents);
     const userReq = httpMock.expectOne('apiRoot/user');
