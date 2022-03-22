@@ -163,12 +163,13 @@
       </ng-container>
 
       <button
-        [disabled]="isLocked(currentTask)"
+        [disabled]="this.loading"
         *ngIf="currentTask.type === taskTypes.MANUAL_TASK"
         (click)="completeManualTask(currentTask)"
         color="primary"
         mat-flat-button
-      ><span [hidden]="!isOnlyTask()">Acknowledge</span><span [hidden]="isOnlyTask()">Continue</span></button>
+      ><span [hidden]="!isOnlyTask()">Acknowledge</span>
+        <span [hidden]="isOnlyTask()" >Continue</span></button>
       <div *ngIf="!isLocked(currentTask) && !currentTask.documentation && (currentTask.type !== taskTypes.END_EVENT)">
         <h1>{{currentTask.title}}</h1>
         <h2>Task type: {{currentTask.type}}</h2>
