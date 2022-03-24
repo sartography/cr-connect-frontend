@@ -33,8 +33,8 @@
                           'disable-link':workflowListItem.state===states.DISABLED}"
             >
               <app-nav-item-icon [workflowMeta]="workflowListItem"></app-nav-item-icon>
-               <div><strong *ngIf="workflowListItem.is_review">{{workflowListItem.display_name}}</strong>
-                 <span *ngIf="! workflowListItem.is_review">{{workflowListItem.display_name}}</span>
+               <div><strong *ngIf="workflowListItem.status==='waiting'">{{workflowListItem.display_name}}</strong>
+                 <span *ngIf="!(workflowListItem.status==='waiting')">{{workflowListItem.display_name}}</span>
                  <span></span>
                  <span *ngIf="requiredItem(workflowListItem)"><strong>&nbsp; *</strong></span></div>
             </div>
