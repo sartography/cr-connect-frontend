@@ -1,0 +1,134 @@
+<p>document-history works!</p>
+
+   <ng-container
+   *ngTemplateOutlet="recursiveListTmpl; context: {list: dataDictionary}"
+   ></ng-container>
+
+<ng-template #recursiveListTmpl let-list="list">
+  <table class="table">
+   <tr *ngFor="let item of list">
+      <td *ngIf="item.children.length > 0">
+      {{item.level}}
+         <ng-container
+            *ngTemplateOutlet="recursiveListTmpl; context:{ list: item.children }"
+         ></ng-container>
+      </td>
+     <td *ngIf="item.children.length === 0">
+       <table class="file-table">
+         <tr>
+           <td>{{item.file.name}}</td>
+           <td>{{item.file.irb_doc_code}}</td>
+           <td>{{item.file.user_uid}}</td>
+           <td>{{item.file.last_modified}}</td>
+         </tr>
+       </table>
+     </td>
+   </tr>
+    </table>
+</ng-template>
+
+
+<!--  <ng-container *ngFor="let document of dataDictionary">-->
+<!--    <p>{{document.level}}</p>-->
+<!--    <ng-container *ngTemplateOutlet="documents;context:document"></ng-container>-->
+<!--  </ng-container>-->
+
+<!--<ng-template #documents let-children>-->
+<!--  <p *ngFor="let child">{{child.level}}</p>-->
+<!--</ng-template>-->
+
+<mat-table [dataSource]="dataDictionary">
+
+<!--    <ng-container matColumnDef="category">-->
+<!--      <mat-header-cell *matHeaderCellDef ></mat-header-cell>-->
+<!--      <mat-cell *matCellDef="let document">{{document.level}}</mat-cell>-->
+<!--    </ng-container>-->
+
+<!--    <ng-container matColumnDef="child">-->
+<!--      <mat-header-cell *matHeaderCellDef ></mat-header-cell>-->
+<!--      <mat-cell *matCellDef="let document">-->
+
+<!--        <ng-container *ngTemplateOutlet="children;context:document"></ng-container>-->
+
+<!--      </mat-cell>-->
+<!--    </ng-container>-->
+
+    <mat-header-row *matHeaderRowDef="noColumns"></mat-header-row>
+    <mat-row *matRowDef="let myRowData; columns: noColumns"></mat-row>
+</mat-table>
+
+<ng-template #recursiveListTmpl let-children="document.children">
+
+   <mat-table>
+    <ng-container matColumnDef="category">
+      <mat-header-cell *matHeaderCellDef ></mat-header-cell>
+      <mat-cell *matCellDef="let document">{{document.level}}</mat-cell>
+    </ng-container>
+
+     <ng-container matColumnDef="child">
+      <mat-header-cell *matHeaderCellDef ></mat-header-cell>
+      <mat-cell>Hello</mat-cell>
+     </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
+   </mat-table>
+</ng-template>
+
+<!--<ng-template #myTest>-->
+<!--  Woot!-->
+<!--</ng-template>-->
+
+
+<!--    <ng-container matColumnDef="children">-->
+<!--      <mat-header-cell *matHeaderCellDef >Children</mat-header-cell>-->
+<!--      <mat-cell *matCellDef="let document">-->
+
+<!--        <mat-table [dataSource]="document.children">-->
+<!--          <ng-container matColumnDef="second-level">-->
+<!--            <mat-header-cell *matHeaderCellDef >Second Level</mat-header-cell>-->
+<!--            <mat-cell *matCellDef="let second">{{second.level}}</mat-cell>-->
+<!--          </ng-container>-->
+
+<!--          <mat-header-row *matHeaderRowDef="secondLevelColumns"></mat-header-row>-->
+<!--          <mat-row *matRowDef="let mySecondRowData; columns: secondLevelColumns"></mat-row>-->
+<!--        </mat-table>-->
+
+<!--      </mat-cell>-->
+<!--    </ng-container>-->
+
+
+<!--      <ng-container *ngIf="document.children.length > 0">-->
+<!--         <ng-container-->
+<!--            *ngTemplateOutlet="recursiveListTmpl; context:{ list: document.children }"-->
+<!--         ></ng-container>-->
+<!--      </ng-container>-->
+
+<ng-template #category>
+  Category
+</ng-template>
+
+<ng-template #file>
+  file
+</ng-template>
+
+<ng-template #children let-document="document">
+
+  <ng-container *ngIf="document.children">
+    <ng-container *ngTemplateOutlet="category;context:document"></ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="document.file">
+    <ng-container *ngTemplateOutlet="file;context:document"></ng-container>
+  </ng-container>
+
+</ng-template>
+
+<!--       <ng-container *ngIf="document.children">-->
+<!--         <ng-container *ngTemplateOutlet="category;context:document"></ng-container>-->
+<!--       </ng-container>-->
+
+<!--       <ng-container *ngIf="document.file">-->
+<!--         <ng-container *ngTemplateOutlet="file;context:document"></ng-container>-->
+<!--       </ng-container>-->
+
