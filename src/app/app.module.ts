@@ -90,6 +90,7 @@ import { StudyWarningsComponent } from './study-warnings/study-warnings.componen
 import { AutocompleteComponent } from './_forms/autocomplete/autocomplete.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { TaskLogsComponent } from './task-logs/task-logs.component';
+import { DocumentHistoryComponent } from './document-history/document-history.component';
 
 (document.defaultView as any).hljs = hljs;
 
@@ -213,6 +214,7 @@ export function markedOptionsFactory(): MarkedOptions {
     StudyWarningsComponent,
     AutocompleteComponent,
     TaskLogsComponent,
+    DocumentHistoryComponent,
   ],
     imports: [
         BrowserAnimationsModule,
