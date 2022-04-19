@@ -1,8 +1,44 @@
 <p>document-history works!</p>
 
-   <ng-container
-   *ngTemplateOutlet="recursiveListTmpl; context: {list: dataDictionary}"
-   ></ng-container>
+<ng-container
+  *ngTemplateOutlet="recursiveTableTmpl; context: {list: dataDictionary}"
+></ng-container>
+
+<ng-template #recursiveTableTmpl let-list="list">
+  <mat-table class="table" [dataSource]="list">
+    <ng-container matColumnDef="category">
+      <mat-header-cell *matHeaderCellDef ></mat-header-cell>
+      <mat-cell *matCellDef="let list">{{list.level}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="child">
+      <mat-header-cell *matHeaderCellDef ></mat-header-cell>
+        <mat-cell *matCellDef="let list">
+      <ng-container *ngIf="list.children.length > 0">
+          <ng-container
+            *ngTemplateOutlet="recursiveTableTmpl; context: {list: list.children}"
+          ></ng-container>
+      </ng-container>
+        </mat-cell>
+   </ng-container>
+
+<!--    <ng-container *ngIf="list.children.length > 0">-->
+<!--      <ng-container-->
+<!--        *ngTemplateOutlet="recursiveTableTmpl; context: {children: list.children}"-->
+<!--      ></ng-container>-->
+<!--    </ng-container>-->
+
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
+  </mat-table>
+</ng-template>
+
+
+<hr>
+
+<ng-container
+  *ngTemplateOutlet="recursiveListTmpl; context: {list: dataDictionary}"
+></ng-container>
 
 <ng-template #recursiveListTmpl let-list="list">
   <table class="table">
@@ -27,6 +63,19 @@
     </table>
 </ng-template>
 
+<hr>
+
+<!--<mat-table class="table" [dataSource]="dataDictionary">-->
+<!--  <ng-container matColumnDef="category">-->
+<!--    <mat-header-cell *matHeaderCellDef ></mat-header-cell>-->
+<!--    <mat-cell *matCellDef="let document">{{document.level}}</mat-cell>-->
+<!--  </ng-container>-->
+
+<!--  <mat-header-row *matHeaderRowDef="secondLevelColumns"></mat-header-row>-->
+<!--  <mat-row *matRowDef="let myRowData; columns: secondLevelColumns"></mat-row>-->
+<!--</mat-table>-->
+
+
 
 <!--  <ng-container *ngFor="let document of dataDictionary">-->
 <!--    <p>{{document.level}}</p>-->
@@ -37,13 +86,6 @@
 <!--  <p *ngFor="let child">{{child.level}}</p>-->
 <!--</ng-template>-->
 
-<mat-table [dataSource]="dataDictionary">
-
-<!--    <ng-container matColumnDef="category">-->
-<!--      <mat-header-cell *matHeaderCellDef ></mat-header-cell>-->
-<!--      <mat-cell *matCellDef="let document">{{document.level}}</mat-cell>-->
-<!--    </ng-container>-->
-
 <!--    <ng-container matColumnDef="child">-->
 <!--      <mat-header-cell *matHeaderCellDef ></mat-header-cell>-->
 <!--      <mat-cell *matCellDef="let document">-->
@@ -52,10 +94,6 @@
 
 <!--      </mat-cell>-->
 <!--    </ng-container>-->
-
-    <mat-header-row *matHeaderRowDef="noColumns"></mat-header-row>
-    <mat-row *matRowDef="let myRowData; columns: noColumns"></mat-row>
-</mat-table>
 
 <ng-template #recursiveListTmpl let-children="document.children">
 
