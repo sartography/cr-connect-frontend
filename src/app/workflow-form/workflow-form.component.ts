@@ -21,6 +21,7 @@ import {
   WorkflowNavItem,
   WorkflowTask,
   WorkflowTaskState,
+  PythonService
 } from 'sartography-workflow-lib';
 import {FormlyFieldConfig, FormlyFormOptions} from '@ngx-formly/core';
 import { Location } from '@angular/common';
@@ -54,6 +55,7 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
 
   constructor(
     private api: ApiService,
+    private pythonService: PythonService,
     private location: Location,
     private cdref: ChangeDetectorRef) {
   }
@@ -170,28 +172,31 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
 
   private _loadModel(task: WorkflowTask) {
     this.showForm = false;
-    this.form = new FormGroup({});
-    if (task && task.data && task.form && task.form.fields) {
-      this.fileParams = {
-        workflow_id: this.workflow.id,
-        task_spec_name: task.name,
-      };
-      /** The formState persists, unless we manually clear it out.  If it persists then
-       * we end up getting a polluted form state that has nothing to do with the current
-       * form, or that still contains values from a previous form.  */
-      this.options.formState = {};
-      this.model = cloneDeep(task.data);
-      this.fields = new ToFormlyPipe(this.api).transform(task.form.fields, this.fileParams, this.model);
-      this.showForm = true;
-    }
+    // Wait for the python service to be fully loaded, then render the form.
+    this.pythonService.ready().subscribe(ready => {
+      this.form = new FormGroup({});
+      if (task && task.data && task.form && task.form.fields) {
+        this.fileParams = {
+          workflow_id: this.workflow.id,
+          task_spec_name: task.name,
+        };
+        /** The formState persists, unless we manually clear it out.  If it persists then
+         * we end up getting a polluted form state that has nothing to do with the current
+         * form, or that still contains values from a previous form.  */
+        this.options.formState = {};
+        this.model = cloneDeep(task.data);
+        this.fields = new ToFormlyPipe(this.pythonService).transform(task.form.fields, this.fileParams, this.model);
+        this.showForm = true;
+      }
 
-    if (task && task.state === WorkflowTaskState.READY) {
-      this.locked = false;
-      this.formViewState = 'enabled';
-    } else {
-      this.locked = true;
-      this.lockForm();
-    }
+      if (task && task.state === WorkflowTaskState.READY) {
+        this.locked = false;
+        this.formViewState = 'enabled';
+      } else {
+        this.locked = true;
+        this.lockForm();
+      }
+    })
   }
 
   private _focusNextPrevCheckbox(thisEl: HTMLElement, keyCode: string) {
