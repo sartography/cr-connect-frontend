@@ -1,172 +1,64 @@
-<p>document-history works!</p>
+<h3>Document History</h3>
+<div matLine *ngIf="dataSource; then thenBlock else elseBlock"></div>
 
-<ng-container
-  *ngTemplateOutlet="recursiveTableTmpl; context: {list: dataDictionary}"
-></ng-container>
+<ng-template #thenBlock>
+  <div>
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+      <!-- This is the tree node template for leaf nodes -->
+      <!-- These are actual files -->
+      <mat-nested-tree-node *matTreeNodeDef="let node">
+        <div [class.activeFile]="node.expanded">
+          <table class="file-table">
 
-<ng-template #recursiveTableTmpl let-list="list">
-  <mat-table class="table" [dataSource]="list">
-    <ng-container matColumnDef="category">
-      <mat-header-cell *matHeaderCellDef ></mat-header-cell>
-      <mat-cell *matCellDef="let list">{{list.level}}</mat-cell>
-    </ng-container>
+            <tr>
+              <th>Current</th>
+              <th>Type</th>
+              <th>Name</th>
+              <th>User</th>
+              <th>Upload Date</th>
+              <th>Download</th>
+            </tr>
 
-    <ng-container matColumnDef="child">
-      <mat-header-cell *matHeaderCellDef ></mat-header-cell>
-        <mat-cell *matCellDef="let list">
-      <ng-container *ngIf="list.children.length > 0">
-          <ng-container
-            *ngTemplateOutlet="recursiveTableTmpl; context: {list: list.children}"
-          ></ng-container>
-      </ng-container>
-        </mat-cell>
-   </ng-container>
+            <tr>
+              <td>{{!(node.file.archived)}}</td>
+              <td><mat-icon mat-list-icon [svgIcon]="'crc:' + node.file.type"></mat-icon></td>
+              <td><span class="tree-span" (mouseover)="hoverFile = node.file" (mouseleave)="hoverFile = null" >{{ node.file.name }}</span></td>
+              <td><span class="tree-span">{{node.file.user_uid}}</span></td>
+              <td><span class="tree-span">{{node.file.last_modified | date : 'medium'}}</span>
+              </td>
+              <td class="download" (click)="downloadFile(node.file)">
+                  <mat-icon>save_alt</mat-icon>
+              </td>
+            </tr>
 
-<!--    <ng-container *ngIf="list.children.length > 0">-->
-<!--      <ng-container-->
-<!--        *ngTemplateOutlet="recursiveTableTmpl; context: {children: list.children}"-->
-<!--      ></ng-container>-->
-<!--    </ng-container>-->
+          </table>
+        </div>
 
-    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-    <mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
-  </mat-table>
+      </mat-nested-tree-node>
+
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+          <div class="mat-tree-node">
+            <button mat-icon-button matTreeNodeToggle
+                    [attr.aria-label]="'Toggle ' + node.level"
+            >
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+              </mat-icon>
+              <span>{{node.level}}</span>
+            </button>
+          </div>
+          <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+            <ng-container matTreeNodeOutlet></ng-container>
+          </ul>
+      </mat-nested-tree-node>
+
+    </mat-tree>
+  </div>
 </ng-template>
 
-
-<hr>
-
-<ng-container
-  *ngTemplateOutlet="recursiveListTmpl; context: {list: dataDictionary}"
-></ng-container>
-
-<ng-template #recursiveListTmpl let-list="list">
-  <table class="table">
-   <tr *ngFor="let item of list">
-      <td *ngIf="item.children.length > 0">
-      {{item.level}}
-         <ng-container
-            *ngTemplateOutlet="recursiveListTmpl; context:{ list: item.children }"
-         ></ng-container>
-      </td>
-     <td *ngIf="item.children.length === 0">
-       <table class="file-table">
-         <tr>
-           <td>{{item.file.name}}</td>
-           <td>{{item.file.irb_doc_code}}</td>
-           <td>{{item.file.user_uid}}</td>
-           <td>{{item.file.last_modified}}</td>
-         </tr>
-       </table>
-     </td>
-   </tr>
-    </table>
+<ng-template #elseBlock>
+  <div>
+    No documents uploaded.
+  </div>
 </ng-template>
-
-<hr>
-
-<!--<mat-table class="table" [dataSource]="dataDictionary">-->
-<!--  <ng-container matColumnDef="category">-->
-<!--    <mat-header-cell *matHeaderCellDef ></mat-header-cell>-->
-<!--    <mat-cell *matCellDef="let document">{{document.level}}</mat-cell>-->
-<!--  </ng-container>-->
-
-<!--  <mat-header-row *matHeaderRowDef="secondLevelColumns"></mat-header-row>-->
-<!--  <mat-row *matRowDef="let myRowData; columns: secondLevelColumns"></mat-row>-->
-<!--</mat-table>-->
-
-
-
-<!--  <ng-container *ngFor="let document of dataDictionary">-->
-<!--    <p>{{document.level}}</p>-->
-<!--    <ng-container *ngTemplateOutlet="documents;context:document"></ng-container>-->
-<!--  </ng-container>-->
-
-<!--<ng-template #documents let-children>-->
-<!--  <p *ngFor="let child">{{child.level}}</p>-->
-<!--</ng-template>-->
-
-<!--    <ng-container matColumnDef="child">-->
-<!--      <mat-header-cell *matHeaderCellDef ></mat-header-cell>-->
-<!--      <mat-cell *matCellDef="let document">-->
-
-<!--        <ng-container *ngTemplateOutlet="children;context:document"></ng-container>-->
-
-<!--      </mat-cell>-->
-<!--    </ng-container>-->
-
-<ng-template #recursiveListTmpl let-children="document.children">
-
-   <mat-table>
-    <ng-container matColumnDef="category">
-      <mat-header-cell *matHeaderCellDef ></mat-header-cell>
-      <mat-cell *matCellDef="let document">{{document.level}}</mat-cell>
-    </ng-container>
-
-     <ng-container matColumnDef="child">
-      <mat-header-cell *matHeaderCellDef ></mat-header-cell>
-      <mat-cell>Hello</mat-cell>
-     </ng-container>
-
-    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
-    <mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></mat-row>
-   </mat-table>
-</ng-template>
-
-<!--<ng-template #myTest>-->
-<!--  Woot!-->
-<!--</ng-template>-->
-
-
-<!--    <ng-container matColumnDef="children">-->
-<!--      <mat-header-cell *matHeaderCellDef >Children</mat-header-cell>-->
-<!--      <mat-cell *matCellDef="let document">-->
-
-<!--        <mat-table [dataSource]="document.children">-->
-<!--          <ng-container matColumnDef="second-level">-->
-<!--            <mat-header-cell *matHeaderCellDef >Second Level</mat-header-cell>-->
-<!--            <mat-cell *matCellDef="let second">{{second.level}}</mat-cell>-->
-<!--          </ng-container>-->
-
-<!--          <mat-header-row *matHeaderRowDef="secondLevelColumns"></mat-header-row>-->
-<!--          <mat-row *matRowDef="let mySecondRowData; columns: secondLevelColumns"></mat-row>-->
-<!--        </mat-table>-->
-
-<!--      </mat-cell>-->
-<!--    </ng-container>-->
-
-
-<!--      <ng-container *ngIf="document.children.length > 0">-->
-<!--         <ng-container-->
-<!--            *ngTemplateOutlet="recursiveListTmpl; context:{ list: document.children }"-->
-<!--         ></ng-container>-->
-<!--      </ng-container>-->
-
-<ng-template #category>
-  Category
-</ng-template>
-
-<ng-template #file>
-  file
-</ng-template>
-
-<ng-template #children let-document="document">
-
-  <ng-container *ngIf="document.children">
-    <ng-container *ngTemplateOutlet="category;context:document"></ng-container>
-  </ng-container>
-
-  <ng-container *ngIf="document.file">
-    <ng-container *ngTemplateOutlet="file;context:document"></ng-container>
-  </ng-container>
-
-</ng-template>
-
-<!--       <ng-container *ngIf="document.children">-->
-<!--         <ng-container *ngTemplateOutlet="category;context:document"></ng-container>-->
-<!--       </ng-container>-->
-
-<!--       <ng-container *ngIf="document.file">-->
-<!--         <ng-container *ngTemplateOutlet="file;context:document"></ng-container>-->
-<!--       </ng-container>-->
-
