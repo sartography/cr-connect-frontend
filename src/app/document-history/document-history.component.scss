@@ -18,7 +18,7 @@ hr.green {color: green}
   height: 25px;
 }
 
-.example-tree-invisible {
+.history-tree-invisible {
   display: none;
 }
 
@@ -26,8 +26,8 @@ hr.green {color: green}
   background-color: $brand-accent-light;
 }
 
-.example-tree {
-  margin-top: 10px;
+.history-tree {
+  //margin-top: 10px;
 
    ul, li {
     margin-top: 5px;
@@ -93,4 +93,12 @@ span.tree-span {padding: 2px}
 
 .file-table .download {
   float: right;
+}
+
+#document-history {
+  padding: 5px 5px 5px 10px;
+}
+
+#thenBlock {
+  padding-left: 15px;
 }
