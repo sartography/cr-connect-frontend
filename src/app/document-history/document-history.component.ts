@@ -46,7 +46,7 @@ export class DocumentHistoryComponent implements OnInit, OnChanges, AfterViewIni
   }
 
   ngOnInit(): void {
-    this.api.getDocumentDirectory(this.study.id, null).subscribe(dd => {
+    this.api.getDocumentDirectory(this.study.id, null, true).subscribe(dd => {
       this.dataSource.data = dd;
       this.dataDictionary = dd;
     });

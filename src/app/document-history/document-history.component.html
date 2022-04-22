@@ -21,7 +21,19 @@
               </tr>
 
               <tr>
-                <td>{{!(node.file.archived)}}</td>
+                <td *ngIf="node.file.archived; then thenArchiveBlock else elseArchiveBlock"></td>
+                <ng-template #thenArchiveBlock>
+                  <td class="red">
+                    Archived
+                  </td>
+                </ng-template>
+                <ng-template #elseArchiveBlock>
+                  <td class="green">
+                    Current
+                  </td>
+                </ng-template>
+
+<!--                <td>{{!(node.file.archived)}}</td>-->
                 <td><mat-icon mat-list-icon [svgIcon]="'crc:' + node.file.type"></mat-icon></td>
                 <td><span class="tree-span" (mouseover)="hoverFile = node.file" (mouseleave)="hoverFile = null" >{{ node.file.name }}</span></td>
                 <td><span class="tree-span">{{node.file.user_uid}}</span></td>
