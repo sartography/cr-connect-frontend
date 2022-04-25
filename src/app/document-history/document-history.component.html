@@ -1,6 +1,6 @@
 <div id="document-history">
   <h3>Document History</h3>
-  <div *ngIf="dataSource; then thenBlock else elseBlock"></div>
+  <div *ngIf="dataSource.data.length > 0; then thenBlock else elseBlock"></div>
 
   <ng-template #thenBlock>
     <div id="thenBlock">
