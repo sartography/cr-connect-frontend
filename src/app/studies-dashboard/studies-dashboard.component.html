@@ -27,6 +27,11 @@
         <td *matCellDef="let approval" mat-cell title="{{approval.study.title}}" [ngClass]="{'waiting-on': approval.user_uid === user.uid}"> {{shrink(60,approval.study.title,approval.study.short_title)}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="study.id">
+        <th scope="col"  *matHeaderCellDef mat-header-cell > Study ID</th>
+        <td *matCellDef="let approval" mat-cell id="{{approval.study.id}}" [ngClass]="{'waiting-on': approval.user_uid === user.uid}"> {{approval.study.id}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="workflow.category_display_name">
         <th scope="col"  *matHeaderCellDef mat-header-cell > Workflow</th>
         <td *matCellDef="let approval" mat-cell [ngClass]="{'waiting-on': approval.user_uid === user.uid}">
