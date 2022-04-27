@@ -12,7 +12,7 @@ describe('Environments', () => {
     expect(environment.homeRoute).toEqual('home');
     expect(environment.title).toEqual('Research Ramp-Up Toolkit');
     expect(environment.googleAnalyticsKey).toEqual('UA-168203235-5');
-    expect(environment.sentryKey).toEqual(undefined);
+    expect(environment.sentryKey).toEqual('');
   });
 
   it('should check if environment variables are defined', () => {

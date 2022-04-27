@@ -1,7 +1,7 @@
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {APP_BASE_HREF, PlatformLocation} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {Injectable, NgModule} from '@angular/core';
+import {APP_INITIALIZER, ErrorHandler, Injectable, NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatBadgeModule} from '@angular/material/badge';
@@ -90,6 +90,8 @@ import { StudyWarningsComponent } from './study-warnings/study-warnings.componen
 import { AutocompleteComponent } from './_forms/autocomplete/autocomplete.component';
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { TaskLogsComponent } from './task-logs/task-logs.component';
+import * as Sentry from '@sentry/angular';
+import {Router} from '@angular/router';
 import { DocumentHistoryComponent } from './document-history/document-history.component';
 
 (document.defaultView as any).hljs = hljs;
@@ -288,6 +290,9 @@ export function markedOptionsFactory(): MarkedOptions {
         languages: {json: () => import('../../node_modules/highlight.js/lib/languages/json')}
       }
     },
+    { provide: ErrorHandler, useValue: Sentry.createErrorHandler({ showDialog: false,}), },
+    { provide: Sentry.TraceService, deps: [Router], },
+    { provide: APP_INITIALIZER, useFactory: () => () => {}, deps: [Sentry.TraceService], multi: true,}
   ],
   bootstrap: [AppComponent],
   entryComponents: [
