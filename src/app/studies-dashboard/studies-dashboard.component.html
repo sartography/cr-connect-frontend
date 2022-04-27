@@ -27,6 +27,11 @@
         <td *matCellDef="let approval" mat-cell title="{{approval.study.title}}" [ngClass]="{'waiting-on': approval.user_uid === user.uid}"> {{shrink(60,approval.study.title,approval.study.short_title)}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="study.id">
+        <th scope="col"  *matHeaderCellDef mat-header-cell > Study ID</th>
+        <td *matCellDef="let approval" mat-cell id="{{approval.study.id}}" [ngClass]="{'waiting-on': approval.user_uid === user.uid}"> {{approval.study.id}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="workflow.category_display_name">
         <th scope="col"  *matHeaderCellDef mat-header-cell > Workflow</th>
         <td *matCellDef="let approval" mat-cell [ngClass]="{'waiting-on': approval.user_uid === user.uid}">
@@ -114,12 +119,12 @@
           <td *matCellDef="let study" class="study-blue" mat-cell title="{{study.title}}"> {{shrink(50,study.title,study.short_title)}} </td>
         </ng-container>
         <ng container matColumnDef="investigator">
-          <th scope="col" *matHeaderCellDef mat-header-cell id="col_study_title"> Principal Investigator</th>
+          <th scope="col" *matHeaderCellDef mat-header-cell id="col_investigator"> Principal Investigator</th>
           <td *matCellDef="let study" class="study-blue" mat-cell>{{study.primary_investigator}}</td>
         </ng>
 
         <ng-container matColumnDef="status">
-          <th scope="col" *matHeaderCellDef mat-header-cell id="col_status"> Status</th>
+          <th scope="col" *matHeaderCellDef mat-header-cell id="col_status"> Progress Status</th>
           <td *matCellDef="let study" mat-cell>
             <div *ngIf="studyStatusDisplayType(study)==='New'" class="new-study">
               NEW APPLICATION

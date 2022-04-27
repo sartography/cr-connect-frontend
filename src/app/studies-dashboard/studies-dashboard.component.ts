@@ -72,6 +72,7 @@ export class StudiesDashboardComponent {
   approvalColumns: string[] = [
     'user_display',
     'study.title',
+    'study.id',
     'workflow.category_display_name',
     'task_title',
     'date',
@@ -264,6 +265,7 @@ export class StudiesDashboardComponent {
           switch(property) {
             case 'task_title': return item.task_title.toLowerCase();
             case 'study.title': return item.study.title.toLowerCase();
+            case 'study.id': return item.study.id;
             case 'workflow.category_display_name': return item.workflow.display_name.toLowerCase() +
               item.workflow.display_name.toLowerCase();
             default: return item[property];
