@@ -41,6 +41,9 @@
     <mat-tab label="Logs">
       <app-task-logs [studyId]="study.id"></app-task-logs>
     </mat-tab>
+    <mat-tab label="Documents">
+      <app-document-history [study]="study"></app-document-history>
+    </mat-tab>
     <mat-tab label="Admin Warnings">
       <app-study-warnings
         *ngIf="study.warnings.length > 0 && isAdmin && showAdminTools"

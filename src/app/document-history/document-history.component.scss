@@ -1,0 +1,104 @@
+@import "../../config";
+.table {
+  border: thin solid black;
+  padding: 2px;
+}
+.file-table {
+  border: thin solid blue;
+  padding: 2px;
+}
+
+hr {color: black}
+hr.red {color: red}
+hr.blue {color: blue}
+hr.green {color: green}
+
+.mat-tree-node{
+  min-height: 25px;
+  height: 25px;
+}
+
+.history-tree-invisible {
+  display: none;
+}
+
+.activeFile{
+  background-color: $brand-accent-light;
+}
+
+.history-tree {
+  //margin-top: 10px;
+
+   ul, li {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    list-style-type: none;
+  }
+
+}
+
+
+::ng-deep app-document-history {
+  .mat-tree,
+  .mat-tree-node,
+  .mat-nested-tree-node,
+  .mat-list-base .mat-list-item .mat-list-item-content,
+  .mat-list-base .mat-list-option .mat-list-item-content {
+    cursor: pointer;
+    padding-left: 0;
+    padding-right: 0;
+
+    .mat-list-text {
+      padding-left: 0.25rem !important;
+    }
+  }
+}
+.file {
+
+    color: $brand-accent;
+    font-size: 1rem;
+    text-decoration: underline;
+    padding-left: 0;
+    padding-top: 4px;
+
+
+  mat-icon {
+    opacity: 0;
+  }
+}
+
+.file {
+
+    &:hover {
+      background-color: $brand-accent-light;
+
+      mat-icon {
+        opacity: 1;
+        color: $brand-gray;
+        margin: 2px;
+      }
+
+
+  }
+}
+span.tree-span {padding: 2px}
+
+.mat-nested-tree-node, div {
+  padding: 2px;
+}
+
+.file-table {
+  padding: 3px;
+}
+
+.file-table .download {
+  float: right;
+}
+
+#document-history {
+  padding: 5px 5px 5px 10px;
+}
+
+#thenBlock {
+  padding-left: 15px;
+}
