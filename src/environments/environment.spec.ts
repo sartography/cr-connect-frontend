@@ -13,6 +13,7 @@ describe('Environments', () => {
     expect(environment.title).toEqual('Research Ramp-Up Toolkit');
     expect(environment.googleAnalyticsKey).toEqual('UA-168203235-5');
     expect(environment.sentryKey).toEqual('');
+    expect(environment.sentryEnvironment).toEqual('');
   });
 
   it('should check if environment variables are defined', () => {
