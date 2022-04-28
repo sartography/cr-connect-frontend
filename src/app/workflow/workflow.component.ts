@@ -13,6 +13,7 @@ import {
   Study,
   UserService,
   Workflow,
+  WorkflowMetadata,
   WorkflowTask,
   WorkflowTaskState,
   WorkflowTaskType,
@@ -338,7 +339,19 @@ export class WorkflowComponent implements OnInit {
     }
   }
 
+  getWorkflowMetadata(): void {
+    this.api.getWorkflowFromSpec(this.workflow.workflow_spec_id).subscribe(md => {
+      return md;
+    });
+  }
+
   isLocked(currentTask: WorkflowTask): boolean {
+    let md = this.getWorkflowMetadata();
+    const unlocked_workflows = ['mike_test', ]
+    console.log('isLocked: md: ', md);
+    console.log('isLocked: workflow: ', this.workflow);
+    console.log('isLocked: currentTask: ', currentTask);
+    if (unlocked_workflows.includes(this.workflow.workflow_spec_id)) { return false; }
     if (this.study) {
       return this.study.status === 'abandoned' ||
         this.study.status === 'cr_connect_complete' ||
