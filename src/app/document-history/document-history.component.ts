@@ -12,10 +12,6 @@ export class DocumentHistoryComponent implements OnInit, OnChanges, AfterViewIni
   @Input() study: Study;
   @Input() directory: DocumentDirectory[];
   typeLabel: string;
-  dataDictionary: DocumentDirectory[];
-  columnsToDisplay = ['category', 'child'];
-  secondLevelColumns = ['category']
-  noColumns = []
   treeControl = new NestedTreeControl<DocumentDirectory>(node => node.children);
   dataSource = new MatTreeNestedDataSource<DocumentDirectory>();
   hoverFile: FileMeta;
@@ -48,7 +44,6 @@ export class DocumentHistoryComponent implements OnInit, OnChanges, AfterViewIni
   ngOnInit(): void {
     this.api.getDocumentDirectory(this.study.id, null, true).subscribe(dd => {
       this.dataSource.data = dd;
-      this.dataDictionary = dd;
     });
   }
 

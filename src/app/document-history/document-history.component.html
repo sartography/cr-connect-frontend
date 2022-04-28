@@ -1,4 +1,4 @@
-<div id="document-history">
+<div id="document-history" *ngIf="dataSource.data">
   <h3>Document History</h3>
   <div *ngIf="dataSource.data.length > 0; then thenBlock else elseBlock"></div>
 
