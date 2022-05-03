@@ -10,24 +10,31 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Local Development with Sartogprahy Libraries
-If you are making changes to the Sartography Libraries dependency,
-you can replace that line in the package.json file with something akin to this, where you supply the full path to the dist folder, remember
-to run 'npm build' in that directory for your local changes to take effect, and be sure to change this back to the proper value before
-committing your code
+If you are making changes to the Sartography Libraries dependency, you
+can use npm link to connect the two systems.
+On the library side, run
+```bash
+ng build --watch
 ```
- "sartography-workflow-lib": "/home/dan/code/workflow/sartography-libraries/dist/sartography-workflow-lib",
+Then create a link to the built values by cd'ing into the dist directory (in a new terminal, leave the build above running)
+```angular2html
+cd sartography-libraries/dist/sartography-workflow-lib
+npm link
 ```
- Also note that you need to add
+
+On the frontend code, link to the sartgraph-workflow-lib:
+```angular2html
+npm link sartography-workflow-lib
+ng serve
+```
+
+ Also note that you may need to add
  ```json
              "preserveSymlinks": true
 ```
 to your angular.json file in build/options.
 
-FYI: I ran into lots of library issues when switching to this, and switching back.  Deleting node_modules in BOTH the frontend and sartography libraries
-fixed the problems for me, but it is a real hassle.  I've found that running tests requires me to stop the front end, delete the node modules in the sartopgrahy library, reinstall with nom instll, then restart the front end. 
-
-FTW: Once you have done all of the above, you can run 'npm build --watch' on the sartography libraries, and it will live load any changes and pick them
-up when running debug on the front end, saving you insane hours of time and frustration.  Try it!
+At this point any changes you make to the shared libraries should be immediately reflected in your locally running front end.
 
 ## Code scaffolding
 
