@@ -17,13 +17,13 @@ On the library side, run
 ng build --watch
 ```
 Then create a link to the built values by cd'ing into the dist directory (in a new terminal, leave the build above running)
-```angular2html
+```bash
 cd sartography-libraries/dist/sartography-workflow-lib
 npm link
 ```
 
 On the frontend code, link to the sartgraph-workflow-lib:
-```angular2html
+```bash
 npm link sartography-workflow-lib
 ng serve
 ```

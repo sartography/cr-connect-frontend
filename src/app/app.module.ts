@@ -301,4 +301,5 @@ export function markedOptionsFactory(): MarkedOptions {
   ]
 })
 export class AppModule {
+  constructor(trace: Sentry.TraceService) {}
 }
