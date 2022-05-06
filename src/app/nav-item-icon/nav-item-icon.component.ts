@@ -4,6 +4,7 @@ import {
   TaskEvent,
   WorkflowMetadata,
   WorkflowNavItem,
+  WorkflowState,
   WorkflowStatus
 } from 'sartography-workflow-lib';
 
@@ -32,6 +33,10 @@ export class NavItemIconComponent implements OnInit, OnChanges {
 
   update_icon(): void {
     if (this.workflowMeta) {
+      if (this.workflowMeta.state == 'locked') {
+        this.icon = 'locked';
+        return;
+      }
       switch (this.workflowMeta.status) {
         case WorkflowStatus.COMPLETE:
           this.icon = 'check_circle';
