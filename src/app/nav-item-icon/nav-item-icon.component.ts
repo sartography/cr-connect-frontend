@@ -4,7 +4,6 @@ import {
   TaskEvent,
   WorkflowMetadata,
   WorkflowNavItem,
-  WorkflowState,
   WorkflowStatus
 } from 'sartography-workflow-lib';
 
