@@ -71,8 +71,8 @@ export class StudiesDashboardComponent {
   ];
   approvalColumns: string[] = [
     'user_display',
-    'study.title',
     'study.id',
+    'study.title',
     'workflow.category_display_name',
     'task_title',
     'date',
