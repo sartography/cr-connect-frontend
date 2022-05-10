@@ -343,6 +343,7 @@ export class WorkflowComponent implements OnInit {
       return this.study.status === 'abandoned' ||
         this.study.status === 'cr_connect_complete' ||
         this.study.status === 'hold' ||
+        this.workflow.state === 'locked' ||
         (currentTask && currentTask.state === WorkflowTaskState.LOCKED);
     }
   }
