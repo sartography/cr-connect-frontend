@@ -149,6 +149,17 @@ describe('WorkflowComponent', () => {
 
 
 
+  it('locked workflow should lock task', () => {
+    loadDefaultUser(httpMock, component);
+    component.updateWorkflow(mockWorkflow0);
+    component.study = mockStudy0;
+    expect(component.isLocked(component.currentTask)).toBeFalsy();
+    component.workflow.state = 'locked';
+    expect(component.isLocked(component.currentTask)).toBeTruthy();
+
+    console.log('In my test: ');
+  });
+
   it('should create', () => {
     loadDefaultUser(httpMock,component);
     expect(component).toBeTruthy();
