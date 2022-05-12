@@ -164,9 +164,9 @@
       </ng-container>
 
       <button
-        [disabled]="this.loading || isLocked(currentTask)"
+        [disabled]="this.loading || isLocked(currentTask) || this.clicked"
         *ngIf="currentTask.type === taskTypes.MANUAL_TASK"
-        (click)="completeManualTask(currentTask)"
+        (click)="clicked = true; completeManualTask(currentTask);"
         color="primary"
         mat-flat-button
       ><span [hidden]="!isOnlyTask()">Acknowledge</span>
