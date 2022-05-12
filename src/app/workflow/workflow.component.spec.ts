@@ -27,7 +27,9 @@ import {
   mockWorkflow0,
   mockWorkflow1,
   mockWorkflowTask0,
-  mockWorkflowTask1, NavItemType,
+  mockWorkflowTask1,
+  mockWorkflowTask2,
+  NavItemType,
   RadioDataFieldComponent,
   ToFormlyPipe, UserService,
   WorkflowNavItem,
@@ -400,6 +402,12 @@ describe('WorkflowComponent', () => {
     expect(component.isOnlyTask()).toBeTrue();
     component.workflow.navigation = mockNav1;
     expect(component.isOnlyTask()).toBeFalse();
+  });
+
+  it('should lock button', () => {
+    component.setCurrentTask(mockWorkflowTask2.id);
+
+    console.log('Here: ');
   });
 });
 
