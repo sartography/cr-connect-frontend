@@ -23,7 +23,7 @@
 
 
       <ng-container matColumnDef="study.title">
-        <th scope="col"  *matHeaderCellDef mat-header-cell > Study</th>
+        <th scope="col"  *matHeaderCellDef mat-header-cell > Study Title</th>
         <td *matCellDef="let approval" mat-cell title="{{approval.study.title}}" [ngClass]="{'waiting-on': approval.user_uid === user.uid}"> {{shrink(60,approval.study.title,approval.study.short_title)}} </td>
       </ng-container>
 
