@@ -401,7 +401,6 @@ describe('WorkflowComponent', () => {
     component.workflow.navigation = mockNav1;
     expect(component.isOnlyTask()).toBeFalse();
   });
-
 });
 
 
