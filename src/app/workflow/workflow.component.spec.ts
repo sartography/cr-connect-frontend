@@ -404,11 +404,6 @@ describe('WorkflowComponent', () => {
     expect(component.isOnlyTask()).toBeFalse();
   });
 
-  it('should lock button', () => {
-    component.setCurrentTask(mockWorkflowTask2.id);
-
-    console.log('Here: ');
-  });
 });
 
 
