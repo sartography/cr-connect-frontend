@@ -90,7 +90,7 @@
 
       <span fxFlex></span>
       <button
-        *ngIf="!isLocked(currentTask)"
+        *ngIf="allowStartOver()"
         mat-button
         (click)="confirmResetWorkflow()"
       >

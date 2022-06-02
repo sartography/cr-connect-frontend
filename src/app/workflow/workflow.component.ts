@@ -351,4 +351,10 @@ export class WorkflowComponent implements OnInit {
     }
   }
 
+  allowStartOver(): boolean {
+    if (this.workflow && this.workflow.navigation) {
+      return this.workflow.navigation[0].state !== WorkflowTaskState.LOCKED;
+    }
+  }
+
 }
