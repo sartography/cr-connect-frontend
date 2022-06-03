@@ -1,5 +1,5 @@
 import {Location, LocationStrategy} from '@angular/common';
-import { Component, Inject, NgZone, OnInit } from '@angular/core';
+import { Component, Inject, NgZone, OnInit,  AfterViewChecked} from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import {ActivatedRoute, NavigationStart, ParamMap, Router} from '@angular/router';
@@ -71,7 +71,7 @@ import {animate, keyframes, state, style, transition, trigger} from "@angular/an
   ],
 })
 
-export class WorkflowComponent implements OnInit {
+export class WorkflowComponent implements OnInit, AfterViewChecked {
   workflow: Workflow;
   currentTask: WorkflowTask = null;
   study: Study;
@@ -88,6 +88,7 @@ export class WorkflowComponent implements OnInit {
   isAdmin: boolean;
   error: object;
   errCounter: 0;
+  clicked: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -112,6 +113,10 @@ export class WorkflowComponent implements OnInit {
       this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);
       this.showAdminTools = p.showAdminTools;
     });
+  }
+
+  ngAfterViewChecked() {
+    this.clicked = false;
   }
 
   ngOnInit(): void {
@@ -340,6 +345,9 @@ export class WorkflowComponent implements OnInit {
 
   isLocked(currentTask: WorkflowTask): boolean {
     if (this.study) {
+      if (this.workflow.is_admin_workflow) {
+        return false;
+      }
       return this.study.status === 'abandoned' ||
         this.study.status === 'cr_connect_complete' ||
         this.study.status === 'hold' ||
