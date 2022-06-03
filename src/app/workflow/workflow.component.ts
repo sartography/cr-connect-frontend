@@ -345,6 +345,9 @@ export class WorkflowComponent implements OnInit, AfterViewChecked {
 
   isLocked(currentTask: WorkflowTask): boolean {
     if (this.study) {
+      if (this.workflow.is_admin_workflow) {
+        return false;
+      }
       return this.study.status === 'abandoned' ||
         this.study.status === 'cr_connect_complete' ||
         this.study.status === 'hold' ||
