@@ -134,20 +134,6 @@
                 {{getProgressStatus(study).toUpperCase()}}
               </div>
             </div>
-            <div *ngIf="studyStatusDisplayType(study)==='Irb'">
-              <div class = "irb-study">
-                {{getProgressStatus(study).toUpperCase()}}
-              </div>
-              <div fxLayout="column" class="tasks-complete">
-                  <div fxFlex="100">
-                    <div
-                      class="percent-complete"
-                      [ngStyle]="{width: study.progress + '%'}">&nbsp;
-                    </div>
-                </div>
-            </div>
-            </div>
-
           </td>
         </ng-container>
         <ng-container matColumnDef="updated">
