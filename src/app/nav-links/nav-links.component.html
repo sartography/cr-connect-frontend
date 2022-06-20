@@ -1,4 +1,6 @@
 <ng-container *ngFor="let link of links">
+
+  <!--  Toggle Admin Tools -->
   <a *ngIf="!link.links"
      [id]="link.id"
      [ngClass]="{'active': isLinkActive(link.path), 'toggledOff': link.toggled ? !link.toggled() : false}"
@@ -12,7 +14,20 @@
     <ng-container *ngIf="link.showLabel">{{link.label}}</ng-container>
   </a>
 
+  <!-- View as -->
   <ng-container *ngIf="link.links">
+
+    <!--  View as me  -->
+    <button
+      *ngIf="userIsImpersonating"
+      mat-button
+      (click)="viewAs({'lookup': realUser.uid})"
+    >
+      <mat-icon>refresh</mat-icon>
+      <ng-container>View as me</ng-container>
+    </button>
+
+    <!--  View as ...  -->
     <button
       [attr.aria-label]="link.label"
       [id]="link.id"
@@ -25,6 +40,7 @@
       <ng-container *ngIf="link.showLabel">{{link.label}}</ng-container>
       <mat-icon>arrow_drop_down</mat-icon>
     </button>
+    <!--  Search for Users  -->
     <mat-menu class="menu-overflow-hidden" #menu="matMenu">
       <button mat-menu-item class="search-text" disabled [disableRipple]="true">Search for Users </button>
       <button mat-menu-item [disableRipple]="true" (click)="$event.stopPropagation()">
@@ -36,5 +52,7 @@
         </div>
       </button>
     </mat-menu>
+
   </ng-container>
+
 </ng-container>

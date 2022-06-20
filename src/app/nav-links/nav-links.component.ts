@@ -1,7 +1,7 @@
 import {Component, Inject, Input} from '@angular/core';
 import {NavItem} from '../_interfaces/nav-item';
 import {Router} from '@angular/router';
-import {ApiService, AppEnvironment, UserService} from 'sartography-workflow-lib';
+import {ApiService, AppEnvironment, UserService, User} from 'sartography-workflow-lib';
 import {FormGroup} from "@angular/forms";
 import {FormlyFieldConfig} from "@ngx-formly/core";
 
@@ -12,6 +12,8 @@ import {FormlyFieldConfig} from "@ngx-formly/core";
 })
 export class NavLinksComponent {
   @Input() links: NavItem[];
+  @Input() realUser: User;
+  @Input() userIsImpersonating: boolean;
   form = new FormGroup({});
   model = {};
   fields: FormlyFieldConfig[] = [
