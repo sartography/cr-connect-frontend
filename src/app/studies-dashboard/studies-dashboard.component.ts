@@ -30,14 +30,6 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {shrink} from '../_util/shrink';
 
-enum IrbHsrStatus {
-  NOT_SUBMITTED = 'Not Submitted',
-  SUBMITTED = 'Submitted',
-  IN_PRE_REVIEW = 'In Pre-Review',
-  ON_AGENDA = 'On Agenda',
-  APPROVED = 'Approved',
-}
-
 enum StudyStatusDisplayType {
   NEW = 'New',
   IRB = 'Irb',
@@ -183,19 +175,13 @@ export class StudiesDashboardComponent {
     this.currentTab = currentTab
   }
 
-
   studyStatusDisplayType(study: Study) {
     if (this.isNewStudy(study)) { return StudyStatusDisplayType.NEW;}
-    if (this.getIrbHsrStatus(study) !== IrbHsrStatus.NOT_SUBMITTED) { return StudyStatusDisplayType.IRB;}
     return StudyStatusDisplayType.PROGRESS;
   }
 
   isNewStudy(study: Study) {
     return !this.beforeStudyIds.includes(study.id);
-  }
-
-  getIrbHsrStatus(study: Study) {
-    return IrbHsrStatus.NOT_SUBMITTED;
   }
 
   getStudyStatus(study: Study) {
