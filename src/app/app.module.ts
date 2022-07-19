@@ -78,7 +78,6 @@ import { NavItemIconComponent } from './nav-item-icon/nav-item-icon.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { NavLinksComponent } from './nav-links/nav-links.component';
-import { WorkflowNavComponent } from './workflow-nav/workflow-nav.component';
 import {MatTreeModule} from '@angular/material/tree';
 import { WorkflowProgressMenuComponent } from './workflow-progress-menu/workflow-progress-menu.component';
 import { ReviewProgressComponent } from './review-progress/review-progress.component';
@@ -209,7 +208,6 @@ export function markedOptionsFactory(): MarkedOptions {
     LoadingComponent,
     NavItemIconComponent,
     NavLinksComponent,
-    WorkflowNavComponent,
     WorkflowProgressMenuComponent,
     ReviewProgressComponent,
     StandaloneComponent,

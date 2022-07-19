@@ -37,7 +37,6 @@ import {
 import { LoadingComponent } from '../loading/loading.component';
 import { WorkflowFilesComponent } from '../workflow-files/workflow-files.component';
 import { WorkflowFormComponent } from '../workflow-form/workflow-form.component';
-import { WorkflowNavComponent } from '../workflow-nav/workflow-nav.component';
 import { WorkflowResetDialogData } from '../workflow-reset-dialog/workflow-reset-dialog.component';
 import { WorkflowStepsMenuListComponent } from '../workflow-steps-menu-list/workflow-steps-menu-list.component';
 import { WorkflowComponent } from './workflow.component';
@@ -83,7 +82,6 @@ describe('WorkflowComponent', () => {
         WorkflowStepsMenuListComponent,
         WorkflowFilesComponent,
         LoadingComponent,
-        WorkflowNavComponent,
       ],
       imports: [
         BrowserAnimationsModule,
