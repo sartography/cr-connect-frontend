@@ -351,11 +351,11 @@ export class WorkflowComponent implements OnInit, AfterViewChecked {
   displayStartOver(currentTask: WorkflowTask): boolean {
     // note that this.user is the `view as` user,
     // not necessarily the user logged in
-    if (this.user.is_admin ) {
+    if (this.user && this.user.is_admin ) {
       return true;
     }
     // the user who initiated the workflow
-    if (this.user.uid == this.workflow.user_id) {
+    if (this.user && (this.user.uid == this.workflow.user_id)) {
       return true;
     }
     return false;
