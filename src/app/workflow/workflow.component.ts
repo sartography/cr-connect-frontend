@@ -11,6 +11,7 @@ import {
   DocumentDirectory,
   scrollToTop,
   Study,
+  User,
   UserService,
   Workflow,
   WorkflowTask,
@@ -89,6 +90,7 @@ export class WorkflowComponent implements OnInit, AfterViewChecked {
   error: object;
   errCounter: 0;
   clicked: boolean = false;
+  user: User;
 
   constructor(
     private route: ActivatedRoute,
@@ -112,6 +114,9 @@ export class WorkflowComponent implements OnInit, AfterViewChecked {
       this.environment.hideDataPane = !p.showAdminTools;
       this.showDataPane = (!this.environment.hideDataPane) || (this.isAdmin);
       this.showAdminTools = p.showAdminTools;
+    });
+    this.userService.user$.subscribe(value => {
+      this.user = value;
     });
   }
 
@@ -342,6 +347,20 @@ export class WorkflowComponent implements OnInit, AfterViewChecked {
       return "default"
     }
   }
+
+  displayStartOver(currentTask: WorkflowTask): boolean {
+    // note that this.user is the `view as` user,
+    // not necessarily the user logged in
+    if (this.user && this.user.is_admin ) {
+      return true;
+    }
+    // the user who initiated the workflow
+    if (this.user && (this.user.uid == this.workflow.user_id)) {
+      return true;
+    }
+    return false;
+  }
+
 
   isLocked(currentTask: WorkflowTask): boolean {
     if (this.study) {
