@@ -174,9 +174,10 @@
       }
     }
   },
-  "defaultProject": "cr-connect-frontend",
   "cli": {
     "analytics": "39bf12a6-4921-4c8d-bd17-8df6300cf98a",
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

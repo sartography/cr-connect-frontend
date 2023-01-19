@@ -10,7 +10,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { cloneDeep } from 'lodash';
 import {
   ApiService,
@@ -40,7 +40,7 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() locked: boolean;
   @Output() workflowUpdated: EventEmitter<Workflow> = new EventEmitter();
   @Output() apiError = new EventEmitter();
-  form = new FormGroup({});
+  form = new UntypedFormGroup({});
   model: any = {};
   options: FormlyFormOptions = {};
   formViewState = 'enabled';
@@ -91,7 +91,7 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
     const controls = (this.form as any)._formlyControls;
     if (controls) {
       for (const [key, control] of Object.entries(controls)) {
-        if (control instanceof FormControl) {
+        if (control instanceof UntypedFormControl) {
           const field = (control as any)._fields[0];
           if (field.hide) {
             setObjectProperty(modelData, key, null);
@@ -174,7 +174,7 @@ export class WorkflowFormComponent implements OnInit, AfterViewInit, OnChanges {
     this.showForm = false;
     // Wait for the python service to be fully loaded, then render the form.
     this.pythonService.ready().subscribe(ready => {
-      this.form = new FormGroup({});
+      this.form = new UntypedFormGroup({});
       if (task && task.data && task.form && task.form.fields) {
         this.fileParams = {
           workflow_id: this.workflow.id,

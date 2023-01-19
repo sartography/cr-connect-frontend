@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FieldType} from "@ngx-formly/material";
-import {FormControl} from "@angular/forms";
+import {UntypedFormControl} from "@angular/forms";
 import {debounceTime, startWith, switchMap} from "rxjs/operators";
 import {EMPTY, Observable} from "rxjs";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
@@ -18,7 +18,7 @@ export class AutocompleteComponent extends FieldType implements OnInit {
     loading = false;
     numResults = 0;
 
-    textInputControl = new FormControl('');
+    textInputControl = new UntypedFormControl('');
 
   constructor(
     protected api: ApiService,
