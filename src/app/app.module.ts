@@ -180,42 +180,42 @@ export function markedOptionsFactory(): MarkedOptions {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ConfirmStudyStatusDialogComponent,
-    DashboardComponent,
-    FooterComponent,
-    HelpComponent,
-    HomeComponent,
-    InboxComponent,
-    NavbarComponent,
-    NotificationsComponent,
-    ProfileComponent,
-    StudiesComponent,
-    StudyComponent,
-    StudyEventsComponent,
-    WorkflowComponent,
-    WorkflowFilesComponent,
-    WorkflowFormComponent,
-    WorkflowSpecListComponent,
-    WorkflowStepsMenuListComponent,
-    CodeViewerComponent,
-    ProcessViewerComponent,
-    StudiesDashboardComponent,
-    ApprovalDialogComponent,
-    WorkflowResetDialogComponent,
-    WorkflowDialogComponent,
-    LoadingComponent,
-    NavItemIconComponent,
-    NavLinksComponent,
-    WorkflowProgressMenuComponent,
-    ReviewProgressComponent,
-    StandaloneComponent,
-    StudyWarningsComponent,
-    AutocompleteComponent,
-    TaskLogsComponent,
-    DocumentHistoryComponent,
-  ],
+    declarations: [
+        AppComponent,
+        ConfirmStudyStatusDialogComponent,
+        DashboardComponent,
+        FooterComponent,
+        HelpComponent,
+        HomeComponent,
+        InboxComponent,
+        NavbarComponent,
+        NotificationsComponent,
+        ProfileComponent,
+        StudiesComponent,
+        StudyComponent,
+        StudyEventsComponent,
+        WorkflowComponent,
+        WorkflowFilesComponent,
+        WorkflowFormComponent,
+        WorkflowSpecListComponent,
+        WorkflowStepsMenuListComponent,
+        CodeViewerComponent,
+        ProcessViewerComponent,
+        StudiesDashboardComponent,
+        ApprovalDialogComponent,
+        WorkflowResetDialogComponent,
+        WorkflowDialogComponent,
+        LoadingComponent,
+        NavItemIconComponent,
+        NavLinksComponent,
+        WorkflowProgressMenuComponent,
+        ReviewProgressComponent,
+        StandaloneComponent,
+        StudyWarningsComponent,
+        AutocompleteComponent,
+        TaskLogsComponent,
+        DocumentHistoryComponent,
+    ],
     imports: [
         BrowserAnimationsModule,
         BrowserModule,
@@ -223,9 +223,9 @@ export function markedOptionsFactory(): MarkedOptions {
         ClipboardModule,
         FlexLayoutModule,
         FormlyModule.forRoot({
-          types: [
-            { name: 'autocomplete_ldap', component: AutocompleteComponent }
-          ],
+            types: [
+                { name: 'autocomplete_ldap', component: AutocompleteComponent }
+            ],
         }),
         FormsModule,
         HighlightModule,
@@ -275,28 +275,24 @@ export function markedOptionsFactory(): MarkedOptions {
         MatAutocompleteModule,
         // <-- This line MUST be last (https://angular.io/guide/router#module-import-order-matters)
     ],
-  providers: [
-    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
-    ApiService,
-    {provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment},
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
-    {provide: APP_BASE_HREF, useFactory: getBaseHref, deps: [PlatformLocation]},
-    {
-      provide: HIGHLIGHT_OPTIONS,
-      useValue: {
-        languages: {json: () => import('../../node_modules/highlight.js/lib/languages/json')}
-      }
-    },
-    { provide: ErrorHandler, useValue: Sentry.createErrorHandler({ showDialog: false,}), },
-    { provide: Sentry.TraceService, deps: [Router], },
-    { provide: APP_INITIALIZER, useFactory: () => () => {}, deps: [Sentry.TraceService], multi: true,}
-  ],
-  bootstrap: [AppComponent],
-  entryComponents: [
-    ConfirmStudyStatusDialogComponent,
-    WorkflowResetDialogComponent
-  ]
+    providers: [
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+        ApiService,
+        { provide: 'APP_ENVIRONMENT', useClass: ThisEnvironment },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+        { provide: APP_BASE_HREF, useFactory: getBaseHref, deps: [PlatformLocation] },
+        {
+            provide: HIGHLIGHT_OPTIONS,
+            useValue: {
+                languages: { json: () => import('../../node_modules/highlight.js/lib/languages/json') }
+            }
+        },
+        { provide: ErrorHandler, useValue: Sentry.createErrorHandler({ showDialog: false, }), },
+        { provide: Sentry.TraceService, deps: [Router], },
+        { provide: APP_INITIALIZER, useFactory: () => () => { }, deps: [Sentry.TraceService], multi: true, }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(trace: Sentry.TraceService) {}
