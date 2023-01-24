@@ -184,6 +184,7 @@ export class WorkflowComponent implements OnInit, AfterViewChecked {
     this.workflow = wf;
     this.currentTask = this.workflow.next_task;
     this.logTaskData(this.currentTask);
+    // @ts-ignore
     scrollToTop(this.deviceDetector);
     let path = "/workflow/" + this.workflowId + "/task/" + this.currentTask.id
     if (!this.location.isCurrentPathEqualTo(path)) { // Only add to the path if we are going someplace new.

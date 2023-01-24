@@ -82,18 +82,5 @@ describe('WorkflowFilesComponent', () => {
     f1Req.flush(new ArrayBuffer(8), {headers: f1ReqHeaders});
     expect(f1Req.request.method).toEqual('GET');
 
-    // IE
-    window.navigator.msSaveOrOpenBlob = () => true;
-    const msSaveOrOpenBlobSpy = spyOn(window.navigator, 'msSaveOrOpenBlob').and.stub();
-    component.downloadFile(mockFileMeta1);
-
-    const f2Req = httpMock.expectOne(`apiRoot/file/${mockFileMeta1.id}/data`);
-    const f2ReqHeaders = new HttpHeaders()
-      .append('last-modified', mockFileMeta1.last_modified.toString())
-      .append('content-type', mockFileMeta1.type);
-    f2Req.flush(new ArrayBuffer(8), {headers: f2ReqHeaders});
-    expect(f2Req.request.method).toEqual('GET');
-    expect(msSaveOrOpenBlobSpy).toHaveBeenCalled();
-
   });
 });

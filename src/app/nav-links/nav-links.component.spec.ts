@@ -40,8 +40,6 @@ describe('NavLinksComponent', () => {
     fixture = TestBed.createComponent(NavLinksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    const userReq = httpMock.expectOne('apiRoot/user');
-    expect(userReq.request.method).toEqual('GET');
 
   });
 
@@ -51,6 +49,9 @@ describe('NavLinksComponent', () => {
   });
 
   it('should create', () => {
+    const userReq = httpMock.expectOne('apiRoot/user');
+    console.log(`should create: url: ${userReq.request.url}`);
+    expect(userReq.request.method).toEqual('GET');
     expect(component).toBeTruthy();
   });
 });

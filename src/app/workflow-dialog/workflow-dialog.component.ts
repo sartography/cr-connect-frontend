@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ElementRef, Renderer2 } from '@angular/core';
-import { HasElementRef } from '@angular/material/core/common-behaviors/color';
 
 
 @Component({

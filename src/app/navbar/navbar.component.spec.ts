@@ -1,6 +1,6 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, waitForAsync } from '@angular/core/testing';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -78,7 +78,6 @@ describe('NavbarComponent', () => {
   });
 
   afterEach(() => {
-
     httpMock.verify();
     fixture.destroy();
     localStorage.removeItem('admin_view_as')
@@ -117,6 +116,8 @@ describe('NavbarComponent', () => {
     expect(component.userIsAdmin).toBeTrue();
     expect((component as any).userIsImpersonating).toBeTruthy();
 
+    // Test was failing with "Error: 1 timer(s) still in the queue."
+    flush();
   }));
 
 
