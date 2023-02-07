@@ -11,6 +11,7 @@ import {
   DocumentDirectory,
   scrollToTop,
   Study,
+  StudyAssociate,
   User,
   UserService,
   Workflow,
@@ -91,6 +92,7 @@ export class WorkflowComponent implements OnInit, AfterViewChecked {
   errCounter: 0;
   clicked: boolean = false;
   user: User;
+  studyAssociates: StudyAssociate[];
 
   constructor(
     private route: ActivatedRoute,
@@ -202,6 +204,13 @@ export class WorkflowComponent implements OnInit, AfterViewChecked {
         this.dataDictionary = dd;
       });
     }
+    // we use this to determine who sees the Start Over button
+    if (this.workflow && this.workflow.study_id) {
+      this.api.getStudyAssociates(this.workflow.study_id).subscribe(associates => {
+        this.studyAssociates = associates;
+      });
+    }
+
     this.loading = false;
   }
 
@@ -349,16 +358,29 @@ export class WorkflowComponent implements OnInit, AfterViewChecked {
     }
   }
 
+  isAssociate(): boolean {
+    if (this.studyAssociates) {
+      for (const associate of this.studyAssociates) {
+        if (this.user && (this.user.uid === associate.uid)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   displayStartOver(currentTask: WorkflowTask): boolean {
+
     // note that this.user is the `view as` user,
     // not necessarily the user logged in
     if (this.user && this.user.is_admin ) {
       return true;
     }
-    // the user who initiated the workflow
-    if (this.user && (this.user.uid == this.workflow.user_id)) {
+
+    if (this.isAssociate()) {
       return true;
     }
+
     return false;
   }
 
