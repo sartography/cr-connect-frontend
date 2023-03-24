@@ -9,7 +9,7 @@
           [ngClass]="'back'"
         >
           <mat-icon>chevron_left</mat-icon>
-          #{{study.id}}: {{shrink(120,study.title,study.short_title)}}
+          #{{study.id}}: {{shrink(50,study.title,study.short_title)}}
         </button>
       </div>
       <div class="button" *ngIf="error"
