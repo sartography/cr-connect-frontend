@@ -48,7 +48,9 @@
   }
 
   formly-field mat-form-field {
+    padding-top: 25px;
   }
+
 
   formly-field.textarea-cols {
     display: flow-root;
@@ -379,6 +381,9 @@
     font-size: 150%;
   }
 
+  .mat-card-header .mat-card-title {
+    font-size: 1.25rem;
+  }
 
   mat-card.dashboard {
     @include mat.elevation(0);

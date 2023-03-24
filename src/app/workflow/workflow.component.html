@@ -1,6 +1,38 @@
 <mat-sidenav-container>
   <mat-sidenav-content>
     <div fxLayout="row" fxLayoutAlign="space-between" >
+      <div class="button" *ngIf="study!==undefined && !error"
+           matTooltip="Return to Study Dashboard" matTooltipClass="return">
+        <button
+          mat-button
+          (click)="goBack()"
+          [ngClass]="'back'"
+        >
+          <mat-icon>chevron_left</mat-icon>
+          #{{study.id}}: {{shrink(120,study.title,study.short_title)}}
+        </button>
+      </div>
+      <div class="button" *ngIf="error"
+           matTooltip="Return to Study Dashboard" matTooltipClass="return">
+        <button
+          mat-button
+          (click)="goBack()"
+          [ngClass]="'back'">
+          <mat-icon>chevron_left</mat-icon>
+          Return to study dashboard
+        </button>
+      </div>
+      <button
+        *ngIf="displayStartOver(currentTask)"
+        mat-button
+        (click)="confirmResetWorkflow()"
+      >
+        <mat-icon>undo</mat-icon>
+        Start over
+      </button>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between" >
+
       <div>
         <h1 class="mat-card-title">{{workflow && workflow.title}}</h1>
         <h4 class="mat-card-subtitle">{{currentTask && currentTask.title}}</h4>
@@ -62,49 +94,6 @@
     </div>
 
   </mat-sidenav-content>
-  <mat-sidenav opened mode="side" position="start" [fixedInViewport]="true" [fixedTopGap]="64">
-    <div class="button" *ngIf="study!==undefined && !error"
-         matTooltip="Return to Study Dashboard" matTooltipClass="return">
-      <button
-        mat-button
-        (click)="goBack()"
-        [ngClass]="'back'"
-        >
-        <mat-icon>chevron_left</mat-icon>
-        #{{study.id}}: {{shrink(120,study.title,study.short_title)}}
-      </button>
-    </div>
-    <div class="button" *ngIf="error"
-         matTooltip="Return to Study Dashboard" matTooltipClass="return">
-      <button
-        mat-button
-        (click)="goBack()"
-        [ngClass]="'back'">
-        <mat-icon>chevron_left</mat-icon>
-        Return to study dashboard
-      </button>
-    </div>
-
-    <h3>
-      Tasks
-
-      <span fxFlex></span>
-      <button
-        *ngIf="displayStartOver(currentTask)"
-        mat-button
-        (click)="confirmResetWorkflow()"
-      >
-        <mat-icon>undo</mat-icon>
-        Start over
-      </button>
-    </h3>
-    <app-workflow-progress-menu
-      *ngIf="workflow"
-      [navList]="workflow.navigation"
-      [currentTask]="currentTask"
-      (taskSelected)="setCurrentTask($event)">
-    </app-workflow-progress-menu>
-  </mat-sidenav>
   <mat-sidenav
     [opened]="displayData || displayFiles"
     mode="side"
