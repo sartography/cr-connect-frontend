@@ -54,12 +54,14 @@
     "ngx-markdown": "^14.0.1",
     "ngx-page-scroll": "^9.0.0",
     "ngx-page-scroll-core": "^9.0.0",
+    "npm": "^8.5.5",
     "postcss": "^8.3.6",
     "rxjs": "^6.5.5",
     "sartography-workflow-lib": "0.0.635",
     "timeago.js": "^4.0.2",
     "ts-md5": "^1.2.7",
     "tslib": "^2.0.0",
+    "typescript-language-server": "^2.0.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -69,7 +71,7 @@
     "@angular-eslint/eslint-plugin-template": "14.4.0",
     "@angular-eslint/schematics": "14.4.0",
     "@angular-eslint/template-parser": "14.4.0",
-    "@angular/cli": "^14.2.10",
+    "@angular/cli": "^12.2.1",
     "@angular/compiler-cli": "^14.2.12",
     "@angular/language-service": "^14.2.12",
     "@types/jasmine": "~3.6.0",
