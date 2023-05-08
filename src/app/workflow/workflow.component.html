@@ -12,30 +12,16 @@
           #{{study.id}}: {{shrink(50,study.title,study.short_title)}}
         </button>
       </div>
-      <div class="button" *ngIf="error"
-           matTooltip="Return to Study Dashboard" matTooltipClass="return">
+      <div class="button" *ngIf="study!==undefined && !error"
+           matTooltip="Restart this workflow from the beginning." matTooltipClass="return">
         <button
+          *ngIf="displayStartOver(currentTask)"
           mat-button
-          (click)="goBack()"
-          [ngClass]="'back'">
-          <mat-icon>chevron_left</mat-icon>
-          Return to study dashboard
+          (click)="confirmResetWorkflow()"
+        >
+          <mat-icon>undo</mat-icon>
+          Start over
         </button>
-      </div>
-      <button
-        *ngIf="displayStartOver(currentTask)"
-        mat-button
-        (click)="confirmResetWorkflow()"
-      >
-        <mat-icon>undo</mat-icon>
-        Start over
-      </button>
-    </div>
-    <div fxLayout="row" fxLayoutAlign="space-between" >
-
-      <div>
-        <h1 class="mat-card-title">{{workflow && workflow.title}}</h1>
-        <h4 class="mat-card-subtitle">{{currentTask && currentTask.title}}</h4>
       </div>
       <div fxLayout="row">
         <button
@@ -51,14 +37,31 @@
           <mat-icon>insert_drive_file</mat-icon>
         </button>
         <button *ngIf="showAdminTools"
-          mat-mini-fab
-          title="Display collected task data"
-          (click)="toggleDataDisplay()"
-          [ngClass]="{'selected': displayData, 'mat-elevation-z0': true}"
-          color="primary"
+                mat-mini-fab
+                title="Display collected task data"
+                (click)="toggleDataDisplay()"
+                [ngClass]="{'selected': displayData, 'mat-elevation-z0': true}"
+                color="primary"
         >
           <mat-icon>chrome_reader_mode</mat-icon>
         </button>
+      </div>
+      <div class="button" *ngIf="error"
+           matTooltip="Return to Study Dashboard" matTooltipClass="return">
+        <button
+          mat-button
+          (click)="goBack()"
+          [ngClass]="'back'">
+          <mat-icon>chevron_left</mat-icon>
+          Return to study dashboard
+        </button>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between" >
+
+      <div>
+        <h1 class="mat-card-title">{{workflow && workflow.title}}</h1>
+        <h4 class="mat-card-subtitle">{{currentTask && currentTask.title}}</h4>
       </div>
     </div>
 

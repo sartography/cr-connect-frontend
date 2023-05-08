@@ -110,16 +110,17 @@ export class NavbarComponent {
         ];
       } else {
         this.navLinks = [
-          /**
-           * Help Guide + Inbox
-           *
           {
-            path: '/help',
             id: 'nav_help',
             label: 'Help & User Guide',
             icon: 'help',
             showLabel: false,
+            action: () => window.open('https://www.medicalcenter.virginia.edu/intranet/cto/crconnect-uva-help-page-2',
+              "_blank"),
           },
+          /**
+           * Help Guide + Inbox
+           *
           {
             path: '/inbox',
             id: 'nav_inbox',

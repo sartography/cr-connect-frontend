@@ -104,6 +104,7 @@ export class StudiesDashboardComponent {
         return study;
       },
     },
+    /*
     {
       showIf: (study) => this.statusIs(study, [StudyStatus.IN_PROGRESS]),
       buttonIcon: 'send',
@@ -119,6 +120,7 @@ export class StudiesDashboardComponent {
         return study;
       },
     },
+    */
     {
       showIf: (study) => this.statusIs(study, [StudyStatus.IN_PROGRESS]),
       buttonIcon: 'stop',
