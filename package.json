@@ -54,7 +54,7 @@
     "ngx-markdown": "^14.0.1",
     "ngx-page-scroll": "^9.0.0",
     "ngx-page-scroll-core": "^9.0.0",
-    "npm": "^8.5.5",
+    "npm": "^8.11.0",
     "postcss": "^8.3.6",
     "rxjs": "^6.5.5",
     "sartography-workflow-lib": "0.0.635",
